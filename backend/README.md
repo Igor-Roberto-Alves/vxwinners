@@ -22,7 +22,8 @@ python -m app.cli estruturar --etapa regras   # classe e atributos por regras (~
 python -m app.cli estruturar --etapa llm --tudo --teto-usd 60   # LLM no resíduo (~17 min, ~US$ 40)
 python -m app.cli relatorio                   # cobertura da estruturação
 
-uvicorn app.main:app --reload                 # http://localhost:8000/docs
+uvicorn app.main:app --reload                 # API: http://localhost:8000/docs
+                                              # painel de desenvolvimento: http://localhost:8000/painel
 python -m pytest                              # 215 testes
 ```
 
@@ -32,6 +33,14 @@ Isso é só para desenvolvimento e testes. Em produção use um PostgreSQL de ve
 A etapa de LLM chama a AWS e **gasta dinheiro**. Ela é retomável (não refaz o que já passou), grava a cada
 lote de 2.000, mantém cache pelo hash da entrada e para sozinha no teto de gasto estimado ou se um lote
 inteiro falhar (por exemplo, credencial expirada). Teste antes com `--amostra --limite 200`.
+
+## Painel de desenvolvimento
+
+`http://localhost:8000/painel` (só com `AUTH_MODO=dev`) é uma tela mínima para **ver e testar o fluxo ao vivo** contra a
+API e a base real: digitar o nome do material, confirmar a classe, preencher com sugestões, ver a duplicidade mudar a
+cada atributo e aprovar. Atalhos: `?pedido=SC-202600261`, `?classe=PDM020`, `?q=valv esf`. **Não é o frontend do
+produto** (que vem de outra branch): serve para validar a API e o comportamento. Cada abertura de pedido ou cadastro
+cria dados reais no banco de desenvolvimento.
 
 ## Comandos
 

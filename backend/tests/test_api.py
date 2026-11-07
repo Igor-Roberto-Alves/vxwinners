@@ -212,3 +212,9 @@ def test_api_recusa_subir_com_banco_desatualizado(banco, monkeypatch):
         with banco.begin() as c:
             c.execute(text("update alembic_version set version_num = '0003'"))
     main.confere_migracoes()  # no head: passa
+
+
+def test_painel_de_desenvolvimento_e_servido_so_em_dev(cliente):
+    r = cliente.get("/painel")
+    assert r.status_code == 200 and r.headers["content-type"].startswith("text/html")
+    assert "nao e o frontend do produto" in r.text.lower() or "não é o frontend do produto" in r.text.lower()

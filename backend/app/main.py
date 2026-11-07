@@ -85,6 +85,18 @@ def cria_app(verifica_migracoes: bool = True) -> FastAPI:
         s = settings()
         return {"status": "ok", "pdm_versao": versao, "llm": {"provider": s.llm_provider, "habilitado": s.llm_habilitado}}
 
+    if settings().auth_modo == "dev":
+        # Painel de desenvolvimento para ver o fluxo ao vivo. NÃO é o frontend do produto, que vem de outra branch.
+        from pathlib import Path
+
+        from fastapi.responses import FileResponse
+
+        pagina = Path(__file__).parent / "painel" / "index.html"
+
+        @app.get("/painel", include_in_schema=False)
+        def painel():
+            return FileResponse(pagina, media_type="text/html")
+
     app.include_router(router)
     return app
 

@@ -145,34 +145,70 @@ def busca(conn: Connection, pdm: Pdm, id_pdm: str, nome: str | None, valores: di
     return Resultado(ordenados, comparaveis, total)
 
 
+def _squeeze(v: str | None) -> str:
+    return re.sub(r"[^A-Z0-9,./#]", "", (v or "").upper())
+
+
+def _classifica(cod, comp, ch, cands) -> None:
+    diverge = [x["atributo"] for x in comp if x["estado"] == "diverge" and not x["atributo"].endswith("(serie)") and not x.get("opcional")]
+    diverge_serie = any(x["estado"] == "diverge" and x["atributo"].endswith("(serie)") for x in comp)
+    diverge_opcional = any(x["estado"] == "diverge" and x.get("opcional") for x in comp)
+    base = [x for x in comp if not x.get("opcional")]
+    ausentes = [x["atributo"] for x in base if x["estado"] == "ausente"]
+    iguais = [x for x in base if x["estado"] == "igual"]
+    preenchidos = [x for x in base if x["estado"] != "sem_valor"]
+    if not iguais or diverge_serie:
+        return
+    forca = _forca(base)
+    if not diverge and ausentes and forca >= 0.4:
+        if diverge_opcional:   # medida opcional diferente (ex.: diâmetro externo 150 x 52 mm) desmente o "provável"
+            return
+        cands[cod] = Candidato(cod, "PROVAVEL", round(0.6 + 0.3 * forca, 3), comparacao=comp,
+                               motivo="nao diverge em nada, mas faltam atributos no cadastro existente: " + ", ".join(ausentes))
+    elif (diverge or diverge_opcional) and forca >= 0.5:
+        quais = diverge + [x["atributo"] for x in comp if x["estado"] == "diverge" and x.get("opcional")]
+        cands[cod] = Candidato(cod, "DIVERGENTE", round(min(0.85, 0.4 + 0.45 * forca), 3), comparacao=comp,
+                               motivo="atributo de identidade diverge: " + ", ".join(quais))
+    elif not diverge and not ausentes and not diverge_opcional and len(iguais) == len(preenchidos) and not ch.completa:
+        cands[cod] = Candidato(cod, "PROVAVEL", round(0.5 + 0.3 * forca, 3), comparacao=comp,
+                               motivo="igual no que ja foi preenchido; faltam atributos no rascunho")
+
+
 def _candidatos_especificacao(conn, pdm, classe, nome, plano, ch, cands) -> None:
     ob = [a.nome for a in pdm.obrigatorios_aplicaveis(classe.id_pdm, nome or "", plano)]
+    # medidas e demais atributos OPCIONAIS já preenchidos no rascunho: provam semelhança ou diferença
+    opc = [a.nome for a, ap in pdm.aplicaveis(classe.id_pdm, nome or "", plano) if ap is True and not a.obrigatorio and plano.get(a.nome)]
     rows = conn.execute(text("""select codigo, chave, completa, valores from material_identidade
         where id_pdm = :i and nome = :n"""), {"i": classe.id_pdm, "n": nome}).all()
+    pendentes: dict[str, list[dict]] = {}
     for cod, chave, completa, valores in rows:
         valores = valores if isinstance(valores, dict) else json.loads(valores)
-        if ch.completa and completa and chave == ch.texto:
-            cands[cod] = Candidato(cod, "IGUAL", 1.0, comparacao=_compara(pdm, classe.id_pdm, plano, valores, ob),
-                                   motivo="todos os atributos obrigatorios coincidem")
-            continue
         comp = _compara(pdm, classe.id_pdm, plano, valores, ob)
-        diverge = [x["atributo"] for x in comp if x["estado"] == "diverge" and x["atributo"] != "REFERENCIA (serie)"]
-        diverge_serie = any(x["estado"] == "diverge" and x["atributo"] == "REFERENCIA (serie)" for x in comp)
-        ausentes = [x["atributo"] for x in comp if x["estado"] == "ausente"]
-        iguais = [x for x in comp if x["estado"] == "igual"]
-        preenchidos = [x for x in comp if x["estado"] != "sem_valor"]
-        if not iguais or diverge_serie:
-            continue
-        forca = _forca(comp)
-        if not diverge and ausentes and forca >= 0.4:
-            cands[cod] = Candidato(cod, "PROVAVEL", round(0.6 + 0.3 * forca, 3), comparacao=comp,
-                                   motivo="nao diverge em nada, mas faltam atributos no cadastro existente: " + ", ".join(ausentes))
-        elif diverge and forca >= 0.5:
-            cands[cod] = Candidato(cod, "DIVERGENTE", round(min(0.85, 0.4 + 0.45 * forca), 3), comparacao=comp,
-                                   motivo="atributo de identidade diverge: " + ", ".join(diverge))
-        elif not diverge and not ausentes and len(iguais) == len(preenchidos) and not ch.completa:
-            cands[cod] = Candidato(cod, "PROVAVEL", round(0.5 + 0.3 * forca, 3), comparacao=comp,
-                                   motivo="igual no que ja foi preenchido; faltam atributos no rascunho")
+        for x in _compara(pdm, classe.id_pdm, plano, valores, opc):
+            if x["estado"] in ("igual", "diverge"):
+                x["opcional"] = True
+                comp.append(x)
+        if ch.completa and completa and chave == ch.texto:
+            cands[cod] = Candidato(cod, "IGUAL", 1.0, comparacao=comp, motivo="todos os atributos obrigatorios coincidem")
+        elif any(x["estado"] == "ausente" and not x.get("opcional") for x in comp):
+            pendentes[cod] = comp     # pode ter o valor no texto, fora da lista do PDM: confere abaixo
+        else:
+            _classifica(cod, comp, ch, cands)
+    if pendentes:
+        # atributo "ausente" que o cadastro existente tem escrito fora do PDM (guardado como valor bruto):
+        # se é diferente do rascunho, é divergência, não ausência
+        brutos = conn.execute(text("""select codigo, atributo, valor_bruto from material_atributo
+            where codigo = any(:c) and valor is null and valor_bruto is not null"""), {"c": list(pendentes)}).all()
+        por_cod: dict[str, dict[str, str]] = {}
+        for cod, atr, bruto in brutos:
+            por_cod.setdefault(cod, {})[atr] = bruto
+        for cod, comp in pendentes.items():
+            for x in comp:
+                bruto = por_cod.get(cod, {}).get(x["atributo"])
+                if x["estado"] == "ausente" and bruto:
+                    x["candidato"] = f"{bruto} (fora do PDM)"
+                    x["estado"] = "igual" if _squeeze(bruto) == _squeeze(x["rascunho"]) else "diverge"
+            _classifica(cod, comp, ch, cands)
     # cadastros novos já aprovados com a mesma chave (ainda sem código no ERP)
     if ch.completa:
         for cid, estado, codigo_erp in conn.execute(text(

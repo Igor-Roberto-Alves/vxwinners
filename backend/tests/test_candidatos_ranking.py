@@ -134,3 +134,76 @@ def test_mesma_serie_com_vedacao_diferente_e_divergente_com_a_serie_como_evidenc
     d = next(x for x in r.candidatos if x.codigo == "90000003")
     serie = next(x for x in d.comparacao if x["atributo"] == "REFERENCIA (serie)")
     assert serie["estado"] == "igual" and serie["rascunho"] == "6205"
+
+
+def _extra(banco, base, itens):
+    """Insere itens de apoio só para um teste e os remove depois (a base de teste é compartilhada)."""
+    from sqlalchemy import text
+
+    from app.estruturacao import persistir
+    from app.estruturacao.regras import extrai_por_regras
+
+    mats = []
+    with banco.begin() as c:
+        for cod, longa, status in itens:
+            c.execute(text("insert into material (codigo, descricao_longa, grupo, status, estoque, centro) values (:c, :l, 'ROL01', :s, 1, '1100')"),
+                      {"c": cod, "l": longa, "s": status})
+            m = {"codigo": cod, "descricao_longa": longa, "descricao_curta": longa[:40], "grupo": "ROL01", "status": status,
+                 "fabricante": None, "referencia_fabricante": None}
+            mats.append((m, extrai_por_regras(base["pdm"], base["indice"], m)))
+        persistir.grava(c, base["pdm"], mats, "teste")
+    return [m["codigo"] for m, _ in mats]
+
+
+def test_medida_opcional_diferente_desmente_o_provavel(base_teste, banco):
+    """Um rolamento sem referencia, mas com diametro externo de 150 mm, nao e o 6205 (52 mm)."""
+    from sqlalchemy import text
+
+    base = base_teste
+    cods = _extra(banco, base, [
+        ("90009001", "ROLAMENTO RIGIDO ESFERAS; DIAMETRO INTERNO: 25MM; DIAMETRO EXTERNO: 150MM; VEDACAO: BORRACHA AMBOS LADOS; FOLGA: C3", "ATIVO"),
+        ("90009002", "ROLAMENTO RIGIDO ESFERAS; DIAMETRO INTERNO: 25MM; DIAMETRO EXTERNO: 52MM; VEDACAO: BORRACHA AMBOS LADOS; FOLGA: C3", "ATIVO"),
+    ])
+    try:
+        v = {"REFERENCIA": "6205-2RS/C3", "VEDACAO": "BORRACHA AMBOS LADOS", "FOLGA": "C3",
+             "DIAMETRO INTERNO": "25MM", "DIAMETRO EXTERNO": "52MM", "LARGURA": "15MM"}
+        with banco.connect() as c:
+            r = candidatos.busca(c, base["pdm"], "PDM020", NOME_ROL, v)
+        n = niveis(r)
+        assert "90009001" not in n or n["90009001"] != "PROVAVEL"   # 150 mm desmente
+        assert n.get("90009002") == "PROVAVEL"                        # mesmas medidas: continua provavel
+    finally:
+        with banco.begin() as c:
+            c.execute(text("delete from material where codigo = any(:c)"), {"c": cods})
+
+
+def test_valor_fora_do_pdm_no_texto_do_existente_vira_divergencia(base_teste, banco):
+    """Parafuso M3 (bitola fora da lista do PDM, guardada como valor bruto) nao e provavel duplicata de um M12."""
+    from sqlalchemy import text
+
+    from app.estruturacao import persistir
+    from app.estruturacao.regras import extrai_por_regras
+
+    base, pdm = base_teste, base_teste["pdm"]
+    longa = ("PARAFUSO SEXTAVADO; ROSCA: METRICA GROSSA; BITOLA: M3; COMPRIMENTO: 50MM; CLASSE RESISTENCIA: 8.8; "
+             "MATERIAL: ACO CARBONO; ACABAMENTO: ZINCADO BRANCO; NORMA: DIN 933")
+    with banco.begin() as c:
+        c.execute(text("insert into material (codigo, descricao_longa, grupo, status, estoque, centro) values ('90009003', :l, 'FIX01', 'ATIVO', 1, '1100')"), {"l": longa})
+        m = {"codigo": "90009003", "descricao_longa": longa, "descricao_curta": longa[:40], "grupo": "FIX01", "status": "ATIVO",
+             "fabricante": None, "referencia_fabricante": None}
+        ex = extrai_por_regras(pdm, base["indice"], m)
+        assert ex.valores["BITOLA"].valor is None and ex.valores["BITOLA"].bruto == "M3"   # fora da lista: so o bruto
+        persistir.grava(c, pdm, [(m, ex)], "teste")
+    try:
+        v = {"ROSCA": "METRICA GROSSA", "BITOLA": "M12", "COMPRIMENTO": "50MM", "CLASSE RESISTENCIA": "8.8",
+             "MATERIAL": "ACO CARBONO", "ACABAMENTO": "ZINCADO BRANCO", "NORMA": "DIN 933"}
+        with banco.connect() as c:
+            r = candidatos.busca(c, pdm, "PDM001", "PARAFUSO SEXTAVADO", v)
+        n = niveis(r)
+        assert n.get("90009003") == "DIVERGENTE"          # nao e "provavel": a bitola existe e e outra
+        item = next(x for x in r.candidatos if x.codigo == "90009003")
+        bitola = next(x for x in item.comparacao if x["atributo"] == "BITOLA")
+        assert bitola["estado"] == "diverge" and "fora do PDM" in bitola["candidato"]
+    finally:
+        with banco.begin() as c:
+            c.execute(text("delete from material where codigo = '90009003'"))
