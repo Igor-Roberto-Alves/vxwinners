@@ -64,6 +64,15 @@ def cria_app(verifica_migracoes: bool = True, carrega_modelos: bool = True) -> F
     if origens:
         app.add_middleware(CORSMiddleware, allow_origins=origens, allow_methods=["*"], allow_headers=["*"])
 
+    @app.middleware("http")
+    async def _frontend_sempre_atual(request: Request, seguinte):
+        # Sem isto o navegador reaproveita a cópia antiga e pode misturar arquivos de versões diferentes.
+        resposta = await seguinte(request)
+        caminho = request.url.path
+        if caminho in ("/", "/painel") or caminho.startswith("/frontend/"):
+            resposta.headers["Cache-Control"] = "no-cache"   # pode guardar, mas confere com o servidor antes de usar
+        return resposta
+
     @app.exception_handler(ErroNegocio)
     async def _negocio(_: Request, e: ErroNegocio):
         extra = {}

@@ -262,6 +262,12 @@ def test_toda_rota_da_api_usa_a_conexao_que_grava_antes_de_responder():
     assert "Depends(conexao" not in fonte  # usar deps.Conexao: com o padrão do FastAPI, a resposta sai antes do COMMIT
 
 
+def test_navegador_confere_a_versao_do_frontend_antes_de_usar(cliente):
+    for caminho in ("/", "/painel", "/frontend/cadastro.js", "/frontend/cadastro.css"):
+        assert cliente.get(caminho).headers["cache-control"] == "no-cache", caminho
+    assert "cache-control" not in cliente.get("/saude").headers
+
+
 def test_frontend_do_time_e_servido_na_raiz_com_o_cadastro_real(cliente):
     r = cliente.get("/")
     assert r.status_code == 200 and "frontend/cadastro.js" in r.text and "frontend/cadastro.css" in r.text

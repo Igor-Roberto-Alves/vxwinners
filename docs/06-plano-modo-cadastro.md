@@ -30,7 +30,7 @@ O backend está em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 276 
 | 5. Decisões | Feita | estados, exceções, segundo analista, propostas ao PDM, auditoria imutável. Papéis só no modo `dev` |
 | 6. Pedidos | Feita | leitura por regras e LLM; devolução gravada, mas o e-mail vai para uma caixa de saída em arquivo |
 | 7. ERP | Feita para o conector por arquivos | envio idempotente, retorno do código, erro visível, reativação. A reimportação periódica é manual (`python -m app.cli ingerir`) |
-| 8. Integração e piloto | Em andamento | fluxo completo no frontend do time, com 40 verificações de ponta a ponta em navegador real. Falta o uso por analistas e o que está em "O que ainda não existe" |
+| 8. Integração e piloto | Em andamento | fluxo completo no frontend do time, com 44 verificações de ponta a ponta em navegador real. Falta o uso por analistas e o que está em "O que ainda não existe" |
 
 ### Resultados medidos
 
