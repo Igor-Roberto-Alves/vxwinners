@@ -1,6 +1,6 @@
 # Plano do modo de cadastro de materiais
 
-Proposta para revisão do time · 2026-11-07 · branch `modo-cadastro`
+Plano e estado da implementação · 2026-11-07 · branch `modo-cadastro` · código em [`backend/`](../backend/README.md)
 
 O modo de cadastro é o módulo em que o responsável pelo cadastro cria um material novo a partir de poucas palavras. A pessoa digita o que precisa, confirma a classe do PDM e preenche os atributos dessa classe com a ajuda de sugestões baseadas no que já está cadastrado. Antes de aprovar, o sistema mostra se o item já existe. **Tudo é editável e a decisão final é sempre de uma pessoa.**
 
@@ -12,6 +12,59 @@ Termos usados no documento:
 - **Atributo:** característica exigida pela classe, como `BITOLA` ou `COMPRIMENTO`.
 - **Chave de identidade:** combinação definida pela regra 10 do PDM para dizer que dois registros são o mesmo item.
 - **Exceção:** decisão que contraria o PDM, permitida com justificativa.
+
+
+---
+
+## 0. Estado da implementação
+
+O backend está implementado em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 215 testes) e foi rodado contra a base inteira. O frontend **não existe**: não há branch de frontend no GitHub, só o [mockup](../mockup_plataforma.html). O contrato para ele é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
+
+| Fase | Estado | Evidência |
+|---|---|---|
+| 0. Fundação | Feita | 23.554 materiais, 520 pedidos, 44 classes, 229 atributos e 10.516 NCMs oficiais importados; 3 migrações |
+| 1. PDM e normalização | Feita | PDM versionado no banco; as 19 condições do PDM (15 com predicado, 4 "quando informado pelo fabricante"), com falha explícita se uma nova versão trouxer condição desconhecida; normalizadores de polegada, mm, bar, mm², rosca; regras de NCM por classe |
+| 2. Estruturação da base | Feita, com ressalva | 99,4% com classe e 76,2% com chave fechada. A avaliação usa gabarito derivado da base, **não a amostra anotada à mão** que o plano previa |
+| 3. Núcleo do cadastro | Feita | autocomplete, rascunho com bloqueio otimista, sugestões, descrição gerada |
+| 4. Identidade | Feita | cinco níveis de candidato, ponderados; índice único; teste com duas transações concorrentes |
+| 5. Decisões | Feita | estados, exceções, segundo analista, propostas ao PDM, auditoria imutável. Papéis só no modo `dev` |
+| 6. Pedidos | Feita | leitura por regras e LLM; devolução gravada, mas o e-mail vai para uma caixa de saída em arquivo |
+| 7. ERP | Feita para o conector por arquivos | envio idempotente, retorno do código, erro visível, reativação. A reimportação periódica é manual (`python -m app.cli ingerir`) |
+| 8. Integração e piloto | **Não iniciada** | depende do frontend |
+
+### Resultados medidos
+
+| Medida | Resultado |
+|---|---|
+| Base com classe | 93,3% só com regras; **99,4%** com regras e LLM |
+| Base com chave de identidade fechada | 40,3% só com regras; **76,2%** com LLM (especificação 65,6%, referência do fabricante 94,8%) |
+| Redundância encontrada | 2.208 chaves com mais de um código, 2.970 códigos redundantes, R$ 16,8 milhões em estoque nesses códigos (sobrevivente: o ativo de maior valor). Estimativa deste pipeline, ainda sem revisão do time |
+| Casos do briefing | Rolamentos 6205 e 6310 unem em duas chaves; `CAT 1R1808` une com `CATERPILLAR 1R-1808`; `DONALDSON P551808` fica separado (regra 13) |
+| LLM na base | 13.604 chamadas, 0 erros, cerca de US$ 39,5 (Haiku 4.5), 17 minutos com 24 chamadas simultâneas |
+| Qualidade do LLM | em 120 registros: classe 99,2%, precisão de atributos 100% (465 de 465), recall 95,3%. Entrada telegráfica feita dos próprios valores do gabarito, então o recall é otimista |
+| Sugestões de valor (6.264 casos, base inteira) | acerto no 1º lugar 49%, entre os 3 primeiros 76%. Listas de especificação 48% e 81%, listas de filtros e sobressalentes 68% e 90%, medidas 20% e 39% |
+| Leitura dos 520 pedidos | regras: 91,3% com classe (os 8,7% restantes são em geral itens fora do PDM: cadeira, toner, serviços). Em 40 pedidos incompletos, o LLM preencheu 46 de 60 obrigatórios faltantes e deixou 29 completos, a US$ 0,0028 por pedido |
+| NCM | dos 73 NCMs do PDM, 72 existem na tabela oficial. **`7306.30.00` (tubo galvanizado) deixou de existir em 01/02/2026** e virou `7306.30.10` e `7306.30.90`; o sistema bloqueia a aprovação e mostra os sucessores. O PDM precisa de manutenção |
+| Tabela técnica de rolamentos | ISO 15 séries 60, 62 e 63 conferida contra a base: 139 de 141 medidas batem; as 2 divergentes eram dado errado da base (6218) |
+
+### O que mudou em relação ao plano
+
+1. **LLM pelo Bedrock, não pelo Claude Platform on AWS.** A conta de desenvolvimento não tem o ID de workspace do Platform, o endpoint Mantle do Bedrock devolve 404, e uma política (`ws-bedrock-model-allowlist-policy-1`) nega a família 5.5 e o Fable. Os modelos permitidos são Haiku 4.5, Sonnet 4.6, Sonnet 5 e Opus 4.6 a 5. Por isso a extração usa **Haiku 4.5** e o difícil fica com Sonnet 5. O Platform continua suportado: troque `LLM_PROVIDER=aws_platform` e defina `AWS_REGION` e `ANTHROPIC_AWS_WORKSPACE_ID`.
+2. **Sem `pg_trgm` e `unaccent`.** O PostgreSQL embutido de desenvolvimento não traz esses módulos. O texto é normalizado em Python, e a busca por semelhança usa arrays com índice GIN, que funcionam em qualquer PostgreSQL, inclusive o RDS.
+3. **PDM como documento versionado**, em uma coluna `jsonb` de `pdm_versao`, em vez de tabelas por classe, atributo e valor. É pequeno, vai para a memória do processo e cada cadastro guarda a versão usada.
+4. **Chave de identidade legível** (`PDM020|ROLAMENTO...|REFERENCIA=6205-2RS/C3|...`), não um hash: dá para ler no banco e no log.
+5. **Sem `cadastro_candidato`**: a fotografia dos candidatos na aprovação vai no evento de auditoria, que não pode ser alterado.
+6. **SQLAlchemy Core com SQL explícito** e Alembic, em vez do ORM.
+7. **A comparação de duplicidade é ponderada.** Atributos com poucos valores (vedação, folga) provam pouco; a série do rolamento prova muito. Sem isso, qualquer rolamento aparecia "divergente" de todos os outros.
+
+### O que ainda não existe
+
+- **Frontend.** Nenhuma branch no GitHub. O mockup precisa dos ajustes da seção 12.
+- **Autenticação OIDC.** A API só aceita `AUTH_MODO=dev` (cabeçalhos `X-Usuario` e `X-Papel`) e **recusa subir** com outro modo, em vez de fingir proteção. Não pode ir para produção assim.
+- **Envio real de e-mail (SES).** A devolução grava o e-mail em `backend/erp_out/emails/`. Também não há contato por área cadastrado: sem ele, a API avisa que nada foi enviado.
+- **Amostra anotada à mão** e as metas de 98% e 97% do plano.
+- **Reimportação automática do ERP**, conector por API, deploy, CI e observabilidade.
+- **O código do pipeline da branch `Expli`** (`texto.py`, `validador.py`, `pipeline.py`, 63 testes) não está no GitHub, só a documentação. Os módulos de normalização, PDM e identidade deste backend foram escritos do zero. Vale reconciliar quando esse código for enviado, começando pelos testes dos três bugs de junção falsa que a equipe descreveu.
 
 ---
 
@@ -30,7 +83,7 @@ Termos usados no documento:
 | Pedidos | Regras e LLM juntos. O LLM propõe valores com o trecho de origem, mas não decide classe nem duplicidade. | Cobre e-mails e anexos sem perder auditoria. |
 | Stack | FastAPI, PostgreSQL e React. O React virá de outra branch. | Atende autocomplete, escrita concorrente e histórico, e reaproveita o Python do pipeline. |
 | ERP | O ERP continua dono do cadastro e gera o código. O produto se conecta por um conector trocável. | Compras, estoque e fiscal seguem no ERP. |
-| Acesso ao Claude | Claude Platform on AWS, com o acesso isolado em um módulo. | A API de lote cuida de filas e limites, e os recursos novos chegam junto com a API. |
+| Acesso ao Claude | Claude Platform on AWS é o destino; hoje roda no Bedrock (seção 0), com o acesso isolado em um módulo. | A conta de desenvolvimento só tem o Bedrock, e só com alguns modelos. A troca é uma variável de ambiente. |
 | Devolução | E-mail para um contato cadastrado por área. O analista registra a resposta no cadastro. | Os pedidos não identificam o solicitante. |
 | Foto | Fora da primeira versão. | Não há fotos nos dados para medir a precisão. |
 | Enriquecimento | Só tabelas locais curadas, com fonte registrada, em atributos opcionais. | A regra 7 prevê essa dedução. Part numbers fictícios podem coincidir com produtos reais, o que torna a busca externa enganosa. |
@@ -137,7 +190,7 @@ A amostra de filtros é pequena (113 registros). O teste precisa ser refeito com
 | Parte | Escolha | Observação |
 |---|---|---|
 | API | FastAPI, Pydantic, SQLAlchemy 2, Alembic | O OpenAPI gerado é o contrato com o frontend. |
-| Banco | PostgreSQL com `pg_trgm`, `unaccent` e `pgvector` | Concorrência, auditoria, busca por similaridade e fila. |
+| Banco | PostgreSQL (arrays com índice GIN, sem extensões obrigatórias) | Concorrência, auditoria, busca por semelhança e fila. `pgvector` fica disponível para uma etapa futura de embeddings. |
 | Tarefas | Worker com fila em tabela (`FOR UPDATE SKIP LOCKED`) | Evita outro serviço na primeira versão. Se a carga crescer, migra para SQS. |
 | Autenticação | OIDC (Cognito, trocável por SSO do cliente) | A API confere papéis, nunca a interface. |
 | Arquivos | S3 para anexos e troca com o ERP | |
@@ -325,11 +378,11 @@ Detalhes de implementação, conferidos na documentação da API em 2026-11-07:
 
 - Usar saídas estruturadas com `client.messages.parse()`. Forçar `tool_choice` retorna erro 400 no Opus 5.5 e no Sonnet 5.5.
 - Usar prompt caching no bloco de instruções e schema. O prefixo mínimo é de 512 tokens, e a eficácia precisa ser conferida em `cache_read_input_tokens`.
-- O plano anterior prevê Haiku 5.5 para volume e Sonnet 5.5 para casos difíceis. Esse é o ponto de partida, e a amostra anotada compara os dois com o Opus 5.5 antes do lote.
+- Modelos: Haiku 4.5 para volume e leitura de pedidos, Sonnet 5 reservado aos casos difíceis (ainda sem uso). A comparação entre modelos com amostra anotada por especialistas não foi feita.
 
-**Claude Platform on AWS.** O produto usa o cliente `AnthropicAWS()`, com IDs de modelo sem prefixo (como `claude-haiku-5-5`). O serviço usa IAM e cobrança pela AWS, e a API de lote cuida de filas e limites no processamento da base. Ele é operado pela Anthropic. Se uma política de cliente exigir serviço operado pela AWS, a alternativa é o Bedrock (`AnthropicBedrockMantle(aws_region=...)`, IDs com prefixo `anthropic.`), que não tem API de lote. O acesso fica isolado em um único módulo, então a troca não afeta o resto.
+**Provedor.** O módulo `app/llm/cliente.py` isola o acesso. `LLM_PROVIDER=bedrock` usa `AnthropicBedrock` com perfis de inferência (`us.anthropic.claude-haiku-4-5-20251001-v1:0`); `LLM_PROVIDER=aws_platform` usa `AnthropicAWS`, com IDs sem prefixo e as variáveis `AWS_REGION` e `ANTHROPIC_AWS_WORKSPACE_ID`. Os modelos são configuráveis (`LLM_MODELO_EXTRACAO`, `LLM_MODELO_DIFICIL`) porque a lista permitida muda de conta para conta.
 
-**Custo estimado.** Uma passada pela base custa entre cerca de US$ 2 (Haiku 5.5) e US$ 70 (Opus 5.5), o que não deve limitar o projeto. A conta supõe 2,6 milhões de tokens de entrada e 3 milhões de saída, com preços da API direta, sem contar desconto de lote, thinking ou repetições. É uma estimativa grosseira: precisa ser refeita com `count_tokens` em uma amostra, e os preços precisam ser conferidos na conta AWS.
+**Custo medido.** US$ 0,0029 por chamada na estruturação (Haiku 4.5, cerca de 2 mil tokens de entrada e 180 de saída), o que deu cerca de US$ 39,5 para a base inteira, e US$ 0,0028 por pedido na leitura ao vivo. O cache de prompt não entrou: o Haiku 4.5 só cacheia prefixos a partir de 4.096 tokens e o prompt tem cerca de 2 mil. Os preços são a estimativa do módulo; a cobrança real vem da conta AWS.
 
 ---
 
@@ -459,21 +512,20 @@ Premissas ainda não confirmadas. Qualquer uma pode ser alterada na revisão:
 
 Configuração necessária na AWS:
 
-- [ ] Ativar o Claude Platform on AWS e obter o ID do workspace.
-- [ ] Definir `AWS_REGION` e `ANTHROPIC_AWS_WORKSPACE_ID`, exigidas pelo cliente.
-- [ ] Confirmar na região os modelos Haiku 5.5, Sonnet 5.5 e Opus 5.5.
-- [ ] Criar o papel IAM da aplicação e do worker.
-- [ ] Confirmar as cotas para o lote da base.
-- [ ] Criar orçamento e alarme de custo.
+- [ ] Para usar o Claude Platform on AWS: obter o ID do workspace e definir `AWS_REGION` e `ANTHROPIC_AWS_WORKSPACE_ID`.
+- [ ] Pedir a liberação dos modelos 5.5 na política `ws-bedrock-model-allowlist-policy-1`, se forem desejados.
+- [ ] Trocar as credenciais temporárias do `.env` por um papel IAM da aplicação e do worker (hoje há um `AWS_SESSION_TOKEN`, que expira).
+- [ ] Confirmar as cotas, criar orçamento e alarme de custo.
 
 Pendências do time:
 
+- [ ] Enviar ao GitHub o código do pipeline da branch `Expli` e reconciliar com este backend.
 - [ ] Alinhar o mockup com a seção 12 antes de a branch de frontend avançar.
-- [ ] Definir quem anota a amostra de 300 registros.
-- [ ] Levantar o e-mail de contato de cada uma das 12 áreas solicitantes.
-- [ ] Definir quem administra o PDM e responde às propostas de classe.
+- [ ] Implementar a autenticação OIDC antes de qualquer uso fora do desenvolvimento.
+- [ ] Integrar o envio de e-mail (SES) e levantar o contato de cada uma das 12 áreas solicitantes (`area_contato`).
+- [ ] Definir quem anota uma amostra à mão (o plano propunha 300 registros) e quem administra o PDM.
+- [ ] Corrigir o PDM: o NCM `7306.30.00` não é mais vigente (seção 0).
 - [ ] Medir o tempo atual de um cadastro com quem faz esse trabalho.
-- [ ] Corrigir o [01-dados.md](01-dados.md), que cita `claude-bedrock.sh` e `.env` como já configurados. Eles não estão no repositório.
 - [ ] Atualizar a seção de stack do [02-plano-projeto.md](02-plano-projeto.md).
 
 ---

@@ -67,7 +67,9 @@ def test_valores_canonicalizados_e_descricao_gerada(banco, base_teste):
     campo = {x["atributo"]: x for x in v["campos"]}
     assert campo["REFERENCIA"]["valor"] == "6207-2RS/C3"
     assert campo["DIAMETRO INTERNO"]["valor"] == "35MM" and campo["DIAMETRO INTERNO"]["origem"] == "DIGITADO"
-    assert v["descricao"]["longa"].startswith(f"{ROL}; REFERENCIA: 6207-2RS/C3; DIAMETRO INTERNO: 35MM; VEDACAO:")
+    # DE e largura vieram da tabela ISO 15 (serie 6207); o DI foi digitado
+    assert v["descricao"]["longa"].startswith(
+        f"{ROL}; REFERENCIA: 6207-2RS/C3; DIAMETRO INTERNO: 35MM; DIAMETRO EXTERNO: 72MM; LARGURA: 17MM; VEDACAO:")
     assert v["chave"]["completa"] and v["descricao"]["curta_tamanho"] <= 40
 
 
@@ -398,3 +400,39 @@ def test_erp_com_erro_fica_visivel_e_pode_reenviar(banco, base_teste, tmp_path):
         assert processa_retornos(c, con)["erros"] == 1
         row = c.execute(text("select estado, motivo from cadastro")).one()
     assert tuple(row) == ("ERRO_ERP", "NCM rejeitado")
+
+
+# ------------------------------------------------------------------ tabela técnica local
+def test_dimensoes_do_rolamento_vem_da_tabela_com_a_fonte(banco, base_teste):
+    with banco.begin() as c:
+        v = preenche_rolamento(c, base_teste, S.cria(c, base_teste["pdm"], base_teste["indice"], "ana", id_pdm="PDM020", nome=ROL, centro=CENTRO),
+                               ref="SKF 6206-2RSH/C3")
+    campo = {x["atributo"]: x for x in v["campos"]}
+    # a pessoa digitou o diametro interno (35 mm no helper): nao e sobrescrito pela tabela
+    assert campo["DIAMETRO INTERNO"]["origem"] == "DIGITADO" and campo["DIAMETRO INTERNO"]["valor"] == "35MM"
+    assert (campo["DIAMETRO EXTERNO"]["valor"], campo["DIAMETRO EXTERNO"]["origem"]) == ("62MM", "TABELA_LOCAL")
+    assert campo["LARGURA"]["valor"] == "16MM" and "ISO 15" in campo["LARGURA"]["trecho"]
+    assert "6206" in campo["LARGURA"]["trecho"]
+
+
+def test_trocar_a_referencia_recalcula_so_o_que_veio_da_tabela(banco, base_teste):
+    with banco.begin() as c:
+        cad = S.cria(c, base_teste["pdm"], base_teste["indice"], "ana", id_pdm="PDM020", nome=ROL, centro=CENTRO)
+        v = S.atualiza(c, base_teste["pdm"], cad["id"], cad["versao"], "ana", valores={"REFERENCIA": "6205-2RS/C3"})
+    campo = {x["atributo"]: x["valor"] for x in v["campos"]}
+    assert (campo["DIAMETRO INTERNO"], campo["DIAMETRO EXTERNO"], campo["LARGURA"]) == ("25MM", "52MM", "15MM")  # exemplo do PDM
+    with banco.begin() as c:
+        v = S.atualiza(c, base_teste["pdm"], cad["id"], v["versao"], "ana", valores={"LARGURA": "99MM"})
+        v = S.atualiza(c, base_teste["pdm"], cad["id"], v["versao"], "ana", valores={"REFERENCIA": "6310-ZZ/C3"})
+    campo = {x["atributo"]: (x["valor"], x["origem"]) for x in v["campos"]}
+    assert campo["DIAMETRO INTERNO"] == ("50MM", "TABELA_LOCAL") and campo["DIAMETRO EXTERNO"] == ("110MM", "TABELA_LOCAL")
+    assert campo["LARGURA"] == ("99MM", "DIGITADO")  # o que a pessoa digitou fica
+
+
+def test_serie_desconhecida_nao_inventa_dimensao(banco, base_teste):
+    with banco.begin() as c:
+        cad = S.cria(c, base_teste["pdm"], base_teste["indice"], "ana", id_pdm="PDM020", nome=ROL, centro=CENTRO)
+        v = S.atualiza(c, base_teste["pdm"], cad["id"], cad["versao"], "ana", valores={"REFERENCIA": "6205-2RS/C3"})
+        v = S.atualiza(c, base_teste["pdm"], cad["id"], v["versao"], "ana", valores={"REFERENCIA": "6999-2RS/C3"})
+    campo = {x["atributo"]: x["valor"] for x in v["campos"]}
+    assert campo["DIAMETRO INTERNO"] is None and campo["LARGURA"] is None  # os da 6205 deixaram de valer

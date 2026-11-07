@@ -38,7 +38,8 @@ class Opcoes:
 
 
 def opcoes(conn: Connection, pdm: Pdm, id_pdm: str, nome: str | None, atributo: str,
-           preenchidos: dict[str, str | None], limite: int = 3) -> Opcoes:
+           preenchidos: dict[str, str | None], limite: int = 3, excluir: str | None = None) -> Opcoes:
+    """`excluir`: código a deixar de fora do histórico (avaliação: o item não pode "colar a resposta")."""
     a = pdm.classes[id_pdm].atributo(atributo)
     out = Opcoes(atributo)
     if a is None:
@@ -48,10 +49,11 @@ def opcoes(conn: Connection, pdm: Pdm, id_pdm: str, nome: str | None, atributo: 
         out.sem_opcoes_motivo = "texto livre (referencia, codigo): quase cada item tem o seu; digite"
         return out
     if nome:
-        rows = conn.execute(text("select valores from material_identidade where id_pdm = :i and nome = :n and ativo"),
-                            {"i": id_pdm, "n": nome}).all()
+        rows = conn.execute(text("select valores from material_identidade where id_pdm = :i and nome = :n and ativo and codigo <> :x"),
+                            {"i": id_pdm, "n": nome, "x": excluir or ""}).all()
     else:
-        rows = conn.execute(text("select valores from material_identidade where id_pdm = :i and ativo"), {"i": id_pdm}).all()
+        rows = conn.execute(text("select valores from material_identidade where id_pdm = :i and ativo and codigo <> :x"),
+                            {"i": id_pdm, "x": excluir or ""}).all()
     pool = [r[0] if isinstance(r[0], dict) else json.loads(r[0]) for r in rows]
     pool = [v for v in pool if v.get(atributo) and valor_valido(pdm, id_pdm, atributo, v[atributo])]
     if not pool:

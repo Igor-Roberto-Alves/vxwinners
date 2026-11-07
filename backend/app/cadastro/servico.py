@@ -26,6 +26,7 @@ from ..leitura.regras import le_pedido
 from ..ncm import tabela as ncm_tabela
 from ..ncm.regras import formata_ncm, ncm_esperado
 from ..pdm.modelo import Pdm
+from ..tabelas import rolamentos as tabelas_rolamentos
 from . import descricao as desc
 from . import modelo as M
 from .modelo import ErroNegocio
@@ -66,8 +67,28 @@ def _entrada(a, texto: str, origem: str, trecho: str | None = None, id_pdm: str 
             "confianca": 0.0, "motivo": c.motivo, "candidatos": list(c.candidatos)}
 
 
+def _aplica_tabelas(pdm: Pdm, cad: dict) -> None:
+    """Atributos OPCIONAIS deduzidos de tabela técnica local (regra 7 do PDM), sempre com a fonte.
+    O que a pessoa digitou nunca é sobrescrito; só valores vindos da tabela são recalculados."""
+    if cad["id_pdm"] != "PDM020":
+        return
+    ref = (cad["valores"].get("REFERENCIA") or {}).get("valor")
+    dims = tabelas_rolamentos.dimensoes(ref)
+    for atr in ("DIAMETRO INTERNO", "DIAMETRO EXTERNO", "LARGURA"):
+        atual = cad["valores"].get(atr)
+        if atual and atual.get("origem") != "TABELA_LOCAL":
+            continue
+        if atr in dims:
+            valor, fonte = dims[atr]
+            cad["valores"][atr] = {"valor": valor, "bruto": valor, "origem": "TABELA_LOCAL", "trecho": fonte,
+                                   "valido": True, "confianca": 0.95, "motivo": "deduzido da referencia"}
+        elif atual:  # a referência mudou e a série não está na tabela: o valor antigo deixou de valer
+            del cad["valores"][atr]
+
+
 def _regrava_derivados(pdm: Pdm, cad: dict) -> None:
     """Descrição e chave sempre refletem o estado atual do rascunho."""
+    _aplica_tabelas(pdm, cad)
     if not cad["id_pdm"]:
         cad["descricao_longa"] = cad["descricao_curta"] = cad["chave"] = None
         return

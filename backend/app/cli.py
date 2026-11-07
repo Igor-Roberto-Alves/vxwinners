@@ -6,6 +6,7 @@
   estruturar  lê classe e atributos de cada material (--etapa regras|llm)
   relatorio   mede a cobertura da estruturação
   avaliar     mede precisão do LLM contra gabarito derivado da base
+  avaliar-sugestoes   mede se a opção certa aparece entre as sugestões (base inteira)
 """
 from __future__ import annotations
 
@@ -82,6 +83,14 @@ def _avaliar(args) -> None:
     print(json.dumps(avaliar.avaliar(args.n, modelo=args.modelo), ensure_ascii=False, indent=2))
 
 
+def _avaliar_sugestoes(args) -> None:
+    import json
+
+    from .sugestoes import avaliar
+
+    print(json.dumps(avaliar.avalia(args.n), ensure_ascii=False, indent=2))
+
+
 def _relatorio() -> None:
     from .estruturacao import relatorio
 
@@ -103,12 +112,14 @@ def main(argv: list[str] | None = None) -> int:
     e.add_argument("--tudo", action="store_true", help="llm: todos os candidatos, em lotes, com teto de gasto")
     e.add_argument("--teto-usd", type=float, default=60.0, help="llm --tudo: para ao passar deste gasto estimado")
     sub.add_parser("relatorio")
+    sg = sub.add_parser("avaliar-sugestoes")
+    sg.add_argument("-n", type=int, default=1500)
     av = sub.add_parser("avaliar")
     av.add_argument("-n", type=int, default=120)
     av.add_argument("--modelo")
     args = ap.parse_args(argv)
     {"migrar": lambda: _migrar(), "ingerir": lambda: _ingerir(args), "contagens": lambda: _contagens(),
-     "estruturar": lambda: _estruturar(args), "relatorio": lambda: _relatorio(), "avaliar": lambda: _avaliar(args)}[args.cmd]()
+     "estruturar": lambda: _estruturar(args), "relatorio": lambda: _relatorio(), "avaliar": lambda: _avaliar(args), "avaliar-sugestoes": lambda: _avaliar_sugestoes(args)}[args.cmd]()
     return 0
 
 
