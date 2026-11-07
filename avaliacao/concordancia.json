@@ -1,0 +1,31 @@
+{
+  "por_campo": {
+    "FABRICANTE": {
+      "n": 127,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "GRUPO_MERCADORIA": {
+      "n": 137,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "NCM": {
+      "n": 65,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "REFERENCIA_FABRICANTE": {
+      "n": 127,
+      "acordo": 1.0,
+      "kappa": 1.0
+    }
+  },
+  "global": {
+    "n": 456,
+    "acordo": 1.0,
+    "kappa": 1.0
+  },
+  "divergencias_adjudicadas": 0,
+  "exemplos_divergencia": []
+}
