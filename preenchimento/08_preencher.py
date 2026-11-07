@@ -205,23 +205,38 @@ resumo["FABRICANTE"] = {
 print(f"FABRICANTE ok ({time.monotonic()-t0:.0f}s) custo LLM=${cont.custo(SONNET):.2f}")
 
 # ------------------------------------- REFERENCIA_FABRICANTE: extracao por regras
+# extrair_referencia devolve (lista_ranqueada [(candidato, flag_sep00)...], origem);
+# consumo identico ao roda_referencia do benchmark (02_regras.py)
 falt = base[base["_REFERENCIA_FABRICANTE"] == ""]
-fabset = set(base.loc[base["_FABRICANTE"] != "", "_FABRICANTE"].unique())
+fabset = set()
+for v in base.loc[base["_FABRICANTE"] != "", "_FABRICANTE"]:
+    fabset.update(re.findall(r"[A-Z0-9]+", v))
+CONF_ORIGEM = {"marcador": 0.85, "perto_fab": 0.6, "mais_longo": 0.45}
 print(f"REFERENCIA: extraindo de {len(falt)} faltantes...")
 linhas_ref = []
 for r in falt.itertuples():
-    ref = regras.extrair_referencia(r.DESCRICAO_LONGA, r.DESCRICAO_CURTA, fabset) or ""
-    ref = norm_rotulo("REFERENCIA_FABRICANTE", ref)
+    ordem, origem = regras.extrair_referencia(r.DESCRICAO_LONGA, r.DESCRICAO_CURTA, fabset)
+    if not ordem:
+        linhas_ref.append({
+            "CODIGO_MATERIAL": r.CODIGO_MATERIAL, "DESCRICAO_LONGA": r.DESCRICAO_LONGA,
+            "y_pred": "PENDENTE", "conf": "", "top3": "", "metodo": "pendente",
+        })
+        continue
+    x, sep00 = ordem[0]
+    bruto = x[:-2] if (sep00 and len(x) > 6) else x
+    val = norm_rotulo("REFERENCIA_FABRICANTE", bruto)
+    outros = [norm_rotulo("REFERENCIA_FABRICANTE", c) for c, _ in ordem[1:3]]
+    top3 = "|".join(dict.fromkeys([v for v in [val] + outros if v]))
     linhas_ref.append({
         "CODIGO_MATERIAL": r.CODIGO_MATERIAL, "DESCRICAO_LONGA": r.DESCRICAO_LONGA,
-        "y_pred": ref or "PENDENTE", "conf": 0.88 if ref else "", "top3": ref,
-        "metodo": "regras_extracao" if ref else "pendente",
+        "y_pred": val, "conf": CONF_ORIGEM.get(origem, 0.45), "top3": top3,
+        "metodo": f"regras_extracao_{origem}",
     })
 df_ref = pd.DataFrame(linhas_ref)
 df_ref.to_csv(SAIDA / "preenchido_REFERENCIA_FABRICANTE.csv", index=False)
 resumo["REFERENCIA_FABRICANTE"] = {
     "faltantes": len(falt),
-    "extraidas": int((df_ref["metodo"] == "regras_extracao").sum()),
+    "extraidas": int((df_ref["metodo"] != "pendente").sum()),
     "pendentes": int((df_ref["metodo"] == "pendente").sum()),
 }
 print(f"REFERENCIA ok ({time.monotonic()-t0:.0f}s)")
