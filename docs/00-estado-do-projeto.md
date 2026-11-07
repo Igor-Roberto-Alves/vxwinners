@@ -170,6 +170,7 @@ src/saneamento/
 | `03-treinar-bert.md` | handoff para treinar em outra máquina |
 | **`04-como-funciona.md`** | **a explicação didática do pipeline, do zero** |
 | `05-riscos-pdm.md` | gerado: os riscos estruturais do PDM |
+| `06-extracao-das-caixas.md` | como cada atributo é extraído para a sua caixa |
 | `06-plano-modo-cadastro.md` | o produto de cadastro: decisões, estado e medições |
 
 ### Testes
