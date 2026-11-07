@@ -266,36 +266,68 @@ rede restrita, baixar antes e apontar `--modelo` para o diretório local. Defini
 .venv/bin/python scripts/03_treinar_bert.py --epocas 3 --lote 16 --lr 5e-5
 ```
 
+### Retomar um treino interrompido
+
+O treino grava **checkpoint ao fim de cada época** em `artefatos/modelo_bert/`
+(pesos, tokenizer, `rotulos.json` e `retomada.pt` com o estado do otimizador).
+Para continuar de onde parou:
+
+```bash
+.venv/bin/python scripts/03_treinar_bert.py --retomar --epocas 5
+```
+
+Ele lê quantas épocas já foram concluídas e segue da seguinte. Para treinar mais
+do que o planejado, basta aumentar `--epocas` e usar `--retomar`.
+
+Detalhe de implementação que importa: o **agendador de taxa de aprendizado não é
+restaurado** do checkpoint, e sim recriado para o número de passos que faltam. O
+estado salvo carrega o `total_steps` do treino anterior e estourava
+(`Tried to step 7 times, total is 6`) ao continuar com mais épocas. Recriar dá um
+novo ciclo de LR sobre o orçamento restante, que é o comportamento previsível de
+um *warm restart*.
+
 | Flag | Padrão | Observação |
 |---|---|---|
 | `--epocas` | 3 | 1 época já deu F1 0,972. Com GPU, rodar 4–5 e ficar com a melhor validação |
 | `--lote` | 16 | Em GPU subir para 64 ou 128 e escalar o `lr` junto |
 | `--lr` | 5e-5 | Padrão de fine-tuning de BERT. Agendador `OneCycleLR`, 10% de warmup |
-| `--max-len` | 96 | **Pode cair para 32.** p95 = 12 tokens, máximo 21. Isso acelera muito e não perde nada |
+| `--max-len` | 96 | Só truncamento; o padding é por lote. **Medido: não acelera** (1,169 s/passo com 96 vs 1,187 com 32) |
 | `--modelo` | `distilbert-base-multilingual-cased` | Ver variantes abaixo |
 | `--semente` | 42 | Mesma semente, mesmo modelo |
+| `--retomar` | desligado | Continua do checkpoint em vez de recomeçar |
 | `--destino` | `artefatos/modelo_bert` | |
 
-O ganho mais barato é **`--max-len 32`**: o padrão de 96 está pagando atenção
-sobre padding em 3/4 do tensor. Em CPU isso sozinho deve dar ~2× de velocidade.
+Correção de uma estimativa anterior deste documento: eu havia escrito que
+`--max-len 32` daria ~2× de velocidade. **Medido, não dá diferença** — o
+`_codificar` usa `padding=True`, que preenche até a maior sequência do LOTE, não
+até `max_len`. Como o p95 é 12 tokens, os lotes já são curtos e o `max_len` só
+atua como truncamento.
+
+O ganho real vem do **lote maior**: `--lote 32` leva 1,757 s/passo mas corta o
+número de passos pela metade, resultando em 9,5 min/época contra 12,8.
 
 ---
 
 ## 7. Tempo esperado
 
-Medido nesta máquina (8 núcleos, 4 threads do torch, sem GPU):
+Medido nesta máquina com benchmark dedicado (8 núcleos, 4 threads do torch,
+sem GPU, 10.359 exemplos de treino):
 
-```
-650 passos em ~20 min  ->  ~0,54 passo/s
-3 épocas = 1.944 passos ->  ~60 min
-```
+| Configuração | s/passo | 1 época | 3 épocas |
+|---|---|---|---|
+| `--max-len 96 --lote 16` (padrão) | 1,169 | 12,6 min | **37,9 min** |
+| `--max-len 32 --lote 16` | 1,187 | 12,8 min | 38,5 min |
+| `--max-len 32 --lote 32` | 1,757 | 9,5 min | **28,5 min** |
 
-| Hardware | 3 épocas (estimativa) |
+| Hardware | 3 épocas |
 |---|---|
-| CPU 4 threads, `max_len 96` | ~60 min |
-| CPU 4 threads, `max_len 32` | ~25–30 min |
-| GPU T4 / RTX 3060 | ~3–5 min |
-| GPU A100 | < 2 min |
+| CPU 4 threads (medido) | 28–38 min |
+| GPU T4 / RTX 3060 (estimativa) | ~3–5 min |
+| GPU A100 (estimativa) | < 2 min |
+
+Uma estimativa anterior deste documento dizia ~60 min; ela estava contaminada
+porque o treino dividia CPU com outras medições. O número com benchmark
+dedicado é 38 min no padrão.
 
 Com GPU o treino é tão rápido que vale rodar as variantes da seção 9 e comparar,
 em vez de aceitar a primeira configuração.

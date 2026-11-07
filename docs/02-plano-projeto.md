@@ -77,7 +77,15 @@ Saída: `classificacao(codigo_material, id_pdm, substantivo, qualificador, confi
 
 Agora sim o modelo de linguagem natural, com o schema da classe em mãos.
 
-**Modelo:** Claude via Bedrock (já configurado em `claude-bedrock.sh`). **Haiku 5.5** para o volume, **Sonnet 5.5** para os casos de baixa confiança e para os anexos longos. Usar **tool use / structured output** com o JSON Schema da classe: o modelo é obrigado a devolver os campos daquela classe e só pode usar valores do `enum`. Isso elimina a maior parte da alucinação de formato de graça.
+**Modelo:** Claude via Bedrock. **Haiku 4.5** (`us.anthropic.claude-haiku-4-5-20251001-v1:0`) para o volume, **Sonnet 5** (`us.anthropic.claude-sonnet-5`) para os casos de baixa confiança e para os anexos longos.
+
+> Correção verificada na conta: a role tem uma **allowlist de IAM** que nega
+> `claude-haiku-5-5`, `claude-sonnet-5-5`, `claude-opus-5-5` e `claude-fable-5-1`,
+> apesar de o `list_foundation_models` devolvê-los como `ACTIVE`. Todos os Claude
+> exigem perfil de inferência (prefixo `us.`), não aceitam `anthropic.*` direto.
+> E **`temperature` é rejeitado** por Sonnet 5 / Opus 5 / Opus 4.7+ / Fable 5
+> (`temperature is deprecated for this model`) — mandar o campo faz 100% das
+> chamadas falharem. Usar **tool use / structured output** com o JSON Schema da classe: o modelo é obrigado a devolver os campos daquela classe e só pode usar valores do `enum`. Isso elimina a maior parte da alucinação de formato de graça.
 
 **Contrato do prompt (um por classe, montado em runtime):**
 
@@ -324,7 +332,7 @@ Os quatro estados — `APROVADO`, `JA_EXISTE`, `DEVOLVIDO`, `FORA_DO_PDM` — s�
 |---|---|---|
 | Dados | **DuckDB + Parquet** | 23k linhas e joins; roda local, zero infra, e o `duckdb-skills` já está disponível |
 | Leitura xlsx | `uv run --with openpyxl` ou extensão `excel` do DuckDB | `pandas` não está instalado no ambiente |
-| LLM | **Claude via Bedrock** (`claude-bedrock.sh`) — Haiku 5.5 em volume, Sonnet 5.5 nos difíceis | já configurado; structured output via tool use garante o schema |
+| LLM | **Claude via Bedrock** — `us.anthropic.claude-haiku-4-5-20251001-v1:0` em volume, `us.anthropic.claude-sonnet-5` nos difíceis | IDs verificados na conta; structured output via tool use garante o schema |
 | Embeddings | `sentence-transformers` multilíngue local, ou Titan/Cohere no Bedrock | blocking de duplicata e casamento de vocabulário; local evita custo e rate limit |
 | Normalização | Python puro + YAML versionado | determinístico, testável, auditável |
 | Testes | `pytest` nos normalizadores e na chave de identidade | é o que sustenta o "é reproduzível" na banca |
