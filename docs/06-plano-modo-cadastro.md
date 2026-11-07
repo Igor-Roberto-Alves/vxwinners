@@ -18,7 +18,7 @@ Termos usados no documento:
 
 ## 0. Estado da implementação
 
-O backend está implementado em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 266 testes) e foi rodado contra a base inteira. O frontend do produto **não existe**: nenhuma branch do GitHub traz React. O que há de interface é o [mockup](../mockup_plataforma.html), servido em `/mockup` e ligado aos modelos de sugestão, e o painel de desenvolvimento em `/painel`. O contrato para o frontend é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
+O backend está em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 275 testes) e foi rodado contra a base inteira. **O frontend é o do time:** [`mockup_plataforma.html`](../mockup_plataforma.html) é a casca, e o cadastro real está em [`frontend/`](../frontend/cadastro.js), servido em `http://localhost:8000/`. Busca, cadastro, pedidos, acompanhamento e revisão usam a API e a base real. Início, Radar e Requisições continuam com dados de demonstração e dizem isso na tela. O contrato é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
 
 | Fase | Estado | Evidência |
 |---|---|---|
@@ -30,7 +30,7 @@ O backend está implementado em [`backend/`](../backend/README.md) (FastAPI, Pos
 | 5. Decisões | Feita | estados, exceções, segundo analista, propostas ao PDM, auditoria imutável. Papéis só no modo `dev` |
 | 6. Pedidos | Feita | leitura por regras e LLM; devolução gravada, mas o e-mail vai para uma caixa de saída em arquivo |
 | 7. ERP | Feita para o conector por arquivos | envio idempotente, retorno do código, erro visível, reativação. A reimportação periódica é manual (`python -m app.cli ingerir`) |
-| 8. Integração e piloto | **Não iniciada** | depende do frontend |
+| 8. Integração e piloto | Em andamento | fluxo completo no frontend do time, com 60 verificações de ponta a ponta em navegador real. Falta o uso por analistas e o que está em "O que ainda não existe" |
 
 ### Resultados medidos
 
@@ -83,9 +83,30 @@ Em 2026-11-07 as três branches do GitHub foram unidas a `modo-cadastro`: `main`
 
 A divergência achou erros nos dois lados, corrigidos com teste. No backend: `REV A`, ruído e `-00` na referência, zero à esquerda, `7,0MM`, `A DENTADA 4546` (LLM juntando perfil e comprimento), mangueira com terminais tratada como avulsa (73 registros) e Allen classificado como `PDM001`. No saneamento: passo da rosca lido como comprimento (68 registros, unia parafusos de 35, 60 e 150 mm), O-ring com diâmetro interno e seção trocados (41), `1/2POLX3 1/2POL`, ruído na referência e substantivo na chave de referência, contra a regra 10.
 
+### Frontend
+
+O frontend do time continua sendo um arquivo só, que o time pode seguir redesenhando. A lógica do cadastro fica fora dele, em `frontend/cadastro.js` e `frontend/cadastro.css`, e usa os mesmos componentes visuais. Toda regra de negócio fica no servidor.
+
+| Tela | O que faz |
+|---|---|
+| Buscar material | lê o texto, propõe a classe, compara com a base por atributos **sem gravar nada** (`POST /busca`), e permite usar um código, pedir reativação ou cadastrar |
+| Cadastrar novo item | rascunho com salvamento automático, opções do histórico, origem de cada valor, sugestões dos modelos, descrição gerada, validação, exceções e duplicidade ao vivo |
+| Pedidos de cadastro | fila real com filtros; assumir lê o texto e o anexo e abre o rascunho |
+| Cadastros | todos os cadastros e o estado de cada um |
+| Revisão de exceções | decisão do segundo analista e envios ao ERP |
+
+O usuário e o papel são escolhidos no topo da tela, porque a autenticação ainda é só de desenvolvimento. O menu de usuário sai quando o OIDC entrar.
+
+**Testes de ponta a ponta.** `frontend/e2e.mjs` usa um Chrome de verdade e clica como uma pessoa, sempre em um banco descartável, porque aprova itens e grava auditoria imutável. Foram 60 verificações, sem erro de JavaScript nem resposta 5xx, em execuções repetidas. Os testes acharam quatro problemas que a suíte da API não via:
+
+- **A resposta saía antes do `COMMIT`.** Com o padrão atual do FastAPI, o cliente ouvia "criado" antes de o dado estar gravado, e a chamada seguinte recebia 404. A falha era intermitente. Agora `deps.Conexao` grava antes de responder, e um teste mede essa ordem.
+- **Conflito de versão falso.** Sair de um campo e clicar em Aprovar disparava as duas escritas quase juntas. As escritas de um rascunho agora vão em fila, e a tela mostra "salvando…".
+- **Cadastro em revisão era duplicata de si mesmo**, o que criava um bloqueio falso.
+- **Duplo clique em Aprovar** mostrava erro logo depois do sucesso.
+
 ### O que ainda não existe
 
-- **Frontend do produto.** Nenhuma branch traz React. O mockup já consulta os modelos (`/sugestao/sugerir` e `/sugestao/similares`), mas não usa o fluxo de cadastro da API: rascunho, duplicidade por chave e aprovação só existem no painel de desenvolvimento. O mockup precisa dos ajustes da seção 12.
+- **Telas de gestão ligadas à API.** Início, Radar e Requisições ainda são demonstração. Rascunho e fila usam a API; a entrada por foto saiu, porque está fora da primeira versão.
 - **Autenticação OIDC.** A API só aceita `AUTH_MODO=dev` (cabeçalhos `X-Usuario` e `X-Papel`) e **recusa subir** com outro modo, em vez de fingir proteção. Não pode ir para produção assim.
 - **Envio real de e-mail (SES).** A devolução grava o e-mail em `backend/erp_out/emails/`. Também não há contato por área cadastrado: sem ele, a API avisa que nada foi enviado.
 - **Amostra anotada à mão** e as metas de 98% e 97% do plano.
@@ -451,7 +472,7 @@ Base: `/api/v1`. O OpenAPI gerado é a referência, e os tipos TypeScript do fro
 
 O `PATCH` usa controle de versão e devolve campos válidos, origens, pendências, exceções, descrição gerada e NCM. Assim, a interface não calcula regra de negócio. Erros seguem `application/problem+json`.
 
-O mockup precisa de quatro ajustes: opções clicáveis nos atributos, marcação de origem por valor, etapa de revisão de exceções e remoção da entrada por foto. "Enviar para aprovação" vira "Aprovar" quando não há exceção. Em 2026-11-07 ainda não havia branch de frontend no remoto, então a API deve ser testada pelo próprio contrato até ela chegar.
+Os quatro ajustes previstos para o mockup estão feitos: opções clicáveis nos atributos, marcação de origem por valor, etapa de revisão de exceções e remoção da entrada por foto. "Enviar para aprovação" virou "Aprovar" quando não há exceção e "Enviar para revisão" quando há. Foram acrescentadas `POST /busca`, `GET /resumo`, `GET /pedidos/{id}` e `GET /cadastros/{id}/perguntas`.
 
 ---
 

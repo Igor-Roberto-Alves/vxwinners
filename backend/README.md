@@ -2,7 +2,8 @@
 
 API em FastAPI e PostgreSQL que ajuda o responsável pelo cadastro a criar um material novo: ele digita o
 nome, confirma a classe do PDM, preenche os atributos com sugestões do histórico e vê se o item já existe.
-Tudo é editável e a decisão final é de uma pessoa. O plano e as medições estão em
+Tudo é editável e a decisão final é de uma pessoa. A interface é o frontend do time: a casca em
+[`mockup_plataforma.html`](../mockup_plataforma.html) e o cadastro em [`frontend/`](../frontend/cadastro.js). O plano e as medições estão em
 [`docs/06-plano-modo-cadastro.md`](../docs/06-plano-modo-cadastro.md); o contrato para o frontend é
 [`docs/openapi.json`](../docs/openapi.json).
 
@@ -27,10 +28,9 @@ python ../preenchimento/00_prep.py            # gera preenchimento/dados/ (não 
 python ../servico/treina.py                   # gera servico/modelos/ (118 MB, não versionado)
 python -m app.cli importar-preenchimento      # carrega preenchimento/saida como sugestões
 
-uvicorn app.main:app --reload                 # API: http://localhost:8000/docs
-                                              # painel de desenvolvimento: http://localhost:8000/painel
-                                              # mockup do time: http://localhost:8000/mockup
-python -m pytest                              # 266 testes
+uvicorn app.main:app --reload                 # aplicação: http://localhost:8000/
+                                              # API: http://localhost:8000/docs
+python -m pytest                              # 275 testes
 ```
 
 Sem `DATABASE_URL`, o desenvolvimento sobe um PostgreSQL embutido em `backend/.pgdata` (pacote `pgserver`).
@@ -38,22 +38,34 @@ Isso é só para desenvolvimento e testes. Em produção use um PostgreSQL de ve
 
 O backend importa `src/saneamento` (sinônimos e limpeza de referência), então o deploy precisa levar a pasta `src/`
 do repositório. Sem os modelos de sugestão a API sobe normalmente: `/saude` informa `modelos_sugestao`, `/sugestao/*`
-responde 503 e o cartão "Sugestões do modelo" do painel avisa que os modelos estão indisponíveis.
+responde 503 e a tela de cadastro avisa que os modelos estão indisponíveis.
 
 A etapa de LLM chama a AWS e **gasta dinheiro**. Ela é retomável (não refaz o que já passou), grava a cada
 lote de 2.000, mantém cache pelo hash da entrada e para sozinha no teto de gasto estimado ou se um lote
 inteiro falhar (por exemplo, credencial expirada). Teste antes com `--amostra --limite 200`.
+
+## Frontend
+
+`http://localhost:8000/` serve o frontend do time. Busca, cadastro, pedidos, cadastros e revisão usam a API e a base real;
+Início, Radar e Requisições são demonstração, e a etiqueta no topo diz qual é o caso. O usuário e o papel são escolhidos no
+topo enquanto não houver OIDC: troque para `bia · revisora` para decidir exceções. `/mockup` redireciona para a raiz.
+
+O teste de ponta a ponta usa um Chrome de verdade. **Ele aprova itens e grava auditoria imutável: rode só com um banco
+descartável**, nunca no de uso. Para isso, suba outra instância com `DATABASE_URL`, `ERP_DIR_SAIDA` e `ERP_DIR_ENTRADA` próprios, e então:
+
+```bash
+google-chrome --headless=new --remote-debugging-port=9223 --user-data-dir=/tmp/perfil about:blank &
+node frontend/e2e.mjs http://localhost:8001 /tmp/capturas
+```
 
 ## Painel de desenvolvimento
 
 `http://localhost:8000/painel` (só com `AUTH_MODO=dev`) é uma tela mínima para **ver e testar o fluxo ao vivo** contra a
 API e a base real: digitar o nome do material, confirmar a classe, preencher com sugestões, ver a duplicidade mudar a
 cada atributo e aprovar. Atalhos: `?pedido=SC-202600261`, `?classe=PDM020`, `?q=valv esf`. **Não é o frontend do
-produto** (que vem de outra branch): serve para validar a API e o comportamento. Cada abertura de pedido ou cadastro
+produto**, que agora está na raiz: serve só para depurar a API. Cada abertura de pedido ou cadastro
 cria dados reais no banco de desenvolvimento, então não limpe tabelas inteiras: pode haver rascunhos de outras pessoas.
 
-`http://localhost:8000/mockup` serve o [`mockup_plataforma.html`](../mockup_plataforma.html) do time sem alterar o
-arquivo, apontando as chamadas para este servidor. Ele usa só `/sugestao/sugerir` e `/sugestao/similares`.
 
 ## Comandos
 
@@ -93,7 +105,7 @@ app/
 ├── leitura/        pedidos: e-mail, ficha técnica e catálogo viram atributos
 ├── cadastro/       estados, exceções, aprovação, descrição no padrão
 ├── erp/            conector por arquivos e sincronização
-├── api/            rotas, esquemas, permissões, /sugestao
+├── api/            rotas, esquemas, permissões, /sugestao; Conexao grava antes de responder
 migrations/         Alembic (0001 esquema, 0002 NCM oficial, 0003 classe confirmada, 0004 sugestões)
 tests/              unidade e integração, com PostgreSQL real
 ```
@@ -106,6 +118,9 @@ tests/              unidade e integração, com PostgreSQL real
 - **A classe é sempre confirmada por uma pessoa**, e nada vindo do histórico entra preenchido sozinho.
 - **O LLM propõe, o código decide.** Cada valor passa pelo canonicalizador e pelo PDM, e o trecho de origem
   precisa existir no texto. Falha do LLM nunca trava o cadastro.
+- **A resposta só sai depois de gravar.** Use sempre `deps.Conexao`: com o padrão do FastAPI, o cliente ouve "criado"
+  antes do `COMMIT`, e a chamada seguinte pode não achar o registro.
+- **A busca não grava nada.** `POST /busca` lê e compara sem criar rascunho; a classe lida do texto continua sendo proposta.
 - **O que vem dos modelos é só sugestão.** Precisa de um clique, não é aplicado sozinho e não entra na chave de
   identidade: inferência não prova que dois itens são o mesmo.
 - **Dois analistas não aprovam o mesmo item:** índice único parcial na chave. Toda mudança entra em

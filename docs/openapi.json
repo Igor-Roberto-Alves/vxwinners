@@ -122,6 +122,146 @@
         }
       }
     },
+    "/api/v1/resumo": {
+      "get": {
+        "tags": [
+          "cadastros"
+        ],
+        "summary": "Contagens por estado para filas e indicadores",
+        "operationId": "resumo_api_v1_resumo_get",
+        "parameters": [
+          {
+            "name": "x-usuario",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Usuario"
+            }
+          },
+          {
+            "name": "x-papel",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Papel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResumoView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/busca": {
+      "post": {
+        "tags": [
+          "busca"
+        ],
+        "summary": "Lê o texto e compara com a base antes de existir rascunho. Não grava nada",
+        "operationId": "busca_api_v1_busca_post",
+        "parameters": [
+          {
+            "name": "x-usuario",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Usuario"
+            }
+          },
+          {
+            "name": "x-papel",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Papel"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Busca"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuscaView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/pdm/nomes": {
       "get": {
         "tags": [
@@ -2096,6 +2236,84 @@
         }
       }
     },
+    "/api/v1/cadastros/{cid}/perguntas": {
+      "get": {
+        "tags": [
+          "cadastros"
+        ],
+        "summary": "Perguntas feitas ao solicitante",
+        "operationId": "perguntas_api_v1_cadastros__cid__perguntas_get",
+        "parameters": [
+          {
+            "name": "cid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Cid"
+            }
+          },
+          {
+            "name": "x-usuario",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Usuario"
+            }
+          },
+          {
+            "name": "x-papel",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Papel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PerguntaView"
+                  },
+                  "title": "Response Perguntas Api V1 Cadastros  Cid  Perguntas Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/cadastros/{cid}/historico": {
       "get": {
         "tags": [
@@ -2303,6 +2521,80 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaginaPedidos"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pedidos/{pid}": {
+      "get": {
+        "tags": [
+          "pedidos"
+        ],
+        "summary": "Pedido com o texto e o anexo originais",
+        "operationId": "pedido_api_v1_pedidos__pid__get",
+        "parameters": [
+          {
+            "name": "pid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Pid"
+            }
+          },
+          {
+            "name": "x-usuario",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Usuario"
+            }
+          },
+          {
+            "name": "x-papel",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Papel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidoDetalhe"
                 }
               }
             }
@@ -2874,6 +3166,175 @@
         ],
         "title": "BloqueioView"
       },
+      "Busca": {
+        "properties": {
+          "texto": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Texto"
+          },
+          "id_pdm": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id Pdm",
+            "description": "classe escolhida pela pessoa; vazio: usa a classe lida do texto, como proposta"
+          },
+          "nome": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nome"
+          },
+          "valores": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valores",
+            "description": "atributo → valor refinado pela pessoa; substitui o lido do texto"
+          }
+        },
+        "type": "object",
+        "required": [
+          "texto"
+        ],
+        "title": "Busca"
+      },
+      "BuscaView": {
+        "properties": {
+          "consulta": {
+            "type": "string",
+            "title": "Consulta"
+          },
+          "classe": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ClasseView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "campos": {
+            "items": {
+              "$ref": "#/components/schemas/CampoView"
+            },
+            "type": "array",
+            "title": "Campos"
+          },
+          "interpretacao": {
+            "items": {
+              "$ref": "#/components/schemas/TrechoLido"
+            },
+            "type": "array",
+            "title": "Interpretacao",
+            "description": "o que foi lido do texto; a pessoa confere antes de usar"
+          },
+          "descricao": {
+            "$ref": "#/components/schemas/DescricaoView"
+          },
+          "chave": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChaveView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "duplicidade": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DuplicidadeView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "fabricante": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fabricante"
+          },
+          "referencia_fabricante": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Referencia Fabricante"
+          },
+          "alternativas": {
+            "items": {
+              "$ref": "#/components/schemas/SugestaoClasse"
+            },
+            "type": "array",
+            "title": "Alternativas"
+          },
+          "ambiguo": {
+            "type": "boolean",
+            "title": "Ambiguo"
+          },
+          "fora_do_pdm": {
+            "type": "boolean",
+            "title": "Fora Do Pdm"
+          }
+        },
+        "type": "object",
+        "required": [
+          "consulta",
+          "classe",
+          "campos",
+          "interpretacao",
+          "descricao",
+          "chave",
+          "duplicidade",
+          "fabricante",
+          "referencia_fabricante",
+          "alternativas",
+          "ambiguo",
+          "fora_do_pdm"
+        ],
+        "title": "BuscaView"
+      },
       "CadastroView": {
         "properties": {
           "id": {
@@ -3085,6 +3546,18 @@
               }
             ],
             "title": "Resumo Leitura"
+          },
+          "texto_inicial": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Texto Inicial",
+            "description": "texto de onde o rascunho partiu; serve para reler ao trocar de classe"
           },
           "interpretacao": {
             "anyOf": [
@@ -4105,6 +4578,136 @@
         ],
         "title": "PaginaPedidos"
       },
+      "PedidoDetalhe": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "data_solicitacao": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data Solicitacao"
+          },
+          "centro": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Centro"
+          },
+          "area": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Area"
+          },
+          "canal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Canal"
+          },
+          "urgencia": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Urgencia"
+          },
+          "texto": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Texto"
+          },
+          "tipo_anexo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tipo Anexo"
+          },
+          "tem_anexo": {
+            "type": "boolean",
+            "title": "Tem Anexo"
+          },
+          "estado": {
+            "type": "string",
+            "title": "Estado"
+          },
+          "analista": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analista"
+          },
+          "conteudo_anexo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conteudo Anexo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "data_solicitacao",
+          "centro",
+          "area",
+          "canal",
+          "urgencia",
+          "texto",
+          "tipo_anexo",
+          "tem_anexo",
+          "estado",
+          "analista"
+        ],
+        "title": "PedidoDetalhe"
+      },
       "PedidoEntrada": {
         "properties": {
           "id": {
@@ -4319,6 +4922,72 @@
         ],
         "title": "PedidoView"
       },
+      "PerguntaView": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "destinatario": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Destinatario"
+          },
+          "pergunta": {
+            "type": "string",
+            "title": "Pergunta"
+          },
+          "resposta": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resposta"
+          },
+          "enviada_em": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enviada Em"
+          },
+          "respondida_em": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Respondida Em"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "destinatario",
+          "pergunta",
+          "resposta",
+          "enviada_em",
+          "respondida_em"
+        ],
+        "title": "PerguntaView"
+      },
       "ProporClasse": {
         "properties": {
           "nome_sugerido": {
@@ -4431,6 +5100,38 @@
           "resposta"
         ],
         "title": "Responder"
+      },
+      "ResumoView": {
+        "properties": {
+          "pedidos": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Pedidos",
+            "description": "pedidos por estado"
+          },
+          "cadastros": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Cadastros",
+            "description": "cadastros por estado"
+          },
+          "excecoes_pendentes": {
+            "type": "integer",
+            "title": "Excecoes Pendentes",
+            "description": "cadastros aguardando o segundo analista"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pedidos",
+          "cadastros",
+          "excecoes_pendentes"
+        ],
+        "title": "ResumoView"
       },
       "Revisao": {
         "properties": {
@@ -4551,11 +5252,53 @@
         ],
         "title": "SugestoesView"
       },
+      "TrechoLido": {
+        "properties": {
+          "atributo": {
+            "type": "string",
+            "title": "Atributo"
+          },
+          "valor": {
+            "type": "string",
+            "title": "Valor"
+          },
+          "trecho": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trecho"
+          }
+        },
+        "type": "object",
+        "required": [
+          "atributo",
+          "valor",
+          "trecho"
+        ],
+        "title": "TrechoLido"
+      },
       "UsarExistente": {
         "properties": {
           "codigo": {
             "type": "string",
             "title": "Codigo"
+          },
+          "justificativa": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Justificativa",
+            "description": "obrigatória (mín. 10 caracteres) se o código diverge do rascunho em atributo de identidade"
           }
         },
         "type": "object",
