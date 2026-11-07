@@ -30,7 +30,7 @@ O backend está em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 276 
 | 5. Decisões | Feita | estados, exceções, segundo analista, propostas ao PDM, auditoria imutável. Papéis só no modo `dev` |
 | 6. Pedidos | Feita | leitura por regras e LLM; devolução gravada, mas o e-mail vai para uma caixa de saída em arquivo |
 | 7. ERP | Feita para o conector por arquivos | envio idempotente, retorno do código, erro visível, reativação. A reimportação periódica é manual (`python -m app.cli ingerir`) |
-| 8. Integração e piloto | Em andamento | fluxo completo no frontend do time, com 75 verificações de ponta a ponta em navegador real. Falta o uso por analistas e o que está em "O que ainda não existe" |
+| 8. Integração e piloto | Em andamento | fluxo completo no frontend do time, com 73 verificações de ponta a ponta em navegador real. Falta o uso por analistas e o que está em "O que ainda não existe" |
 
 ### Resultados medidos
 
@@ -99,7 +99,7 @@ Da versão integrada vieram para o fluxo real: o banner `JÁ EXISTE`, "Aplicar a
 
 O usuário e o papel são escolhidos no topo da tela, porque a autenticação ainda é só de desenvolvimento. O menu de usuário sai quando o OIDC entrar.
 
-**Testes de ponta a ponta.** `frontend/e2e.mjs` usa um Chrome de verdade e clica como uma pessoa, sempre em um banco descartável, porque aprova itens e grava auditoria imutável. São 75 verificações, sem erro de JavaScript nem resposta 5xx, em três execuções seguidas a partir de um banco limpo. Os testes acharam quatro problemas que a suíte da API não via:
+**Testes de ponta a ponta.** `frontend/e2e.mjs` usa um Chrome de verdade e clica como uma pessoa, sempre em um banco descartável, porque aprova itens e grava auditoria imutável. São 73 verificações, sem erro de JavaScript nem resposta 5xx, em execuções repetidas a partir de um banco limpo. Os testes acharam quatro problemas que a suíte da API não via:
 
 - **A resposta saía antes do `COMMIT`.** Com o padrão atual do FastAPI, o cliente ouvia "criado" antes de o dado estar gravado, e a chamada seguinte recebia 404. A falha era intermitente. Agora `deps.Conexao` grava antes de responder, e um teste mede essa ordem.
 - **Conflito de versão falso.** Sair de um campo e clicar em Aprovar disparava as duas escritas quase juntas. As escritas de um rascunho agora vão em fila, e a tela mostra "salvando…".
