@@ -1,0 +1,71 @@
+/* Tema recuperado do redesign de rick0110 (commit 57f4726), que saiu de mockup_plataforma.html no merge aac4fbb.
+ * Fica em arquivo próprio para valer sobre o CSS da casca sem mexer nele: cores semânticas, contraste AA nos dois
+ * temas, foco visível e movimento reduzido. */
+:root{
+  --text-3:#8c8c8c; --warn:#e3a63c; --warn-bg:rgba(227,166,60,.10);
+  --brand-text:#3ecf8e; --warn-text:#e3a63c;
+  --ok:#4ad295; --ok-bg:rgba(74,210,149,.12);
+  --danger:#e87474; --danger-bg:rgba(227,96,96,.10);
+  --iainfo:#6fb3e8; --ia-bd:rgba(111,179,232,.35); --ia-bg:rgba(111,179,232,.10);
+}
+[data-theme="light"]{
+  --text-3:#707070; --err:#cf3939; --btn-primary:#158252; --btn-primary-h:#126f46;
+  --brand-text:#0f8050; --warn-text:#9d5e00;
+  --ok:#148556; --ok-bg:rgba(20,133,86,.10);
+  --danger:#c23c3c; --danger-bg:rgba(194,60,60,.08);
+  --iainfo:#2f6fc4; --ia-bd:rgba(47,111,196,.35); --ia-bg:rgba(47,111,196,.10);
+}
+.side-item.active{background:var(--brand-bg);color:var(--text);box-shadow:inset 3px 0 0 var(--brand);border-radius:0 5px 5px 0}
+
+/* ---------- semântica: status, confiança, duplicata, IA ---------- */
+.st{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--text-2);white-space:nowrap}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--text-3);flex:none}
+.st-ok::before{background:var(--ok)}
+.st-warn::before{background:var(--warn)}
+.st-danger::before{background:var(--danger)}
+.st-neutral::before{background:var(--text-3)}
+.b-ia{color:var(--iainfo);border-color:var(--ia-bd);background:rgba(111,179,232,.08)}
+
+.conf-chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;height:26px;padding:0 10px;border-radius:6px;background:var(--panel-2);border:1px solid var(--border-strong);color:var(--text);cursor:pointer;font-family:var(--sans);transition:transform .15s,background .15s,border-color .15s}
+.conf-chip:hover{transform:translateY(-1px);background:var(--hover);border-color:var(--border-hover)}
+.conf-chip .val{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+.conf-chip .pct{font-family:var(--mono);font-size:10.5px;color:var(--text-2);font-variant-numeric:tabular-nums}
+.conf-chip .meter{display:inline-flex;gap:3px;align-items:center}
+.conf-chip .meter i{width:5px;height:5px;border-radius:50%;border:1px solid var(--border-hover);background:transparent;flex:none}
+.conf-chip.c-hi .meter i{background:var(--ok);border-color:var(--ok)}
+.conf-chip.c-md .meter i:nth-child(-n+2){background:var(--warn);border-color:var(--warn)}
+.conf-chip.c-lo .meter i:first-child{border-color:var(--text-2)}
+.conf-chip.aplicado{background:var(--ok-bg);border-color:var(--ok)}
+.conf-chip.aplicado::after{content:"✓";color:var(--ok);font-weight:600}
+.conf-chip.estatico{cursor:default}
+.conf-chip.estatico:hover{transform:none;background:var(--panel-2);border-color:var(--border-strong)}
+
+#sugestoes-api{border-left:3px solid var(--iainfo);background:rgba(111,179,232,.04)}
+.sug-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sug-head b{font-size:12.5px;font-weight:600}
+.ia-badge{font-family:var(--mono);font-size:10px;color:var(--iainfo);border:1px solid var(--ia-bd);border-radius:4px;padding:0 5px;line-height:16px;white-space:nowrap}
+.sug-hint{font-size:11px;color:var(--text-3)}
+.sug-lbl{font-size:11px;color:var(--text-2);min-width:92px}
+.sug-estado{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-2);padding:8px 0 2px}
+.spin{width:12px;height:12px;border-radius:50%;border:2px solid var(--border-strong);border-top-color:var(--iainfo);animation:girar .7s linear infinite;flex:none}
+@keyframes girar{to{transform:rotate(360deg)}}
+
+.sim{display:inline-block;min-width:56px}
+.sim .pct{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+.sim .bar{height:3px;border-radius:2px;background:var(--track);margin-top:3px;overflow:hidden}
+.sim .bar i{display:block;height:100%;background:var(--text-3)}
+.tbl tr.dup-row td{background:var(--danger-bg)}
+.tbl tr.dup-row td:first-child{box-shadow:inset 3px 0 0 var(--danger)}
+.dup-note{font-family:var(--sans);font-size:10.5px;color:var(--danger);margin-top:3px;white-space:normal}
+.cand.dup{border-left:3px solid var(--danger);background:rgba(227,96,96,.05)}
+
+.delta{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums}
+.delta.up{color:var(--ok)}
+.delta.down{color:var(--danger)}
+#picked-code{font-weight:600}
+[data-theme="light"] .tbl tr:nth-child(even):not(:hover):not(.sel):not(.dup-row) td{background:rgba(0,0,0,.02)}
+[data-theme="light"] #sugestoes-api{background:rgba(47,111,196,.04)}
+
+/* foco visível e movimento reduzido */
+.inp:focus-visible,.sel:focus-visible,textarea:focus-visible,button:focus-visible,.btn:focus-visible,.conf-chip:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--ok);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}

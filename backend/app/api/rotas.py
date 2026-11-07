@@ -91,7 +91,7 @@ def decide_proposta(pid: int, corpo: E.DecisaoProposta, conn: Connection = Conex
 @router.post("/cadastros", response_model=E.CadastroView, status_code=201, tags=["cadastros"], summary="Cria um rascunho")
 def cria(corpo: E.NovoCadastro, conn: Connection = Conexao, ctx: Ctx = Depends(contexto), p: Principal = Depends(exige("analista"))):
     return S.cria(conn, ctx[0], ctx[1], p.usuario, id_pdm=corpo.id_pdm, nome=corpo.nome, texto=corpo.texto,
-                  centro=corpo.centro, pedido_id=corpo.pedido_id)
+                  centro=corpo.centro, pedido_id=corpo.pedido_id, ler=corpo.ler)
 
 
 @router.get("/cadastros", tags=["cadastros"], summary="Lista de cadastros")

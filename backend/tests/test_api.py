@@ -335,6 +335,15 @@ def test_cadastro_em_revisao_nao_e_duplicata_de_si_mesmo(cliente):
     assert "DUPLICIDADE_CADASTRO_APROVADO" in [b["codigo"] for b in w["bloqueios"]]
 
 
+def test_texto_colado_vira_rascunho_com_classe_so_proposta(cliente):
+    v = cliente.post("/api/v1/cadastros", headers=ANA, json={"texto": "parafuso sextavado m12x50 8.8", "ler": True, "centro": CENTRO}).json()
+    assert v["classe"]["id_pdm"] == "PDM001" and not v["classe"]["confirmada"]
+    assert "CLASSE_NAO_CONFIRMADA" in [b["codigo"] for b in v["bloqueios"]]
+    assert {c["atributo"]: c["valor"] for c in v["campos"]}["BITOLA"] == "M12"
+    fora = cliente.post("/api/v1/cadastros", headers=ANA, json={"texto": "cadeira giratoria", "ler": True, "centro": CENTRO}).json()
+    assert fora["classe"] is None and fora["texto_inicial"]
+
+
 def test_usar_codigo_igual_nao_pede_justificativa(cliente):
     v = cliente.post("/api/v1/cadastros", json={"id_pdm": "PDM020", "centro": CENTRO}, headers=ANA).json()
     v = cliente.patch(f"/api/v1/cadastros/{v['id']}", headers=ANA, json={"versao": v["versao"], "valores": {

@@ -43,6 +43,10 @@ button.cad-link.mono{font-weight:600;font-size:15px}
 .cad-pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;padding:10px 12px;font-size:12px}
 .tbl td.wrap{min-width:220px;max-width:460px}
 
+.conf-chip.fraco{border-style:dashed;opacity:.85}
+.cad-banner{margin-bottom:16px}
+.cad-banner.bloqueia{border-color:var(--err-bd);background:var(--err-bg)}
+.cad-banner.alerta{border-color:var(--warn-bd);background:var(--warn-bg)}
 .cad-usuario{height:26px;width:auto;font-size:12px;padding:0 6px}
 .toast.erro{border-color:var(--err)}
 .toast.erro svg{display:none}

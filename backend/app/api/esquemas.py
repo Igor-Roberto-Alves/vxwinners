@@ -252,6 +252,7 @@ class NovoCadastro(BaseModel):
     texto: str | None = Field(None, description="texto livre inicial (guardado para auditoria)")
     centro: str | None = None
     pedido_id: str | None = Field(None, description="cria o rascunho lendo este pedido")
+    ler: bool = Field(False, description="lê `texto` como um pedido: a classe entra como proposta, e uma pessoa confirma")
 
 
 class Edicao(BaseModel):

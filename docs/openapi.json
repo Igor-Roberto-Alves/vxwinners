@@ -4517,6 +4517,12 @@
             ],
             "title": "Pedido Id",
             "description": "cria o rascunho lendo este pedido"
+          },
+          "ler": {
+            "type": "boolean",
+            "title": "Ler",
+            "description": "lê `texto` como um pedido: a classe entra como proposta, e uma pessoa confirma",
+            "default": false
           }
         },
         "type": "object",

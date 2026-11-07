@@ -67,7 +67,7 @@ await usuario("ana|analista");   // o navegador lembra o último usuário
 console.log("\n== abertura");
 await ok("menu mostra a fila real de pedidos", (await texto("#n-pedidos")) !== "—", await texto("#n-pedidos"));
 await ok("status da API visível", (await texto("#api-status")).includes("API ok"), await texto("#api-status"));
-await ok("tela de demonstração avisa que os dados são fictícios", (await texto("#pill-dados")).includes("fictícios"));
+await ok("tela de demonstração avisa", (await texto("#pill-dados")).includes("demonstração"), await texto("#pill-dados"));
 
 console.log("\n== busca antes de cadastrar");
 await menu("busca");
@@ -87,9 +87,11 @@ await ok("cadastrar novo abre o rascunho", await esperaEstado("RASCUNHO"));
 console.log("\n== rascunho nascido da busca");
 await ok("o que foi lido veio junto", (await valor('[data-atr="BITOLA"]')) === "M12" && (await valor('[data-atr="COMPRIMENTO"]')) === "50MM");
 await ok("classe já confirmada pela pessoa", !(await existe("#c-confirmar")));
+await ok("banner JÁ EXISTE vem da comparação por atributos", (await texto("#dup-alert")).includes("JÁ EXISTE") || (await texto("#dup-alert")).includes("VERIFICAR"), (await texto("#dup-alert")).replace(/\n/g, " ").slice(0, 120));
 await ok("descrição gerada pelo servidor", (await texto("#desc-long")).startsWith("PARAFUSO SEXTAVADO"), await texto("#desc-long"));
 await ok("duplicidade ao vivo", await espera(`document.querySelector('#similar .cand')`));
 await ok("sugestões do modelo aparecem", await espera(`document.querySelector('#sugestoes-api .conf-chip')`), (await texto("#sugestoes-api")).replace(/\n/g, " "));
+await ok("nenhuma sugestão entra sozinha", (await valor("#f-fabricante")) === "" && (await valor("#f-ncm")) === "");
 const longaAntes = await texto("#desc-long");
 await preenche('[data-atr="ACABAMENTO"]', "");
 await ok("remover um valor recalcula a descrição", await espera(`document.querySelector('#desc-long').innerText!==${JSON.stringify(longaAntes)}`));
@@ -167,10 +169,25 @@ await preenche("#c-resposta", "Folga C3");
 await clica("#c-responder");
 await ok("resposta devolve o rascunho", await esperaEstado("RASCUNHO"));
 
-console.log("\n== usar código existente");
+console.log("\n== colar o texto do pedido");
 await clicaTexto("#cad-acoes button", "Voltar à lista");
 await menu("cadastro");
 await ok("lista os rascunhos em andamento", await espera(`document.querySelector('#cad-raiz tr[data-cadastro]')`));
+await preenche("#texto-pedido", "ROLAMENTO RIGIDO DE ESFERAS SKF 6206-2RS/C3 FURO 30MM");
+await clica("#btn-analisar");
+await ok("analisar abre o rascunho com a classe só proposta", await espera(`document.querySelector('#c-confirmar')`), await texto("#cls-atual"));
+await ok("classe proposta bloqueia a aprovação", await ev(`document.querySelector('#c-aprovar').disabled`));
+await clica("#c-confirmar");
+await ok("a pessoa confirma a classe", await espera(`!document.querySelector('#c-confirmar')`));
+await clica("#c-cancelar");
+await dialogoPreenche("teste de leitura de texto");
+await dialogoConfirma();
+await ok("cancelar encerra o rascunho", await esperaEstado("CANCELADO"));
+await clicaTexto("#cad-acoes button", "Voltar à lista");
+await menu("cadastro");
+await espera(`document.querySelector('#cad-raiz tr[data-cadastro]')`);
+
+console.log("\n== usar código existente");
 await preenche("#cad-raiz .cad-ac .inp", "rolamento rigido");
 await espera(`document.querySelector('.cad-ac-item')`);
 await clica(".cad-ac-item");
@@ -178,6 +195,8 @@ await ok("escolher a classe cria o rascunho", await esperaEstado("RASCUNHO"));
 await preenche('[data-atr="REFERENCIA"]', "SKF 6205-2RSH/C3");
 await ok("a tabela técnica completa as medidas", await espera(`document.querySelector('[data-atr="DIAMETRO EXTERNO"]').value==='52MM'`), await valor('[data-atr="DIAMETRO EXTERNO"]'));
 await ok("candidatos para a referência", await espera(`document.querySelector('#similar [data-usar]')`));
+await ok("sugestão abaixo de 60% aparece tracejada", await espera(`document.querySelector('#sugestoes-api .conf-chip.fraco')`), (await texto("#sugestoes-api")).replace(/\n/g, " ").slice(0, 120));
+await ok("o fabricante não entrou sozinho", (await valor("#f-fabricante")) === "");
 await shot("8_rolamento");
 const alvo = await ev(`(()=>{const c=[...document.querySelectorAll('#similar .cand')].find(x=>x.dataset.nivel==='DIVERGENTE'&&x.querySelector('[data-usar]'));return c?c.dataset.code:null})()`);
 if (alvo) {
@@ -244,6 +263,12 @@ await ev(`document.querySelector('.theme-btn').click()`);
 await menu("cadastros");
 await pausa(300);
 await shot("9_cadastros_outro_tema");
+
+console.log("\n== telas novas do time continuam de pé");
+for (const p of ["estoque", "base", "clusters", "aprovacoes", "requisicoes", "radar", "inicio"]) {
+  await ev(`go(${JSON.stringify(p)})`); await pausa(250);
+  await ok(`tela ${p}`, (await ev(`document.querySelector('#page-${p}').classList.contains('active')&&document.querySelector('#page-${p}').innerText.length>50`)));
+}
 
 console.log(`\n${passos - falhas} de ${passos} passaram`);
 console.log("erros de JavaScript:", erros.length ? erros.slice(0, 4) : "nenhum");

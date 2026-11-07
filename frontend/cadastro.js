@@ -32,6 +32,16 @@ const EXCECOES = {
 };
 const ORIGENS = { DIGITADO: "digitado", OPCAO: "opção escolhida", PEDIDO_REGRA: "lido do pedido", PEDIDO_LLM: "lido por IA", LLM: "lido por IA", TABELA: "tabela local" };
 
+const CORTE = 0.60;   // abaixo disto a sugestão aparece tracejada e só entra com um clique dela mesma
+const EXEMPLOS = [
+  "precisamos de retentor 75 mm 100 mm 13 mm ba nbr pra bomba da barragem",
+  "ROLAMENTO RIGIDO DE ESFERAS SKF 6206-2RS/C3 FURO 25MM",
+  "UNIAO DIAM NOMINAL 1.1/4POL, 3000#, MAT ACO CARBONO, ROSCA, ASME B16.11",
+  "Favor cadastrar porca autotravante metrica grossa m27 a2-70 aco inox 304 natural din 985",
+  "Generic | Ball valve | 1POL, 150#, A216 WCB, RF flanged, reduced bore, metal-metal, lever",
+  "FILTRO OLEO MOTOR 1R-1808 CATERPILLAR",
+  "Cadeira de escritório giratória com braço, para a sala de controle",
+];
 const S = { cad: null, pedido: null, perguntas: [], excecoes: [], opcoes: {}, abertoOpcoes: null, just: {}, historico: null, modeloChave: null };
 const B = { texto: "", id_pdm: null, nome: null, valores: {}, resp: null, picked: null, seq: 0, just: "" };
 const P = { estado: "NOVO", urgencia: "", q: "", offset: 0, limite: 25 };
@@ -164,7 +174,9 @@ function campoClasse({ placeholder, aoEscolher, aoForaDoPdm }) {
 /* Chip de sugestão, no desenho do time. */
 function chip(txt, conf, aoClicar, aplicado = false) {
   const nivel = conf == null ? "" : conf >= 0.85 ? " c-hi" : conf >= 0.6 ? " c-md" : " c-lo";
-  return h("button", { type: "button", class: `conf-chip${nivel}${aplicado ? " aplicado" : ""}${aoClicar ? "" : " estatico"}`, onclick: aoClicar || null },
+  const fraco = conf != null && conf < CORTE;
+  return h("button", { type: "button", title: fraco ? "confiança abaixo de 60%: confira antes de usar" : null,
+    class: `conf-chip${nivel}${fraco ? " fraco" : ""}${aplicado ? " aplicado" : ""}${aoClicar ? "" : " estatico"}`, onclick: aoClicar || null },
     h("span", { class: "val" }, txt), conf != null ? h("span", { class: "pct" }, pct(conf)) : null,
     conf != null ? h("span", { class: "meter", "aria-hidden": "true" }, h("i"), h("i"), h("i")) : null);
 }
@@ -210,7 +222,7 @@ const goBase = window.go;
 const AO_ENTRAR = { busca: () => $("#q").focus(), cadastro: () => renderCadastro(), pedidos: () => carregaPedidos(), cadastros: () => carregaCadastros(), revisao: () => carregaRevisao() };
 function marcaDados(p) {
   const pill = $("#pill-dados"); const real = PAGINAS_REAIS.has(p);
-  pill.textContent = real ? "dados reais" : "dados fictícios";
+  pill.textContent = real ? "dados reais" : "demonstração";
   pill.title = real ? "Esta tela grava no banco de desenvolvimento" : "Tela de demonstração: ainda não ligada à API";
   pill.classList.toggle("green", real);
 }
@@ -291,7 +303,7 @@ function pintaBusca() {
   $("#b-n").textContent = `${lista.length} candidato${lista.length === 1 ? "" : "s"}`;
   if (!lista.length) cands.append(h("div", { class: "cad-vazio" }, "Nenhum item da base coincide com o que foi lido."));
   for (const c of lista) {
-    cands.append(cartaoCandidato(c, { escolhido: B.picked && B.picked.codigo === c.codigo, aoEscolher: () => { B.picked = c; B.just = ""; pintaBusca(); } }));
+    cands.append(cartaoCandidato(c, { escolhido: B.picked && B.picked.codigo === c.codigo, aoEscolher: () => { B.picked = c; B.just = ""; pintaBusca(); $("#b-decisao").scrollIntoView({ behavior: "smooth", block: "center" }); } }));
   }
   if (r.duplicidade && classe) {
     const iguais = lista.filter(c => c.nivel === "IGUAL").length, d = r.duplicidade;
@@ -423,6 +435,13 @@ function releTexto(texto, aoTerminar) {
     return r;
   });
 }
+async function analisarPedido(texto) {
+  if (!texto) { avisa("Informe o texto do pedido."); return; }
+  const b = $("#btn-analisar"); if (b) { b.disabled = true; b.textContent = "Analisando…"; }
+  const v = await tenta(() => api("POST", "/cadastros", { texto, ler: true, centro: lerCentro() }));
+  if (b) { b.disabled = false; b.textContent = "Analisar e sugerir cadastro"; }
+  if (v) { avisa(v.classe ? "Li o pedido. Confira a classe proposta." : "Não reconheci a classe: escolha, proponha uma nova ou recuse."); await define(v); window.go("cadastro"); atualizaContagens(); }
+}
 const comecaRascunho = async (i, q) => {
   const v = await tenta(async () => {
     const novo = await api("POST", "/cadastros", { id_pdm: i.id_pdm, nome: i.nome, texto: q, centro: lerCentro() });
@@ -464,7 +483,7 @@ function renderCadastro() {
   renderAcoes(v);
   const edit = editavelAgora(v);
   limpa(raiz).append(passos(v), h("div", { class: "grid g-main" },
-    h("div", {}, cartaoEstado(v), cartaoOrigem(v, edit), cartaoClasse(v, edit), v.classe ? cartaoFiscal(v, edit) : null),
+    h("div", {}, cartaoEstado(v), edit ? bannerDuplicidade(v) : null, cartaoOrigem(v, edit), cartaoSugestoes(v, edit), cartaoClasse(v, edit), v.classe ? cartaoFiscal(v, edit) : null),
     h("div", {}, cartaoDescricao(v), cartaoValidacao(v, edit), cartaoParecidos(v, edit), cartaoHistorico(v))));
   if (edit && v.classe) pintaModelo(v);
   if (S.abertoOpcoes) pintaOpcoes(S.abertoOpcoes);
@@ -482,8 +501,15 @@ async function renderInicioCadastro(raiz) {
   $("#cad-sub").textContent = "Digite o material, confirme a classe do PDM e preencha com sugestões do que já está cadastrado. A decisão final é sua.";
   limpa($("#cad-acoes"));
   const lista = h("div", { class: "cad-vazio" }, "carregando…");
+  const ta = h("textarea", { class: "inp mono", id: "texto-pedido", rows: 3, spellcheck: "false", placeholder: "ex.: precisamos de retentor 60 mm 80 mm 15 mm ba nbr freudenberg pra bomba da barragem" });
   limpa(raiz).append(h("div", { class: "card", style: "margin-bottom:16px" },
-    h("div", { class: "card-h" }, h("h3", {}, "O que você quer cadastrar?"), h("span", { class: "sub" }, "abreviado, no plural ou em inglês de catálogo")),
+    h("div", { class: "card-h" }, h("h3", {}, "Origem do pedido"), h("span", { class: "sub" }, "o texto livre que chegou do solicitante")),
+    h("div", { class: "card-b" }, h("label", { class: "lbl", for: "texto-pedido" }, "Texto original ", h("span", { class: "hint" }, "cole o pedido como ele chegou: portal, e-mail ou ficha técnica")), ta,
+      h("div", { style: "display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap" },
+        h("button", { class: "btn primary", id: "btn-analisar", onclick: () => analisarPedido(ta.value.trim()) }, "Analisar e sugerir cadastro"),
+        h("button", { class: "btn sm ghost", onclick: () => { S.exemplo = ((S.exemplo ?? -1) + 1) % EXEMPLOS.length; ta.value = EXEMPLOS[S.exemplo]; ta.focus(); } }, "Usar outro exemplo")))),
+  h("div", { class: "card", style: "margin-bottom:16px" },
+    h("div", { class: "card-h" }, h("h3", {}, "Ou escolha a classe"), h("span", { class: "sub" }, "abreviado, no plural ou em inglês de catálogo")),
     h("div", { class: "card-b" }, campoClasse({ placeholder: "ex.: parafuso sextavado m12x50 8.8, valv esf, ball valve…", aoEscolher: comecaRascunho, aoForaDoPdm: rascunhoSemClasse }),
       h("div", { class: "faint", style: "font-size:12px;margin-top:8px" }, "Ainda não sabe se o item existe? ", h("button", { class: "cad-link", type: "button", onclick: () => window.go("busca") }, "Busque antes de cadastrar"), "."))),
   h("div", { class: "card" }, h("div", { class: "card-h" }, h("h3", {}, "Rascunhos em andamento")), h("div", { class: "card-b", style: "padding:0" }, lista)));
@@ -713,33 +739,70 @@ function cartaoFiscal(v, edit) {
       val ? h("div", { class: `callout ${val.ok ? "ok" : "warn"}`, id: "f-ncm-nota", style: "grid-column:1/-1;font-size:12.5px" },
         h("div", {}, val.ok ? `NCM ${f.ncm.usado} vigente na tabela oficial${val.descricao ? ": " + val.descricao : ""}` :
           `NCM ${f.ncm.usado}: ${val.motivo}${val.sucessores.length ? ". Vigentes próximos: " + val.sucessores.join(", ") : ""}`)) : null),
-    edit ? h("div", { id: "sugestoes-api", style: "display:none;padding:12px 16px;border-top:1px solid var(--border)" }) : null);
+    null);
+}
+/* Quem decide "já existe" é a comparação por atributos, não a semelhança de texto:
+ * nos 15 produtos reais da base, comparar texto não achou nenhum dos duplicados. */
+function bannerDuplicidade(v) {
+  const lista = v.duplicidade ? v.duplicidade.candidatos : [];
+  const c = lista.find(x => x.nivel === "IGUAL") || lista.find(x => x.nivel === "PROVAVEL");
+  if (!c) return null;
+  const igual = c.nivel === "IGUAL", naBase = c.origem === "base";
+  const titulo = !naBase ? "Já existe outro cadastro em andamento com a mesma identidade" : igual ? `Este item já está cadastrado: use ${c.codigo}` : "Existe item provavelmente igual na base; confirme antes de criar código novo";
+  return h("div", { class: `card cad-banner ${igual ? "bloqueia" : "alerta"}`, id: "dup-alert", "data-nivel": c.nivel },
+    h("div", { class: "card-b", style: "display:flex;gap:12px;align-items:flex-start" },
+      h("span", { class: `badge ${igual ? "b-err" : "b-warn"}` }, igual ? "JÁ EXISTE" : "VERIFICAR"),
+      h("div", { style: "flex:1;min-width:0" }, h("div", { style: "font-weight:500;margin-bottom:4px" }, titulo),
+        naBase ? h("div", { class: "mono faint", style: "font-size:11.5px" }, `${c.codigo} · ${c.status || "—"} · ${trunca(c.descricao, 88)}`) : null),
+      naBase ? acoesCandidato(c, `Usar ${c.codigo}`) : null));
+}
+function cartaoSugestoes(v, edit) {
+  if (!edit || !v.classe) return null;
+  return h("div", { class: "card", id: "card-sug", style: "margin-bottom:16px" },
+    h("div", { class: "card-h" }, h("h3", {}, "Sugestões do serviço"), h("span", { class: "sub" }, "só entram com o seu clique"),
+      h("div", { class: "r" }, h("button", { class: "btn sm", id: "c-aplicar", disabled: true }, "Aplicar aos campos"))),
+    h("div", { class: "card-b", id: "sugestoes-api", style: "padding-top:8px;padding-bottom:8px" }));
 }
 async function pintaModelo(v) {
   const box = $("#sugestoes-api"); if (!box) return;
   const chave = `${v.id}|${v.descricao.longa || ""}|${v.texto_inicial || ""}`;
   if (S.modeloChave !== chave || !S.modelo) {
     S.modeloChave = chave; S.modelo = null;
-    box.style.display = ""; limpa(box).append(cabecalhoModelo(), h("div", { class: "sug-estado" }, h("span", { class: "spin", "aria-hidden": "true" }), "analisando descrição…"));
+    limpa(box).append(h("div", { class: "sug-estado" }, h("span", { class: "spin", "aria-hidden": "true" }), "analisando descrição…"));
     const r = await tenta(() => api("GET", `/cadastros/${v.id}/sugestoes-modelo`));
     if (!r || S.modeloChave !== chave) return;
     S.modelo = r;
   }
   const alvo = $("#sugestoes-api"); if (!alvo) return;
-  const r = S.modelo; limpa(alvo).append(cabecalhoModelo());
+  const r = S.modelo; limpa(alvo);
   if (r.estado !== "ok") { alvo.append(h("div", { class: "sug-estado" }, r.estado === "indisponivel" ? "Modelos indisponíveis agora; o cadastro segue sem eles." : "Sem texto suficiente para sugerir.")); return; }
   const atual = S.cad, porRef = atual.classe.criterio_identidade === "REFERENCIA";
   const valorRef = a => (atual.campos.find(c => c.atributo === a) || {}).valor;
   const fabAtual = porRef ? valorRef("FABRICANTE") : atual.fabricante, refAtual = porRef ? valorRef("REFERENCIA FABRICANTE") : atual.referencia_fabricante;
   const linha = (rotulo, chips) => { if (chips.length) alvo.append(h("div", { style: "display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px" }, h("span", { class: "sug-lbl" }, rotulo), chips)); };
   const relevante = s => s && (s.conf == null || +s.conf >= 0.05);
-  linha("NCM", (r.ncm || []).filter(relevante).slice(0, 3).map(s => chip(s.valor_formatado || s.valor, s.conf, () => edita({ campos: { ncm: s.valor_formatado || s.valor } }), (s.valor_formatado || s.valor) === atual.fiscal.ncm.usado)));
-  linha("Fabricante", ((r.fabricante || {}).sugestoes || []).filter(relevante).slice(0, 3).map(s => chip(s.valor, s.conf,
-    () => edita(porRef ? { valores: { FABRICANTE: { valor: s.valor, origem: "OPCAO" } } } : { campos: { fabricante: s.valor } }), s.valor === fabAtual)));
-  if (r.referencia && r.referencia.valor) linha("Referência", [chip(r.referencia.valor, r.referencia.conf,
-    () => edita(porRef ? { valores: { "REFERENCIA FABRICANTE": { valor: r.referencia.valor, origem: "OPCAO" } } } : { campos: { referencia_fabricante: r.referencia.valor } }), r.referencia.valor === refAtual)]);
+  const ncms = (r.ncm || []).filter(relevante).slice(0, 3), fabs = ((r.fabricante || {}).sugestoes || []).filter(relevante).slice(0, 3), ref = r.referencia || {};
+  const usaFab = s => porRef ? { valores: { FABRICANTE: { valor: s.valor, origem: "OPCAO" } } } : { campos: { fabricante: s.valor } };
+  const usaRef = () => porRef ? { valores: { "REFERENCIA FABRICANTE": { valor: ref.valor, origem: "OPCAO" } } } : { campos: { referencia_fabricante: ref.valor } };
+  linha("NCM", ncms.map(s => chip(s.valor_formatado || s.valor, s.conf, () => edita({ campos: { ncm: s.valor_formatado || s.valor } }), (s.valor_formatado || s.valor) === atual.fiscal.ncm.usado)));
+  linha("Fabricante", fabs.map(s => chip(s.valor, s.conf, () => edita(usaFab(s)), s.valor === fabAtual)));
+  if (ref.valor) linha("Referência", [chip(ref.valor, ref.conf, () => edita(usaRef()), ref.valor === refAtual)]);
+  if (!alvo.children.length) alvo.append(h("div", { class: "sug-estado" }, "Sem sugestões para este item."));
+
+  // "Aplicar aos campos": só o que passa do corte e não pisa em valor já informado. O NCM da regra do PDM continua sendo a referência.
+  const corpo = { valores: {}, campos: {} }, junta = p => { Object.assign(corpo.valores, p.valores || {}); Object.assign(corpo.campos, p.campos || {}); };
+  const n0 = ncms[0], f0 = fabs[0];
+  if (n0 && +n0.conf >= CORTE && !atual.fiscal.ncm.esperado) corpo.campos.ncm = n0.valor_formatado || n0.valor;
+  if (f0 && +f0.conf >= CORTE && !fabAtual) junta(usaFab(f0));
+  if (ref.valor && +ref.conf >= CORTE && !refAtual) junta(usaRef());
+  const qtde = Object.keys(corpo.valores).length + Object.keys(corpo.campos).length, botao = $("#c-aplicar");
+  if (botao) {
+    botao.disabled = !qtde;
+    botao.title = qtde ? "" : "Nada acima de 60% para aplicar";
+    botao.onclick = () => edita({ ...(Object.keys(corpo.valores).length ? { valores: corpo.valores } : {}), ...(Object.keys(corpo.campos).length ? { campos: corpo.campos } : {}) });
+  }
+  if (ncms.concat(fabs).some(s => +s.conf < CORTE) || (ref.valor && +ref.conf < CORTE)) alvo.append(h("div", { class: "cad-nota" }, "Tracejado: confiança abaixo de 60%. Só entra se você clicar."));
 }
-const cabecalhoModelo = () => h("div", { class: "sug-head" }, h("b", {}, "Sugestões automáticas"), h("span", { class: "ia-badge" }, "motor de sugestões"), h("span", { class: "sug-hint" }, "nada é aplicado sem o seu clique"));
 
 function cartaoDescricao(v) {
   const copia = async () => { try { await navigator.clipboard.writeText(v.descricao.longa || ""); avisa("Descrição copiada."); } catch (e) { avisa("O navegador bloqueou a cópia."); } };
@@ -777,14 +840,14 @@ function cartaoParecidos(v, edit) {
   if (!dup) corpo.push(h("div", { class: "cad-vazio" }, v.estado === "RASCUNHO" ? "Aparece depois que a classe é escolhida." : "Verificação encerrada com a decisão."));
   else {
     if (!dup.candidatos.length) corpo.push(h("div", { class: "cad-vazio" }, "Nenhum item existente coincide com o que já foi preenchido."));
-    for (const c of dup.candidatos) corpo.push(cartaoCandidato(c, { acoes: edit && c.origem === "base" ? acoesCandidato(c) : null }));
+    for (const c of dup.candidatos) corpo.push(cartaoCandidato(c, { acoes: edit && c.origem === "base" ? h("div", { style: "margin-top:8px" }, acoesCandidato(c)) : null }));
     corpo.push(h("div", { class: "faint", style: "font-size:11.5px;line-height:1.5" }, `Comparado por atributos: ${numero(dup.comparaveis)} de ${numero(dup.total_classe)} itens desta classe.`,
       dup.comparaveis < dup.total_classe ? " Os demais só têm texto livre: isto não garante que o item não exista." : ""));
   }
   return h("div", { class: "card", style: "margin-bottom:16px" }, h("div", { class: "card-h" }, h("h3", {}, "Itens parecidos na base"), h("span", { class: "sub" }, "checagem de duplicidade")), h("div", { class: "card-b", id: "similar" }, corpo));
 }
-function acoesCandidato(c) {
-  const box = h("div", { style: "margin-top:8px;display:flex;gap:8px" });
+function acoesCandidato(c, rotulo = "Usar este código") {
+  const box = h("div", { style: "display:flex;gap:8px;flex:none" });
   const diverge = c.comparacao.some(x => x.estado === "diverge" && !x.opcional);
   if (c.permite_uso_direto) {
     box.append(h("button", { class: `btn sm${c.nivel === "IGUAL" ? " primary" : ""}`, "data-usar": c.codigo, onclick: async e => {
@@ -796,7 +859,7 @@ function acoesCandidato(c) {
         justificativa = d.j;
       }
       decisao("usar-existente", { codigo: c.codigo, justificativa }, `Registrado: usar o código ${c.codigo}.`);
-    } }, "Usar este código"));
+    } }, rotulo));
   } else {
     box.append(h("button", { class: "btn sm", "data-reativar": c.codigo, onclick: async e => {
       e.stopPropagation();

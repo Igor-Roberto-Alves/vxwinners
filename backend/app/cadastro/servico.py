@@ -315,7 +315,7 @@ def _insere(conn: Connection, cad: dict) -> str:
 
 
 def cria(conn: Connection, pdm: Pdm, indice: IndiceClasses, autor: str, *, id_pdm: str | None = None, nome: str | None = None,
-         texto: str | None = None, centro: str | None = None, pedido_id: str | None = None) -> dict:
+         texto: str | None = None, centro: str | None = None, pedido_id: str | None = None, ler: bool = False) -> dict:
     """Cria um rascunho: vazio, a partir de uma classe escolhida, ou a partir de um pedido."""
     cad = _vazio(autor)
     cad["pdm_versao_id"], cad["centro"], cad["texto_inicial"] = pdm.versao_id, centro, texto
@@ -339,6 +339,10 @@ def cria(conn: Connection, pdm: Pdm, indice: IndiceClasses, autor: str, *, id_pd
         cad["id_pdm"] = id_pdm
         cad["nome"] = _nome_valido(classe, nome)
         cad["classe_confirmada"] = True  # a própria pessoa escolheu
+    elif ler and texto:
+        ex, preparado, campos = le_pedido(pdm, indice, texto)
+        cad["texto_inicial"] = preparado
+        _aplica_leitura(pdm, cad, ex, campos)
     _regrava_derivados(pdm, cad)
     cid = _insere(conn, cad)
     auditoria.registra(conn, autor, "cadastro", cid, "criou", None, {"pedido_id": pedido_id, "id_pdm": cad["id_pdm"], "nome": cad["nome"]})

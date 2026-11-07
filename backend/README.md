@@ -30,7 +30,7 @@ python -m app.cli importar-preenchimento      # carrega preenchimento/saida como
 
 uvicorn app.main:app --reload                 # aplicação: http://localhost:8000/
                                               # API: http://localhost:8000/docs
-python -m pytest                              # 275 testes
+python -m pytest                              # 276 testes
 ```
 
 Sem `DATABASE_URL`, o desenvolvimento sobe um PostgreSQL embutido em `backend/.pgdata` (pacote `pgserver`).
@@ -47,7 +47,7 @@ inteiro falhar (por exemplo, credencial expirada). Teste antes com `--amostra --
 ## Frontend
 
 `http://localhost:8000/` serve o frontend do time. Busca, cadastro, pedidos, cadastros e revisão usam a API e a base real;
-Início, Radar e Requisições são demonstração, e a etiqueta no topo diz qual é o caso. O usuário e o papel são escolhidos no
+as demais telas são demonstração, e a etiqueta no topo diz qual é o caso. O usuário e o papel são escolhidos no
 topo enquanto não houver OIDC: troque para `bia · revisora` para decidir exceções. `/mockup` redireciona para a raiz.
 
 O teste de ponta a ponta usa um Chrome de verdade. **Ele aprova itens e grava auditoria imutável: rode só com um banco
