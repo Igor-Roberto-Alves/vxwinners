@@ -27,9 +27,9 @@ execuções partem do mesmo `aprendizado.json`, sobre os 23.554 registros.
 
 | Indicador | Antes | Depois | Δ |
 |---|---|---|---|
-| SANEADO | 9.493 (40,3%) | **14.451 (61,4%)** | **+4.958** |
+| SANEADO | 9.493 (40,3%) | **14.481 (61,5%)** | **+4.988** |
 | PENDENTE | 9.008 | 8.201 | −807 |
-| REVISAO_HUMANA | 5.016 (21,3%) | **865 (3,7%)** | **−4.151** |
+| REVISAO_HUMANA | 5.016 (21,3%) | **820 (3,5%)** | **−4.196** |
 | Registros que o árbitro escalaria ao LLM | 6.430 | 2.372 | −4.058 |
 | Chaves fechadas | 16.215 | 16.358 | +143 |
 | Códigos redundantes | 1.766 | **2.520** | **+754** |
@@ -43,9 +43,10 @@ eram de REFERÊNCIA FABRICANTE, todos causados pelo vazamento da descrição cur
 existia. O commit da camada 0 (`106cd19`) tinha levado a revisão a 21% da base
 por essa razão.
 
-**Ressalva:** esta tabela é da execução anterior à última correção (2.13). A
-2.13 afeta no máximo uns 60 registros, os 53 conflitos de part number em que o
-BERT recortava o rótulo junto. Uma execução de confirmação foi disparada.
+A tabela usa a execução de confirmação, que inclui a correção 2.13. As linhas
+de PENDENTE, escalada, INVÁLIDO e CONFLITO são da execução imediatamente
+anterior; a 2.13 mudou só cerca de 60 registros (SANEADO completo 14.451 →
+14.481, revisão 865 → 820).
 
 Os conflitos que sobram (760) são, na maioria, divergências reais entre medidas
 (DIAMETRO INTERNO, ALOJAMENTO, REDUZIDO), que é o que a revisão humana deve
@@ -73,29 +74,29 @@ cheio e chave de identidade fechada. `SANEADO` + `COMPLETO` é exatamente o
 
 | | Só regras | **Regras + BERT** |
 |---|---|---|
-| **SANEADO** | **23.248 (98,7%)** | **21.973 (93,3%)** |
-| ↳ saneado e completo | 14.177 (60,2%) | **14.451 (61,4%)** |
-| ↳ saneado e incompleto | 9.071 (38,5%) | 7.522 (31,9%) |
-| PENDENTE (valor não reconhecido) | 0 | 679 (2,9%) |
-| REVISAO_HUMANA | 269 (1,1%) | 865 (3,7%) |
+| **SANEADO** | **23.248 (98,7%)** | **22.038 (93,6%)** |
+| ↳ saneado e completo | 14.177 (60,2%) | **14.481 (61,5%)** |
+| ↳ saneado e incompleto | 9.071 (38,5%) | 7.557 (32,1%) |
+| PENDENTE (valor não reconhecido) | 0 | 659 (2,8%) |
+| REVISAO_HUMANA | 269 (1,1%) | 820 (3,5%) |
 | FORA_DO_PDM | 37 (0,2%) | 37 (0,2%) |
 | Chaves fechadas | 15.467 | 16.358 |
 | Códigos redundantes | 2.306 | 2.520 |
 | Tempo | 34 s | 12 min |
 
-**Por que o SANEADO cai com o BERT** (98,7% para 93,3%) enquanto o completo sobe:
-o BERT **preenche** mais (+274 saneados completos, +891 chaves, +214
+**Por que o SANEADO cai com o BERT** (98,7% para 93,6%) enquanto o completo sobe:
+o BERT **preenche** mais (+304 saneados completos, +891 chaves, +214
 redundantes), mas também **duvida** mais. Ele aponta conflitos com a regra
-(+596 em revisão) e recorta valores que o PDM não reconhece em caixas
-obrigatórias (+679 pendentes). Só com regras não existe a segunda opinião, e
+(+551 em revisão) e recorta valores que o PDM não reconhece em caixas
+obrigatórias (+659 pendentes). Só com regras não existe a segunda opinião, e
 por isso nada fica em dúvida. Isso não quer dizer que esteja tudo certo: lida
 uma amostra dos conflitos, o BERT estava certo em cerca de 1/3 deles (o-ring
 com `DIAMETRO: 30MM` lido pela regra como 1,5MM, arruela, faixa de manômetro).
 O número a apresentar é o **com BERT**.
 
 Estes números foram recalculados das decisões gravadas nas execuções finais,
-com a mesma regra de estado do código. A execução com BERT é anterior à
-correção 2.13, que muda no máximo uns 60 registros.
+com a mesma regra de estado do código. A coluna com BERT é a execução de
+confirmação, já com todas as correções deste documento.
 
 ### O cuidado que este número exige
 
@@ -108,7 +109,7 @@ casos:
 - **ausente de verdade:** correto contar como saneado;
 - **perdido pela extração:** erro do pipeline, que infla o número.
 
-Antes de apresentar o 93,3%, é preciso medir a proporção. Uma amostra de ~100
+Antes de apresentar o 93,6%, é preciso medir a proporção. Uma amostra de ~100
 registros "saneados e incompletos", estratificada por classe, conferida a mão
 ("o dado que falta aparece no texto?"), dá algo como "em X% dos incompletos o
 dado não está no texto, IC 95% ±Y". Sem essa medida, o número é o pipeline
