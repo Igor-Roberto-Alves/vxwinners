@@ -527,31 +527,19 @@ input[type=range]{accent-color:var(--brand);width:100%}
 
       <section id="m-busca">
         <h2>Buscar material</h2>
-        <h3>Como descrever o item</h3>
-        <ul>
-          <li><b>Texto:</b> escreva como falaria, ex.: <code>rolamento 6206 vedado 2 lados folga c3</code>. Abreviações e unidades são entendidas.</li>
-          <li><b>Atributos:</b> ajuste os campos da classe para refinar a comparação com a base.</li>
-        </ul>
-        <h3>Como ler os resultados</h3>
-        <ul>
-          <li>O <b>nível</b> diz o que a comparação concluiu: mesmo item, provável duplicata, quase igual ou só texto parecido. O percentual mostra quanto dos atributos coincide.</li>
-          <li>Etiquetas verdes = atributo igual; vermelhas = <b>divergente</b>; amarelas = <b>ausente</b> no item da base.</li>
-          <li>Um atributo de identidade divergente indica outro item: ele pode servir, mas a escolha exige justificativa.</li>
-        </ul>
-        <h3>Decidir</h3>
-        <p><b>Usar este código</b> registra a decisão pelo código existente. Se houver divergência, a justificativa é obrigatória. Código bloqueado ou obsoleto só volta com reativação aprovada. <b>Nenhum serve</b> leva à tela de cadastro com o que já foi preenchido.</p>
+        <p>Na coluna da esquerda, digite o material como quiser: abreviado, no plural ou em inglês de catálogo, como <code>paraf sext</code>, <code>valv esf</code> ou <code>ball valve</code>. O sistema sugere as classes do PDM. Clique na certa para abrir o rascunho.</p>
+        <p>Na aba <b>Pedidos</b> ficam os pedidos novos. Ao abrir um, o sistema lê o texto e o anexo, propõe a classe e preenche o que conseguir. A classe proposta precisa da sua confirmação.</p>
       </section>
 
       <section id="m-cadastro">
         <h2>Cadastrar item</h2>
         <ol>
-          <li><b>Origem:</b> ao assumir um pedido em <b>Pedidos de cadastro</b>, o texto e o anexo originais ficam visíveis para conferência.</li>
-          <li><b>Classe PDM:</b> define quais atributos são pedidos e em que ordem. A classe sempre é confirmada por uma pessoa. Campos marcados são obrigatórios.</li>
-          <li><b>Atributos:</b> clique no campo para ver as opções mais usadas no histórico. Nada entra preenchido por frequência, e cada valor mostra sua origem. Milímetros como <code>16,25MM</code>, polegadas como <code>1.1/4POL</code>, pressão em BAR.</li>
-          <li><b>Dados fiscais e logísticos:</b> grupo, unidade e NCM vêm da classe. O NCM é conferido na tabela oficial vigente; alterá-lo vira exceção.</li>
-          <li><b>Aprovar:</b> só fica disponível sem pendências. O que contraria o PDM vira exceção, com justificativa, e o botão passa a <b>Enviar para revisão</b>: uma segunda pessoa decide em <b>Revisão de exceções</b>.</li>
+          <li><b>Atributos:</b> clique num campo para ver as opções mais usadas no histórico. Nada entra preenchido por frequência, e cada valor mostra sua origem. Milímetros como <code>16,25MM</code>, polegadas como <code>1.1/4POL</code>, pressão em BAR.</li>
+          <li><b>Texto livre:</b> escreva <code>M12X50 galvanizado 8.8</code> e tecle Enter para preencher o que estiver vazio.</li>
+          <li><b>Dados fiscais:</b> unidade e NCM vêm da classe. O NCM é conferido na tabela oficial vigente; alterá-lo vira exceção.</li>
+          <li><b>Coluna da direita:</b> mostra a descrição gerada, os itens parecidos, o que falta para aprovar e a decisão. Ela muda a cada atributo preenchido.</li>
         </ol>
-        <p>O quadro <b>Validação</b> lista o que falta. <b>Devolver ao solicitante</b> envia a pergunta, e a resposta é registrada no próprio cadastro. <b>Itens parecidos na base</b> muda a cada atributo preenchido. Alterações são salvas automaticamente.</p>
+        <p><b>Usar este código</b> encerra o cadastro com o item existente. Código bloqueado ou obsoleto só volta com <b>Pedir reativação</b>. O que contraria o PDM vira exceção, com justificativa, e pode exigir um segundo analista: troque o usuário no topo para <code>bia · revisora</code> para decidir.</p>
       </section>
 
       <section id="m-req">
@@ -861,88 +849,10 @@ input[type=range]{accent-color:var(--brand);width:100%}
   </div>
 </section>
 
-<!-- ================================================================ BUSCA -->
-<section class="page" id="page-busca">
-  <div class="page-head">
-    <div>
-      <h1>Buscar material</h1>
-      <p>Descreva o item como falaria. Antes de pedir um código novo, confirme se ele já existe na base.</p>
-    </div>
-  </div>
-
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-b">
-      <div class="searchbox">
-        <svg style="margin-left:12px;align-self:center;color:var(--text-3)" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="q" placeholder="ex.: rolamento 6206 vedado 2 lados folga c3" autocomplete="off" aria-label="Descreva o material">
-        <div class="seg" id="b-limpar" role="button" tabindex="0">Limpar</div>
-        <div class="seg" id="b-buscar" role="button" tabindex="0" style="background:var(--panel-2);color:var(--text)">Buscar</div>
-      </div>
-      <div id="b-leitura" style="margin-top:14px"></div>
-    </div>
-  </div>
-
-  <div class="grid g-main">
-    <div>
-      <div id="b-refino"></div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-        <h3 style="font-size:14px;font-weight:500">Itens existentes sugeridos</h3>
-        <span class="badge b-gray" id="b-n">0 candidatos</span>
-        <div style="margin-left:auto" class="legend">
-          <span><i style="background:var(--brand)"></i>igual</span><span><i style="background:var(--err)"></i>diverge</span><span><i style="background:var(--warn)"></i>ausente</span>
-        </div>
-      </div>
-      <div id="cands"></div>
-      <div id="b-nota"></div>
-    </div>
-    <div>
-      <div class="card" style="position:sticky;top:0">
-        <div class="card-h"><h3>Decisão</h3><span class="sub">a palavra final é sua</span></div>
-        <div class="card-b">
-          <div id="b-decisao"></div>
-          <div class="divider"></div>
-          <div class="faint" style="font-size:11.5px;line-height:1.6">
-            <b style="font-weight:500">Como ler os níveis.</b> Mesmo item: todos os atributos de identidade coincidem. Provável duplicata: nada diverge, mas o item da base tem campos vazios. Quase igual: um atributo de identidade difere, então é outro item. Texto parecido: só uma pista, não prova nada.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ================================================================ CADASTRO -->
+<!-- O painel de cadastro, inteiro: busca, pedidos, formulário, duplicidade e decisão (backend/app/painel/index.html). -->
 <section class="page" id="page-cadastro">
-  <div class="page-head">
-    <div>
-      <h1 id="cad-titulo">Cadastrar novo item</h1>
-      <p id="cad-sub"></p>
-    </div>
-    <div class="actions" id="cad-acoes"></div>
-  </div>
-  <div id="cad-raiz"></div>
-</section>
-
-<!-- ================================================================ PEDIDOS -->
-<section class="page" id="page-pedidos">
-  <div class="page-head">
-    <div>
-      <h1>Pedidos de cadastro</h1>
-      <p>Assuma um pedido: o sistema lê o texto e o anexo, propõe a classe e preenche o que conseguir. Você confere e decide.</p>
-    </div>
-  </div>
-  <div class="grid" id="ped-kpis" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px"></div>
-  <div class="card">
-    <div class="card-h">
-      <h3>Fila</h3><span class="badge b-gray" id="ped-total">—</span>
-      <div class="r cad-filtros">
-        <input class="inp" id="ped-q" placeholder="filtrar por texto ou solicitação" aria-label="Filtrar pedidos">
-        <select class="sel" id="ped-urg" aria-label="Urgência"><option value="">Todas as urgências</option><option>EMERGENCIAL</option><option>ALTA</option><option>NORMAL</option></select>
-        <select class="sel" id="ped-estado" aria-label="Estado"><option value="NOVO">Novos</option><option value="EM_ANDAMENTO">Em andamento</option><option value="DEVOLVIDO">Devolvidos</option><option value="">Todos</option></select>
-      </div>
-    </div>
-    <div style="overflow:auto" id="ped-tabela"></div>
-    <div class="cad-pager" id="ped-pager"></div>
-  </div>
+  <iframe id="painel" src="/painel?embutido=1" title="Cadastro de materiais"></iframe>
 </section>
 
 <!-- ================================================================ CADASTROS -->

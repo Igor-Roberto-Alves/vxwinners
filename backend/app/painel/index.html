@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Painel de Cadastro</title>
+<script>if (new URLSearchParams(location.search).has("embutido")) document.documentElement.dataset.embutido = "1";</script>
 <style>
   :root {
     --bg: #f4f5f7; --card: #ffffff; --texto: #1c2430; --suave: #5b6675; --linha: #dfe3e9; --marca: #0f6b6b;
@@ -78,13 +79,32 @@
   .texto-pedido { white-space: pre-wrap; font-size: 13px; background: var(--bg); border-radius: 8px; padding: 8px 10px; max-height: 170px; overflow: auto; }
   .toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--texto); color: var(--bg); padding: 8px 14px; border-radius: 8px; z-index: 9; max-width: 90vw; }
   details summary { cursor: pointer; color: var(--suave); font-size: 12px; }
+
+  /* dentro do frontend do time: mesmo painel, com a moldura e as cores de lá */
+  :root[data-embutido] {
+    --bg: #fcfcfc; --card: #ffffff; --texto: #171717; --suave: #525252; --linha: #e6e6e6; --marca: #158252; --marca-fraca: rgba(62,207,142,.12);
+    --ok: #148556; --ok-fraco: rgba(20,133,86,.10); --erro: #cf3939; --erro-fraco: rgba(240,106,106,.10); --aviso: #9d5e00; --aviso-fraco: rgba(245,165,36,.12);
+    --info: #2f6fc4; --info-fraco: rgba(106,166,240,.12); --campo: #f8f8f8;
+  }
+  :root[data-embutido][data-tema="escuro"] {
+    --bg: #1c1c1c; --card: #232323; --texto: #ededed; --suave: #a0a0a0; --linha: #333333; --marca: #3ecf8e; --marca-fraca: rgba(62,207,142,.10);
+    --ok: #4ad295; --ok-fraco: rgba(74,210,149,.12); --erro: #e87474; --erro-fraco: rgba(227,96,96,.10); --aviso: #e3a63c; --aviso-fraco: rgba(227,166,60,.10);
+    --info: #6aa6f0; --info-fraco: rgba(106,166,240,.10); --campo: #171717;
+  }
+  :root[data-embutido][data-tema="escuro"] button.principal { color: #0b2318; }
+  [data-embutido] header { display: none; }
+  [data-embutido] body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 13px; }
+  @media (min-width: 980px) { [data-embutido] main { grid-template-columns: 285px minmax(0, 1fr) 340px; } [data-embutido] #col-dir { grid-column: auto; } }
+  [data-embutido] .abas button, [data-embutido] .item b { white-space: nowrap; }
+  [data-embutido] #lista-pedidos .linha { flex-wrap: wrap; }
+  [data-embutido] #lateral .pill { white-space: normal; }
 </style>
 </head>
 <body>
 <header>
   <h1>Cadastro de materiais</h1>
-  <span class="aviso-dev">painel de desenvolvimento · não é o frontend do produto</span>
-  <a class="peq" href="/mockup" target="_blank" style="color:var(--marca)">abrir o mockup do time</a>
+  <span class="aviso-dev">versão isolada do cadastro</span>
+  <a class="peq" href="/" style="color:var(--marca)">abrir no frontend</a>
   <span class="esp"></span>
   <span class="peq suave" id="api-status">conectando…</span>
   <label class="peq suave">usuário
@@ -150,7 +170,7 @@
 <script>
 "use strict";
 const API = "/api/v1";
-const S = { cad: null, textoPedido: null, sugestoes: {}, foco: null };
+const S = { cad: null, textoPedido: null, sugestoes: {}, foco: null, just: {} };
 
 /* ------------------------------------------------------------ utilitários */
 const $ = (s, r = document) => r.querySelector(s);
@@ -253,10 +273,20 @@ async function abrePedido(p) {
 
 /* ------------------------------------------------------------ cadastro aberto */
 async function abre(id) { const v = await tenta(() => api("GET", `/cadastros/${id}`)); if (v) define(v); }
-function define(v) { S.cad = v; renderiza(); }
-async function edita(corpo) {
-  const v = await tenta(() => api("PATCH", `/cadastros/${S.cad.id}`, { versao: S.cad.versao, ...corpo }));
-  if (v) { S.sugestoes = {}; define(v); }
+function define(v) {
+  if (!S.cad || S.cad.id !== v.id) S.just = {};
+  S.cad = v; renderiza();
+  if (window.parent !== window) window.parent.postMessage({ tipo: "cadastro-mudou" }, location.origin);   // o menu do frontend atualiza as contagens
+}
+/* Escritas de um rascunho, uma de cada vez: sair de um campo e clicar em Aprovar dispara as duas quase juntas,
+   e cada uma precisa da versão que a anterior devolveu, senão o servidor acusa um conflito que não existe. */
+let filaEscrita = Promise.resolve();
+const naFila = fn => (filaEscrita = filaEscrita.then(fn, fn));
+function edita(corpo) {
+  return naFila(async () => {
+    const v = await tenta(() => api("PATCH", `/cadastros/${S.cad.id}`, { versao: S.cad.versao, ...corpo }));
+    if (v) { S.sugestoes = {}; define(v); }
+  });
 }
 const valorDe = (v, atr) => (v.campos.find(c => c.atributo === atr) || {}).valor;
 
@@ -452,7 +482,7 @@ function renderLateral(v) {
     const ex = h("div", { class: "card" }, h("h2", {}, "Exceções (contrariam o PDM)"),
       h("div", { class: "legenda" }, "A decisão é sua, mas precisa de justificativa (mín. 10 caracteres)."));
     for (const e of v.excecoes_previstas) {
-      const ta = h("textarea", { placeholder: "por que este item deve ser criado assim?", disabled: !editavel });
+      const ta = h("textarea", { placeholder: "por que este item deve ser criado assim?", disabled: !editavel, value: S.just[e.id] || "", oninput: ev => { S.just[e.id] = ev.target.value; } });
       just[e.id] = ta;
       ex.append(h("div", { class: "cand" },
         h("div", { class: "topo" }, h("b", {}, e.tipo.replaceAll("_", " ").toLowerCase()), h("span", { class: `pill ${e.exige_revisor ? "aviso" : "cinza"}` }, e.exige_revisor ? "exige 2º analista" : "só justificativa")),
@@ -464,11 +494,12 @@ function renderLateral(v) {
   // ações
   const acoes = h("div", { class: "card" }, h("h2", {}, "Decisão"));
   if (editavel) {
-    const ap = h("button", { class: "principal", disabled: v.bloqueios.length > 0, onclick: async () => {
-      const j = Object.fromEntries(Object.entries(just).map(([k, el]) => [k, el.value]));
-      const r = await tenta(() => api("POST", `/cadastros/${v.id}/aprovar`, { versao: v.versao, justificativas: j }));
+    const ap = h("button", { class: "principal", disabled: v.bloqueios.length > 0, onclick: () => naFila(async () => {
+      if (S.cad.estado !== "RASCUNHO") return;   // duplo clique: a primeira já decidiu
+      const j = Object.fromEntries(S.cad.excecoes_previstas.map(e => [e.id, S.just[e.id] || ""]));
+      const r = await tenta(() => api("POST", `/cadastros/${S.cad.id}/aprovar`, { versao: S.cad.versao, justificativas: j }));
       if (r) { toast(r.estado === "EM_REVISAO" ? "Enviado para revisão de um segundo analista." : "Aprovado e enviado à fila do ERP."); define(r); }
-    } }, v.excecoes_previstas.length ? "Aprovar (com exceções)" : "Aprovar");
+    }) }, v.excecoes_previstas.length ? "Aprovar (com exceções)" : "Aprovar");
     acoes.append(h("div", { class: "acoes" }, ap,
       v.pedido_id ? h("button", { onclick: async () => { const r = await tenta(() => api("POST", `/cadastros/${v.id}/devolver`, {})); if (r) { toast(r.devolucao.aviso || "Devolvido ao solicitante."); define(r); } } }, "Devolver ao solicitante") : null,
       h("button", { class: "perigo", onclick: async () => { const m = prompt("Motivo da recusa (fora do PDM):"); if (!m) return; const r = await tenta(() => api("POST", `/cadastros/${v.id}/recusar`, { motivo: m })); if (r) define(r); } }, "Recusar")));
@@ -503,8 +534,9 @@ function cartaoCandidato(c, editavel) {
       (x.estado === "igual" ? "✓ " : x.estado === "diverge" ? "≠ " : "— ") + x.atributo.toLowerCase())));
   const acoes = h("div", { class: "acoes", style: "margin-top:6px" });
   if (editavel && c.origem === "base") {
-    if (c.permite_uso_direto) acoes.append(h("button", { class: c.nivel === "IGUAL" ? "principal" : "", onclick: async () => {
-      const r = await tenta(() => api("POST", `/cadastros/${S.cad.id}/usar-existente`, { codigo: c.codigo })); if (r) { toast(`Pedido encerrado: usar o código ${c.codigo}.`); define(r); } } }, "Usar este código"));
+    if (c.permite_uso_direto) acoes.append(h("button", { class: c.nivel === "IGUAL" ? "principal" : "", onclick: () => naFila(async () => {
+      if (S.cad.estado !== "RASCUNHO") return;   // duplo clique: a primeira já decidiu
+      const r = await tenta(() => api("POST", `/cadastros/${S.cad.id}/usar-existente`, { codigo: c.codigo })); if (r) { toast(`Pedido encerrado: usar o código ${c.codigo}.`); define(r); } }) }, "Usar este código"));
     else acoes.append(h("button", { onclick: async () => {
       const j = prompt(`O código ${c.codigo} está ${c.status}. Justifique a reativação (mín. 10 caracteres):`); if (!j) return;
       const r = await tenta(() => api("POST", `/cadastros/${S.cad.id}/reativar`, { codigo: c.codigo, justificativa: j })); if (r) define(r); } }, "Pedir reativação"));
@@ -532,6 +564,14 @@ async function revisa(v, aprovar) {
   if (p.get("classe")) criaRascunho(p.get("classe"), p.get("nome") || null);
   if (p.get("abrir")) abre(p.get("abrir"));
 })();
+
+/* O que o frontend do time pede ao painel: trocar de aba, abrir um cadastro, usuário e tema vêm da moldura dele. */
+window.painel = {
+  aba(nome) { $(`#aba-${nome}`).click(); if (nome === "buscar") $("#q").focus(); },
+  abrir(id) { abre(id); },
+  usuario(valor) { const s = $("#usuario"); if (s.value !== valor) { s.value = valor; s.dispatchEvent(new Event("change")); } },
+  tema(t) { document.documentElement.dataset.tema = t; },
+};
 </script>
 </body>
 </html>

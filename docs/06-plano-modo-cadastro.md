@@ -18,7 +18,7 @@ Termos usados no documento:
 
 ## 0. Estado da implementação
 
-O backend está em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 276 testes) e foi rodado contra a base inteira. **O frontend é o do time:** [`mockup_plataforma.html`](../mockup_plataforma.html) é a casca, e o cadastro real está em [`frontend/`](../frontend/cadastro.js), servido em `http://localhost:8000/`. Busca, cadastro, pedidos, acompanhamento e revisão usam a API e a base real. As demais telas (Início, Radar, Requisições, Base e Clusters) continuam com dados de demonstração, e a etiqueta do topo diz isso. O contrato é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
+O backend está em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 276 testes) e foi rodado contra a base inteira. **O frontend é o do time:** [`mockup_plataforma.html`](../mockup_plataforma.html) é a moldura, servida em `http://localhost:8000/`, e a tela de cadastro é o painel, embutido nela. Busca, cadastro, pedidos, acompanhamento e revisão usam a API e a base real. As demais telas (Início, Radar, Requisições, Base e Clusters) continuam com dados de demonstração, e a etiqueta do topo diz isso. O contrato é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
 
 | Fase | Estado | Evidência |
 |---|---|---|
@@ -30,7 +30,7 @@ O backend está em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 276 
 | 5. Decisões | Feita | estados, exceções, segundo analista, propostas ao PDM, auditoria imutável. Papéis só no modo `dev` |
 | 6. Pedidos | Feita | leitura por regras e LLM; devolução gravada, mas o e-mail vai para uma caixa de saída em arquivo |
 | 7. ERP | Feita para o conector por arquivos | envio idempotente, retorno do código, erro visível, reativação. A reimportação periódica é manual (`python -m app.cli ingerir`) |
-| 8. Integração e piloto | Em andamento | fluxo completo no frontend do time, com 73 verificações de ponta a ponta em navegador real. Falta o uso por analistas e o que está em "O que ainda não existe" |
+| 8. Integração e piloto | Em andamento | fluxo completo no frontend do time, com 40 verificações de ponta a ponta em navegador real. Falta o uso por analistas e o que está em "O que ainda não existe" |
 
 ### Resultados medidos
 
@@ -85,26 +85,18 @@ A divergência achou erros nos dois lados, corrigidos com teste. No backend: `RE
 
 ### Frontend
 
-O frontend do time continua sendo um arquivo só, que o time pode seguir redesenhando. A lógica do cadastro fica fora dele, em `frontend/cadastro.js` e `frontend/cadastro.css`, e usa os mesmos componentes visuais. Toda regra de negócio fica no servidor. A base é a versão integrada de `origin/main` (`00aeadb`). O redesign de 57f4726, que ficou fora dela, voltou em `frontend/tema.css`: cores semânticas, contraste, foco visível e movimento reduzido.
+**A tela de cadastro é o painel** ([`backend/app/painel/index.html`](../backend/app/painel/index.html)), inteiro, dentro da moldura do frontend do time. Ele aparece em "Buscar material", "Cadastrar novo item" e "Pedidos de cadastro", e continua acessível sozinho em `/painel`. [`frontend/cadastro.js`](../frontend/cadastro.js) cuida só da navegação, do usuário, do tema e das listas de Cadastros e Revisão.
 
-Da versão integrada vieram para o fluxo real: o banner `JÁ EXISTE`, "Aplicar aos campos", o corte de confiança em 0,60 com chip tracejado e a entrada colando o texto do pedido. **Uma decisão difere:** lá, "já existe" era similaridade de texto ≥ 85%. Aqui vem da comparação por atributos, porque na análise de mercado comparar texto não achou nenhum dos duplicados reais.
+Essa decisão veio do uso. Duas reescritas da tela no desenho do mockup passaram nos testes automáticos, mas ficaram piores de usar do que o painel, e o responsável pelo produto pediu para voltar. O painel é a referência de funcionamento: mudanças nele devem ser pequenas e vir de uso real.
 
-| Tela | O que faz |
-|---|---|
-| Buscar material | lê o texto, propõe a classe, compara com a base por atributos **sem gravar nada** (`POST /busca`), e permite usar um código, pedir reativação ou cadastrar |
-| Cadastrar novo item | colar o pedido ou escolher a classe; rascunho com salvamento automático, opções do histórico, origem de cada valor, sugestões dos modelos, descrição gerada, validação, exceções e duplicidade ao vivo |
-| Pedidos de cadastro | fila real com filtros; assumir lê o texto e o anexo e abre o rascunho |
-| Cadastros | todos os cadastros e o estado de cada um |
-| Revisão de exceções | decisão do segundo analista e envios ao ERP |
+O redesign de 57f4726, que ficou fora da versão integrada de `origin/main`, voltou em `frontend/tema.css`.
 
-O usuário e o papel são escolhidos no topo da tela, porque a autenticação ainda é só de desenvolvimento. O menu de usuário sai quando o OIDC entrar.
+**Testes de ponta a ponta.** `frontend/e2e.mjs` usa um Chrome de verdade, sempre em um banco descartável, porque aprova itens e grava auditoria imutável. Esses testes acharam problemas que a suíte da API não via:
 
-**Testes de ponta a ponta.** `frontend/e2e.mjs` usa um Chrome de verdade e clica como uma pessoa, sempre em um banco descartável, porque aprova itens e grava auditoria imutável. São 73 verificações, sem erro de JavaScript nem resposta 5xx, em execuções repetidas a partir de um banco limpo. Os testes acharam quatro problemas que a suíte da API não via:
-
-- **A resposta saía antes do `COMMIT`.** Com o padrão atual do FastAPI, o cliente ouvia "criado" antes de o dado estar gravado, e a chamada seguinte recebia 404. A falha era intermitente. Agora `deps.Conexao` grava antes de responder, e um teste mede essa ordem.
-- **Conflito de versão falso.** Sair de um campo e clicar em Aprovar disparava as duas escritas quase juntas. As escritas de um rascunho agora vão em fila, e a tela mostra "salvando…".
+- **A resposta saía antes do `COMMIT`.** Com o padrão atual do FastAPI, o cliente ouvia "criado" antes de o dado estar gravado, e a chamada seguinte recebia 404. Agora `deps.Conexao` grava antes de responder, e um teste mede essa ordem.
+- **Conflito de versão falso.** Sair de um campo e clicar em Aprovar disparava as duas escritas quase juntas. As escritas de um rascunho agora vão em fila.
 - **Cadastro em revisão era duplicata de si mesmo**, o que criava um bloqueio falso.
-- **Duplo clique em Aprovar** mostrava erro logo depois do sucesso.
+- **Duplo clique em Aprovar ou em Usar este código** mostrava erro depois do sucesso.
 
 ### O que ainda não existe
 

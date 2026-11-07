@@ -46,9 +46,13 @@ inteiro falhar (por exemplo, credencial expirada). Teste antes com `--amostra --
 
 ## Frontend
 
-`http://localhost:8000/` serve o frontend do time. Busca, cadastro, pedidos, cadastros e revisão usam a API e a base real;
-as demais telas são demonstração, e a etiqueta no topo diz qual é o caso. O usuário e o papel são escolhidos no
-topo enquanto não houver OIDC: troque para `bia · revisora` para decidir exceções. `/mockup` redireciona para a raiz.
+`http://localhost:8000/` serve o frontend do time. A tela de cadastro é o painel (`app/painel/index.html`), embutido em
+`/painel?embutido=1`, e fica também disponível sozinho em `/painel`. Atalhos do painel: `?pedido=SC-202600261`,
+`?classe=PDM020`, `?q=valv esf`, `?abrir=<id>`. Mudanças nele devem ser pequenas: é a referência de funcionamento.
+
+O usuário e o papel são escolhidos no topo enquanto não houver OIDC: troque para `bia · revisora` para decidir exceções.
+Cada abertura de pedido ou cadastro cria dados reais no banco de desenvolvimento, então não limpe tabelas inteiras: pode
+haver rascunhos de outras pessoas. `/mockup` redireciona para a raiz.
 
 O teste de ponta a ponta usa um Chrome de verdade. **Ele aprova itens e grava auditoria imutável: rode só com um banco
 descartável**, nunca no de uso. Para isso, suba outra instância com `DATABASE_URL`, `ERP_DIR_SAIDA` e `ERP_DIR_ENTRADA` próprios, e então:
@@ -57,15 +61,6 @@ descartável**, nunca no de uso. Para isso, suba outra instância com `DATABASE_
 google-chrome --headless=new --remote-debugging-port=9223 --user-data-dir=/tmp/perfil about:blank &
 node frontend/e2e.mjs http://localhost:8001 /tmp/capturas
 ```
-
-## Painel de desenvolvimento
-
-`http://localhost:8000/painel` (só com `AUTH_MODO=dev`) é uma tela mínima para **ver e testar o fluxo ao vivo** contra a
-API e a base real: digitar o nome do material, confirmar a classe, preencher com sugestões, ver a duplicidade mudar a
-cada atributo e aprovar. Atalhos: `?pedido=SC-202600261`, `?classe=PDM020`, `?q=valv esf`. **Não é o frontend do
-produto**, que agora está na raiz: serve só para depurar a API. Cada abertura de pedido ou cadastro
-cria dados reais no banco de desenvolvimento, então não limpe tabelas inteiras: pode haver rascunhos de outras pessoas.
-
 
 ## Comandos
 

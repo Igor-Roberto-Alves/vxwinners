@@ -70,25 +70,23 @@ time) e conduz o cadastro do pedido à aprovação, com exceções, segundo anal
 envio ao ERP. Os modelos do serviço de sugestão rodam dentro dele, em `/sugestao`.
 Plano, decisões e medições: [`docs/06-plano-modo-cadastro.md`](docs/06-plano-modo-cadastro.md).
 
-**4. Interface, ligada à API** — [`mockup_plataforma.html`](mockup_plataforma.html) + [`frontend/`](frontend/)
+**4. Interface, ligada à API** — [`mockup_plataforma.html`](mockup_plataforma.html) + [`backend/app/painel/`](backend/app/painel/index.html)
 
-A casca é o arquivo do time; o cadastro real fica em `frontend/`, para o desenho seguir evoluindo sem
-colidir com a lógica. A etiqueta no topo diz se a tela usa **dados reais** ou é **demonstração**.
+O frontend do time é a moldura, e a tela de cadastro é o painel, embutido nela: três colunas, com a busca e os pedidos
+à esquerda, o formulário no meio e, à direita, a descrição, os itens parecidos e a decisão. A etiqueta no topo diz se a
+tela usa **dados reais** ou é **demonstração**.
 
 - **Reais:** Buscar material, Cadastrar novo item, Pedidos de cadastro, Cadastros e Revisão de exceções.
 - **Demonstração:** Início, Radar, Requisições, Base e Clusters.
 
-Três decisões de projeto na ligação:
+Três decisões de projeto:
 
-- **Sugestão não preenche campo sozinha.** Nada vindo do histórico ou dos modelos entra sem um clique.
-  O corte de `conf ≥ 0,60` separa o que **Aplicar aos campos** aceita; abaixo dele o chip aparece
-  tracejado e só entra se a pessoa clicar nele. Gravar um part number errado funde itens distintos na
-  mesma chave de identidade (regra 10 do PDM): `ASME B16.11` sugere `B1611` a 45% e não é aplicado.
-- **A trava de duplicidade vem dos atributos, não da semelhança de texto.** O banner `JÁ EXISTE` aparece
-  quando todos os atributos de identidade coincidem, e `VERIFICAR` quando nada diverge mas o item da base
-  tem campos vazios. Nos 15 produtos reais da análise de mercado, comparar texto não achou nenhum duplicado.
-- **Classe é sempre confirmada por uma pessoa.** A lida do texto ou do pedido entra como proposta e bloqueia
-  a aprovação até alguém confirmar. O que nada no PDM reconhece pode ser recusado ou virar proposta de classe.
+- **Sugestão não preenche campo sozinha.** Nada vindo do histórico ou dos modelos entra sem um clique. Gravar um part
+  number errado funde itens distintos na mesma chave de identidade (regra 10 do PDM): `ASME B16.11` sugere `B1611` a 45%.
+- **"Já existe" vem dos atributos, não da semelhança de texto.** Nos 15 produtos reais da análise de mercado, comparar
+  texto não achou nenhum duplicado.
+- **Classe é sempre confirmada por uma pessoa.** A lida do pedido entra como proposta e bloqueia a aprovação até alguém
+  confirmar. O que nada no PDM reconhece pode ser recusado.
 
 A interface precisa do servidor: aberta sozinha, ela avisa que a API está fora do ar.
 
@@ -193,9 +191,7 @@ Um comando sobe tudo: prepara o ambiente, os modelos e o banco na primeira vez, 
 PORTA=8100 ./rodar.sh
 ```
 
-Comece em **Buscar material** ou assuma um pedido em **Pedidos de cadastro**. Em **Cadastrar novo item**,
-*Usar outro exemplo* percorre sete pedidos reais do desafio, incluindo os casos difíceis (part number
-fraco, catálogo em inglês, item fora do PDM). Para decidir exceções, troque o usuário no topo para
+Comece em **Buscar material**, digitando o nome do item, ou abra um pedido em **Pedidos de cadastro**. Para decidir exceções, troque o usuário no topo para
 `bia · revisora`: quem pediu a exceção não pode decidi-la.
 
 Sem a etapa de LLM, a base fica só com a leitura por regras. Para a leitura completa (~17 min, ~US$ 40) e

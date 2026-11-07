@@ -1,69 +1,22 @@
-/* Complementos do cadastro real. Usa só os tokens de cor e os componentes de mockup_plataforma.html. */
+/* Moldura do cadastro. O cadastro em si é o painel (backend/app/painel/index.html), embutido em #page-cadastro. */
+.page#page-cadastro{padding:0;max-width:none;height:100%}
+#painel{display:block;width:100%;height:100%;border:0}
+
 .cad-vazio{padding:14px 16px;color:var(--text-2);font-size:12.5px;line-height:1.5}
-.card-b > .cad-vazio{padding:4px 0 8px}
 .cad-link{background:none;border:none;padding:0;color:var(--text);font-size:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
-button.cad-link.mono{font-weight:600;font-size:15px}
-.cad-link:hover{color:var(--brand-text)}
-.cad-estado{display:inline-flex;align-items:center;padding:0 6px}
-.page-head .actions{flex-wrap:wrap;justify-content:flex-end;align-items:center}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-
-.cad-texto{font-family:var(--mono);font-size:11.5px;line-height:1.6;white-space:pre-wrap;word-break:break-word;background:var(--bg-alt);border:1px solid var(--border);border-radius:6px;padding:10px 12px;max-height:220px;overflow:auto}
-.cad-campo{min-width:0}
-.cad-campo.inativo{opacity:.55}
-.cad-campo.invalido .inp,.cad-campo.invalido .sel{border-color:var(--err)}
-.cad-origem{float:right;font-size:10.5px;line-height:17px;color:var(--iainfo);border:1px solid var(--ia-bd);border-radius:4px;padding:0 5px;margin-top:-1px}
-.cad-nota{font-size:11.5px;color:var(--text-3);margin-top:4px}
-.cad-nota.erro{color:var(--err)}
-.cad-opcoes{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
-.cad-opcoes:empty{display:none}
-.cad-opcoes .conf-chip .pct{white-space:nowrap}
-
-.cad-ac{position:relative}
-.cad-ac-lista{margin-top:6px;display:flex;flex-direction:column;gap:4px}
-.cad-ac-lista:empty{display:none}
-.cad-ac-item{display:flex;justify-content:space-between;gap:12px;align-items:center;text-align:left;width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;background:var(--panel-2);color:var(--text);cursor:pointer;font-size:12.5px}
-.cad-ac-item:hover{border-color:var(--brand);background:var(--hover)}
-.cad-ac-item b{font-weight:500}
-.cad-ac-nota{font-size:12px;color:var(--text-2);padding:4px 2px}
-
-.cad-resumo{padding:12px 16px;cursor:pointer;font-size:13.5px;font-weight:500}
-.cad-evento{font-size:12px;color:var(--text-2);padding:4px 0;border-top:1px solid var(--border)}
-.cad-evento .mono{color:var(--text-3)}
-#similar .cand{margin-bottom:8px}
-#similar .cand-h{gap:10px;padding:10px 12px}
-#similar .cand-b{padding:0 12px 10px}
-#similar .conf{width:42px}
-#similar .conf .n{font-size:13px}
-#similar button.cad-link.mono{font-size:13px}
-
 .cad-filtros{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.cad-filtros .sel,.cad-filtros .inp{height:28px;width:auto;font-size:12px}
-.cad-filtros .inp{min-width:220px}
-.cad-pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;padding:10px 12px;font-size:12px}
+.cad-filtros .sel{height:28px;width:auto;font-size:12px}
 .tbl td.wrap{min-width:220px;max-width:460px}
 
-.conf-chip.fraco{border-style:dashed;opacity:.85}
-.cad-banner{margin-bottom:16px}
-.cad-banner.bloqueia{border-color:var(--err-bd);background:var(--err-bg)}
-.cad-banner.alerta{border-color:var(--warn-bd);background:var(--warn-bg)}
 .cad-usuario{height:26px;width:auto;font-size:12px;padding:0 6px}
 .toast.erro{border-color:var(--err)}
 .toast.erro svg{display:none}
+#pill-dados{white-space:nowrap}
 .topbar .crumb{white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
 .topbar .top-search{width:170px;flex:none}
-@media (max-width:1400px){.topbar .crumb > span:first-child,.topbar .crumb > .slash:nth-child(2){display:none}}
+@media (max-width:1600px){.topbar .crumb > span:first-child,.topbar .crumb > .slash:nth-child(2){display:none}}
 .top-search input{background:none;border:none;outline:none;color:var(--text);font-size:12.5px;width:100%;min-width:0}
 .top-search input::placeholder{color:var(--text-3)}
 .cad-status{font-size:11px;color:var(--text-3);white-space:nowrap}
-
-.cad-dlg-fundo{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:60;display:grid;place-items:center;padding:16px}
-.cad-dlg{background:var(--panel);border:1px solid var(--border-strong);border-radius:10px;padding:18px;width:min(460px,100%);box-shadow:0 16px 48px var(--shadow)}
-.cad-dlg h3{font-size:15px;font-weight:500;margin-bottom:6px}
-.cad-dlg p{font-size:12.5px;margin-bottom:12px}
-.cad-dlg-erro{color:var(--err);font-size:12px;min-height:16px}
-.cad-dlg-acoes{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
 .cad-faixa{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--err-bg);border:1px solid var(--err-bd);color:var(--err);padding:10px 16px;border-radius:8px;font-size:13px;z-index:70;backdrop-filter:blur(6px)}
-
-@media (max-width:1100px){.g-main{grid-template-columns:minmax(0,1fr)}}
-@media (max-width:760px){.g-2,.g-3{grid-template-columns:minmax(0,1fr)}}

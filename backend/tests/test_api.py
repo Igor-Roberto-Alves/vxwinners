@@ -217,7 +217,7 @@ def test_api_recusa_subir_com_banco_desatualizado(banco, monkeypatch):
 def test_painel_de_desenvolvimento_e_servido_so_em_dev(cliente):
     r = cliente.get("/painel")
     assert r.status_code == 200 and r.headers["content-type"].startswith("text/html")
-    assert "nao e o frontend do produto" in r.text.lower() or "não é o frontend do produto" in r.text.lower()
+    assert "versão isolada do cadastro" in r.text
 
 
 # ------------------------------------------------------------------ integração com o serviço de sugestão do time
@@ -265,6 +265,7 @@ def test_toda_rota_da_api_usa_a_conexao_que_grava_antes_de_responder():
 def test_frontend_do_time_e_servido_na_raiz_com_o_cadastro_real(cliente):
     r = cliente.get("/")
     assert r.status_code == 200 and "frontend/cadastro.js" in r.text and "frontend/cadastro.css" in r.text
+    assert 'src="/painel?embutido=1"' in r.text   # a tela de cadastro é o próprio painel
     assert "const PDM=" not in r.text and "SC-202600002" not in r.text.split('id="m-cadastro"')[0]  # nada de dado fixo nas telas reais
     js = cliente.get("/frontend/cadastro.js")
     assert js.status_code == 200 and "javascript" in js.headers["content-type"]
