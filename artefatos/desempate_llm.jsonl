@@ -1,0 +1,12 @@
+{"codigo": "28321977", "id_pdm": "PDM110", "aceitos": [], "recusados": [{"atributo": "MATERIAL", "proposto": null, "motivo": "LLM devolveu null"}]}
+{"codigo": "27827726", "id_pdm": "PDM110", "aceitos": [], "recusados": [{"atributo": "MATERIAL", "proposto": null, "motivo": "LLM devolveu null"}]}
+{"codigo": "24794045", "id_pdm": "PDM110", "aceitos": [], "recusados": [{"atributo": "MATERIAL", "proposto": null, "motivo": "LLM devolveu null"}]}
+{"codigo": "25571564", "id_pdm": "PDM050", "aceitos": [{"atributo": "MATERIAL", "valor": "ACO CARBONO A234 WPB", "evidencia": "MAT ACO CARBONO"}, {"atributo": "CONEXAO", "valor": "ROSCA BSP", "evidencia": "ROSCA"}], "recusados": []}
+{"codigo": "16279976", "id_pdm": "PDM004", "aceitos": [{"atributo": "DIAMETRO INTERNO", "valor": "39MM", "evidencia": "DIAMETRO INTERNO 39MM"}], "recusados": [{"atributo": "ACABAMENTO", "proposto": null, "motivo": "LLM devolveu null"}]}
+{"codigo": "25780747", "id_pdm": "PDM001", "aceitos": [{"atributo": "MATERIAL", "valor": "ACO INOX 304", "evidencia": "MATERIAL INOX - corresponde a ACO INOX 304 (padrão para INOX sem especificação de tipo)"}], "recusados": []}
+{"codigo": "12711820", "id_pdm": "PDM032", "aceitos": [{"atributo": "DIAMETRO EIXO", "valor": "110MM", "evidencia": "RET 110MM 15MM - primeiro número após RET"}, {"atributo": "LARGURA", "valor": "15MM", "evidencia": "RET 110MM 15MM - segundo número"}], "recusados": [{"atributo": "DIAMETRO ALOJAMENTO", "proposto": null, "motivo": "LLM devolveu null"}]}
+{"codigo": "11153902", "id_pdm": "PDM011", "aceitos": [{"atributo": "TERMINAL A", "valor": "MACHO RETO BSP", "evidencia": "BSP MACHO"}, {"atributo": "TERMINAL B", "valor": "MACHO RETO BSP", "evidencia": "BSP MACHO"}], "recusados": [{"atributo": "DIAMETRO INTERNO", "proposto": null, "motivo": "LLM devolveu null"}]}
+{"codigo": "22976650", "id_pdm": "PDM110", "aceitos": [], "recusados": [{"atributo": "MATERIAL", "proposto": null, "motivo": "LLM devolveu null"}]}
+{"codigo": "18028103", "id_pdm": "PDM002", "aceitos": [], "recusados": [{"atributo": "ACABAMENTO", "proposto": null, "motivo": "LLM devolveu null"}]}
+{"codigo": "24160810", "id_pdm": "PDM110", "aceitos": [], "recusados": [{"atributo": "MATERIAL", "proposto": null, "motivo": "LLM devolveu null"}]}
+{"codigo": "11580999", "id_pdm": "PDM110", "aceitos": [], "recusados": [{"atributo": "MATERIAL", "proposto": null, "motivo": "LLM devolveu null"}]}

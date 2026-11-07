@@ -98,7 +98,16 @@ Campo evidencias - leia com atencao, ele alimenta um dicionario permanente:
     certo  "AHLSTAR A2280"
     errado "AHLSTAR A2280 (interpretado como AHLSTAR A22-80)"   <- tem explicacao
     errado "BOMBA CENTRIFUGA AHLSTAR A2280 SULZER"              <- e o texto inteiro
-    errado "ZINC e ambiguo entre as opcoes da lista"             <- atributo ficou null"""
+    errado "ZINC e ambiguo entre as opcoes da lista"             <- atributo ficou null
+- NUNCA escolha uma VARIANTE quando o texto nao diz qual. Se a lista tem valores
+  que diferem por uma caracteristica (processo: FORJADO x FUNDIDO; acabamento:
+  BRANCO x AMARELO; grau: 304 x 316; classe: 10.9 x 12.9) e o texto nao traz essa
+  caracteristica, responda null. 'INOX 316' nao diz se e forjado ou fundido:
+  null. 'ZINCADO' nao diz a cor: null. 'ACO' nao diz a liga: null.
+- Completar o que o cadastro nao escreveu NAO e padronizar, e inventar
+  especificacao. Item com a caixa vazia vai para revisao; item com a variante
+  errada vai para a producao e alguem compra a peca errada.
+"""
 
 
 # Identidade do prompt, para o cache por hash saber que as regras mudaram.

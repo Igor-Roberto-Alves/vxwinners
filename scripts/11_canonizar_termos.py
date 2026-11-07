@@ -106,7 +106,16 @@ Regras:
 MAIS DE UM (termo ambiguo nao se resolve por palpite).
 - null quando o termo for nome de atributo, codigo de peca, ou outra coisa que \
 nao seja um valor daquele atributo.
-- Nao explique. Responda so o valor ou a palavra null."""
+- Nao explique. Responda so o valor ou a palavra null.
+- NUNCA escolha uma VARIANTE quando o texto nao diz qual. Se a lista tem valores
+  que diferem por uma caracteristica (processo: FORJADO x FUNDIDO; acabamento:
+  BRANCO x AMARELO; grau: 304 x 316; classe: 10.9 x 12.9) e o texto nao traz essa
+  caracteristica, responda null. 'INOX 316' nao diz se e forjado ou fundido:
+  null. 'ZINCADO' nao diz a cor: null. 'ACO' nao diz a liga: null.
+- Completar o que o cadastro nao escreveu NAO e padronizar, e inventar
+  especificacao. Item com a caixa vazia vai para revisao; item com a variante
+  errada vai para a producao e alguem compra a peca errada.
+"""
 
 
 def ferramenta(atributo):
