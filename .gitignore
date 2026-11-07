@@ -1,2 +1,10 @@
 .env
 .claude/settings.local.json
+.venv/
+.pgdata/
+__pycache__/
+*.pyc
+.pytest_cache/
+backend/erp_out/
+backend/erp_in/
+backend/artefatos/
