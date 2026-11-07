@@ -49,6 +49,72 @@ def test_expandir_resolve_abreviacao_com_ponto():
     assert "ACO CARBONO" in expandir("MATERIAL ACO CARB")
 
 
+# ------------------------------------------- abreviacao ambigua (docs/07)
+
+@pytest.mark.parametrize("cru,esperado", [
+    # PN + pressao nominal e VALOR do PDM (CLASSE PRESSAO de PDM040-043)
+    ("FLANGE CEGO 2POL PN 16 ACO CARBONO", "FLANGE CEGO 2POL PN 16 ACO CARBONO"),
+    ("VALV ESF CL PN 25", "VALVULA ESFERA CLASSE PN 25"),
+    # PN seguido de codigo continua sendo part number
+    ("FILTRO METSO PN 5959848968", "FILTRO METSO PART NUMBER 5959848968"),
+    ("ROLAMENTO SKF PN", "ROLAMENTO SKF PART NUMBER"),
+])
+def test_pn_pressao_nominal_nao_vira_part_number(cru, esperado):
+    assert expandir(cru) == esperado
+
+
+@pytest.mark.parametrize("cru,esperado", [
+    ("FILTRO CAT 1R-1808 REV A", "FILTRO CAT 1R-1808 REV A"),     # revisao de desenho
+    ("BUCHA 762-9053 REV", "BUCHA 762-9053 REV"),                 # revisao no fim
+    ("TUBO REV EPOXI", "TUBO REVESTIDO EPOXI"),                   # sentido padrao
+])
+def test_rev_de_revisao_nao_vira_revestido(cru, esperado):
+    assert expandir(cru) == esperado
+
+
+def test_ret_depois_de_valvula_e_retencao():
+    assert expandir("VALV RET 1POL PORTINHOLA") == "VALVULA RETENCAO 1POL PORTINHOLA"
+    assert expandir("VALVULA RET. 2POL") == "VALVULA RETENCAO 2POL"
+    # sem valvula antes, continua retentor
+    assert expandir("RET NBR 110MM 15MM") == "RETENTOR NBR 110MM 15MM"
+    assert expandir("NITRILICA RET D 40MM") == "NITRILICA RETENTOR D 40MM"
+
+
+def test_ind_depois_de_sensor_e_indutivo():
+    assert expandir("SENSOR IND M18 PNP") == "SENSOR INDUTIVO M18 PNP"
+    assert expandir("SENS IND M12") == "SENSOR INDUTIVO M12"
+    assert expandir("MANG IND MULTIUSO") == "MANGUEIRA INDUSTRIAL MULTIUSO"
+
+
+@pytest.mark.parametrize("cru,esperado", [
+    ("PARAF SEXT S/ACAB", "PARAFUSO SEXTAVADO SEM ACABAMENTO"),
+    ("ARRUELA S/ACABAMENTO", "ARRUELA SEM ACABAMENTO"),
+    ("MANG HIDR C/TERMINAIS", "MANGUEIRA HIDRAULICA COM TERMINAIS"),
+    ("CAT P/N 1R-1808", "CAT PART NUMBER 1R-1808"),
+    ("GRAXA P/ ROLAMENTO", "GRAXA PARA ROLAMENTO"),
+    ("MOTOR S/N 12345", "MOTOR S/N 12345"),                       # numero de serie
+])
+def test_prefixo_de_barra(cru, esperado):
+    assert expandir(cru) == esperado
+
+
+@pytest.mark.parametrize("truncado", ["S/AC", "S/ACA", "S/A", "C/T"])
+def test_barra_truncada_fica_intacta(truncado):
+    # DESCRICAO_CURTA corta em 40 caracteres: 'S/ACAB' chega como 'S/AC'.
+    # Expandido viraria 'SEM AC', e 'AC' e sinonimo de ACO CARBONO -> MATERIAL
+    # inventado (regressao real do registro 27031887).
+    assert expandir(f"PARAF SEXT {truncado}") == f"PARAFUSO SEXTAVADO {truncado}"
+
+
+@pytest.mark.parametrize("intocado", [
+    "UNIAO 1/2POL",                 # fracao
+    "ROLAMENTO 6205-2RS/C3",        # codigo de peca com barra
+    "CABO 1/0 AWG",
+])
+def test_barra_nao_toca_fracao_nem_codigo(intocado):
+    assert expandir(intocado) == intocado
+
+
 def test_juntar_nao_duplica_truncamento():
     # DESCRICAO_CURTA e truncamento da LONGA: o texto repetido quebraria a
     # contagem de grandezas da classe RETENTOR (3 atributos em MM)

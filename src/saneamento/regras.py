@@ -20,6 +20,7 @@ import re
 from dataclasses import dataclass, field
 
 from .pdm import Atributo, Classe, Pdm, aplica_atributo
+from .rotulos import pares
 from .sinonimos import SINONIMOS
 from .texto import (
     com_bordas,
@@ -48,6 +49,7 @@ class Candidato:
     evidencia: str = ""
     alternativas: tuple[str, ...] = ()
     ambiguo: bool = False
+    motivo: str = ""
 
 
 @dataclass
@@ -310,7 +312,10 @@ def _formatar(familia: str, valor, unidade: str = "") -> str | None:
 
 class ExtratorLexico:
     def __init__(self, pdm: Pdm, aprendizado=None):
+        from .validador import Validador
+
         self.pdm = pdm
+        self.validador = Validador(pdm)
         # dicionario alimentado pelo LLM/BERT em execucoes anteriores
         self.aprendizado = aprendizado
         # Sinonimos relevantes por atributo, calculados uma vez. Sem este cache,
@@ -466,9 +471,51 @@ class ExtratorLexico:
 
     # ---------------------------------------------------------- orquestracao
 
+    def _por_rotulo(self, rotulados: dict[str, str], a: Atributo) -> Candidato:
+        """CAMADA 0: o proprio cadastro escreveu o nome da caixa ao lado do valor.
+
+        59,9% dos registros tem pares 'ATRIBUTO: VALOR' na descricao longa. Para
+        esses a resposta nao precisa de inferencia nenhuma: basta ler o rotulo.
+
+        Isto faltava, e custava caro. Medido contra gabarito independente (os
+        proprios rotulos, nos 3.230 registros fora do treino do BERT), as tres
+        maiores fontes de erro do pipeline eram todas a mesma causa - ignorar o
+        rotulo e tentar adivinhar pela posicao:
+
+          REFERENCIA FABRICANTE  precisao 73,2%  o BERT engolia a palavra seguinte
+                                                 ('MM1728484 APLICACAO')
+          DIAMETRO INTERNO       recall   66,5%  'DIAMETRO INTERNO:45MM' escrito,
+                                                 caixa vazia, porque a gramatica
+                                                 so conta concorrente obrigatorio
+          COMPRIMENTO            precisao 95,6%  'BITOLA:M-24X2, COMPRIMENTO:220MM'
+                                                 virava 2MM - pegou o passo da rosca
+
+        O parser `pares()` ja existia: era usado para gerar os 61.869 rotulos de
+        treino do BERT por distant supervision. Ou seja, o rotulo ensinava o
+        modelo a adivinhar o que ele mesmo ja dizia, e na extracao era jogado
+        fora. Camada barata construida e nao ligada - o terceiro caso deste
+        projeto, depois de sinonimos.py e do dicionario aprendido.
+
+        O valor ainda passa pelo validador: rotulo nao autoriza valor invalido.
+        """
+        valor = rotulados.get(a.nome)
+        if not valor:
+            return Candidato(a.nome, None, "rotulo", 0.0)
+        v = self.validador.valor(a, valor)
+        if not v.ok:
+            return Candidato(a.nome, None, "rotulo", 0.0,
+                             motivo=f"rotulado como {valor!r}: {v.motivo}")
+        return Candidato(a.nome, v.valor, "rotulo", 0.99, valor)
+
     def _um_atributo(self, t: str, bruto: str, rosca: dict, classe: Classe,
                      a: Atributo, substantivo: str,
-                     conhecidos: dict[str, str | None] | None) -> Candidato:
+                     conhecidos: dict[str, str | None] | None,
+                     rotulados: dict[str, str] | None = None) -> Candidato:
+        # camada 0: o rotulo esta escrito na linha
+        if rotulados:
+            c = self._por_rotulo(rotulados, a)
+            if c.valor is not None:
+                return c
         if a.fechado:
             c = self._por_gazetteer(t, a)
             if c.valor is None:
@@ -515,6 +562,9 @@ class ExtratorLexico:
         t = com_bordas(expandir(texto))
         bruto = com_bordas(texto)
         rosca = separar_rosca_metrica(texto)
+        # camada 0: pares 'ATRIBUTO: VALOR' escritos na propria linha.
+        # Ultimo vence quando o rotulo repete: a base as vezes corrige adiante.
+        rotulados = {nome: valor for nome, valor in pares(texto)}
 
         out: dict[str, Candidato] = {}
         conhecidos: dict[str, str | None] = {}
@@ -526,7 +576,7 @@ class ExtratorLexico:
                 break                 # ponto fixo: nenhuma condicao nova abriu
             for a in novos:
                 out[a.nome] = self._um_atributo(t, bruto, rosca, classe, a,
-                                                substantivo, conhecidos)
+                                                substantivo, conhecidos, rotulados)
             # Realimenta so o que tem valor. None nao e informacao e, pior,
             # aplica_atributo le campo vazio como "ainda nao sei" e devolve True
             # - e por isso que COR segue aplicavel enquanto NUMERO CONDUTORES

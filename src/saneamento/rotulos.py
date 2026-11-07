@@ -20,7 +20,6 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from .pdm import Pdm
-from .regras import ClassificadorLexico
 from .texto import normalizar, normalizar_estrutura
 
 # Rotulos usados na base legada que nao batem com o nome do PDM.
@@ -41,6 +40,27 @@ SINONIMO_ROTULO = {
     "COD FABRICANTE": "REFERENCIA FABRICANTE", "P/N": "REFERENCIA FABRICANTE",
     "PART NUMBER": "REFERENCIA FABRICANTE", "PN": "REFERENCIA FABRICANTE",
     "CL": "CLASSE RESISTENCIA", "CLASSE": "CLASSE RESISTENCIA",
+    # Medidos na base: os 14 rotulos orfaos mais frequentes, que o parser
+    # encontrava e descartava por nao casar nome de atributo do PDM.
+    "ACAB": "ACABAMENTO", "GRAU": "CLASSE RESISTENCIA",
+    "RESISTENCIA": "CLASSE RESISTENCIA", "CLASSE RESIST": "CLASSE RESISTENCIA",
+    "DN": "DIAMETRO NOMINAL", "DI": "DIAMETRO INTERNO", "D I": "DIAMETRO INTERNO",
+    "DE": "DIAMETRO EXTERNO", "D E": "DIAMETRO EXTERNO",
+    "PRESSAO NOMINAL": "CLASSE PRESSAO", "RATING": "CLASSE PRESSAO",
+    "PN": "CLASSE PRESSAO", "CLASSE PRESS": "CLASSE PRESSAO",
+    "EXTREMIDADE": "CONEXAO", "EXTREMIDADES": "CONEXAO",
+    "TIPO CONEXAO": "CONEXAO", "LIGACAO": "CONEXAO",
+    "SECAO TRANSV": "SECAO", "SECAO NOMINAL": "SECAO",
+    "MAT TERMINAIS": "MATERIAL TERMINAIS", "TERMINAIS": "MATERIAL TERMINAIS",
+    "MAT CORPO": "MATERIAL CORPO", "CORPO": "MATERIAL CORPO",
+    "PART NUMBER": "REFERENCIA FABRICANTE", "P N": "REFERENCIA FABRICANTE",
+    "COD FAB": "REFERENCIA FABRICANTE", "REFERENCIA FAB": "REFERENCIA FABRICANTE",
+    "E": "ESPESSURA", "ESPES": "ESPESSURA", "L": "LARGURA",
+    "APLIC DE": "APLICACAO", "USO DE": "APLICACAO", "PARA USO": "APLICACAO",
+    "EQUIP DE": "MODELO EQUIPAMENTO", "MOD EQUIP": "MODELO EQUIPAMENTO",
+    "PRESSAO TRAB": "PRESSAO TRABALHO", "PT": "PRESSAO TRABALHO",
+    "IN": "CORRENTE NOMINAL", "ICU": "CAPACIDADE INTERRUPCAO",
+    "NORMA CONSTRUCAO": "NORMA", "CONSTRUCAO": "NORMA",
     "NORMA CONSTRUCAO": "NORMA", "PADRAO": "NORMA", "CONF": "NORMA",
     "PRESSAO": "PRESSAO TRABALHO", "TENSAO": "TENSAO ISOLAMENTO",
 }
@@ -75,6 +95,11 @@ def pares(descricao: str) -> list[tuple[str, str]]:
 
 class GeradorRotulos:
     def __init__(self, pdm: Pdm, semente: int = 42):
+        # Import tardio: `regras` usa `pares()` desta mesma modulo na camada 0,
+        # e importar o classificador no topo fecharia o ciclo. So o gerador de
+        # treino precisa dele; `pares()` nao depende de nada de `regras`.
+        from .regras import ClassificadorLexico
+
         self.pdm = pdm
         self.clf = ClassificadorLexico(pdm)
         self.rng = random.Random(semente)

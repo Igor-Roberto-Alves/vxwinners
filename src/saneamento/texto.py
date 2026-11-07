@@ -86,7 +86,15 @@ def tokens(s: str) -> list[str]:
 
 
 # Abreviacoes medidas na base legada (ver docs/01-dados.md).
-# CAB e ambiguo (CABO x CABECA): resolvido pela classe, nunca aqui.
+#
+# Esta tabela e o SENTIDO PADRAO de cada token. Quatro entradas tem mais de um
+# sentido na base e passam antes por _resolver_por_contexto (ver
+# docs/07-abreviacoes.md, que traz a medicao de cada uma): PN, REV, RET, IND.
+#
+# CAB fica de fora de proposito: na base, 752 dos 759 CAB sao 'CAB SEXTAVADA'
+# (cabeca), mas o BERT foi treinado com o texto sem expansao e ve 'CAB'; trocar
+# aqui so mudaria a entrada do modelo sem ganho de casamento (nenhum valor do
+# PDM contem CABECA).
 ABREVIACOES = {
     "PARAF": "PARAFUSO",
     "SEXT": "SEXTAVADO",
@@ -146,8 +154,76 @@ ABREVIACOES = {
 }
 
 
+# Pressoes nominais da serie PN (EN 1092 / ISO 7005). 'PN 16' e 'PN 25' sao
+# VALORES PERMITIDOS do PDM (CLASSE PRESSAO de PDM040-043); expandir o PN deles
+# para PART NUMBER destruia o valor antes do casamento literal.
+PRESSAO_NOMINAL = frozenset(
+    "2.5 2,5 6 10 16 25 40 63 100 160 250 320 400".split()
+)
+
+_VALVULA = frozenset({"VALV", "VALVULA"})
+_SENSOR = frozenset({"SENS", "SENSOR"})
+
+# Prefixo de barra: S/ACAB, C/TERMINAIS, P/ USO. Exige letra (ou nada) depois da
+# barra, para nunca tocar fracao (1/2) nem codigo de peca (6205-2RS/C3).
+_RX_BARRA = re.compile(r"^([CSP])/([A-Z][A-Z0-9\-]*)?$")
+_BARRA = {"C": "COM", "S": "SEM", "P": "PARA"}
+# Siglas de barra que NAO sao prefixo: S/N (numero de serie) fica como esta;
+# P/N e part number, o mesmo sentido do PN solto.
+_BARRA_SIGLA = {"S/N": "S/N", "P/N": "PART NUMBER"}
+
+
+def _resolver_por_contexto(limpo: str, anterior: str, proximo: str | None) -> str | None:
+    """Sentido de um token ambiguo pelo vizinho. None = usar a tabela.
+
+    Cada regra saiu de medicao na base (contexto de cada ocorrencia):
+      PN   2.000 ocorrencias: 'PN 16'/'PN 25' e pressao nominal; o resto
+           ('METSO PN 123', 'CATERPILLAR PN ...') e part number.
+      REV  340: 331 sao 'REV A' colado a um part number (revisao de desenho).
+      RET  183: 66 vem depois de VALV/VALVULA -> valvula de RETENCAO.
+      IND  61: depois de SENSOR e INDUTIVO; depois de MANG e INDUSTRIAL.
+    """
+    if limpo == "PN":
+        return "PN" if proximo in PRESSAO_NOMINAL else None
+    if limpo == "REV":
+        if proximo is not None and len(proximo) <= 2 and proximo.isalnum():
+            return "REV"                       # REV A, REV 01: revisao
+        if proximo is None and any(c.isdigit() for c in anterior):
+            return "REV"                       # '...762-9053 REV' no fim da linha
+        return None
+    if limpo == "RET" and anterior in _VALVULA:
+        return "RETENCAO"
+    if limpo == "IND" and anterior in _SENSOR:
+        return "INDUTIVO"
+    return None
+
+
+def _expandir_barra(limpo: str, tabela: dict[str, str]) -> str | None:
+    """S/ACAB -> SEM ACABAMENTO; C/TERMINAIS -> COM TERMINAIS. None = nao e barra."""
+    if limpo in _BARRA_SIGLA:
+        return _BARRA_SIGLA[limpo]
+    m = _RX_BARRA.match(limpo)
+    if not m:
+        return None
+    prefixo, resto = _BARRA[m.group(1)], m.group(2)
+    if not resto:
+        return prefixo
+    # Resto curto e desconhecido fica INTACTO. A DESCRICAO_CURTA e truncada em
+    # 40 caracteres e corta 'S/ACAB' em 'S/AC'; expandido, viraria 'SEM AC' e o
+    # token solto 'AC' casaria o sinonimo AC -> ACO CARBONO, inventando o
+    # MATERIAL de um parafuso que nao o informa (registro 27031887).
+    if resto not in tabela and len(resto) < 4:
+        return None
+    return f"{prefixo} {tabela.get(resto, resto)}"
+
+
 def expandir(s: str, extra: dict[str, str] | None = None) -> str:
     """Expande abreviacoes token a token (regra 4: sem abreviacao).
+
+    Tres passos por token, nesta ordem:
+      1. sentido pelo contexto, para os tokens ambiguos (PN, REV, RET, IND);
+      2. prefixo de barra (S/ = SEM, C/ = COM, P/ = PARA, P/N = PART NUMBER);
+      3. a tabela ABREVIACOES.
 
     O ponto final da abreviacao e removido antes da busca: a base escreve
     'RET.' e 'PARAF.', e sem isso o token nao casa na tabela.
@@ -155,10 +231,18 @@ def expandir(s: str, extra: dict[str, str] | None = None) -> str:
     tabela = dict(ABREVIACOES)
     if extra:
         tabela.update({normalizar(k): normalizar(v) for k, v in extra.items()})
+    brutos = tokens(s)
+    limpos = [t.strip(".,;:-") for t in brutos]
     saida = []
-    for t in tokens(s):
-        limpo = t.strip(".,;:-")
-        saida.append(tabela.get(limpo, tabela.get(t, t)))
+    for i, (t, limpo) in enumerate(zip(brutos, limpos)):
+        anterior = limpos[i - 1] if i else ""
+        proximo = limpos[i + 1] if i + 1 < len(limpos) else None
+        r = _resolver_por_contexto(limpo, anterior, proximo)
+        if r is None:
+            r = _expandir_barra(limpo, tabela)
+        if r is None:
+            r = tabela.get(limpo, tabela.get(t, t))
+        saida.append(r)
     return " ".join(saida)
 
 
