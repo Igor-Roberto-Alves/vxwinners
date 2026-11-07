@@ -67,10 +67,18 @@ await ok("o menu do frontend continua à vista", await ev(`document.querySelecto
 await ok("o cabeçalho duplicado some", await ev(`getComputedStyle(${em("header")}).display==='none'`));
 await ok("três colunas lado a lado", await ev(`(()=>{const a=${em("#col-esq")}.getBoundingClientRect(),b=${em("#col-meio")}.getBoundingClientRect(),c=${em("#col-dir")}.getBoundingClientRect();return a.right<=b.left&&b.right<=c.left})()`));
 await ok("o painel recebe o usuário do topo", (await ev(`${em("#usuario")}.value`)) === "ana|analista");
+const larguraAntes = await ev(`document.querySelector('#painel').clientWidth`);
+await ev(`document.querySelector('#logo').click()`); await pausa(350);
+await ok("recolher o menu dá mais espaço ao painel", (await ev(`document.querySelector('#painel').clientWidth`)) > larguraAntes, `${larguraAntes} -> ${await ev(`document.querySelector('#painel').clientWidth`)} px`);
+await shot("0_menu_recolhido");
+await ev(`document.querySelector('#logo').click()`); await pausa(350);
+await ok("expandir o menu devolve o layout", (await ev(`document.querySelector('#painel').clientWidth`)) === larguraAntes);
+await ok("o painel usa a largura inteira", await ev(`Math.abs(document.querySelector('#painel').clientWidth-document.querySelector('.content').clientWidth)<2`), await ev(`document.querySelector('#painel').clientWidth+' px'`));
 
 console.log("\n== fluxo do painel: digitar, escolher, preencher");
 await preenche("#q", "rolamento rig");
 await ok("digitar sugere as classes", await espera(`${em("#resultado-nomes .item")}`), await texto("#resultado-nomes"));
+await ok("nomes de classe ficam dentro da caixa", await ev(`[...${D}.querySelectorAll('#resultado-nomes .item')].every(i=>i.scrollWidth<=i.clientWidth)`));
 await clica("#resultado-nomes .item");
 await ok("clicar na classe abre o rascunho", await esperaEstado("RASCUNHO"), await texto("#cadastro h2"));
 await preenche('[data-atr="REFERENCIA"]', "SKF 6205-2RSH/C3");

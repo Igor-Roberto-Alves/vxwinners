@@ -3,7 +3,7 @@
 API em FastAPI e PostgreSQL que ajuda o responsável pelo cadastro a criar um material novo: ele digita o
 nome, confirma a classe do PDM, preenche os atributos com sugestões do histórico e vê se o item já existe.
 Tudo é editável e a decisão final é de uma pessoa. A interface é o frontend do time: a casca em
-[`mockup_plataforma.html`](../mockup_plataforma.html) e o cadastro em [`frontend/`](../frontend/cadastro.js). O plano e as medições estão em
+[`plataforma.html`](../plataforma.html) e o cadastro em [`frontend/`](../frontend/cadastro.js). O plano e as medições estão em
 [`docs/06-plano-modo-cadastro.md`](../docs/06-plano-modo-cadastro.md); o contrato para o frontend é
 [`docs/openapi.json`](../docs/openapi.json).
 

@@ -101,10 +101,10 @@ def cria_app(verifica_migracoes: bool = True, carrega_modelos: bool = True) -> F
         def painel():
             return FileResponse(pagina, media_type="text/html")
 
-        # O frontend do time: casca em mockup_plataforma.html, cadastro real em frontend/
+        # O frontend do time: casca em plataforma.html, cadastro real em frontend/
         @app.get("/", include_in_schema=False)
         def frontend():
-            return FileResponse(RAIZ_REPO / "mockup_plataforma.html", media_type="text/html")
+            return FileResponse(RAIZ_REPO / "plataforma.html", media_type="text/html")
 
         @app.get("/mockup", include_in_schema=False)
         def mockup():

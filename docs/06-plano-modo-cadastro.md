@@ -18,7 +18,7 @@ Termos usados no documento:
 
 ## 0. Estado da implementação
 
-O backend está em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 276 testes) e foi rodado contra a base inteira. **O frontend é o do time:** [`mockup_plataforma.html`](../mockup_plataforma.html) é a moldura, servida em `http://localhost:8000/`, e a tela de cadastro é o painel, embutido nela. Busca, cadastro, pedidos, acompanhamento e revisão usam a API e a base real. As demais telas (Início, Radar, Requisições, Base e Clusters) continuam com dados de demonstração, e a etiqueta do topo diz isso. O contrato é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
+O backend está em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 276 testes) e foi rodado contra a base inteira. **O frontend é o do time:** [`plataforma.html`](../plataforma.html) é a moldura, servida em `http://localhost:8000/`, e a tela de cadastro é o painel, embutido nela. Busca, cadastro, pedidos, acompanhamento e revisão usam a API e a base real. As demais telas (Início, Radar, Requisições, Base e Clusters) continuam com dados de demonstração, e a etiqueta do topo diz isso. O contrato é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
 
 | Fase | Estado | Evidência |
 |---|---|---|
@@ -114,7 +114,7 @@ O redesign de 57f4726, que ficou fora da versão integrada de `origin/main`, vol
 | Tema | Decisão | Motivo |
 |---|---|---|
 | Usuário | O responsável pelo cadastro preenche e aprova. O solicitante não usa a ferramenta na primeira versão. | O briefing atribui a confirmação a essa pessoa, e a palavra final fica com quem responde pela qualidade da base. |
-| Entrada | Busca e cadastro são o mesmo fluxo. A pessoa começa em "Buscar material" e, se nada servir, o que preencheu segue para o cadastro. | Une a ideia original ao [mockup](../mockup_plataforma.html) e evita preencher duas vezes. |
+| Entrada | Busca e cadastro são o mesmo fluxo. A pessoa começa em "Buscar material" e, se nada servir, o que preencheu segue para o cadastro. | Une a ideia original ao [mockup](../plataforma.html) e evita preencher duas vezes. |
 | Classe | Campo único com autocomplete. A classe é sempre confirmada por uma pessoa. | Substantivos como `LUVA` caem em classes diferentes. |
 | Sugestões | Campo vazio, com até 3 opções clicáveis e sua frequência. Só entram preenchidos valores de regra do PDM, de tabela local ou encontrados no pedido, sempre com a origem. | O valor mais frequente erra com frequência (seção 2), e um valor pré-preenchido parece confirmado. |
 | Limites | Valor fora do PDM é aceito com justificativa e vira exceção. Sem os obrigatórios, o item não é aprovado e volta ao solicitante. | Mantém a decisão humana sem aprovar item incompleto por engano. |
@@ -576,4 +576,4 @@ Pendências do time:
 - [01-dados.md](01-dados.md): descrição dos dados.
 - [02-plano-projeto.md](02-plano-projeto.md): pipeline E0 a E8.
 - `docs/03-analise-mercado.md`, na branch `analise-de-mercado`: tese de identidade, volumes e valor por grupo.
-- [mockup_plataforma.html](../mockup_plataforma.html): telas de busca, cadastro e requisições.
+- [plataforma.html](../plataforma.html): telas de busca, cadastro e requisições.

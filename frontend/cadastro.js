@@ -1,4 +1,4 @@
-/* Moldura do cadastro dentro do frontend do time (mockup_plataforma.html).
+/* Moldura do cadastro dentro do frontend do time (plataforma.html).
  *
  * O cadastro em si é o painel (backend/app/painel/index.html), embutido em #page-cadastro: busca, pedidos, formulário,
  * duplicidade e decisão. Aqui ficam só a navegação, o usuário, o tema e as listas de Cadastros e Revisão.

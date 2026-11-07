@@ -70,7 +70,7 @@ time) e conduz o cadastro do pedido à aprovação, com exceções, segundo anal
 envio ao ERP. Os modelos do serviço de sugestão rodam dentro dele, em `/sugestao`.
 Plano, decisões e medições: [`docs/06-plano-modo-cadastro.md`](docs/06-plano-modo-cadastro.md).
 
-**4. Interface, ligada à API** — [`mockup_plataforma.html`](mockup_plataforma.html) + [`backend/app/painel/`](backend/app/painel/index.html)
+**4. Interface, ligada à API** — [`plataforma.html`](plataforma.html) + [`backend/app/painel/`](backend/app/painel/index.html)
 
 O frontend do time é a moldura, e a tela de cadastro é o painel, embutido nela: três colunas, com a busca e os pedidos
 à esquerda, o formulário no meio e, à direita, a descrição, os itens parecidos e a decisão. A etiqueta no topo diz se a
@@ -223,7 +223,7 @@ servico/
 backend/                    API, banco, estruturação da base, cadastro, testes
 frontend/                   cadastro real, tema e teste de ponta a ponta da interface
 src/saneamento/             pipeline de saneamento (caixas, BERT, junção, catálogo)
-mockup_plataforma.html      casca da interface
+plataforma.html      casca da interface
 rodar.sh                    sobe tudo
 Hackathon_VX_Desafio01_Cadastro_e_Saneamento.pdf
 ```
