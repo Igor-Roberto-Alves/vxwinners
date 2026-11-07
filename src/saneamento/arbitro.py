@@ -26,7 +26,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from .pdm import Classe, aplica_atributo
-from .regras import Candidato
+from .regras import PASSADAS_CONDICIONAL, Candidato
 from .validador import Validador
 
 # Peso de cada tipo de desacordo no indice de discordancia do registro.
@@ -71,6 +71,12 @@ class Resultado:
     escalar: bool = False
     motivos_escalada: list[str] = field(default_factory=list)
     completude: float = 0.0
+    # Obrigatorios que REALMENTE valem para este registro: os 'sempre' mais os
+    # condicionais que se aplicam aos valores decididos. Fica no Resultado para
+    # que pipeline._montar e incorporar_llm nao recalculem o denominador por
+    # conta propria - era assim que a completude do registro discordava da
+    # completude que o arbitro havia medido.
+    obrigatorios: list[str] = field(default_factory=list)
 
     @property
     def valores(self) -> dict[str, str | None]:
@@ -191,21 +197,43 @@ class Arbitro:
                  substantivo: str = "") -> Resultado:
         bert = bert or {}
         res = Resultado()
-        aplicaveis = [a for a in classe.atributos if aplica_atributo(a, substantivo)]
-        for a in aplicaveis:
-            res.decisoes[a.nome] = self._decidir(classe, a.nome, regras.get(a.nome), bert.get(a.nome))
 
-        # Segunda passada: so agora da para saber se um obrigatorio CONDICIONAL se
-        # aplica, porque a condicao depende de valores que acabaram de ser
-        # decididos (COR vale "somente cabos de 1 condutor"). Filtrar por
-        # a.sempre aqui era um bug: os 19 obrigatorios condicionais do PDM ficavam
-        # fora da completude e nunca viravam PENDENTE, embora bloqueassem a chave
-        # de identidade. A classe PDM062 (disjuntor) ficava em 0% de SANEADO
-        # relatando PENDENTES vazio.
+        # Passadas de aplicabilidade, com a MESMA disciplina de
+        # ExtratorLexico.extrair e o mesmo teto de passadas. Decidido manter os
+        # dois lacos separados em vez de unificar num helper: o extrator itera
+        # para descobrir QUE TEXTO ler, e o arbitro para descobrir QUE CAIXA
+        # julgar - os dois leem aplica_atributo, mas um alimenta o laco com
+        # valores propostos pela camada lexica e o outro com valores JA
+        # validados, e juntar isso num unico passo obrigaria o arbitro a validar
+        # antes de saber se a caixa existe. O que precisa coincidir e o critario,
+        # nao o codigo: enquanto o extrator entregava candidato para uma caixa
+        # que o arbitro nao reconhecia, o valor era extraido e descartado em
+        # silencio - PDM062 lia 'CURVA C' e o arbitro jogava fora.
+        aplicaveis: list = []
+        vistos: set[str] = set()
+        for _ in range(PASSADAS_CONDICIONAL):
+            novos = [a for a in classe.atributos
+                     if a.nome not in vistos
+                     and aplica_atributo(a, substantivo, res.valores)]
+            if not novos:
+                break
+            for a in novos:
+                vistos.add(a.nome)
+                aplicaveis.append(a)
+                res.decisoes[a.nome] = self._decidir(classe, a.nome, regras.get(a.nome),
+                                                     bert.get(a.nome))
+
+        # Segunda avaliacao, agora so para marcar PENDENTE: um obrigatorio
+        # CONDICIONAL vazio nao e caixa opcional em branco, e pendencia que
+        # bloqueia a chave de identidade. Filtrar por a.sempre aqui era um bug:
+        # os obrigatorios condicionais do PDM ficavam fora da completude e nunca
+        # viravam PENDENTE, embora bloqueassem a chave. A classe PDM062
+        # (disjuntor) ficava em 0% de SANEADO relatando PENDENTES vazio.
         valores_ate_agora = {n: d.valor for n, d in res.decisoes.items()}
         obrigatorios = [a.nome for a in aplicaveis
                         if a.obrigatorio
                         and aplica_atributo(a, substantivo, valores_ate_agora)]
+        res.obrigatorios = obrigatorios
         for nome in obrigatorios:
             d = res.decisoes[nome]
             if not d.valor and d.estado == "ACEITO":
@@ -263,16 +291,33 @@ class Arbitro:
                 continue
             d.valor, d.fonte, d.estado = v.valor, "llm", "ACEITO"
             d.confianca = 0.80
-            d.evidencia = (evidencias or {}).get(nome, "") or d.evidencia
+            # O trecho que o LLM devolveu, e SO ele. Antes isto caia no
+            # fallback `or d.evidencia`, e o campo `evidencia` carrega duas
+            # coisas diferentes no projeto: as vezes o trecho literal do texto,
+            # as vezes uma explicacao legivel ("dicionario aprendido",
+            # "notacao compacta M<bitola>X<comprimento>", "coluna FABRICANTE").
+            # O ciclo de aprendizado trata tudo como trecho, entao o rotulo
+            # interno entrava no dicionario COMO TERMO - um deles com 25
+            # confirmacoes, marcado confiavel. Sem evidencia do LLM, nao
+            # aprende: e a unica forma de saber que o termo veio do texto.
+            evidencia_llm = (evidencias or {}).get(nome, "")
+            d.evidencia = evidencia_llm or d.evidencia
             d.motivo = f"desempate por LLM ({d.motivo})"
             # alimenta o dicionario: a mesma duvida nao deve custar outra chamada
-            if aprendizado is not None and d.evidencia:
+            if aprendizado is not None and evidencia_llm:
                 atributo_alvo = next((x for x in classe.atributos if x.nome == nome), None)
                 if atributo_alvo is not None:
-                    aprendizado.aprender(atributo_alvo, d.evidencia, v.valor,
+                    aprendizado.aprender(atributo_alvo, evidencia_llm, v.valor,
                                          "llm", classe.id_pdm)
 
-        obrigatorios = [a.nome for a in classe.obrigatorios if a.nome in res.decisoes]
+        # Reusa o conjunto que arbitrar() ja apurou. Recalcular por
+        # classe.obrigatorios aqui refazia o filtro quando=='sempre' e devolvia a
+        # completude ao denominador errado logo depois do LLM: um disjuntor com
+        # CURVA preenchida pelo LLM voltava a marcar 100% ignorando a CAPACIDADE
+        # INTERRUPCAO que continuava vazia.
+        obrigatorios = [n for n in (res.obrigatorios or
+                                    [a.nome for a in classe.obrigatorios])
+                        if n in res.decisoes]
         if obrigatorios:
             res.completude = sum(1 for n in obrigatorios if res.decisoes[n].valor) / len(obrigatorios)
             res.discordancia = sum(

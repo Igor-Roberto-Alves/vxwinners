@@ -130,6 +130,14 @@ _registrar("ASME B16.5", "B16.5", "ASME B16 5")
 # valores, aqui a expressao tem mais de um token, entao a troca e por frase.
 # 'ELEMENTO FILTRANTE OLEO FLEETGUARD LF3970' caia em OLEO LUBRIFICANTE (PDM090)
 # porque nenhuma classe de FIL01 casava o substantivo FILTRO literalmente.
+#
+# Os blocos abaixo saem de um levantamento dos 718 registros (3,0%) que nenhuma
+# das 44 classes casava e que ficavam FORA_DO_PDM. Nenhum deles era item exotico:
+# eram lacunas de vocabulario, a base escrevendo o substantivo de um jeito e o
+# PDM exigindo outro. Medido com scripts/04_extrair.py --sem-bert --sem-llm sobre
+# os 23.554 registros: 718 -> 37 fora do PDM, 681 recuperados, e mais 65
+# registros que JA tinham classe e tinham a classe ERRADA foram corrigidos.
+# O numero em cada bloco e medido registro a registro, nao estimado.
 SINONIMO_SUJEITO = {
     "ELEMENTO FILTRANTE": "FILTRO",
     "ELEMENTO FILTRO": "FILTRO",
@@ -143,6 +151,156 @@ SINONIMO_SUJEITO = {
     "CORREIA V": "CORREIA TRAPEZOIDAL",
     "CABO DE FORCA": "CABO ELETRICO",
     "CHAVE CONTATORA": "CONTATOR",
+
+    # ------------------------------------- nome da conexao de tubo: 125 (PDM050)
+    # PDM050 lista o substantivo por extenso ('FLANGE', 'NIPLE', 'TE', 'CAP') e a
+    # base abrevia ou usa o nome de oficina. FLG 52, T sozinho 42 (dos quais
+    # 26 sao 'T REDUCAO'), TAMPAO 19, NIPPLE 12.
+    #
+    # 'T' e 'CAP' sao os termos curtos que o docs/05-riscos-pdm.md manda tratar
+    # com cuidado. 'CAP' aqui e so DESTINO, nunca chave, entao nao pesca texto
+    # alheio. A chave 'T' casa apenas o token solto (expandir_sujeito compara com
+    # espaco nos dois lados, logo nao entra em 'TE', 'TUBO' nem '3/4POL'): medido
+    # sobre os 23.554 registros, recupera 42 e nao troca a classe de NENHUM
+    # registro que ja estava classificado.
+    "FLG": "FLANGE",
+    "TAMPAO": "CAP",
+    "NIPPLE": "NIPLE",
+    "T REDUCAO": "TE REDUCAO",
+    "T": "TE",
+
+    # ----------------------------------------------- cotovelo de tubo: 58 (PDM050)
+    # O substantivo do PDM e 'COTOVELO 45 GRAUS' / 'COTOVELO 90 GRAUS' e casa de
+    # forma CONTIGUA (regras._buscar). A base escreve JOELHO ou COTOV, e metade
+    # das vezes inverte o angulo com a palavra GRAUS ('COTOV GRAUS 90'), o que
+    # quebra a contiguidade mesmo quando a palavra COTOVELO esta escrita certa.
+    #
+    # CURVA fica DE FORA de proposito, apesar de ser o caso de maior volume que
+    # sobrou (35 registros). 'FEMEA CURVA 45 GRAUS JIC' e valor literal do enum
+    # TERMINAL A/TERMINAL B de PDM011 (mangueira hidraulica MONTADA, grupo MAN01).
+    # Trocar CURVA por COTOVELO destroi esse valor e 10 mangueiras montadas
+    # desciam para PDM011 -> PDM010 (medido). Acrescentar COTOVELO sem remover
+    # CURVA tambem nao resolve: o valor do enum exige os quatro tokens contiguos.
+    # E o risco C do docs/05-riscos-pdm.md e so um sinonimo COM ESCOPO DE GRUPO
+    # resolve - expandir_sujeito() hoje nao recebe o GRUPO_MERCADORIA.
+    "JOELHO 45 GRAUS": "COTOVELO 45 GRAUS",
+    "JOELHO 90 GRAUS": "COTOVELO 90 GRAUS",
+    "JOELHO GRAUS 45": "COTOVELO 45 GRAUS",
+    "JOELHO GRAUS 90": "COTOVELO 90 GRAUS",
+    "COTOV 45 GRAUS": "COTOVELO 45 GRAUS",
+    "COTOV 90 GRAUS": "COTOVELO 90 GRAUS",
+    "COTOV GRAUS 45": "COTOVELO 45 GRAUS",
+    "COTOV GRAUS 90": "COTOVELO 90 GRAUS",
+    "COTOVELO GRAUS 45": "COTOVELO 45 GRAUS",
+    "COTOVELO GRAUS 90": "COTOVELO 90 GRAUS",
+
+    # ------------------------------------------------------- vedacao: 156 (VED01)
+    # O-RING: 119 registros. PDM031 e ANEL + qualificador O-RING, e a base quase
+    # nunca escreve a palavra ANEL - comeca direto em 'O-RING 140X3 BUNA-N'.
+    # normalizar() preserva o hifen, por isso as tres grafias precisam de entrada.
+    # Estas vem DEPOIS de 'ANEL ORING'/'ANEL O RING': o dicionario e aplicado na
+    # ordem de insercao, entao quem ja escreveu ANEL cai nas entradas de cima.
+    #
+    # JTA: 37 recuperados e 40 CORRIGIDOS. As 40 eram juntas espiraladas que o
+    # classificador dava como PDM031 (ANEL O-RING) porque a unica palavra do PDM
+    # no texto era o ANEL de 'ANEL INTERNO SEM ANEL INTERNO'. Com JUNTA no texto,
+    # JUNTA+ESPIRALADA pesa mais que ANEL sozinho e elas vao para PDM033.
+    "O-RING": "ANEL O-RING",
+    "O RING": "ANEL O-RING",
+    "ORING": "ANEL O-RING",
+    "JTA": "JUNTA",
+
+    # ------------------------------------------------------ eletrica: 140 (ELE01)
+    # CONDUTOR -> CABO ELETRICO: 101. O PDM chama de CABO ELETRICO (PDM060) o que
+    # a norma de projeto e a base chamam de condutor. O destino leva o
+    # qualificador junto, o que tira o registro do empate dentro de ELE01.
+    # CONTACTOR -> CONTATOR: 31, so a grafia inglesa.
+    # FUS -> FUSIVEL: 8, abreviacao que ABREVIACOES ainda nao tinha.
+    # Nenhum dos tres troca a classe de registro ja classificado (medido).
+    "CONDUTOR": "CABO ELETRICO",
+    "CONTACTOR": "CONTATOR",
+    "FUS": "FUSIVEL",
+
+    # ----------------------------------------------------- fixadores: 113 (FIX01)
+    # PCA -> PORCA: 109 recuperados e 17 CORRIGIDOS. Cuidado de leitura: PCA e
+    # tambem a abreviacao de PECA na coluna UNIDADE_MEDIDA (ver Validador.unidade,
+    # PCA -> PC); aqui o que se le e a DESCRICAO, e em descricao de fixador PCA e
+    # sempre PORCA ('PCA SEXTAVADA ... DIN 934'). Os 17 corrigidos estavam em
+    # PDM110 porque REVESTIMENTO e substantivo de PDM110 (SOB01) e a palavra
+    # aparece no campo de acabamento da porca - o grupo FIX01 nao casava nada e a
+    # busca ampla pescava a classe de sobressalente.
+    # VERGALHAO ROSC* -> BARRA ROSCADA: 4 + 1 corrigido (DIN 975).
+    "PCA": "PORCA",
+    "VERGALHAO ROSCADA": "BARRA ROSCADA",
+    "VERGALHAO ROSCA": "BARRA ROSCADA",
+    "VERGALHAO ROSC": "BARRA ROSCADA",
+
+    # ----------------------------------------------------------- EPI: 48 (EPI01)
+    # BOTINA -> CALCADO SEGURANCA: 48. O PDM normaliza como CALCADO SEGURANCA
+    # (PDM071) e a base escreve sempre BOTINA.
+    # NAO existe sinonimo de LUVA aqui, e nao pode existir: LUVA e PDM070
+    # (EPI, luva de seguranca) e tambem conexao de PDM050 (TUB01). E o unico
+    # risco C do docs/05-riscos-pdm.md e um sinonimo global atravessaria o grupo.
+    "BOTINA": "CALCADO SEGURANCA",
+
+    # ------------------------------------------------- sobressalente: 2 (PDM110)
+    # VERGALHAO TENSORA -> BARRA TENSORA: 2, peca de peneira vibratoria. Chave de
+    # duas palavras de proposito: 'VERGALHAO' sozinho e BARRA ROSCADA em FIX01.
+    "VERGALHAO TENSORA": "BARRA TENSORA",
+
+    # ------------------------------------------------------------ solda: 3 (SOL01)
+    # 3 recuperados e 3 CORRIGIDOS, todos eletrodo revestido AWS E7018 que estavam
+    # em PDM110 pela mesma palavra REVESTIMENTO. A chave tem duas palavras porque
+    # ELETR sozinho e truncamento de ELETRICO na metade da base.
+    "ELETR REVESTIDO": "ELETRODO REVESTIDO",
+    "ELETR REVEST": "ELETRODO REVESTIDO",
+    "ELETR SOLDA": "ELETRODO REVESTIDO",
+
+    # ---------------------------------------------------------- correia: 3 (PDM030)
+    # COR truncado de CORREIA: 3. Chave de duas palavras obrigatoria - COR sozinho
+    # e o atributo COR (PRETO, AZUL, ...) de PDM013, PDM060 e PDM071.
+    "COR EM V": "CORREIA TRAPEZOIDAL",
+    "COR V": "CORREIA TRAPEZOIDAL",
+    "COR TRAPEZOIDAL": "CORREIA TRAPEZOIDAL",
+
+    # ------------------------------------------------- erro de digitacao: 33 + 4
+    # Nao e abreviacao nem sinonimo de dominio: e o substantivo digitado errado,
+    # uma unica vez cada, no cadastro legado. Entra aqui e nao em ABREVIACOES
+    # porque ABREVIACOES e vocabulario que se espera na base, e isto e defeito.
+    # Chave errada nao colide com vocabulario correto, logo o risco e zero; medido:
+    # 33 recuperados e 4 corrigidos (2 'FILT OLEO LUBRIFICANTE' que caiam em
+    # PDM090 OLEO LUBRIFICANTE - o mesmo bug que criou este dicionario).
+    "PARAUFSO": "PARAFUSO",
+    "PARAUSO": "PARAFUSO",
+    "PARAFUOS": "PARAFUSO",
+    "PARFAUSO": "PARAFUSO",
+    "PARAAFUSO": "PARAFUSO",
+    "PAARAFUSO": "PARAFUSO",
+    "PRAFUSO": "PARAFUSO",
+    "PARRAFUSO": "PARAFUSO",
+    "PARAFUO": "PARAFUSO",
+    "PARAFSUO": "PARAFUSO",
+    "PAAFUSO": "PARAFUSO",
+    "PARAAF": "PARAFUSO",
+    "ARRUELLA": "ARRUELA",
+    "ARURELA": "ARRUELA",
+    "BARRRA": "BARRA",
+    "ROLAMEENTO": "ROLAMENTO",
+    "ROLAMENOT": "ROLAMENTO",
+    "ROLAAMENTO": "ROLAMENTO",
+    "MANGUERA": "MANGUEIRA",
+    "MANGUEIAR": "MANGUEIRA",
+    "MAGUEIRA": "MANGUEIRA",
+    "MANGGUEIRA": "MANGUEIRA",
+    "VALUVLA": "VALVULA",
+    "DIJSUNTOR": "DISJUNTOR",
+    "CNDUTOR": "CABO ELETRICO",
+    "CONCAOV": "CONCAVO",
+    "FILT": "FILTRO",
+    "FILRTO": "FILTRO",
+    "COTOVEELO 90 GRAUS": "COTOVELO 90 GRAUS",
+    "COTOVEOL 45 GRAUS": "COTOVELO 45 GRAUS",
+    "UNNIAO": "UNIAO",
 }
 
 

@@ -227,6 +227,16 @@ RX = {
     "INT": re.compile(r"(?<![A-Z0-9,./\-])(\d{1,3})(?![0-9A-Z,./\-])"),
 }
 
+# Teto de passadas da extracao condicional (regra 7). Tres, e o limite e
+# obrigatorio, nao defensivo: as condicoes do PDM nao sao monotonas. "somente
+# MINIDISJUNTOR DIN" fica MAIS aplicavel quando o contexto cresce e "todas,
+# exceto conexoes para solda de topo (BW)" fica MENOS; um par dessas duas se
+# alternaria indefinidamente. O PDM de hoje nao tem cadeia mais longa que duas
+# (TIPO -> CURVA, TIPO -> ESPESSURA), entao a segunda passada basta; a terceira
+# existe para absorver um encadeamento novo sem reescrever o laco, e a quarta
+# seria sinal de condicao circular na planilha, nao de atributo a extrair.
+PASSADAS_CONDICIONAL = 3
+
 # Restricao de dominio para desempatar grandezas de mesma unidade na mesma classe.
 # Vale mais que qualquer modelo: alojamento e sempre maior que eixo, que e maior
 # que largura. Peso menor = valor menor.
@@ -366,10 +376,11 @@ class ExtratorLexico:
     # ---------------------------------------------------------- grandezas
 
     def _por_gramatica(self, t: str, classe: Classe, alvo: Atributo,
-                       substantivo: str = "") -> Candidato:
+                       substantivo: str = "",
+                       conhecidos: dict[str, str | None] | None = None) -> Candidato:
         ultimo = Candidato(alvo.nome, None, "gramatica", 0.0)
         for fam in _familias(alvo):
-            c = self._uma_familia(t, classe, alvo, substantivo, fam)
+            c = self._uma_familia(t, classe, alvo, substantivo, fam, conhecidos)
             if c.valor is not None:
                 return c
             if c.ambiguo:
@@ -377,10 +388,19 @@ class ExtratorLexico:
         return ultimo
 
     def _uma_familia(self, t: str, classe: Classe, alvo: Atributo,
-                     substantivo: str, fam: str) -> Candidato:
-        # atributos da mesma classe que disputam a mesma familia de grandeza
-        irmaos = [a for a in classe.obrigatorios
-                  if fam in _familias(a) and aplica_atributo(a, substantivo)]
+                     substantivo: str, fam: str,
+                     conhecidos: dict[str, str | None] | None = None) -> Candidato:
+        # Atributos da mesma classe que disputam a mesma familia de grandeza.
+        # Inclui o obrigatorio CONDICIONAL que se aplica com os valores ja
+        # conhecidos: classe.obrigatorios filtra quando=='sempre' e deixava
+        # DIAMETRO REDUZIDO fora da disputa, entao numa BUCHA REDUCAO ele caia no
+        # ramo de irmao unico e recebia o MESMO numero que DIAMETRO NOMINAL (o
+        # primeiro do texto), em vez do segundo. O conjunto de irmaos tem de ser
+        # o mesmo para todos eles, senao a atribuicao posicional troca medidas -
+        # e trocar espessura por diametro cria item errado na base.
+        irmaos = [a for a in classe.atributos
+                  if a.obrigatorio and fam in _familias(a)
+                  and aplica_atributo(a, substantivo, conhecidos)]
         achados = self._achar(t, fam)
 
         if not achados:
@@ -446,27 +466,70 @@ class ExtratorLexico:
 
     # ---------------------------------------------------------- orquestracao
 
+    def _um_atributo(self, t: str, bruto: str, rosca: dict, classe: Classe,
+                     a: Atributo, substantivo: str,
+                     conhecidos: dict[str, str | None] | None) -> Candidato:
+        if a.fechado:
+            c = self._por_gazetteer(t, a)
+            if c.valor is None:
+                c = self._por_gazetteer(bruto, a)
+        else:
+            c = self._por_gramatica(t, classe, a, substantivo, conhecidos)
+
+        # regra 2 do PDM: notacao compacta M12X50 tem prioridade sobre o resto
+        if a.nome in rosca and rosca[a.nome]:
+            c = Candidato(a.nome, rosca[a.nome], "regra_pdm_2", 0.92,
+                          "notacao compacta M<bitola>X<comprimento>")
+        return c
+
     def extrair(self, texto: str, classe: Classe,
                 substantivo: str = "") -> dict[str, Candidato]:
+        """Extrai em passadas, porque a condicao de um atributo depende do valor de outro.
+
+        A regra 7 nao se decide numa leitura so. A coluna QUANDO_SE_APLICA cita
+        VALORES de outro atributo ("somente MINIDISJUNTOR DIN" fala do TIPO),
+        mas na primeira leitura nenhum valor existe ainda. Avaliando uma unica
+        vez com valores desconhecidos, todo condicional governado por valor -
+        e nao pelo substantivo - ficava fora da grade e NUNCA era extraido:
+        PDM062 inteiro (CORRENTE NOMINAL, FAIXA AJUSTE, CURVA, CAPACIDADE
+        INTERRUPCAO), PDM081 ESPESSURA e GRAO, PDM061 FURO, PDM050 SCHEDULE.
+        Em 'DISJUNTOR ... MINI DISJUNTOR ... 3P IN 25A CURVA C', 'IN 25A' e
+        'CURVA C' estavam escritos na linha e terminavam na sobra do texto -
+        com PDM062 em 0% de SANEADO, porque validador.chave_identidade JA
+        exigia esses condicionais e nunca os recebia.
+
+        Cada passada so ACRESCENTA atributo; o que entrou na grade nao sai, e
+        o valor achado numa passada nao e reextraido na seguinte. As duas
+        propriedades sao deliberadas:
+
+        - nao sair: "todas, exceto conexoes para solda de topo (BW)" fica MENOS
+          aplicavel conforme o contexto cresce. Deixar a caixa cair fora
+          apagaria um valor ja achado, e chave_identidade conta com ele -
+          atributo preenchido que nao se aplica entra na chave de qualquer
+          forma, para nao juntar itens que diferem nele.
+        - nao reextrair: na primeira passada DIAMETRO de PDM081 disputa a
+          familia MM sozinho e fica com o unico numero do texto; quando
+          ESPESSURA entra na segunda, o numero continua onde estava e ESPESSURA
+          fica honestamente vazia, em vez de as duas virarem ambiguas.
+        """
         t = com_bordas(expandir(texto))
         bruto = com_bordas(texto)
-        out: dict[str, Candidato] = {}
-
         rosca = separar_rosca_metrica(texto)
 
-        for a in classe.atributos:
-            if not aplica_atributo(a, substantivo):
-                continue              # regra 7: condicional fora do seu caso
-            if a.fechado:
-                c = self._por_gazetteer(t, a)
-                if c.valor is None:
-                    c = self._por_gazetteer(bruto, a)
-            else:
-                c = self._por_gramatica(t, classe, a, substantivo)
-
-            # regra 2 do PDM: notacao compacta M12X50 tem prioridade sobre o resto
-            if a.nome in rosca and rosca[a.nome]:
-                c = Candidato(a.nome, rosca[a.nome], "regra_pdm_2", 0.92,
-                              "notacao compacta M<bitola>X<comprimento>")
-            out[a.nome] = c
+        out: dict[str, Candidato] = {}
+        conhecidos: dict[str, str | None] = {}
+        for _ in range(PASSADAS_CONDICIONAL):
+            novos = [a for a in classe.atributos
+                     if a.nome not in out
+                     and aplica_atributo(a, substantivo, conhecidos)]
+            if not novos:
+                break                 # ponto fixo: nenhuma condicao nova abriu
+            for a in novos:
+                out[a.nome] = self._um_atributo(t, bruto, rosca, classe, a,
+                                                substantivo, conhecidos)
+            # Realimenta so o que tem valor. None nao e informacao e, pior,
+            # aplica_atributo le campo vazio como "ainda nao sei" e devolve True
+            # - e por isso que COR segue aplicavel enquanto NUMERO CONDUTORES
+            # nao vem, em vez de ser descartada por falta de evidencia.
+            conhecidos = {n: c.valor for n, c in out.items() if c.valor}
         return out

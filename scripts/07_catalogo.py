@@ -139,11 +139,15 @@ for cid in sorted(por_classe):
     nomes = [at.nome for at in atributos]
 
     ws = wb.create_sheet(cid[:31])
-    # cabecalho mostra tambem se o atributo e obrigatorio e de que tipo
-    ws.append(["CODIGO", "SUJEITO", "ESTADO", "ACAO"] + nomes + ["UNIDADE", "NCM"])
-    ws.append(["", "", "", ""]
-              + [("obrigatorio " if at.obrigatorio else "opcional ") + tipo_da_caixa(at)
-                 for at in atributos] + ["", ""])
+    # O marcador de obrigatorio/tipo vai DENTRO do cabecalho, nao numa segunda
+    # linha de legenda: a linha extra parecia linha vazia e quebrava o filtro
+    # automatico do Excel, que espera cabecalho na 1 e dado na 2.
+    def marca(at):
+        t = {"TEXTUAL": "TXT", "NUMERICA": "NUM", "LIVRE": "LIV"}[tipo_da_caixa(at)]
+        return f"{at.nome} [{'obr' if at.obrigatorio else 'opc'}/{t}]"
+
+    ws.append(["CODIGO", "SUJEITO", "ESTADO", "ACAO"]
+              + [marca(at) for at in atributos] + ["UNIDADE", "NCM"])
     for cod in sorted(codigos):
         r = san[cod]
         valores = {d["atributo"]: d["valor"] for d in decisoes.get(cod, [])}
@@ -153,11 +157,63 @@ for cid in sorted(por_classe):
         linha += [valores.get(n) or "" for n in nomes]
         linha += [r["UNIDADE_PDM"], r["NCM_PDM"]]
         ws.append(linha)
-    formatar(ws, 6 + len(nomes), [13, 24, 15, 13] + [20] * len(nomes) + [10, 12])
-    # segunda linha e legenda, nao dado
-    ws.freeze_panes = "A3"
-    for c in range(5, 5 + len(nomes)):
-        ws.cell(row=2, column=c).font = Font(italic=True, size=8, color="666666")
+    formatar(ws, 6 + len(nomes), [13, 24, 15, 13] + [26] * len(nomes) + [10, 12])
+    ws.auto_filter.ref = ws.dimensions
+
+# ---------------------------------------------------------------- antes/depois
+
+print("Aba ANTES_DEPOIS (a linha crua e o que cada caixa virou)...")
+ws = wb.create_sheet("ANTES_DEPOIS")
+cols = ["CODIGO_MATERIAL", "ID_PDM", "DESCRICAO_ORIGINAL", "DESCRICAO_PDM",
+        "ORDEM", "CAIXA", "OBRIGATORIA", "TIPO_CAIXA",
+        "TRECHO_NA_LINHA_ORIGINAL", "VALOR_PADRONIZADO", "QUEM_RESOLVEU",
+        "ESTADO_CAIXA", "CONFIANCA", "POR_QUE"]
+ws.append(cols)
+QUEM = {
+    "acordo": "regra e BERT concordam",
+    "gazetteer": "lista de valores do PDM",
+    "sinonimo": "dicionario de dominio",
+    "aprendido": "dicionario aprendido",
+    "gramatica": "gramatica de grandeza",
+    "regra_pdm_2": "regra 2 do PDM (M12X50)",
+    "dominio": "restricao de dominio",
+    "ordem_pdm": "ordem dos atributos no PDM",
+    "bert": "BERT recortou",
+    "bert_desempata": "BERT desempatou",
+    "coluna_erp": "coluna do cadastro",
+    "llm": "LLM desempatou",
+    "embedding": "similaridade vetorial",
+    "literal": "texto identico ao valor do PDM",
+}
+n_ad = 0
+for cod, ds in decisoes.items():
+    r = san.get(cod)
+    if r is None:
+        continue
+    classe = pdm.classes.get(r["ID_PDM"])
+    if classe is None:
+        continue
+    ordem = {a.nome: a.ordem for a in classe.atributos}
+    por_nome = {a.nome: a for a in classe.atributos}
+    for d in sorted(ds, key=lambda x: ordem.get(x["atributo"], 99)):
+        at = por_nome.get(d["atributo"])
+        if at is None:
+            continue
+        ws.append([
+            cod, r["ID_PDM"], r["DESCRICAO_ORIGINAL"], r["DESCRICAO_PDM"],
+            at.ordem, at.nome,
+            "SIM" if (at.obrigatorio and at.sempre) else "nao",
+            tipo_da_caixa(at),
+            d.get("evidencia") or "",
+            d["valor"] or "",
+            # caixa vazia nao tem quem a resolveu: rotular confundia o leitor
+            QUEM.get(d["fonte"], d["fonte"] or "") if d["valor"] else "",
+            d["estado"], d.get("confianca"),
+            (d.get("motivo") or "")[:200],
+        ])
+        n_ad += 1
+formatar(ws, len(cols), [14, 9, 58, 58, 7, 24, 12, 11, 30, 28, 24, 13, 11, 50])
+ws.auto_filter.ref = f"A1:{get_column_letter(len(cols))}1"
 
 # ---------------------------------------------------------------- longo
 
@@ -263,6 +319,7 @@ ws.append(["ABAS DESTE ARQUIVO", "CONTEUDO"])
 ws.append(["CATALOGO", f"{N} itens, um por linha, com descricao no padrao"])
 ws.append([f"PDM001...PDM110 ({len(por_classe)} abas)",
            "caracteristicas em colunas, na ordem da aba ATRIBUTOS do PDM"])
+ws.append(["ANTES_DEPOIS", f"{n_ad} linhas: a linha crua e o que cada caixa virou"])
 ws.append(["CARACTERISTICAS", f"{n_longo} linhas em formato longo, para auditoria"])
 ws.append(["PENDENCIAS", f"{n_pend} atributos faltando, com o caminho de resolucao"])
 if juncao:

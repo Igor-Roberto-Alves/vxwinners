@@ -40,6 +40,27 @@ MINIMO_TERMO = 2
 # Termo longo demais e descricao inteira, nao termo: nao generaliza.
 MAXIMO_TERMO = 40
 
+# Rotulos que o PROPRIO pipeline grava no campo `evidencia` quando a camada que
+# resolveu a caixa nao recortou trecho nenhum do texto:
+#
+#   regras.py:351    Candidato(..., "dicionario aprendido")
+#   regras.py:470    Candidato(..., "notacao compacta M<bitola>X<comprimento>")
+#   pipeline.py:234  d.evidencia = f"coluna {coluna}"
+#
+# Eles chegam aqui por um caminho so: `Arbitro.incorporar_llm` faz
+#     d.evidencia = (evidencias or {}).get(nome, "") or d.evidencia
+# e, quando o LLM nao devolve evidencia para uma caixa que ele sobrescreveu, o
+# rotulo da camada anterior sobra no campo e desce direto para `aprender()` como
+# se fosse o termo. No caso de 'dicionario aprendido' isso e um ciclo: o rotulo
+# de procedencia do proprio dicionario volta como entrada do dicionario.
+#
+# Nenhum deles chega a casar em descricao real, entao o dano medido e entrada
+# morta, nao valor errado - mas entrada morta mente sobre o tamanho do
+# dicionario e some com a auditoria. A correcao de raiz e em arbitro.py: nao
+# usar `d.evidencia` como termo quando a evidencia nao veio do LLM. Ate la, a
+# barreira e aqui, que e o unico lado que eu posso editar.
+ROTULOS_INTERNOS = ("DICIONARIO APRENDIDO", "NOTACAO COMPACTA", "COLUNA ")
+
 
 @dataclass
 class Entrada:
@@ -62,17 +83,37 @@ class Aprendizado:
     """Dicionario persistente alimentado pelas camadas caras do pipeline."""
 
     def __init__(self, caminho: str | Path | None = None,
-                 confirmacoes_para_confiar: int = 2, ativo: bool = True):
+                 confirmacoes_para_confiar: int = 2, ativo: bool = True,
+                 pdm=None):
         self.caminho = Path(caminho) if caminho else None
         self.limiar_confianca = confirmacoes_para_confiar
         self.ativo = ativo
+        # Opcional. Com o PDM em maos, aprender() ja barra na ESCRITA o termo que
+        # e o substantivo da classe; sem ele a mesma checagem so acontece em
+        # revalidar(). Ver o comentario em revalidar() para por que isso importa.
+        self.pdm = pdm
         self.entradas: dict[str, Entrada] = {}
+        # Indice atributo -> entradas, do termo mais longo para o mais curto.
+        # Sem ele, consultar() refazia o filtro e o sorted() a cada (registro,
+        # atributo): com 2.000 termos e 23.554 registros sao centenas de milhoes
+        # de comparacoes so para responder o que nao muda entre chamadas.
+        self._indice: dict[str, list[Entrada]] | None = None
         self.contador = {"acertos": 0, "recusados_pelo_enum": 0,
                          "aprendidos": 0, "confirmados": 0, "rejeitados": 0}
         if self.caminho and self.caminho.exists():
             self.carregar()
 
     # --------------------------------------------------------------- leitura
+
+    def _por_atributo(self, nome: str) -> list["Entrada"]:
+        if self._indice is None:
+            indice: dict[str, list[Entrada]] = {}
+            for e in self.entradas.values():
+                indice.setdefault(e.atributo, []).append(e)
+            for lista in indice.values():
+                lista.sort(key=lambda e: -len(e.termo))
+            self._indice = indice
+        return self._indice.get(nome, ())
 
     def consultar(self, atributo, texto: str) -> str | None:
         """Valor canonico para este atributo, se algum termo aprendido casar.
@@ -86,11 +127,7 @@ class Aprendizado:
         t = f" {normalizar(texto)} "
 
         # casamento mais longo primeiro: 'ACO INOX 316' antes de 'INOX'
-        candidatas = sorted(
-            (e for e in self.entradas.values() if e.atributo == atributo.nome),
-            key=lambda e: -len(e.termo),
-        )
-        for e in candidatas:
+        for e in self._por_atributo(atributo.nome):
             if f" {e.termo} " not in t:
                 continue
             canonico = chaves.get(normalizar(e.valor))
@@ -102,11 +139,64 @@ class Aprendizado:
             return canonico
         return None
 
-    def confiavel(self, atributo: str, termo: str) -> bool:
-        e = self.entradas.get(f"{atributo}|{normalizar(termo)}")
-        return bool(e and not e.revisar)
+    def confiavel(self, atributo: str, termo_ou_valor: str) -> bool:
+        """Entrada ja confirmada o bastante para dispensar revisao.
+
+        Aceita o TERMO ou o VALOR canonico, e a tolerancia nao e cosmetica: quem
+        pergunta e `ExtratorLexico._por_gazetteer`, que acabou de receber de
+        `consultar()` o valor canonico e nao guardou qual termo casou. Chamando
+        com o valor, a busca por chave nunca achava nada e TODA entrada
+        aprendida saia reportada como 'a revisar', inclusive a ja confirmada
+        varias vezes - a confianca do candidato ficava presa em 0,80.
+
+        Pelo valor a resposta e conservadora: basta um termo que leva a este
+        valor ainda em revisao para a resposta ser False.
+        """
+        e = self.entradas.get(f"{atributo}|{normalizar(termo_ou_valor)}")
+        if e is not None:
+            return not e.revisar
+        alvo = normalizar(termo_ou_valor)
+        pelo_valor = [x for x in self._por_atributo(atributo)
+                      if normalizar(x.valor) == alvo]
+        return bool(pelo_valor) and all(not x.revisar for x in pelo_valor)
 
     # --------------------------------------------------------------- escrita
+
+    def _substantivos(self, id_pdm: str, pdm=None) -> set[str]:
+        """Substantivos da classe, se algum PDM estiver disponivel."""
+        pdm = pdm or self.pdm
+        if not pdm or not id_pdm:
+            return set()
+        classe = pdm.classes.get(id_pdm)
+        return {normalizar(s) for s in classe.substantivos} if classe else set()
+
+    @staticmethod
+    def _termo_proibido(atributo, termo: str, substantivos: set[str]) -> str:
+        """Motivo para o termo nunca poder ser chave, ou "" se ele pode.
+
+        Compartilhado pela escrita (`aprender`) e pela curadoria (`revalidar`):
+        termo que entrou antes de uma destas regras existir tem de sair quando
+        ela passa a existir, e manter as duas listas em sincronia a mao foi
+        exatamente como 'PARAFUSO' sobreviveu a primeira limpeza.
+        """
+        t = normalizar(termo)
+        if t == normalizar(atributo.nome):
+            return "termo e o nome da propria caixa"
+        if any(t.startswith(r) for r in ROTULOS_INTERNOS):
+            return "termo e rotulo interno do pipeline, nao trecho do texto"
+        if t in substantivos:
+            return "termo e o substantivo da classe, nao um valor"
+        # Sujeito abreviado: 'ARR LISA' em ARRUELA, 'PARAF CAB SEXTAVADA' em
+        # PARAFUSO. O LLM descreve o item e nao o atributo, e o resultado e um
+        # termo que casa em toda a classe: 'ARR LISA' -> ACABAMENTO SEM
+        # ACABAMENTO aplicaria "sem acabamento" a qualquer arruela lisa, que e
+        # inferencia sobre o produto, nao leitura do texto. Medido nas 288
+        # entradas da amostra: pega 2, nenhum falso positivo.
+        primeira = t.split()[0] if t.split() else ""
+        if len(primeira) >= 3 and any(
+                s.startswith(primeira) or primeira.startswith(s) for s in substantivos):
+            return f"termo comeca pelo sujeito da classe ({primeira})"
+        return ""
 
     def aprender(self, atributo, termo: str, valor: str, fonte: str,
                  id_pdm: str = "") -> bool:
@@ -129,6 +219,12 @@ class Aprendizado:
             return False            # termo ja e o proprio valor canonico: inutil
         if t == v:
             return False
+        # O NOME da caixa nao e valor da caixa. O BERT recorta 'ACABAMENTO' de
+        # 'ACABAMENTO: ZINCADO' e o LLM as vezes repete o rotulo como evidencia;
+        # guardar isso faz o termo casar em todo registro que use o rotulo.
+        if self._termo_proibido(atributo, t, self._substantivos(id_pdm)):
+            self.contador["rejeitados"] += 1
+            return False
 
         hoje = date.today().isoformat()
         chave = f"{atributo.nome}|{t}"
@@ -139,6 +235,7 @@ class Aprendizado:
                 fonte=fonte, primeira_vez=hoje, ultima_vez=hoje,
                 classes=[id_pdm] if id_pdm else [],
             )
+            self._indice = None          # entrada nova muda a ordem do casamento
             self.contador["aprendidos"] += 1
             return True
 
@@ -183,6 +280,74 @@ class Aprendizado:
                 n += 1
         return n
 
+    # --------------------------------------------------------------- curadoria
+
+    def revalidar(self, pdm) -> list[tuple["Entrada", str]]:
+        """Reaplica as travas de llm.py a um dicionario JA gravado e descarta o
+        que elas reprovam. Devolve [(entrada, motivo)] do que saiu.
+
+        Existe porque as travas sao de ESCRITA e o arquivo sobrevive ao codigo:
+        termo aprendido antes de uma trava existir continuaria sendo consultado
+        para sempre. Rodar isto depois de endurecer uma trava e o equivalente,
+        para o dicionario, de reprocessar a base - mas sem pagar chamada.
+
+        Nao substitui curadoria humana. Reprova so o que e verificavel contra o
+        enum (numero trocado, trecho que serve a dois valores); erro de dominio
+        como 'ACO LIGA' -> ACO CARBONO passa por aqui intacto, porque nada no
+        PDM diz que esta errado - so quem conhece aco diz.
+        """
+        from .llm import _compacto, _digitos, _palavras, _vocabulario_puro
+
+        fora: list[tuple[Entrada, str]] = []
+        for chave, e in list(self.entradas.items()):
+            # Qualquer atributo da classe serve para as regras de TERMO: elas
+            # olham o nome da caixa e o sujeito da classe, nao o enum.
+            qualquer = None
+            alvos = []
+            for cid in e.classes:
+                classe = pdm.classes.get(cid)
+                if classe is None:
+                    continue
+                for x in classe.atributos:
+                    if x.nome != e.atributo:
+                        continue
+                    qualquer = qualquer or x
+                    if _vocabulario_puro(x):
+                        alvos.append(x)
+
+            # Regras de TERMO primeiro, e fora do portao de vocabulario: elas
+            # valem tambem em caixa de grandeza. Era por isso que
+            # BITOLA 'DICIONARIO APRENDIDO' -> '1POL' sobrevivia a limpeza -
+            # BITOLA nao e vocabulario puro, entao `alvos` ficava vazio e a
+            # entrada era pulada antes de qualquer checagem.
+            substantivos = {normalizar(s) for cid in e.classes
+                            for s in self._substantivos(cid, pdm)}
+            motivo = ""
+            if qualquer is not None:
+                motivo = self._termo_proibido(qualquer, e.termo, substantivos)
+
+            if not motivo and not alvos:
+                continue
+            dig_t, dig_v = _digitos(e.termo), _digitos(e.valor)
+            if motivo:
+                pass
+            elif dig_t and dig_v and not dig_t <= dig_v:
+                motivo = "gemeo numerico"
+            else:
+                for a in alvos:
+                    t, pal = _compacto(e.termo), _palavras(e.termo)
+                    if len([v for v in a.valores if t in _compacto(v)]) >= 2:
+                        motivo = "trecho serve a dois valores do enum"
+                    elif len([v for v in a.valores if pal and pal <= _palavras(v)]) >= 2:
+                        motivo = "palavras do trecho cabem em dois valores do enum"
+                    if motivo:
+                        break
+            if motivo:
+                del self.entradas[chave]
+                self._indice = None
+                fora.append((e, motivo))
+        return fora
+
     # --------------------------------------------------------------- io
 
     def salvar(self) -> None:
@@ -201,6 +366,7 @@ class Aprendizado:
     def carregar(self) -> None:
         d = json.loads(self.caminho.read_text(encoding="utf-8"))
         self.entradas = {}
+        self._indice = None
         for item in d.get("entradas", []):
             e = Entrada(**item)
             self.entradas[e.chave] = e

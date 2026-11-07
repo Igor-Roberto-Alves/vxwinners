@@ -251,12 +251,22 @@ DN_PARA_POL = {
     32: "1.1/4", 40: "1.1/2", 50: "2", 65: "2.1/2", 80: "3", 90: "3.1/2",
     100: "4", 125: "5", 150: "6", 200: "8", 250: "10", 300: "12",
     350: "14", 400: "16", 450: "18", 500: "20", 600: "24",
+    # Resto da serie da ISO 6708 / ASME B36.10. Faltavam os DN pares entre 500 e
+    # 600 e toda a faixa acima de DN 600, que aparece em adutora e linha de
+    # polpa. Sem eles fmt_pol('DN 700') devolvia None e a caixa ficava vazia.
+    550: "22", 650: "26", 700: "28", 750: "30", 800: "32", 850: "34",
+    900: "36", 950: "38", 1000: "40", 1050: "42", 1100: "44", 1200: "48",
+    1300: "52", 1400: "56", 1500: "60", 1600: "64", 1800: "72", 2000: "80",
 }
 
-# Secao de cabo: AWG -> mm2 comercial (NBR)
+# Secao de cabo: AWG -> mm2 comercial (NBR NM 280 / NBR 6880).
+# A chave 0 e o AWG 1/0; os calibres maiores (2/0, 3/0, 4/0) nao cabem num
+# inteiro positivo e entram como -1, -2, -3, mantendo a ordem natural do calibre
+# (quanto menor o numero AWG, maior a secao).
 AWG_PARA_MM2 = {
-    20: "0,5", 18: "1", 16: "1,5", 14: "2,5", 12: "4", 10: "6", 8: "10",
-    6: "16", 4: "25", 2: "35", 1: "50", 0: "70",
+    24: "0,2", 22: "0,34", 20: "0,5", 18: "1", 16: "1,5", 14: "2,5", 12: "4",
+    10: "6", 8: "10", 6: "16", 4: "25", 3: "30", 2: "35", 1: "50", 0: "70",
+    -1: "95", -2: "120", -3: "150",
 }
 
 # Pressao -> BAR (regra 6)

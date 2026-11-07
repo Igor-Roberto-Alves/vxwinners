@@ -254,7 +254,15 @@ class Pipeline:
     def _montar(self, registro, classe, sujeito, res, escalado, texto, original, codigo, grupo):
         self._aprender_do_bert(classe, res)
         self._preencher_das_colunas(registro, classe, res)
-        obrigatorios = [a.nome for a in classe.obrigatorios if a.nome in res.decisoes]
+        # Recontar e necessario porque _preencher_das_colunas acabou de encher
+        # caixa (FABRICANTE, REFERENCIA FABRICANTE) depois de o arbitro medir.
+        # Mas o denominador tem de ser o do arbitro, nao classe.obrigatorios:
+        # aquele filtra quando=='sempre' e devolvia 100% de completude a um
+        # disjuntor que estava sem CORRENTE NOMINAL, CURVA e CAPACIDADE
+        # INTERRUPCAO - as tres obrigatorias, as tres vazias, e a chave de
+        # identidade (que ja contava os condicionais) sem fechar. A completude
+        # dizia 'completo' e o estado dizia PENDENTE, para o mesmo registro.
+        obrigatorios = [n for n in res.obrigatorios if n in res.decisoes]
         if obrigatorios:
             res.completude = sum(1 for n in obrigatorios if res.decisoes[n].valor) / len(obrigatorios)
 

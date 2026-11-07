@@ -65,7 +65,10 @@ aprendizado = None
 if not a.sem_aprendizado:
     from saneamento.aprendizado import Aprendizado
 
-    aprendizado = Aprendizado(ART / "aprendizado.json")
+    # pdm= ativa a trava de substantivo na ESCRITA: sem ele, o termo
+    # 'PARAFUSO' (que e o sujeito da classe) volta a ser aprendido
+    # como valor de MATERIAL a cada execucao.
+    aprendizado = Aprendizado(ART / "aprendizado.json", pdm=pdm)
 
 arbitro = Arbitro(Validador(pdm), limiar_discordancia=a.limiar,
                   limiar_bert=a.limiar_bert, escalar_pendentes=a.escalar_pendentes)
@@ -186,14 +189,24 @@ with detalhe.open("w", encoding="utf-8") as fh:
             "codigo": r.codigo, "id_pdm": r.id_pdm, "estado": r.estado,
             "discordancia": round(r.discordancia, 3), "escalado": r.escalado,
             "decisoes": [
+                # 'evidencia' e o trecho do texto original que gerou o valor.
+                # Sem ela na trilha, nao da para mostrar O QUE virou O QUE -
+                # que e a pergunta que qualquer auditor faz primeiro.
                 {"atributo": d.atributo, "valor": d.valor, "fonte": d.fonte,
                  "estado": d.estado, "confianca": round(d.confianca, 3),
+                 "evidencia": d.evidencia,
                  "motivo": d.motivo, "regra": d.candidato_regra, "bert": d.candidato_bert}
                 for d in r.decisoes.values()
             ],
         }, ensure_ascii=False) + "\n")
 
 if aprendizado is not None:
+    # reaplica as travas ao dicionario inteiro: elas sao de escrita, e o arquivo
+    # sobrevive ao codigo. Termo aprendido antes de a trava existir seguiria
+    # respondendo para sempre.
+    removidos = aprendizado.revalidar(pdm)
+    if removidos:
+        print(f"\nrevalidacao do dicionario removeu {removidos} entrada(s) insegura(s)")
     aprendizado.salvar()
     e = aprendizado.estatisticas()
     print()

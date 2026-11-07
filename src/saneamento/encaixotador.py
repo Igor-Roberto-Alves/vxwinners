@@ -22,9 +22,9 @@ from dataclasses import dataclass
 
 from .caixas import (
     ALTA, BAIXA, BANDA_LLM, EXATA, LIVRE, NUMERICA, TEXTUAL, VAZIA,
-    Caixa, Grade, classificar_banda, fatiar, grade_vazia,
+    Caixa, Grade, classificar_banda, fatiar, grade_vazia, tipo_da_caixa,
 )
-from .pdm import Classe, Pdm
+from .pdm import Classe, Pdm, aplica_atributo
 from .regras import ClassificadorLexico, ExtratorLexico
 from .sinonimos import canonizar as canonizar_dicionario
 from .texto import expandir, juntar, normalizar
@@ -136,6 +136,37 @@ class Encaixotador:
 
     # ------------------------------------------------------------- grade
 
+    @staticmethod
+    def _abrir_condicionais(g: Grade, classe: Classe, substantivo: str,
+                            valores: dict[str, str | None]) -> None:
+        """Abre a caixa do condicional que os valores extraidos acabaram de habilitar.
+
+        grade_vazia() decide que caixa existe avaliando aplica_atributo SEM
+        valores, e todo condicional governado por valor de outro atributo
+        ("somente MINIDISJUNTOR DIN" fala do TIPO) ficava de fora. O candidato
+        que a camada lexica achava para ele nao tinha onde cair e era jogado
+        fora: 'CURVA C' estava escrito na linha do disjuntor 10272132 e saia na
+        sobra do texto. Nao e preciso iterar aqui - ExtratorLexico.extrair ja
+        percorreu as passadas e entregou o conjunto fechado de valores.
+
+        Marca tambem obrigatoria no condicional aplicavel. O filtro
+        quando=='sempre' de grade_vazia fazia a grade daquele mesmo disjuntor
+        anunciar 'completude 100%, tudo_bate: True' com tres obrigatorias
+        vazias - no registro que o pipeline marcava PENDENTE por falta delas.
+        Duas verdades para o mesmo registro.
+        """
+        for a in classe.atributos:
+            if not aplica_atributo(a, substantivo, valores):
+                continue
+            caixa = g.caixas.get(a.nome)
+            if caixa is None:
+                caixa = g.caixas[a.nome] = Caixa(atributo=a.nome, tipo=tipo_da_caixa(a))
+            caixa.obrigatoria = caixa.obrigatoria or a.obrigatorio
+        # a ordem da grade e a coluna ORDEM do PDM, que e a ordem da descricao
+        g.caixas = {a.nome: g.caixas[a.nome]
+                    for a in sorted(classe.atributos, key=lambda x: x.ordem)
+                    if a.nome in g.caixas}
+
     def encaixotar(self, registro: dict) -> Grade:
         self.contadores.linhas += 1
         codigo = str(registro.get("CODIGO_MATERIAL", ""))
@@ -153,6 +184,9 @@ class Encaixotador:
         g.grupo_corrigido = sujeito.grupo_corrigido
 
         cand_regras = self.regras.extrair(texto, classe, sujeito.substantivo)
+        self._abrir_condicionais(
+            g, classe, sujeito.substantivo,
+            {n: c.valor for n, c in cand_regras.items() if c.valor})
         recortes = self._recortes_bert(texto, classe)
         usados: list[str] = []
 
