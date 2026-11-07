@@ -254,3 +254,15 @@ def test_regra2_comprimento_em_metro_nao_vira_mm():
 def test_aspas_de_polegada_viram_pol(cru, esperado):
     # 1.273 registros escrevem polegada com aspas; normalizar() as apagava.
     assert normalizar(cru) == esperado
+
+
+@pytest.mark.parametrize("cru,esperado", [
+    ("VALVULA ESFERA 1 IN CL 150#", "VALVULA ESFERA 1POL CL 150#"),
+    ("TE 1.1/4 IN 3000#", "TE 1.1/4POL 3000#"),
+    ("LUVA 1 1/2 IN NPT", "LUVA 1.1/2POL NPT"),
+    ("BROCA 2 INCH", "BROCA 2POL"),
+    ("DISJUNTOR 3P IN 25A CURVA C", "DISJUNTOR 3P IN 25A CURVA C"),   # IN de corrente
+])
+def test_polegada_em_ingles(cru, esperado):
+    # 1.152 ocorrencias de numero + IN na base; o termo nao reconhecido mais comum.
+    assert normalizar(cru) == esperado

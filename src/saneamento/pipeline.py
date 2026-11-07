@@ -25,6 +25,38 @@ from .validador import Validador
 # mesmo texto.
 RX_ROTULO = re.compile(r"(?:^|[;,])\s*[A-Z][A-Z0-9/ ]{0,28}?\s*:")
 # Rotulo de part number no comeco do trecho que o BERT recortou
+# Caixas que o desempate por LLM pode resolver (o mesmo conjunto que
+# scripts/10_desempatar_llm.py manda). PENDENTE puro fica de fora: sem nada no
+# texto, nenhum modelo preenche sem inventar.
+ESTADOS_ESCALAVEIS = ("CONFLITO", "AMBIGUO", "INVALIDO", "INCERTO")
+# Anotado na decisao quando o BERT recortou um trecho que a lista do PDM nao
+# tem. scripts/11_canonizar_termos.py procura exatamente este texto.
+MOTIVO_FORA_DA_LISTA = "BERT propos {}, fora da lista do PDM"
+
+
+def carregar_desempates(caminho) -> dict[str, tuple[dict, dict]]:
+    """Le artefatos/desempate_llm.jsonl -> {codigo: (valores, evidencias)}.
+
+    So os valores ACEITOS pelo validador quando o script 10 rodou; o pipeline
+    ainda os passa de novo pelo validador ao incorporar.
+    """
+    import json
+    from pathlib import Path
+
+    out: dict[str, tuple[dict, dict]] = {}
+    caminho = Path(caminho)
+    if not caminho.exists():
+        return out
+    with caminho.open(encoding="utf-8") as fh:
+        for linha in fh:
+            r = json.loads(linha)
+            aceitos = r.get("aceitos") or []
+            if aceitos:
+                out[str(r["codigo"])] = ({x["atributo"]: x["valor"] for x in aceitos},
+                                         {x["atributo"]: x.get("evidencia", "") for x in aceitos})
+    return out
+
+
 RX_ROTULO_REF = re.compile(
     r"^(?:P/N|PART NUMBER|PN|REFERENCIA FABRICANTE|REF FABRICANTE|REFERENCIA|REF"
     r"|CODIGO FABRICANTE|COD FABRICANTE|CODIGO|COD)(?:\s+(?:DE|DO|DA))?(?:\s+|$)")
@@ -105,7 +137,8 @@ class RegistroSaneado:
 class Pipeline:
     def __init__(self, pdm: Pdm, bert: ExtratorBert | None = None,
                  llm: DesempateLlm | None = None, arbitro: Arbitro | None = None,
-                 aprendizado=None):
+                 aprendizado=None,
+                 desempates: dict[str, tuple[dict, dict]] | None = None):
         self.pdm = pdm
         self.validador = Validador(pdm)
         self.clf = ClassificadorLexico(pdm)
@@ -115,8 +148,13 @@ class Pipeline:
         self.bert = bert
         self.llm = llm
         self.arbitro = arbitro or Arbitro(self.validador)
+        # codigo -> (valores, evidencias) ja decididos pelo LLM em execucao
+        # anterior (scripts/10_desempatar_llm.py). Ver carregar_desempates().
+        self.desempates = desempates or {}
+        self._bert_fora_da_lista: dict[str, str] = {}
         self.contador = {"total": 0, SANEADO: 0, PENDENTE: 0, REVISAO: 0, FORA_DO_PDM: 0,
-                         "escalados": 0, "falhas_llm": 0, "completos": 0}
+                         "escalados": 0, "falhas_llm": 0, "completos": 0,
+                         "desempates_aplicados": 0}
         self.ultimo_erro_llm = ""
 
     # ------------------------------------------------------------- bert
@@ -138,12 +176,17 @@ class Pipeline:
         # invalida e descartada aqui. Em LIVRE e NUMERICA nada muda.
         por_nome = {a.nome: a for a in classe.atributos}
         saida: dict[str, Candidato] = {}
+        # O trecho fora da lista nao entra no arbitro, mas nao some: e o insumo
+        # de scripts/11_canonizar_termos.py ('ZINC', 'MANOPLA', 'ACO ESPECIAL'),
+        # que o LLM canoniza uma vez por termo. processar() o anota na decisao.
+        self._bert_fora_da_lista = {}
         for p in self.bert.prever(tokens):
             atributo = por_nome.get(p.atributo)
             if atributo is None:
                 continue                      # mascara pela classe prevista
             if atributo.fechado and not self.validador.valor(atributo, p.valor).ok:
-                continue                      # fora da lista: ruido, nao evidencia
+                self._bert_fora_da_lista.setdefault(p.atributo, p.valor)
+                continue                      # fora da lista: nao e evidencia de valor
             valor = p.valor
             if p.atributo in ("REFERENCIA FABRICANTE", "REFERENCIA"):
                 # Com o texto cru o BERT ve o rotulo telegrafico e as vezes o
@@ -240,9 +283,28 @@ class Pipeline:
             cand_bert.pop("REFERENCIA FABRICANTE", None)
         res: Resultado = self.arbitro.arbitrar(classe, cand_regras, cand_bert,
                                                sujeito.confianca, sujeito.substantivo)
+        for nome, trecho in self._bert_fora_da_lista.items():
+            d = res.decisoes.get(nome)
+            if d is not None and not d.valor and d.candidato_bert is None:
+                d.candidato_bert = trecho
+                d.motivo = f"{d.motivo}; {MOTIVO_FORA_DA_LISTA.format(trecho)}"
+        self._bert_fora_da_lista = {}
 
         escalado = False
-        if res.escalar and self.llm is not None:
+        # Desempate ja feito por scripts/10_desempatar_llm.py: aplica sem chamar
+        # o LLM de novo. So nas caixas que AINDA estao em duvida - a resposta foi
+        # dada para uma extracao anterior, e caixa que a extracao atual ja
+        # resolveu nao pode ser sobrescrita por ela.
+        if self.desempates and codigo in self.desempates:
+            valores, evidencias = self.desempates[codigo]
+            em_duvida = {d.atributo for d in res.em_estado(*ESTADOS_ESCALAVEIS)}
+            valores = {k: v for k, v in valores.items() if k in em_duvida}
+            if valores:
+                res = self.arbitro.incorporar_llm(
+                    classe, res, valores, evidencias=evidencias, aprendizado=self.aprendizado)
+                escalado = True
+                self.contador["desempates_aplicados"] += 1
+        if not escalado and res.escalar and self.llm is not None:
             foco = [d.atributo for d in res.em_estado("CONFLITO", "AMBIGUO", "INCERTO", "INVALIDO")]
             resposta = self.llm.desempatar(classe, texto, foco, res.motivos_escalada)
             if resposta.valores:

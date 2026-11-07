@@ -1502,3 +1502,44 @@ def test_dado_ausente_nao_tira_de_saneado_mas_valor_nao_reconhecido_tira(pipe):
                            "COMPRIMENTO: 75MM; CLASSE RESISTENCIA: 8.8; MATERIAL: ACO CARBONO; "
                            "ACABAMENTO: OXIDADO PRETO; NORMA: DIN 931"})
     assert cheio.estado == "SANEADO" and cheio.completo and cheio.chave_identidade
+
+
+def test_trecho_fora_da_lista_fica_anotado_sem_travar(pdm):
+    # Insumo do scripts/11_canonizar_termos.py: o termo que o BERT recortou e o
+    # PDM nao tem ('ZINC') fica na decisao, mas a caixa nao vira INVALIDO.
+    p = Pipeline(pdm, bert=_BertFalso([("ACABAMENTO", "ZINC", 0.9)]))
+    r = p.processar({"CODIGO_MATERIAL": "T10", "GRUPO_MERCADORIA": "FIX01",
+                     "DESCRICAO_LONGA": "PARAFUSO SEXTAVADO M12X50 8.8 ZINC DIN 933"})
+    d = r.decisoes["ACABAMENTO"]
+    assert d.estado != "INVALIDO"
+    assert d.candidato_bert == "ZINC" and "fora da lista do PDM" in d.motivo
+
+
+def test_desempate_gravado_e_aplicado_so_onde_ainda_ha_duvida(pdm):
+    # O LLM resolveu MATERIAL e NORMA numa execucao anterior. NORMA hoje ja sai
+    # da regra (DIN 933 escrito): a resposta antiga nao pode sobrescreve-la.
+    texto = "PARAFUSO SEXTAVADO M12X50 8.8 DIN 933 ACO INOX 304 OU ACO INOX 316"
+    antes = Pipeline(pdm).processar({"CODIGO_MATERIAL": "T11", "GRUPO_MERCADORIA": "FIX01",
+                                     "DESCRICAO_LONGA": texto})
+    assert antes.decisoes["MATERIAL"].estado == "AMBIGUO"
+    p = Pipeline(pdm, desempates={"T11": ({"MATERIAL": "ACO INOX 304", "NORMA": "DIN 931"},
+                                          {"MATERIAL": "ACO INOX 304", "NORMA": "DIN 931"})})
+    r = p.processar({"CODIGO_MATERIAL": "T11", "GRUPO_MERCADORIA": "FIX01",
+                     "DESCRICAO_LONGA": texto})
+    assert r.decisoes["MATERIAL"].valor == "ACO INOX 304"
+    assert r.decisoes["MATERIAL"].fonte == "llm"
+    assert r.decisoes["NORMA"].valor == "DIN 933"           # nao sobrescreveu
+    assert p.contador["desempates_aplicados"] == 1
+
+
+def test_carregar_desempates_le_so_os_aceitos(tmp_path):
+    from saneamento.pipeline import carregar_desempates
+    arq = tmp_path / "d.jsonl"
+    arq.write_text(
+        '{"codigo": "1", "id_pdm": "PDM001", "aceitos": [{"atributo": "MATERIAL", '
+        '"valor": "ACO CARBONO", "evidencia": "ACO CARB"}], "recusados": []}\n'
+        '{"codigo": "2", "id_pdm": "PDM001", "aceitos": [], "recusados": '
+        '[{"atributo": "NORMA", "proposto": null, "motivo": "LLM devolveu null"}]}\n',
+        encoding="utf-8")
+    d = carregar_desempates(arq)
+    assert d == {"1": ({"MATERIAL": "ACO CARBONO"}, {"MATERIAL": "ACO CARB"})}

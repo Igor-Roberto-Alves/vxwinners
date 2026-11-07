@@ -67,7 +67,14 @@ with (ART / "decisoes_base.jsonl").open(encoding="utf-8") as fh:
             continue
         por_nome = {x.nome: x for x in classe.atributos}
         for x in d["decisoes"]:
-            if x["estado"] != "INVALIDO":
+            # Dois jeitos de o BERT ter recortado um termo que a lista recusou:
+            # a caixa INVALIDO (BERT sozinho, em caixa NUMERICA/LIVRE) e a caixa
+            # TEXTUAL vazia com o trecho anotado - o pipeline descarta a
+            # proposta fora da lista antes do arbitro, para ela nao travar o
+            # registro, mas guarda o trecho para ser canonizado aqui.
+            fora_da_lista = (not x.get("valor") and x.get("bert")
+                             and "fora da lista do PDM" in (x.get("motivo") or ""))
+            if x["estado"] != "INVALIDO" and not fora_da_lista:
                 continue
             at = por_nome.get(x["atributo"])
             # so vocabulario fechado: para caixa numerica o mapa termo->valor nao

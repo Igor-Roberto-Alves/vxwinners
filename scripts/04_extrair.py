@@ -47,6 +47,9 @@ p.add_argument("--limite", type=int, default=0, help="processa so os N primeiros
 p.add_argument("--sem-aprendizado", action="store_true",
                help="nao le nem alimenta artefatos/aprendizado.json")
 p.add_argument("--saida", default=None)
+p.add_argument("--aplicar-desempates", nargs="?", const="", default=None, metavar="JSONL",
+               help="aplica as respostas que scripts/10_desempatar_llm.py gravou "
+                    "(padrao: artefatos/desempate_llm.jsonl), sem chamar o LLM")
 a = p.parse_args()
 
 ART = Path(a.artefatos)
@@ -72,7 +75,14 @@ if not a.sem_aprendizado:
 
 arbitro = Arbitro(Validador(pdm), limiar_discordancia=a.limiar,
                   limiar_bert=a.limiar_bert, escalar_pendentes=a.escalar_pendentes)
-pipe = Pipeline(pdm, bert=bert, llm=llm, arbitro=arbitro, aprendizado=aprendizado)
+desempates = {}
+if a.aplicar_desempates is not None:
+    from saneamento.pipeline import carregar_desempates
+    arq = Path(a.aplicar_desempates or ART / "desempate_llm.jsonl")
+    desempates = carregar_desempates(arq)
+    print(f"Desempates do LLM a aplicar ........... {len(desempates):,} registros ({arq})")
+pipe = Pipeline(pdm, bert=bert, llm=llm, arbitro=arbitro, aprendizado=aprendizado,
+                desempates=desempates)
 
 if a.pedidos:
     registros = ler_pedidos(a.pedidos_arquivo)
@@ -163,6 +173,10 @@ print(f"Registros com chave fechada ........... {sum(chaves.values()):>8,}")
 print(f"Chaves distintas ...................... {len(chaves):>8,}")
 print(f"Chaves com mais de um codigo .......... {len(dups):>8,}")
 print(f"Codigos redundantes (duplicidade) ..... {sum(v - 1 for v in dups.values()):>8,}")
+
+if desempates:
+    print(f"Desempates do LLM aplicados ........... {pipe.contador['desempates_aplicados']:>8,}"
+          f"  de {len(desempates):,} gravados (o resto ja nao estava em duvida)")
 
 if llm:
     print()

@@ -66,10 +66,16 @@ _FRACAO_MISTA = re.compile(
     r"([1-9]|1[0-2])[\s\-](\d{1,2}/\d{1,2})\s?POL")
 # 'POLX2' -> 'POL X 2': bitola x comprimento em polegada, separados
 _POL_X = re.compile(r"POL\s?X\s?(?=\d)")
+# Polegada escrita em ingles depois do numero: '3/4 IN', '1 IN CL 150#', '2 INCH'.
+# 1.152 ocorrencias na base, todas polegada, e eram o termo nao reconhecido mais
+# comum (DIAMETRO NOMINAL '1 IN', '2 IN', '3/4 IN'). So depois de DIGITO: o IN de
+# disjuntor vem antes do numero ('3P IN 25A' e corrente nominal) e fica intocado.
+_POLEGADA_IN = re.compile(r"(\d)\s?(?:INCHES|INCH|IN)(?![A-Z0-9])")
 
 
 def _polegada(s: str) -> str:
     s = _POLEGADA_ASPAS.sub(r"\1POL ", s)
+    s = _POLEGADA_IN.sub(r"\1POL", s)
     s = _POL_X.sub("POL X ", s)
     return _FRACAO_MISTA.sub(r"\1.\2POL", s)
 
