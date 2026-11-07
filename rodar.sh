@@ -54,7 +54,7 @@ else
 fi
 
 # a API carrega os modelos no startup; espera ficar de pé
-URL="http://127.0.0.1:$PORTA_WEB/mockup_plataforma.html"
+URL="http://127.0.0.1:$PORTA_WEB/plataforma.html"
 printf '  aguardando a API'
 for _ in $(seq 60); do
   if curl -fsS -m 2 "http://127.0.0.1:$PORTA_API/saude" >/dev/null 2>&1; then ok=1; break; fi

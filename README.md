@@ -68,7 +68,7 @@ FastAPI na porta 8700. Recebe a descrição em texto livre e devolve, numa chama
 NCM, fabricante, referência **e a lista de materiais similares já cadastrados** — o anti-duplicata na
 porta de entrada.
 
-**4. Interface, ligada à API** — [`mockup_plataforma.html`](mockup_plataforma.html)
+**4. Interface, ligada à API** — [`plataforma.html`](plataforma.html)
 
 Catálogo MRO navegável, com duas telas ligadas ao serviço:
 
@@ -189,7 +189,7 @@ cd preenchimento && python 08_preencher.py
 Um comando sobe tudo — prepara os dados, treina (só na primeira vez), sobe API e interface:
 
 ```bash
-./rodar.sh                 # abre http://127.0.0.1:8080/mockup_plataforma.html
+./rodar.sh                 # abre http://127.0.0.1:8080/plataforma.html
 ./rodar.sh --sem-navegador
 ```
 
@@ -240,7 +240,7 @@ preenchimento/
                             grupo_suspeitos.csv · resumo_preenchimento.json
 servico/
   treina.py api.py exemplos_curl.sh
-mockup_plataforma.html
+plataforma.html
 Hackathon_VX_Desafio01_Cadastro_e_Saneamento.pdf
 ```
 
