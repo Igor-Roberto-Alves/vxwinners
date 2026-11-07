@@ -53,6 +53,9 @@ AMBIGUOS: dict[str, tuple[str, ...]] = {
 }
 
 
+_GENERICAS = {"ACO", "CARBONO", "INOX", "FORJADO", "FUNDIDO", "LIGA", "FERRO", "MALEAVEL"}
+
+
 def _toks(s: str) -> frozenset[str]:
     return frozenset(tokens(s))
 
@@ -119,12 +122,23 @@ def acha_no_texto(permitidos: tuple[str, ...] | list[str], texto: str) -> Casame
     `8` ou `A` com qualquer número ou letra solta."""
     nt = " " + normaliza(texto) + " "
     achados: list[str] = []
+    por_codigo: set[str] = set()
     for v in permitidos:
         n = normaliza(v)
         if not (len(n) >= 3 or (re.search(r"[A-Z]", n) and re.search(r"\d", n))):
             continue
         if re.search(rf"(?<![A-Z0-9]){re.escape(n)}(?![A-Z0-9])", nt):
             achados.append(v)
+    # valor "ACO CARBONO FUNDIDO A216 WCB": o texto costuma trazer só o código (A216 WCB)
+    for v in permitidos:
+        n = normaliza(v)
+        resto = [t for t in n.split() if t not in _GENERICAS]
+        if len(resto) < len(n.split()) and resto:
+            codigo = " ".join(resto)
+            if re.search(r"\d", codigo) and len(codigo) >= 3 and v not in achados and \
+                    re.search(rf"(?<![A-Z0-9]){re.escape(codigo)}(?![A-Z0-9])", nt):
+                achados.append(v)
+                por_codigo.add(v)
     for variante, canon in DIRETOS.items():
         if len(variante) >= 3 and re.search(rf"(?<![A-Z0-9]){re.escape(variante)}(?![A-Z0-9])", nt):
             alvo = _procura_canonico(canon, {v: normaliza(v) for v in permitidos})
@@ -133,6 +147,8 @@ def acha_no_texto(permitidos: tuple[str, ...] | list[str], texto: str) -> Casame
     # um valor contido em outro (ACO INOX 304 dentro de ACO INOX 304 ...): fica o mais longo
     achados = [a for a in achados if not any(a != b and normaliza(a) in normaliza(b) for b in achados)]
     if len(achados) == 1:
+        if achados[0] in por_codigo:
+            return Casamento(achados[0], 0.9, "codigo do valor da lista no texto")
         return Casamento(achados[0], 0.95, "valor da lista no texto")
     if len(achados) > 1:
         return Casamento(None, 0.0, "ambiguo no texto", tuple(achados))

@@ -128,3 +128,10 @@ def test_acha_no_texto_livre_sem_falso_positivo():
     norma = ("ASME B18.2.1", "DIN 931", "DIN 933")
     assert acha_no_texto(norma, "porca din 933 pra peneira").valor == "DIN 933"
     assert acha_no_texto(norma, "din 931 ou din 933").valor is None  # ambiguo
+
+
+def test_acha_no_texto_pelo_codigo_do_aco():
+    corpo = ("ACO CARBONO FORJADO A105", "ACO CARBONO FUNDIDO A216 WCB", "ACO INOX FORJADO A182 F316", "ACO INOX FUNDIDO A351 CF8M")
+    r = acha_no_texto(corpo, "ball valve 1POL, 150#, A216 WCB, RF flanged")
+    assert r.valor == "ACO CARBONO FUNDIDO A216 WCB" and r.confianca == 0.9
+    assert acha_no_texto(corpo, "valvula inox 316").valor is None  # sem codigo, nao escolhe entre forjado e fundido

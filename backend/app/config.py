@@ -24,6 +24,9 @@ class Settings(BaseSettings):
     base_xlsx: Path = RAIZ_REPO / "dados" / "01_base_materiais.xlsx"
     pedidos_xlsx: Path = RAIZ_REPO / "dados" / "02_pedidos_cadastro.xlsx"
 
+    # Origens permitidas para o frontend (CORS), separadas por vírgula. Vazio: nenhuma.
+    cors_origens: str = ""
+
     # Autenticação. "dev" aceita cabeçalhos X-Usuario/X-Papel; "oidc" ainda não está implementado.
     auth_modo: str = "dev"
 
@@ -33,8 +36,10 @@ class Settings(BaseSettings):
     aws_region: str | None = None
     aws_default_region: str = "us-east-1"
     anthropic_aws_workspace_id: str | None = None
-    llm_modelo_extracao: str = "claude-haiku-5-5"
-    llm_modelo_dificil: str = "claude-sonnet-5-5"
+    # IDs dependem da conta: em 2026-11-07 a conta de desenvolvimento só permitia Haiku 4.5,
+    # Sonnet 4.6/5 e Opus 4.6 a 5 (os 5.5 estavam negados por política). Ajuste por variável de ambiente.
+    llm_modelo_extracao: str = "us.anthropic.claude-haiku-4-5-20251001-v1:0"
+    llm_modelo_dificil: str = "us.anthropic.claude-sonnet-5"
     llm_concorrencia: int = 8
     llm_timeout_s: float = 60.0
 

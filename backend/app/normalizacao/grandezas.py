@@ -44,7 +44,8 @@ def _monta_pol(inteiro: int, frac: Fraction) -> str:
 
 
 def polegada(texto: str) -> Norm:
-    t = normaliza(texto)
+    # `3 / 4 POL` precisa ser lido como fração; sem isto o `4 POL` sobrava sozinho e virava 4POL
+    t = re.sub(r"\s*/\s*", "/", normaliza(texto))
     m = _DN.search(t)
     if m and int(m.group(1)) in DN_POL:
         v = DN_POL[int(m.group(1))]

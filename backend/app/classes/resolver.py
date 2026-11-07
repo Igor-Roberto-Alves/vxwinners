@@ -21,9 +21,11 @@ GLOSSARIO_EN: dict[str, str] = {
     "CHECK VALVE": "VALVULA RETENCAO", "BUTTERFLY VALVE": "VALVULA BORBOLETA", "OIL SEAL": "RETENTOR",
     "O RING": "ANEL O-RING", "O-RING": "ANEL O-RING", "SAFETY BOOT": "CALCADO SEGURANCA",
     "SAFETY SHOE": "CALCADO SEGURANCA", "SAFETY GLOVE": "LUVA SEGURANCA", "SAFETY GLASSES": "OCULOS SEGURANCA",
-    "ELECTRIC CABLE": "CABO ELETRICO", "PIPE FITTING": "CONEXAO", "BALL BEARING": "ROLAMENTO RIGIDO ESFERAS",
+    "ELECTRIC CABLE": "CABO ELETRICO", "BALL BEARING": "ROLAMENTO RIGIDO ESFERAS",
     "ROLLER BEARING": "ROLAMENTO ROLOS CONICOS", "HYDRAULIC HOSE": "MANGUEIRA HIDRAULICA",
-    "V BELT": "CORREIA TRAPEZOIDAL", "OIL FILTER": "FILTRO OLEO LUBRIFICANTE", "AIR FILTER": "FILTRO AR",
+    "V BELT": "CORREIA TRAPEZOIDAL", "HEX HEAD BOLT": "PARAFUSO SEXTAVADO",
+    "SOCKET HEAD CAP SCREW": "PARAFUSO SEXTAVADO INTERNO", "TWIST DRILL": "BROCA HELICOIDAL", "FLAT GASKET": "JUNTA PLANA",
+    "SPIRAL WOUND GASKET": "JUNTA ESPIRALADA", "OIL FILTER": "FILTRO OLEO LUBRIFICANTE", "AIR FILTER": "FILTRO AR",
     "FUEL FILTER": "FILTRO COMBUSTIVEL", "HEX BOLT": "PARAFUSO SEXTAVADO", "HEX NUT": "PORCA",
     "FLAT WASHER": "ARRUELA LISA", "SPRING WASHER": "ARRUELA PRESSAO", "THREADED ROD": "BARRA ROSCADA",
     "CIRCUIT BREAKER": "DISJUNTOR", "CONTACTOR": "CONTATOR", "FUSE": "FUSIVEL", "LED LAMP": "LAMPADA LED",
@@ -137,7 +139,7 @@ class IndiceClasses:
         return saida
 
     # ------------------------------------------------------------ texto longo
-    def detectar_no_texto(self, texto: str, *, grupo: str | None = None) -> list[Sugestao]:
+    def detectar_no_texto(self, texto: str, *, grupo: str | None = None, permite_curto: bool = False) -> list[Sugestao]:
         """Nomes do PDM inteiros dentro do texto. O mais longo vence; o grupo desempata.
 
         Quando o grupo é conhecido e só o substantivo aparece (LUVA em EPI01), o nome parcial do
@@ -156,7 +158,7 @@ class IndiceClasses:
             if not (completo or parcial):
                 continue
             curto = sum(len(t) for t in nt) <= 3  # TE, CAP: só com grupo coerente
-            if curto and not no_grupo:
+            if curto and not no_grupo and not permite_curto:
                 continue
             pos = [toks.index(t) for t in nt if t in toks]
             inicio = 0.05 if pos and min(pos) <= 1 else 0.0  # nome no começo da descrição

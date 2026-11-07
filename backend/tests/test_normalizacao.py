@@ -114,3 +114,18 @@ def test_normaliza_valor_por_tipo():
     assert formatos.normaliza_valor("POL", 'DN 50').valor == "2POL"
     assert formatos.normaliza_valor("BAR", "3.650 psi").valor == "252BAR"
     assert formatos.normaliza_valor("MM", "16,25MM").confianca == 1.0
+
+
+@pytest.mark.parametrize("txt,esperado", [
+    ("1 1/2 POL", "1.1/2POL"), ("1 1/4", "1.1/4POL"), ('2 1/2"', "2.1/2POL"), ("3 / 4 POL", "3/4POL"),
+])
+def test_polegada_com_espaco_nao_vira_numero_colado(txt, esperado):
+    """Regressão: remover espaços antes de validar transformava `1 1/2 POL` em `11/2POL`."""
+    assert formatos.normaliza_valor("POL", txt).valor == esperado
+    assert formatos.normaliza_valor("POL", "1 1/2 POL").valor != "11/2POL"
+
+
+def test_medida_com_espaco_continua_funcionando():
+    assert formatos.normaliza_valor("MM", "16,25 MM").valor == "16,25MM"
+    assert formatos.normaliza_valor("MM", "62 MM").valor == "62MM"
+    assert formatos.normaliza_valor("BAR", "215 BAR").valor == "215BAR"

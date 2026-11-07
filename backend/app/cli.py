@@ -5,6 +5,7 @@
   contagens   confere os totais contra a origem
   estruturar  lê classe e atributos de cada material (--etapa regras|llm)
   relatorio   mede a cobertura da estruturação
+  avaliar     mede precisão do LLM contra gabarito derivado da base
 """
 from __future__ import annotations
 
@@ -67,7 +68,18 @@ def _estruturar(args) -> None:
     else:
         from .estruturacao import etapa_llm
 
-        print(etapa_llm.executa(limite=args.limite, modelo=args.modelo, amostra=args.amostra))
+        if args.tudo:
+            print(etapa_llm.executa_tudo(teto_usd=args.teto_usd, modelo=args.modelo))
+        else:
+            print(etapa_llm.executa(limite=args.limite, modelo=args.modelo, amostra=args.amostra))
+
+
+def _avaliar(args) -> None:
+    import json
+
+    from .estruturacao import avaliar
+
+    print(json.dumps(avaliar.avaliar(args.n, modelo=args.modelo), ensure_ascii=False, indent=2))
 
 
 def _relatorio() -> None:
@@ -88,10 +100,15 @@ def main(argv: list[str] | None = None) -> int:
     e.add_argument("--limite", type=int)
     e.add_argument("--modelo")
     e.add_argument("--amostra", action="store_true", help="llm: só uma amostra aleatória, para medir custo e acerto")
+    e.add_argument("--tudo", action="store_true", help="llm: todos os candidatos, em lotes, com teto de gasto")
+    e.add_argument("--teto-usd", type=float, default=60.0, help="llm --tudo: para ao passar deste gasto estimado")
     sub.add_parser("relatorio")
+    av = sub.add_parser("avaliar")
+    av.add_argument("-n", type=int, default=120)
+    av.add_argument("--modelo")
     args = ap.parse_args(argv)
     {"migrar": lambda: _migrar(), "ingerir": lambda: _ingerir(args), "contagens": lambda: _contagens(),
-     "estruturar": lambda: _estruturar(args), "relatorio": lambda: _relatorio()}[args.cmd]()
+     "estruturar": lambda: _estruturar(args), "relatorio": lambda: _relatorio(), "avaliar": lambda: _avaliar(args)}[args.cmd]()
     return 0
 
 

@@ -18,6 +18,7 @@ def tabela_pequena(tmp_path, banco):
     arq.write_text(json.dumps(doc))
     with banco.begin() as c:
         tabela.importa(c, arq)
+    tabela.arquivo_de_teste = arq
     return tabela
 
 
@@ -40,7 +41,10 @@ def test_ncm_fora_de_vigencia_e_formato(banco, tabela_pequena):
         assert not tabela_pequena.valida(c, None).ok
 
 
-def test_importacao_e_idempotente(banco, tabela_pequena, tmp_path):
+def test_importacao_e_idempotente(banco, tabela_pequena):
     with banco.begin() as c:
-        n = c.exec_driver_sql("select count(*) from ncm_versao").scalar()
-    assert n == 1
+        antes = c.exec_driver_sql("select count(*) from ncm_versao").scalar()
+        v1 = tabela_pequena.importa(c, tabela_pequena.arquivo_de_teste)
+        v2 = tabela_pequena.importa(c, tabela_pequena.arquivo_de_teste)
+        depois = c.exec_driver_sql("select count(*) from ncm_versao").scalar()
+    assert v1 == v2 and antes == depois  # mesmo arquivo (mesmo hash): nao cria outra versao

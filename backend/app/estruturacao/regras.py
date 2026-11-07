@@ -35,8 +35,12 @@ ALIAS_ROTULO = {
 }
 
 
+_PREPOSICOES = {"DE", "DO", "DA", "DOS", "DAS"}
+_ROTULOS_PRODUTO = {"PRODUTO", "ITEM", "DENOMINACAO", "NOME DO ITEM", "NOME DO PRODUTO"}
+
+
 def _atributo_do_rotulo(classe: Classe, rotulo: str) -> str | None:
-    r = normaliza(rotulo)
+    r = " ".join(t for t in normaliza(rotulo).split() if t not in _PREPOSICOES)
     nomes = [a.nome for a in classe.atributos]
     if r in nomes:
         return r
@@ -101,14 +105,20 @@ def extrai_por_regras(pdm: Pdm, indice: IndiceClasses, r: dict) -> Extracao:
     if not texto:
         return ex
     partes = _partes(texto)
-    cabeca = partes[0] if partes and ":" not in partes[0] else ""
+    primeira = partes[0] if partes and ":" not in partes[0] else ""   # "SUBSTANTIVO; ATRIBUTO: VALOR..."
     grupo = r.get("grupo")
+    # rótulo explícito (`Produto: Retentor`) manda sobre qualquer outro valor e pode ser nome curto (CAP, TE)
+    produto = next((p.partition(":")[2].strip() for p in partes if ":" in p
+                    and normaliza(p.partition(":")[0]) in _ROTULOS_PRODUTO and p.partition(":")[2].strip()), "")
+    cabeca = produto or primeira
 
     # ---- classe
-    cands = indice.detectar_no_texto(cabeca, grupo=grupo) if cabeca else []
+    cands = indice.detectar_no_texto(cabeca, grupo=grupo, permite_curto=bool(produto)) if cabeca else []
     origem_classe = "cabecalho"
     if not cands:
-        cands = indice.detectar_no_texto(texto, grupo=grupo)
+        # só os valores contam como evidência de classe; frase terminada em ":" (sem valor) fica inteira
+        so_valores = "; ".join((p.partition(":")[2].strip() or p.replace(":", " ")) if ":" in p else p for p in partes)
+        cands = indice.detectar_no_texto(so_valores, grupo=grupo)
         origem_classe = "texto"
     id_pdm, nome, ambiguas = _decide(pdm, cands)
     if not id_pdm and (grupo == "ROL01" or "ROLAMENTO" in prepara(texto)):
@@ -129,6 +139,22 @@ def extrai_por_regras(pdm: Pdm, indice: IndiceClasses, r: dict) -> Extracao:
         ex.confianca_classe -= 0.15
         ex.avisos.append(f"grupo do ERP ({grupo}) difere do grupo da classe ({classe.grupo})")
 
+    _extrai_atributos(pdm, classe, ex, texto, partes, primeira, r)
+    return ex
+
+
+def extrai_para_classe(pdm: Pdm, id_pdm: str, nome: str | None, texto: str, r: dict | None = None) -> Extracao:
+    """Lê atributos de um texto para uma classe JÁ escolhida (a pessoa confirmou a classe)."""
+    r = r or {}
+    classe = pdm.classes[id_pdm]
+    ex = Extracao(id_pdm=id_pdm, nome=nome, confianca_classe=1.0, metodo="REGRA")
+    partes = _partes(texto.strip())
+    cabeca = partes[0] if partes and ":" not in partes[0] else ""
+    _extrai_atributos(pdm, classe, ex, texto, partes, cabeca, r)
+    return ex
+
+
+def _extrai_atributos(pdm: Pdm, classe: Classe, ex: Extracao, texto: str, partes: list[str], cabeca: str, r: dict) -> None:
     def poe(atr: str, v: Valor) -> None:
         atual = ex.valores.get(atr)
         if atual is None or (not atual.valor and v.valor) or (v.valor and v.confianca > atual.confianca and atual.origem != "REGRA_ROTULO"):
@@ -201,4 +227,3 @@ def extrai_por_regras(pdm: Pdm, indice: IndiceClasses, r: dict) -> Extracao:
             for atr, v in deduz_vedacao_folga(ref.bruto or ref.valor).items():
                 if not (ex.valores.get(atr) and ex.valores[atr].valor):
                     ex.valores[atr] = Valor(v, ref.bruto, "REGRA_PDM", ref.bruto, 0.92)
-    return ex
