@@ -1,10 +1,43 @@
+# segredos e configuracao local
 .env
 .claude/settings.local.json
+
+# python
 .venv/
-.pgdata/
 __pycache__/
 *.pyc
 .pytest_cache/
+*.log
+*.out
+
+# backend do modo de cadastro
+.pgdata/
 backend/erp_out/
 backend/erp_in/
 backend/artefatos/
+
+# preenchimento e servico de sugestao (regeneraveis)
+preenchimento/cache/
+preenchimento/dados/
+preenchimento/saida/fab_llm_ckpt.jsonl
+servico/modelos/
+
+# planilhas duplicadas na raiz: as versionadas estao em dados/
+/01_base_materiais.xlsx
+/02_pedidos_cadastro.xlsx
+/03_padrao_cadastro_PDM.xlsx
+
+# artefatos grandes ou regeneraveis do saneamento (rode ./scripts/rodar_tudo.sh)
+artefatos/modelo_bert/
+artefatos/cache_llm/
+artefatos/cache_emb.json
+artefatos/*.csv
+artefatos/decisoes_*.jsonl
+artefatos/caixas_*.jsonl
+artefatos/rotulos.jsonl
+artefatos/catalogo_final.xlsx
+artefatos/aprendizado.json
+artefatos/treino.log
+
+# versionados de proposito: pdm.json, treino.jsonl e validacao.jsonl
+# tornam o treino em outra maquina um 'git clone' (ver docs/03-treinar-bert.md)

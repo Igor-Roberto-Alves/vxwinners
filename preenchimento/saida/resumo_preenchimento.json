@@ -1,0 +1,28 @@
+{
+ "NCM": {
+  "faltantes": 1173,
+  "preenchidos": 1173,
+  "conf_media": 0.8536857630008524
+ },
+ "FABRICANTE": {
+  "faltantes": 15674,
+  "via_regras": 2765,
+  "via_llm": 12909,
+  "pendentes": 0,
+  "tokens_entrada": 4188759,
+  "tokens_saida": 1207652,
+  "custo_usd": 20.45,
+  "nota": "tokens/custo da execucao original (v2 resolveu tudo do checkpoint, sem chamadas novas)"
+ },
+ "REFERENCIA_FABRICANTE": {
+  "faltantes": 18488,
+  "extraidas": 7728,
+  "alta_confianca_marcador_ou_perto_fab": 3936,
+  "melhor_esforco_conf_0.45": 3792,
+  "pendentes": 10760
+ },
+ "GRUPO_MERCADORIA": {
+  "suspeitos_conf>=0.90": 363
+ },
+ "segundos_total": 31.9
+}

@@ -949,9 +949,9 @@ input[type=range]{accent-color:var(--brand);width:100%}
           <div><label class="lbl">Solicitação</label><input class="inp mono" value="SC-202600002"></div>
           <div><label class="lbl">Área solicitante</label><select class="sel"><option>PRODUCAO</option><option>ALMOXARIFADO</option><option>PCM</option><option>MANUTENCAO MECANICA</option><option>SUPRIMENTOS</option><option>UTILIDADES</option></select></div>
           <div><label class="lbl">Urgência</label><select class="sel"><option>NORMAL</option><option>ALTA</option><option>EMERGENCIAL</option></select></div>
-          <div style="grid-column:1/-1"><label class="lbl">Texto original / anexo</label>
-            <div class="pdm-preview" style="color:var(--text-2);white-space:pre-line;font-size:11.5px">FICHA TÉCNICA
-Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largura: 15mm · Tipo: ba · Fabricante: FREUDENBERG</div></div>
+          <div style="grid-column:1/-1"><label class="lbl" for="texto-origem">Texto original / anexo</label>
+            <textarea class="inp mono" id="texto-origem" spellcheck="false" style="font-size:11.5px">FICHA TÉCNICA
+Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largura: 15mm · Tipo: ba · Fabricante: FREUDENBERG</textarea></div>
         </div>
       </div>
 
@@ -984,6 +984,7 @@ Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largu
           <div><label class="lbl">Referência do fabricante</label><input class="inp mono" id="f-ref" placeholder="part number"></div>
           <div><label class="lbl">Centro<span class="req">*</span></label><select class="sel"><option>9000 - CD CENTRAL</option><option>1100 - MINA SERRA AZUL</option><option>1200 - USINA DE BENEFICIAMENTO</option><option>1300 - TERMINAL PORTUARIO</option><option>2100 - UTE SERRA AZUL</option><option>2200 - PCH RIO CLARO</option></select></div>
         </div>
+        <div id="sugestoes-api" style="display:none;padding:12px 16px;border-top:1px solid var(--border)"></div>
       </div>
     </div>
 
@@ -1412,6 +1413,149 @@ function applyTheme(t){document.documentElement.dataset.theme=t;document.querySe
 function toggleTheme(){applyTheme(document.documentElement.dataset.theme==='light'?'dark':'light')}
 (function(){let t=null;try{t=localStorage.getItem('mro-theme')}catch(e){}
   if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';applyTheme(t)})();
+
+// === sugestoes via API ===
+// Integração opcional com o serviço local de sugestões (FastAPI em 127.0.0.1:8700).
+// Toda falha é silenciosa (console.info): o mockup continua 100% funcional sem a API.
+(function(){
+const SUGESTAO_API='http://127.0.0.1:8700';
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pct=c=>Math.round((+c||0)*100)+'%';
+const trunca=(s,n)=>{s=String(s==null?'':s);return s.length>n?s.slice(0,n-1)+'…':s};
+const debounce=(fn,ms)=>{let t;return()=>{clearTimeout(t);t=setTimeout(fn,ms)}};
+const CHIP='display:inline-flex;align-items:center;gap:6px;font-size:11.5px;padding:3px 9px;border-radius:5px;background:var(--panel-2);border:1px solid var(--border-strong);color:var(--text);cursor:pointer;font-family:var(--sans)';
+
+/* ----- cadastro: #texto-origem -> POST /sugerir ----- */
+let ctrlSugerir=null,apiSimilares=null;
+
+function mkChip(txt,sub,fn){
+  const b=document.createElement('button');b.type='button';b.style.cssText=CHIP;
+  b.innerHTML=esc(txt)+(sub?` <span class="mono" style="font-size:10px;color:var(--text-3)">${esc(sub)}</span>`:'');
+  if(fn)b.addEventListener('click',fn);else b.style.cursor='default';
+  return b;
+}
+function linhaChips(box,rotulo,chips){
+  if(!chips.length)return false;
+  const row=document.createElement('div');
+  row.style.cssText='display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px';
+  const lb=document.createElement('span');lb.className='lbl';lb.style.cssText='margin:0;min-width:96px';lb.textContent=rotulo;
+  row.appendChild(lb);chips.forEach(c=>row.appendChild(c));box.appendChild(row);
+  return true;
+}
+function aplica(id,v){const el=document.getElementById(id);if(el)el.value=v}
+function classePorGrupo(cod){
+  try{return Object.keys(PDM).find(k=>((PDM[k].grupo||'').split(' ')[0]===cod))||null}catch(e){return null}
+}
+function pintaSugestoes(d){
+  const box=document.getElementById('sugestoes-api');if(!box)return;
+  box.innerHTML='';let tem=false;
+  const head=document.createElement('div');head.className='lbl';head.style.margin='0';
+  head.innerHTML='Sugestões da IA <span class="hint">clique num chip para aplicar'+(typeof d.latencia_ms==='number'?' · '+d.latencia_ms+' ms':'')+'</span>';
+  box.appendChild(head);
+  const ncm=((d.ncm||{}).sugestoes||[]).slice(0,3).map(s=>mkChip(s.valor_formatado||s.valor,pct(s.conf),()=>aplica('f-ncm',s.valor_formatado||s.valor)));
+  tem=linhaChips(box,'NCM',ncm)||tem;
+  const fabInfo=d.fabricante||{};
+  const fab=(fabInfo.sugestoes||[]).slice(0,3).map(s=>mkChip(s.valor,pct(s.conf),()=>aplica('f-fab',s.valor)));
+  tem=linhaChips(box,'Fabricante'+(fabInfo.origem?' · '+fabInfo.origem:''),fab)||tem;
+  const ref=d.referencia||{};
+  const refChips=ref.valor?[mkChip(ref.valor,ref.conf!=null?pct(ref.conf):'extração',()=>aplica('f-ref',ref.valor))]:[];
+  tem=linhaChips(box,'Referência',refChips)||tem;
+  const grp=((d.grupo||{}).sugestoes||[]).slice(0,3).map(s=>{
+    const pdmId=classePorGrupo(s.valor);
+    if(pdmId)return mkChip(s.valor+' → aplicar '+pdmId,pct(s.conf),()=>{setClass(pdmId);toast('Classe '+pdmId+' aplicada pela sugestão de grupo '+s.valor)});
+    return mkChip(s.valor,pct(s.conf),null);
+  });
+  tem=linhaChips(box,'Grupo',grp)||tem;
+  box.style.display=tem?'':'none';
+}
+function pintaSimilares(list){
+  const tb=document.getElementById('similar');if(!tb)return;
+  let html='<tr><th>código</th><th>descrição</th><th>grupo</th><th>status</th><th class="num">simil.</th></tr>';
+  if(!list.length){
+    html+='<tr><td colspan="5" class="muted" style="font-size:11.5px;white-space:normal">Nenhum item parecido encontrado na base (via API).</td></tr>';
+  }else{
+    html+=list.slice(0,5).map(s=>{
+      const sim=+s.similaridade||0,dup=sim>=0.90;
+      return `<tr><td class="mono">${esc(s.codigo)}</td><td class="wrap mono muted" style="font-size:11.5px">${esc(trunca(s.descricao,60))}</td><td class="mono" style="font-size:11px">${esc(s.grupo||'—')}</td><td><span class="badge ${s.status==='ATIVO'?'b-green':'b-gray'}" style="font-size:10px">${esc(s.status||'—')}</span></td><td class="num" style="${dup?'color:var(--err);font-weight:600':''}">${Math.round(sim*100)}%${dup?'<div style="font-size:9.5px;color:var(--err);white-space:nowrap">possível duplicata</div>':''}</td></tr>`;
+    }).join('');
+  }
+  tb.innerHTML=html;
+}
+// mantém os similares vindos da API quando render() redesenha o painel do cadastro
+const renderBase=window.render;
+window.render=function(){renderBase();if(apiSimilares)pintaSimilares(apiSimilares)};
+
+async function sugerir(txt){
+  if(ctrlSugerir)ctrlSugerir.abort();
+  ctrlSugerir=new AbortController();
+  try{
+    const r=await fetch(SUGESTAO_API+'/sugerir',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({descricao:txt,grupo:null}),signal:ctrlSugerir.signal});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const d=await r.json()||{};
+    pintaSugestoes(d);
+    apiSimilares=Array.isArray(d.similares)?d.similares:[];
+    pintaSimilares(apiSimilares);
+  }catch(e){
+    if(e&&e.name==='AbortError')return;
+    console.info('API de sugestões indisponível (/sugerir):',e&&e.message||e);
+  }
+}
+function limpaSugestoes(){
+  if(ctrlSugerir)ctrlSugerir.abort();
+  const box=document.getElementById('sugestoes-api');
+  if(box){box.style.display='none';box.innerHTML=''}
+  if(apiSimilares){apiSimilares=null;window.render()}
+}
+const ta=document.getElementById('texto-origem');
+if(ta)ta.addEventListener('input',debounce(()=>{
+  const t=ta.value.trim();
+  if(t.length<3){limpaSugestoes();return}
+  sugerir(t);
+},500));
+
+/* ----- busca: #q -> POST /similares ----- */
+const q=document.getElementById('q'),cands=document.getElementById('cands');
+const candsOriginal=cands?cands.innerHTML:'';
+let ctrlBusca=null;
+function pintaCands(list){
+  if(!cands)return;
+  if(!list.length){cands.innerHTML=candsOriginal;return}
+  cands.innerHTML=list.slice(0,5).map((s,i)=>{
+    const sim=+s.similaridade||0,p=Math.round(sim*100);
+    const cor=sim>=0.8?'var(--brand)':sim>=0.6?'var(--warn)':'var(--text-3)';
+    return `<div class="cand${i===0&&sim>=0.8?' top':''}" data-code="${esc(s.codigo)}" onclick="pick(this)">
+      <div class="cand-h">
+        <div class="conf"><div class="n" style="color:${cor}">${p}%</div><div class="bar"><i style="width:${p}%;background:${cor}"></i></div></div>
+        <div class="radio"></div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="mono" style="font-weight:500">${esc(s.codigo)}</span><span class="badge ${s.status==='ATIVO'?'b-green':'b-gray'}">${esc(s.status||'—')}</span><span class="badge b-gray">${esc(s.grupo||'—')}</span><span class="badge b-info">via API</span></div>
+          <div class="desc muted" style="margin-top:3px">${esc(trunca(s.descricao,120))}</div>
+        </div>
+        <div style="text-align:right"><div class="mono">${p}%</div><div class="faint" style="font-size:11.5px">similaridade</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+async function buscaSimilares(txt){
+  if(ctrlBusca)ctrlBusca.abort();
+  ctrlBusca=new AbortController();
+  try{
+    const r=await fetch(SUGESTAO_API+'/similares',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({descricao:txt}),signal:ctrlBusca.signal});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const d=await r.json()||{};
+    pintaCands(Array.isArray(d.similares)?d.similares:[]);
+  }catch(e){
+    if(e&&e.name==='AbortError')return;
+    if(cands)cands.innerHTML=candsOriginal; // restaura os cards estáticos no erro
+    console.info('API de sugestões indisponível (/similares):',e&&e.message||e);
+  }
+}
+if(q)q.addEventListener('input',debounce(()=>{
+  const t=q.value.trim();
+  if(t.length<3){if(ctrlBusca)ctrlBusca.abort();if(cands)cands.innerHTML=candsOriginal;return}
+  buscaSimilares(t);
+},500));
+})();
 </script>
 </body>
 </html>

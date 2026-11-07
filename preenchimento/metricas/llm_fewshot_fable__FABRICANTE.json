@@ -1,0 +1,11 @@
+{
+ "segundos": 295.5,
+ "chamadas_api": 100,
+ "tokens_entrada": 1139796,
+ "tokens_saida": 170591,
+ "modelo": "us.anthropic.claude-fable-5",
+ "custo_estimado_usd": 19.9275,
+ "observacoes": "lotes de 20 itens (100 lotes); few-shot 3 vizinhos TF-IDF do treino; abstencoes=0 (itens sem resposta/ilegiveis do modelo=0); prep tfidf 1.0s compartilhada entre os modelos da execucao; vocabulario com 88 fabricantes do treino",
+ "solucao": "llm_fewshot_fable",
+ "campo": "FABRICANTE"
+}

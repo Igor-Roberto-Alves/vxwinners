@@ -1,0 +1,11 @@
+{
+ "segundos": 0.37,
+ "chamadas_api": 0,
+ "tokens_entrada": 0,
+ "tokens_saida": 0,
+ "modelo": "",
+ "custo_estimado_usd": 0.0,
+ "observacoes": "regex de part number calibrada no treino (acc treino ~0.85): marcadores REF/PN/COD > proximidade de fabricante > candidato mais longo; exclusao de medidas/bitolas/normas/modelos; sufixo '-00' removido e variantes +REVA/+00 no top3; abstencao 66/1500 (4.4%)",
+ "solucao": "regras",
+ "campo": "REFERENCIA_FABRICANTE"
+}
