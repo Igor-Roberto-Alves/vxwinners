@@ -1,0 +1,4188 @@
+{
+ "classes": [
+  {
+   "id_pdm": "PDM001",
+   "substantivos": [
+    "PARAFUSO"
+   ],
+   "qualificadores": [
+    "SEXTAVADO"
+   ],
+   "grupo": "FIX01",
+   "unidade": "PC",
+   "ncm": [
+    "73181500"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM001",
+     "ordem": 1,
+     "nome": "ROSCA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "METRICA FINA",
+      "METRICA GROSSA",
+      "UNC",
+      "UNF"
+     ]
+    },
+    {
+     "id_pdm": "PDM001",
+     "ordem": 2,
+     "nome": "BITOLA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "rosca métrica: M + diâmetro em mm (M12); rosca métrica fina: inclui o passo em mm (M12X1,5); polegada: fração + POL (1/2POL)",
+     "valores": [
+      "M6",
+      "M8",
+      "M10",
+      "M12",
+      "M14",
+      "M16",
+      "M18",
+      "M20",
+      "M22",
+      "M24",
+      "M27",
+      "M30",
+      "M36",
+      "M8X1",
+      "M10X1,25",
+      "M12X1,5",
+      "M14X1,5",
+      "M16X1,5",
+      "M18X1,5",
+      "M20X1,5",
+      "M22X1,5",
+      "M24X2",
+      "M27X2",
+      "M30X2",
+      "1/4POL",
+      "5/16POL",
+      "3/8POL",
+      "7/16POL",
+      "1/2POL",
+      "5/8POL",
+      "3/4POL",
+      "7/8POL",
+      "1POL",
+      "1.1/8POL",
+      "1.1/4POL"
+     ]
+    },
+    {
+     "id_pdm": "PDM001",
+     "ordem": 3,
+     "nome": "COMPRIMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "rosca métrica: número + MM (50MM); rosca em polegada: fração + POL (2.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM001",
+     "ordem": 4,
+     "nome": "CLASSE RESISTENCIA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "10.9",
+      "5.8",
+      "8.8",
+      "A2-70",
+      "A4-70",
+      "SAE GRAU 2",
+      "SAE GRAU 5",
+      "SAE GRAU 8"
+     ]
+    },
+    {
+     "id_pdm": "PDM001",
+     "ordem": 5,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO",
+      "ACO INOX 304",
+      "ACO INOX 316"
+     ]
+    },
+    {
+     "id_pdm": "PDM001",
+     "ordem": 6,
+     "nome": "ACABAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "GALVANIZADO A FOGO",
+      "NATURAL",
+      "ORGANOMETALICO",
+      "OXIDADO PRETO",
+      "SEM ACABAMENTO",
+      "ZINCADO AMARELO",
+      "ZINCADO BRANCO"
+     ]
+    },
+    {
+     "id_pdm": "PDM001",
+     "ordem": 7,
+     "nome": "NORMA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ASME B18.2.1",
+      "DIN 931",
+      "DIN 933"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM002",
+   "substantivos": [
+    "PARAFUSO"
+   ],
+   "qualificadores": [
+    "SEXTAVADO INTERNO"
+   ],
+   "grupo": "FIX01",
+   "unidade": "PC",
+   "ncm": [
+    "73181500"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM002",
+     "ordem": 1,
+     "nome": "TIPO CABECA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ABAULADA",
+      "CILINDRICA",
+      "ESCAREADA"
+     ]
+    },
+    {
+     "id_pdm": "PDM002",
+     "ordem": 2,
+     "nome": "BITOLA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "rosca métrica: M + diâmetro em mm (M12); rosca métrica fina: inclui o passo em mm (M12X1,5); polegada: fração + POL (1/2POL)",
+     "valores": [
+      "M3",
+      "M4",
+      "M5",
+      "M6",
+      "M8",
+      "M10",
+      "M12",
+      "M14",
+      "M16",
+      "M20"
+     ]
+    },
+    {
+     "id_pdm": "PDM002",
+     "ordem": 3,
+     "nome": "COMPRIMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM002",
+     "ordem": 4,
+     "nome": "CLASSE RESISTENCIA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "12.9",
+      "A2-70",
+      "A4-70"
+     ]
+    },
+    {
+     "id_pdm": "PDM002",
+     "ordem": 5,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO INOX 304",
+      "ACO INOX 316",
+      "ACO LIGA"
+     ]
+    },
+    {
+     "id_pdm": "PDM002",
+     "ordem": 6,
+     "nome": "ACABAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "NATURAL",
+      "OXIDADO PRETO",
+      "ZINCADO BRANCO"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM003",
+   "substantivos": [
+    "PORCA"
+   ],
+   "qualificadores": [],
+   "grupo": "FIX01",
+   "unidade": "PC",
+   "ncm": [
+    "73181600"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM003",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "AUTOTRAVANTE",
+      "CASTELO",
+      "SEXTAVADA",
+      "SEXTAVADA FLANGEADA"
+     ]
+    },
+    {
+     "id_pdm": "PDM003",
+     "ordem": 2,
+     "nome": "ROSCA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "METRICA FINA",
+      "METRICA GROSSA"
+     ]
+    },
+    {
+     "id_pdm": "PDM003",
+     "ordem": 3,
+     "nome": "BITOLA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "rosca métrica: M + diâmetro em mm (M12); rosca métrica fina: inclui o passo em mm (M12X1,5); polegada: fração + POL (1/2POL)",
+     "valores": [
+      "M6",
+      "M8",
+      "M10",
+      "M12",
+      "M14",
+      "M16",
+      "M18",
+      "M20",
+      "M22",
+      "M24",
+      "M27",
+      "M30",
+      "M36",
+      "M8X1",
+      "M10X1,25",
+      "M12X1,5",
+      "M14X1,5",
+      "M16X1,5",
+      "M18X1,5",
+      "M20X1,5",
+      "M22X1,5",
+      "M24X2",
+      "M27X2",
+      "M30X2"
+     ]
+    },
+    {
+     "id_pdm": "PDM003",
+     "ordem": 4,
+     "nome": "CLASSE RESISTENCIA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "10",
+      "5",
+      "8",
+      "A2-70",
+      "A4-70"
+     ]
+    },
+    {
+     "id_pdm": "PDM003",
+     "ordem": 5,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO",
+      "ACO INOX 304",
+      "ACO INOX 316"
+     ]
+    },
+    {
+     "id_pdm": "PDM003",
+     "ordem": 6,
+     "nome": "ACABAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "GALVANIZADO A FOGO",
+      "NATURAL",
+      "ORGANOMETALICO",
+      "OXIDADO PRETO",
+      "SEM ACABAMENTO",
+      "ZINCADO AMARELO",
+      "ZINCADO BRANCO"
+     ]
+    },
+    {
+     "id_pdm": "PDM003",
+     "ordem": 7,
+     "nome": "NORMA",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "DIN 6923",
+      "DIN 934",
+      "DIN 935",
+      "DIN 985"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM004",
+   "substantivos": [
+    "ARRUELA"
+   ],
+   "qualificadores": [
+    "LISA"
+   ],
+   "grupo": "FIX01",
+   "unidade": "PC",
+   "ncm": [
+    "73182200"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM004",
+     "ordem": 1,
+     "nome": "PARA PARAFUSO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "bitola do parafuso a que se destina (M12)",
+     "valores": [
+      "M6",
+      "M8",
+      "M10",
+      "M12",
+      "M14",
+      "M16",
+      "M18",
+      "M20",
+      "M22",
+      "M24",
+      "M27",
+      "M30",
+      "M36"
+     ]
+    },
+    {
+     "id_pdm": "PDM004",
+     "ordem": 2,
+     "nome": "DIAMETRO INTERNO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM004",
+     "ordem": 3,
+     "nome": "DIAMETRO EXTERNO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM004",
+     "ordem": 4,
+     "nome": "ESPESSURA",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM004",
+     "ordem": 5,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO",
+      "ACO INOX 304",
+      "ACO INOX 316"
+     ]
+    },
+    {
+     "id_pdm": "PDM004",
+     "ordem": 6,
+     "nome": "ACABAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "GALVANIZADO A FOGO",
+      "NATURAL",
+      "ORGANOMETALICO",
+      "OXIDADO PRETO",
+      "SEM ACABAMENTO",
+      "ZINCADO AMARELO",
+      "ZINCADO BRANCO"
+     ]
+    },
+    {
+     "id_pdm": "PDM004",
+     "ordem": 7,
+     "nome": "NORMA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "DIN 125",
+      "DIN 9021"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM005",
+   "substantivos": [
+    "ARRUELA"
+   ],
+   "qualificadores": [
+    "PRESSAO"
+   ],
+   "grupo": "FIX01",
+   "unidade": "PC",
+   "ncm": [
+    "73182100"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM005",
+     "ordem": 1,
+     "nome": "PARA PARAFUSO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "bitola do parafuso a que se destina (M12)",
+     "valores": [
+      "M6",
+      "M8",
+      "M10",
+      "M12",
+      "M14",
+      "M16",
+      "M18",
+      "M20",
+      "M22",
+      "M24",
+      "M27",
+      "M30",
+      "M36"
+     ]
+    },
+    {
+     "id_pdm": "PDM005",
+     "ordem": 2,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO INOX 304",
+      "ACO INOX 316",
+      "ACO MOLA"
+     ]
+    },
+    {
+     "id_pdm": "PDM005",
+     "ordem": 3,
+     "nome": "ACABAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "GALVANIZADO A FOGO",
+      "NATURAL",
+      "OXIDADO PRETO",
+      "ZINCADO BRANCO"
+     ]
+    },
+    {
+     "id_pdm": "PDM005",
+     "ordem": 4,
+     "nome": "NORMA",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "DIN 127"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM006",
+   "substantivos": [
+    "BARRA"
+   ],
+   "qualificadores": [
+    "ROSCADA"
+   ],
+   "grupo": "FIX01",
+   "unidade": "PC",
+   "ncm": [
+    "73181500"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM006",
+     "ordem": 1,
+     "nome": "BITOLA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "rosca métrica: M + diâmetro em mm (M12); rosca métrica fina: inclui o passo em mm (M12X1,5); polegada: fração + POL (1/2POL)",
+     "valores": [
+      "M6",
+      "M8",
+      "M10",
+      "M12",
+      "M16",
+      "M20",
+      "M24"
+     ]
+    },
+    {
+     "id_pdm": "PDM006",
+     "ordem": 2,
+     "nome": "COMPRIMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + M",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM006",
+     "ordem": 3,
+     "nome": "CLASSE RESISTENCIA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "4.8",
+      "8.8",
+      "A2-70"
+     ]
+    },
+    {
+     "id_pdm": "PDM006",
+     "ordem": 4,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO",
+      "ACO INOX 304"
+     ]
+    },
+    {
+     "id_pdm": "PDM006",
+     "ordem": 5,
+     "nome": "ACABAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "GALVANIZADO A FOGO",
+      "NATURAL",
+      "SEM ACABAMENTO",
+      "ZINCADO BRANCO"
+     ]
+    },
+    {
+     "id_pdm": "PDM006",
+     "ordem": 6,
+     "nome": "NORMA",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "DIN 975"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM010",
+   "substantivos": [
+    "MANGUEIRA"
+   ],
+   "qualificadores": [
+    "HIDRAULICA"
+   ],
+   "grupo": "MAN01",
+   "unidade": "M",
+   "ncm": [
+    "40092110"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM010",
+     "ordem": 1,
+     "nome": "NORMA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "EN 853 1SN",
+      "EN 853 2SN",
+      "EN 856 4SH",
+      "EN 856 4SP",
+      "SAE 100R1AT",
+      "SAE 100R2AT"
+     ]
+    },
+    {
+     "id_pdm": "PDM010",
+     "ordem": 2,
+     "nome": "DIAMETRO INTERNO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM010",
+     "ordem": 3,
+     "nome": "PRESSAO TRABALHO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + BAR",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM010",
+     "ordem": 4,
+     "nome": "REFORCO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "1 TRAMA ACO",
+      "2 TRAMAS ACO",
+      "4 ESPIRAIS ACO"
+     ]
+    },
+    {
+     "id_pdm": "PDM010",
+     "ordem": 5,
+     "nome": "MATERIAL COBERTURA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "BORRACHA SINTETICA",
+      "BORRACHA SINTETICA ANTIABRASAO"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM011",
+   "substantivos": [
+    "MANGUEIRA"
+   ],
+   "qualificadores": [
+    "HIDRAULICA MONTADA"
+   ],
+   "grupo": "MAN01",
+   "unidade": "PC",
+   "ncm": [
+    "40092210"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM011",
+     "ordem": 1,
+     "nome": "NORMA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "EN 853 1SN",
+      "EN 853 2SN",
+      "EN 856 4SH",
+      "EN 856 4SP",
+      "SAE 100R1AT",
+      "SAE 100R2AT"
+     ]
+    },
+    {
+     "id_pdm": "PDM011",
+     "ordem": 2,
+     "nome": "DIAMETRO INTERNO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM011",
+     "ordem": 3,
+     "nome": "PRESSAO TRABALHO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + BAR",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM011",
+     "ordem": 4,
+     "nome": "COMPRIMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM011",
+     "ordem": 5,
+     "nome": "TERMINAL A",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FEMEA CURVA 45 GRAUS JIC",
+      "FEMEA CURVA 90 GRAUS DKO",
+      "FEMEA CURVA 90 GRAUS JIC",
+      "FEMEA CURVA 90 GRAUS ORFS",
+      "FEMEA RETA BSP",
+      "FEMEA RETA DKO",
+      "FEMEA RETA JIC",
+      "FEMEA RETA ORFS",
+      "FLANGE SAE 3000",
+      "FLANGE SAE 6000",
+      "MACHO RETO BSP",
+      "MACHO RETO JIC",
+      "MACHO RETO NPT"
+     ]
+    },
+    {
+     "id_pdm": "PDM011",
+     "ordem": 6,
+     "nome": "TERMINAL B",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FEMEA CURVA 45 GRAUS JIC",
+      "FEMEA CURVA 90 GRAUS DKO",
+      "FEMEA CURVA 90 GRAUS JIC",
+      "FEMEA CURVA 90 GRAUS ORFS",
+      "FEMEA RETA BSP",
+      "FEMEA RETA DKO",
+      "FEMEA RETA JIC",
+      "FEMEA RETA ORFS",
+      "FLANGE SAE 3000",
+      "FLANGE SAE 6000",
+      "MACHO RETO BSP",
+      "MACHO RETO JIC",
+      "MACHO RETO NPT"
+     ]
+    },
+    {
+     "id_pdm": "PDM011",
+     "ordem": 7,
+     "nome": "MATERIAL TERMINAIS",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO ZINCADO",
+      "ACO INOX 316"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM012",
+   "substantivos": [
+    "MANGUEIRA"
+   ],
+   "qualificadores": [
+    "INDUSTRIAL"
+   ],
+   "grupo": "MAN01",
+   "unidade": "M",
+   "ncm": [
+    "39173900",
+    "40093100",
+    "40094100"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM012",
+     "ordem": 1,
+     "nome": "APLICACAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "AGUA",
+      "AR COMPRIMIDO",
+      "COMBUSTIVEL",
+      "MULTIUSO",
+      "OLEO",
+      "VAPOR"
+     ]
+    },
+    {
+     "id_pdm": "PDM012",
+     "ordem": 2,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "EPDM",
+      "NBR",
+      "PVC",
+      "SBR"
+     ]
+    },
+    {
+     "id_pdm": "PDM012",
+     "ordem": 3,
+     "nome": "DIAMETRO INTERNO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM012",
+     "ordem": 4,
+     "nome": "PRESSAO TRABALHO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + BAR",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM012",
+     "ordem": 5,
+     "nome": "REFORCO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ESPIRAL ACO + LONAS TEXTEIS",
+      "LONAS TEXTEIS"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM013",
+   "substantivos": [
+    "MANGUEIRA"
+   ],
+   "qualificadores": [
+    "PNEUMATICA"
+   ],
+   "grupo": "MAN01",
+   "unidade": "M",
+   "ncm": [
+    "39173290"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM013",
+     "ordem": 1,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "POLIAMIDA",
+      "POLIURETANO",
+      "PVC"
+     ]
+    },
+    {
+     "id_pdm": "PDM013",
+     "ordem": 2,
+     "nome": "DIAMETRO EXTERNO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM013",
+     "ordem": 3,
+     "nome": "DIAMETRO INTERNO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM013",
+     "ordem": 4,
+     "nome": "PRESSAO TRABALHO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + BAR",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM013",
+     "ordem": 5,
+     "nome": "COR",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "AMARELA",
+      "AZUL",
+      "CRISTAL",
+      "PRETA",
+      "VERMELHA"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM014",
+   "substantivos": [
+    "MANGOTE"
+   ],
+   "qualificadores": [],
+   "grupo": "MAN01",
+   "unidade": "M",
+   "ncm": [
+    "39173900",
+    "40094100"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM014",
+     "ordem": 1,
+     "nome": "APLICACAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "DESCARGA",
+      "SUCCAO",
+      "SUCCAO E DESCARGA"
+     ]
+    },
+    {
+     "id_pdm": "PDM014",
+     "ordem": 2,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "BORRACHA COM ESPIRAL ACO",
+      "PVC COM ESPIRAL ACO",
+      "PVC COM ESPIRAL PVC RIGIDO"
+     ]
+    },
+    {
+     "id_pdm": "PDM014",
+     "ordem": 3,
+     "nome": "DIAMETRO INTERNO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM014",
+     "ordem": 4,
+     "nome": "PRESSAO TRABALHO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + BAR",
+     "valores": []
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM020",
+   "substantivos": [
+    "ROLAMENTO"
+   ],
+   "qualificadores": [
+    "RIGIDO ESFERAS"
+   ],
+   "grupo": "ROL01",
+   "unidade": "PC",
+   "ncm": [
+    "84821010"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM020",
+     "ordem": 1,
+     "nome": "REFERENCIA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "série + sufixo de proteção + folga: 2RS = vedação de borracha nos dois lados, ZZ = proteção metálica nos dois lados, sem sufixo = aberto; /C3 = folga C3 (ex.: 6205-2RS/C3, 6310-ZZ/C3)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM020",
+     "ordem": 2,
+     "nome": "DIAMETRO INTERNO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM020",
+     "ordem": 3,
+     "nome": "DIAMETRO EXTERNO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM020",
+     "ordem": 4,
+     "nome": "LARGURA",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM020",
+     "ordem": 5,
+     "nome": "VEDACAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ABERTO",
+      "BORRACHA AMBOS LADOS",
+      "METALICA AMBOS LADOS"
+     ]
+    },
+    {
+     "id_pdm": "PDM020",
+     "ordem": 6,
+     "nome": "FOLGA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "C3",
+      "NORMAL"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM021",
+   "substantivos": [
+    "ROLAMENTO"
+   ],
+   "qualificadores": [
+    "AUTOCOMPENSADOR ROLOS"
+   ],
+   "grupo": "ROL01",
+   "unidade": "PC",
+   "ncm": [
+    "84823000"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM021",
+     "ordem": 1,
+     "nome": "REFERENCIA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "designação ISO do rolamento, com sufixos de furo e folga (22212EK/C3)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM021",
+     "ordem": 2,
+     "nome": "DIAMETRO INTERNO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM021",
+     "ordem": 3,
+     "nome": "DIAMETRO EXTERNO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM021",
+     "ordem": 4,
+     "nome": "LARGURA",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM021",
+     "ordem": 5,
+     "nome": "FURO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "CILINDRICO",
+      "CONICO"
+     ]
+    },
+    {
+     "id_pdm": "PDM021",
+     "ordem": 6,
+     "nome": "FOLGA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "C3",
+      "NORMAL"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM022",
+   "substantivos": [
+    "ROLAMENTO"
+   ],
+   "qualificadores": [
+    "ROLOS CONICOS"
+   ],
+   "grupo": "ROL01",
+   "unidade": "PC",
+   "ncm": [
+    "84822090"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM022",
+     "ordem": 1,
+     "nome": "REFERENCIA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "designação ISO do rolamento (30205)",
+     "valores": [
+      "30203",
+      "30204",
+      "30205",
+      "30206",
+      "30207",
+      "30208",
+      "30209",
+      "30210",
+      "30211",
+      "30212",
+      "30305",
+      "30306",
+      "30307",
+      "30308",
+      "30309",
+      "30310",
+      "32205",
+      "32206",
+      "32207",
+      "32208",
+      "32209",
+      "32210",
+      "32211",
+      "32212"
+     ]
+    },
+    {
+     "id_pdm": "PDM022",
+     "ordem": 2,
+     "nome": "DIAMETRO INTERNO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM022",
+     "ordem": 3,
+     "nome": "DIAMETRO EXTERNO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM022",
+     "ordem": 4,
+     "nome": "LARGURA",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM023",
+   "substantivos": [
+    "MANCAL"
+   ],
+   "qualificadores": [],
+   "grupo": "ROL01",
+   "unidade": "PC",
+   "ncm": [
+    "84832000"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM023",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "PEDESTAL COM ROLAMENTO"
+     ]
+    },
+    {
+     "id_pdm": "PDM023",
+     "ordem": 2,
+     "nome": "REFERENCIA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "designação do mancal (UCP208)",
+     "valores": [
+      "UCP204",
+      "UCP205",
+      "UCP206",
+      "UCP207",
+      "UCP208",
+      "UCP209",
+      "UCP210",
+      "UCP211",
+      "UCP212",
+      "UCP213",
+      "UCP215"
+     ]
+    },
+    {
+     "id_pdm": "PDM023",
+     "ordem": 3,
+     "nome": "DIAMETRO EIXO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM023",
+     "ordem": 4,
+     "nome": "MATERIAL CAIXA",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FERRO FUNDIDO"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM030",
+   "substantivos": [
+    "CORREIA"
+   ],
+   "qualificadores": [
+    "TRAPEZOIDAL"
+   ],
+   "grupo": "TRA01",
+   "unidade": "PC",
+   "ncm": [
+    "40103200",
+    "40103400",
+    "40103900"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM030",
+     "ordem": 1,
+     "nome": "PERFIL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "5V",
+      "A",
+      "A DENTADA",
+      "B",
+      "B DENTADA",
+      "C",
+      "SPA",
+      "SPB",
+      "SPZ"
+     ]
+    },
+    {
+     "id_pdm": "PDM030",
+     "ordem": 2,
+     "nome": "REFERENCIA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "perfil + comprimento: clássicas pelo comprimento interno em polegadas (B54); SP pelo comprimento primitivo em mm (SPB 2000)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM030",
+     "ordem": 3,
+     "nome": "COMPRIMENTO EXTERNO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM031",
+   "substantivos": [
+    "ANEL"
+   ],
+   "qualificadores": [
+    "O-RING"
+   ],
+   "grupo": "VED01",
+   "unidade": "PC",
+   "ncm": [
+    "40169300"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM031",
+     "ordem": 1,
+     "nome": "DIAMETRO INTERNO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM031",
+     "ordem": 2,
+     "nome": "SECAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM031",
+     "ordem": 3,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "EPDM",
+      "FKM (VITON)",
+      "NBR",
+      "SILICONE"
+     ]
+    },
+    {
+     "id_pdm": "PDM031",
+     "ordem": 4,
+     "nome": "DUREZA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "70 SHORE A",
+      "90 SHORE A"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM032",
+   "substantivos": [
+    "RETENTOR"
+   ],
+   "qualificadores": [],
+   "grupo": "VED01",
+   "unidade": "PC",
+   "ncm": [
+    "40169300"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM032",
+     "ordem": 1,
+     "nome": "DIAMETRO EIXO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM032",
+     "ordem": 2,
+     "nome": "DIAMETRO ALOJAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM032",
+     "ordem": 3,
+     "nome": "LARGURA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM032",
+     "ordem": 4,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "B1",
+      "BA",
+      "BAB",
+      "BASL"
+     ]
+    },
+    {
+     "id_pdm": "PDM032",
+     "ordem": 5,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FKM (VITON)",
+      "NBR"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM033",
+   "substantivos": [
+    "JUNTA"
+   ],
+   "qualificadores": [
+    "ESPIRALADA"
+   ],
+   "grupo": "VED01",
+   "unidade": "PC",
+   "ncm": [
+    "84841000"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM033",
+     "ordem": 1,
+     "nome": "DIAMETRO NOMINAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM033",
+     "ordem": 2,
+     "nome": "CLASSE PRESSAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "150#",
+      "1500#",
+      "300#",
+      "600#",
+      "900#"
+     ]
+    },
+    {
+     "id_pdm": "PDM033",
+     "ordem": 3,
+     "nome": "MATERIAL FITA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO INOX 304",
+      "ACO INOX 316"
+     ]
+    },
+    {
+     "id_pdm": "PDM033",
+     "ordem": 4,
+     "nome": "ENCHIMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "GRAFITE FLEXIVEL",
+      "PTFE"
+     ]
+    },
+    {
+     "id_pdm": "PDM033",
+     "ordem": 5,
+     "nome": "ANEL INTERNO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "COM ANEL INTERNO",
+      "SEM ANEL INTERNO"
+     ]
+    },
+    {
+     "id_pdm": "PDM033",
+     "ordem": 6,
+     "nome": "NORMA",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ASME B16.20"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM034",
+   "substantivos": [
+    "JUNTA"
+   ],
+   "qualificadores": [
+    "PLANA"
+   ],
+   "grupo": "VED01",
+   "unidade": "PC",
+   "ncm": [
+    "39269090",
+    "40169300"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM034",
+     "ordem": 1,
+     "nome": "DIAMETRO NOMINAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM034",
+     "ordem": 2,
+     "nome": "CLASSE PRESSAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "150#",
+      "300#"
+     ]
+    },
+    {
+     "id_pdm": "PDM034",
+     "ordem": 3,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "EPDM",
+      "NBR",
+      "PTFE EXPANDIDO"
+     ]
+    },
+    {
+     "id_pdm": "PDM034",
+     "ordem": 4,
+     "nome": "ESPESSURA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM034",
+     "ordem": 5,
+     "nome": "TIPO FACE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FF",
+      "RF"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM040",
+   "substantivos": [
+    "VALVULA"
+   ],
+   "qualificadores": [
+    "ESFERA"
+   ],
+   "grupo": "VAL01",
+   "unidade": "PC",
+   "ncm": [
+    "84818095"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM040",
+     "ordem": 1,
+     "nome": "DIAMETRO NOMINAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM040",
+     "ordem": 2,
+     "nome": "CLASSE PRESSAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "150#",
+      "300#",
+      "600#",
+      "800#",
+      "PN 16",
+      "PN 25"
+     ]
+    },
+    {
+     "id_pdm": "PDM040",
+     "ordem": 3,
+     "nome": "MATERIAL CORPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO FORJADO A105",
+      "ACO CARBONO FUNDIDO A216 WCB",
+      "ACO INOX FORJADO A182 F316",
+      "ACO INOX FUNDIDO A351 CF8M",
+      "FERRO FUNDIDO NODULAR",
+      "LATAO"
+     ]
+    },
+    {
+     "id_pdm": "PDM040",
+     "ordem": 4,
+     "nome": "CONEXAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FLANGE FF",
+      "FLANGE RF",
+      "ROSCA BSP",
+      "ROSCA NPT",
+      "SOLDA ENCAIXE SW",
+      "SOLDA TOPO BW"
+     ]
+    },
+    {
+     "id_pdm": "PDM040",
+     "ordem": 5,
+     "nome": "PASSAGEM",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "PLENA",
+      "REDUZIDA"
+     ]
+    },
+    {
+     "id_pdm": "PDM040",
+     "ordem": 6,
+     "nome": "VEDACAO SEDE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "METAL-METAL",
+      "PTFE",
+      "RPTFE"
+     ]
+    },
+    {
+     "id_pdm": "PDM040",
+     "ordem": 7,
+     "nome": "ACIONAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ALAVANCA",
+      "ATUADOR PNEUMATICO",
+      "REDUTOR"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM041",
+   "substantivos": [
+    "VALVULA"
+   ],
+   "qualificadores": [
+    "GAVETA"
+   ],
+   "grupo": "VAL01",
+   "unidade": "PC",
+   "ncm": [
+    "84818093"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM041",
+     "ordem": 1,
+     "nome": "DIAMETRO NOMINAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM041",
+     "ordem": 2,
+     "nome": "CLASSE PRESSAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "150#",
+      "300#",
+      "600#",
+      "800#",
+      "PN 16",
+      "PN 25"
+     ]
+    },
+    {
+     "id_pdm": "PDM041",
+     "ordem": 3,
+     "nome": "MATERIAL CORPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO FORJADO A105",
+      "ACO CARBONO FUNDIDO A216 WCB",
+      "ACO INOX FORJADO A182 F316",
+      "ACO INOX FUNDIDO A351 CF8M",
+      "FERRO FUNDIDO NODULAR",
+      "LATAO"
+     ]
+    },
+    {
+     "id_pdm": "PDM041",
+     "ordem": 4,
+     "nome": "CONEXAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FLANGE FF",
+      "FLANGE RF",
+      "ROSCA BSP",
+      "ROSCA NPT",
+      "SOLDA ENCAIXE SW",
+      "SOLDA TOPO BW"
+     ]
+    },
+    {
+     "id_pdm": "PDM041",
+     "ordem": 5,
+     "nome": "CASTELO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "APARAFUSADO",
+      "ROSCADO"
+     ]
+    },
+    {
+     "id_pdm": "PDM041",
+     "ordem": 6,
+     "nome": "ACIONAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "REDUTOR",
+      "VOLANTE"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM042",
+   "substantivos": [
+    "VALVULA"
+   ],
+   "qualificadores": [
+    "GLOBO"
+   ],
+   "grupo": "VAL01",
+   "unidade": "PC",
+   "ncm": [
+    "84818094"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM042",
+     "ordem": 1,
+     "nome": "DIAMETRO NOMINAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM042",
+     "ordem": 2,
+     "nome": "CLASSE PRESSAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "150#",
+      "300#",
+      "600#",
+      "800#",
+      "PN 16",
+      "PN 25"
+     ]
+    },
+    {
+     "id_pdm": "PDM042",
+     "ordem": 3,
+     "nome": "MATERIAL CORPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO FORJADO A105",
+      "ACO CARBONO FUNDIDO A216 WCB",
+      "ACO INOX FORJADO A182 F316",
+      "ACO INOX FUNDIDO A351 CF8M",
+      "FERRO FUNDIDO NODULAR",
+      "LATAO"
+     ]
+    },
+    {
+     "id_pdm": "PDM042",
+     "ordem": 4,
+     "nome": "CONEXAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FLANGE FF",
+      "FLANGE RF",
+      "ROSCA BSP",
+      "ROSCA NPT",
+      "SOLDA ENCAIXE SW",
+      "SOLDA TOPO BW"
+     ]
+    },
+    {
+     "id_pdm": "PDM042",
+     "ordem": 5,
+     "nome": "ACIONAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "VOLANTE"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM043",
+   "substantivos": [
+    "VALVULA"
+   ],
+   "qualificadores": [
+    "RETENCAO"
+   ],
+   "grupo": "VAL01",
+   "unidade": "PC",
+   "ncm": [
+    "84813000"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM043",
+     "ordem": 1,
+     "nome": "DIAMETRO NOMINAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM043",
+     "ordem": 2,
+     "nome": "CLASSE PRESSAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "150#",
+      "300#",
+      "600#",
+      "800#",
+      "PN 16",
+      "PN 25"
+     ]
+    },
+    {
+     "id_pdm": "PDM043",
+     "ordem": 3,
+     "nome": "MATERIAL CORPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO FORJADO A105",
+      "ACO CARBONO FUNDIDO A216 WCB",
+      "ACO INOX FORJADO A182 F316",
+      "ACO INOX FUNDIDO A351 CF8M",
+      "FERRO FUNDIDO NODULAR",
+      "LATAO"
+     ]
+    },
+    {
+     "id_pdm": "PDM043",
+     "ordem": 4,
+     "nome": "CONEXAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FLANGE FF",
+      "FLANGE RF",
+      "ROSCA BSP",
+      "ROSCA NPT",
+      "SOLDA ENCAIXE SW",
+      "SOLDA TOPO BW"
+     ]
+    },
+    {
+     "id_pdm": "PDM043",
+     "ordem": 5,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ESFERA",
+      "PISTAO",
+      "PORTINHOLA"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM044",
+   "substantivos": [
+    "VALVULA"
+   ],
+   "qualificadores": [
+    "BORBOLETA"
+   ],
+   "grupo": "VAL01",
+   "unidade": "PC",
+   "ncm": [
+    "84818097"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM044",
+     "ordem": 1,
+     "nome": "DIAMETRO NOMINAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM044",
+     "ordem": 2,
+     "nome": "TIPO CORPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FLANGEADA",
+      "LUG",
+      "WAFER"
+     ]
+    },
+    {
+     "id_pdm": "PDM044",
+     "ordem": 3,
+     "nome": "MATERIAL CORPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO FUNDIDO A216 WCB",
+      "ACO INOX FUNDIDO A351 CF8M",
+      "FERRO FUNDIDO NODULAR"
+     ]
+    },
+    {
+     "id_pdm": "PDM044",
+     "ordem": 4,
+     "nome": "MATERIAL DISCO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO INOX FUNDIDO A351 CF8M",
+      "BRONZE ALUMINIO",
+      "FERRO FUNDIDO NODULAR NIQUELADO"
+     ]
+    },
+    {
+     "id_pdm": "PDM044",
+     "ordem": 5,
+     "nome": "VEDACAO SEDE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "EPDM",
+      "NBR",
+      "PTFE"
+     ]
+    },
+    {
+     "id_pdm": "PDM044",
+     "ordem": 6,
+     "nome": "ACIONAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ALAVANCA",
+      "ATUADOR ELETRICO",
+      "ATUADOR PNEUMATICO",
+      "REDUTOR"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM050",
+   "substantivos": [
+    "BUCHA REDUCAO",
+    "CAP",
+    "COTOVELO 45 GRAUS",
+    "COTOVELO 90 GRAUS",
+    "FLANGE",
+    "LUVA",
+    "LUVA REDUCAO",
+    "NIPLE",
+    "TE",
+    "TE REDUCAO",
+    "UNIAO"
+   ],
+   "qualificadores": [],
+   "grupo": "TUB01",
+   "unidade": "PC",
+   "ncm": [
+    "73071990",
+    "73072100",
+    "73072200",
+    "73072300",
+    "73072900",
+    "73079100",
+    "73079200",
+    "73079300",
+    "73079900"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM050",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "somente FLANGE",
+     "formato": "lista de valores",
+     "valores": [
+      "CEGO",
+      "ENCAIXE SW",
+      "PESCOCO WN",
+      "SOBREPOSTO SO"
+     ]
+    },
+    {
+     "id_pdm": "PDM050",
+     "ordem": 2,
+     "nome": "DIAMETRO NOMINAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM050",
+     "ordem": 3,
+     "nome": "DIAMETRO REDUZIDO",
+     "obrigatorio": true,
+     "quando": "somente TE REDUCAO, LUVA REDUCAO e BUCHA REDUCAO",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM050",
+     "ordem": 4,
+     "nome": "CLASSE PRESSAO",
+     "obrigatorio": true,
+     "quando": "todas, exceto conexões para solda de topo (BW)",
+     "formato": "lista de valores",
+     "valores": [
+      "150#",
+      "300#",
+      "3000#",
+      "600#",
+      "6000#"
+     ]
+    },
+    {
+     "id_pdm": "PDM050",
+     "ordem": 5,
+     "nome": "SCHEDULE",
+     "obrigatorio": true,
+     "quando": "somente conexões para solda de topo (BW)",
+     "formato": "lista de valores",
+     "valores": [
+      "SCH 10S",
+      "SCH 40",
+      "SCH 40S",
+      "SCH 80"
+     ]
+    },
+    {
+     "id_pdm": "PDM050",
+     "ordem": 6,
+     "nome": "FACE",
+     "obrigatorio": true,
+     "quando": "somente FLANGE",
+     "formato": "lista de valores",
+     "valores": [
+      "FF",
+      "RF"
+     ]
+    },
+    {
+     "id_pdm": "PDM050",
+     "ordem": 7,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO A234 WPB",
+      "ACO CARBONO FORJADO A105",
+      "ACO INOX A403 WP316",
+      "ACO INOX FORJADO A182 F316",
+      "FERRO MALEAVEL GALVANIZADO"
+     ]
+    },
+    {
+     "id_pdm": "PDM050",
+     "ordem": 8,
+     "nome": "CONEXAO",
+     "obrigatorio": true,
+     "quando": "todas, exceto FLANGE",
+     "formato": "lista de valores",
+     "valores": [
+      "ROSCA BSP",
+      "ROSCA NPT",
+      "SOLDA ENCAIXE SW",
+      "SOLDA TOPO BW"
+     ]
+    },
+    {
+     "id_pdm": "PDM050",
+     "ordem": 9,
+     "nome": "NORMA",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ASME B16.11",
+      "ASME B16.5",
+      "ASME B16.9",
+      "NBR 6943"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM051",
+   "substantivos": [
+    "TUBO"
+   ],
+   "qualificadores": [
+    "ACO"
+   ],
+   "grupo": "TUB01",
+   "unidade": "M",
+   "ncm": [
+    "73041900",
+    "73043910",
+    "73043990",
+    "73063000",
+    "73064000"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM051",
+     "ordem": 1,
+     "nome": "DIAMETRO NOMINAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "polegada em fração + POL (ex.: 1.1/4POL)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM051",
+     "ordem": 2,
+     "nome": "SCHEDULE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "CLASSE MEDIA",
+      "SCH 10S",
+      "SCH 160",
+      "SCH 40",
+      "SCH 40S",
+      "SCH 80",
+      "SCH 80S"
+     ]
+    },
+    {
+     "id_pdm": "PDM051",
+     "ordem": 3,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO A106 GR B",
+      "ACO CARBONO API 5L GR B",
+      "ACO GALVANIZADO NBR 5580",
+      "ACO INOX A312 TP316L"
+     ]
+    },
+    {
+     "id_pdm": "PDM051",
+     "ordem": 4,
+     "nome": "COSTURA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "COM COSTURA",
+      "SEM COSTURA"
+     ]
+    },
+    {
+     "id_pdm": "PDM051",
+     "ordem": 5,
+     "nome": "EXTREMIDADES",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "CHANFRADAS",
+      "LISAS",
+      "ROSCADAS"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM060",
+   "substantivos": [
+    "CABO"
+   ],
+   "qualificadores": [
+    "ELETRICO"
+   ],
+   "grupo": "ELE01",
+   "unidade": "M",
+   "ncm": [
+    "85444900"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM060",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FLEXIVEL",
+      "MULTIPOLAR BLINDADO",
+      "PP",
+      "RIGIDO"
+     ]
+    },
+    {
+     "id_pdm": "PDM060",
+     "ordem": 2,
+     "nome": "SECAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM2",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM060",
+     "ordem": 3,
+     "nome": "NUMERO CONDUTORES",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "inteiro",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM060",
+     "ordem": 4,
+     "nome": "TENSAO ISOLAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "0,6/1KV",
+      "300V",
+      "450/750V"
+     ]
+    },
+    {
+     "id_pdm": "PDM060",
+     "ordem": 5,
+     "nome": "ISOLACAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "HEPR",
+      "PVC",
+      "XLPE"
+     ]
+    },
+    {
+     "id_pdm": "PDM060",
+     "ordem": 6,
+     "nome": "COR",
+     "obrigatorio": true,
+     "quando": "somente cabos de 1 condutor",
+     "formato": "lista de valores",
+     "valores": [
+      "AZUL",
+      "BRANCO",
+      "CINZA",
+      "PRETO",
+      "VERDE",
+      "VERDE/AMARELO",
+      "VERMELHO"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM061",
+   "substantivos": [
+    "TERMINAL"
+   ],
+   "qualificadores": [
+    "ELETRICO"
+   ],
+   "grupo": "ELE01",
+   "unidade": "PC",
+   "ncm": [
+    "85369090"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM061",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "COMPRESSAO OLHAL",
+      "PRE-ISOLADO FORQUILHA",
+      "PRE-ISOLADO OLHAL",
+      "PRE-ISOLADO PINO",
+      "TUBULAR ILHOS"
+     ]
+    },
+    {
+     "id_pdm": "PDM061",
+     "ordem": 2,
+     "nome": "SECAO CABO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM2",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM061",
+     "ordem": 3,
+     "nome": "FURO",
+     "obrigatorio": true,
+     "quando": "somente terminais de OLHAL e FORQUILHA",
+     "formato": "bitola do parafuso que passa no olhal (M8)",
+     "valores": [
+      "M3",
+      "M4",
+      "M5",
+      "M6",
+      "M8",
+      "M10",
+      "M12",
+      "M16"
+     ]
+    },
+    {
+     "id_pdm": "PDM061",
+     "ordem": 4,
+     "nome": "MATERIAL",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "COBRE ESTANHADO"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM062",
+   "substantivos": [
+    "DISJUNTOR"
+   ],
+   "qualificadores": [],
+   "grupo": "ELE01",
+   "unidade": "PC",
+   "ncm": [
+    "85362000"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM062",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "CAIXA MOLDADA",
+      "MINIDISJUNTOR DIN",
+      "MOTOR"
+     ]
+    },
+    {
+     "id_pdm": "PDM062",
+     "ordem": 2,
+     "nome": "POLOS",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "1P",
+      "2P",
+      "3P"
+     ]
+    },
+    {
+     "id_pdm": "PDM062",
+     "ordem": 3,
+     "nome": "CORRENTE NOMINAL",
+     "obrigatorio": true,
+     "quando": "somente MINIDISJUNTOR DIN e CAIXA MOLDADA",
+     "formato": "número + A",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM062",
+     "ordem": 4,
+     "nome": "FAIXA AJUSTE",
+     "obrigatorio": true,
+     "quando": "somente disjuntor MOTOR",
+     "formato": "código",
+     "valores": [
+      "0,4-0,63A",
+      "1-1,6A",
+      "1,6-2,5A",
+      "2,5-4A",
+      "4-6,3A",
+      "6-10A",
+      "9-14A",
+      "13-18A",
+      "17-23A",
+      "20-25A",
+      "24-32A"
+     ]
+    },
+    {
+     "id_pdm": "PDM062",
+     "ordem": 5,
+     "nome": "CURVA",
+     "obrigatorio": true,
+     "quando": "somente MINIDISJUNTOR DIN",
+     "formato": "lista de valores",
+     "valores": [
+      "B",
+      "C",
+      "D"
+     ]
+    },
+    {
+     "id_pdm": "PDM062",
+     "ordem": 6,
+     "nome": "CAPACIDADE INTERRUPCAO",
+     "obrigatorio": true,
+     "quando": "somente MINIDISJUNTOR DIN e CAIXA MOLDADA",
+     "formato": "lista de valores",
+     "valores": [
+      "10KA",
+      "25KA",
+      "36KA",
+      "3KA",
+      "4,5KA",
+      "50KA",
+      "6KA",
+      "70KA"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM063",
+   "substantivos": [
+    "CONTATOR"
+   ],
+   "qualificadores": [],
+   "grupo": "ELE01",
+   "unidade": "PC",
+   "ncm": [
+    "85364900"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM063",
+     "ordem": 1,
+     "nome": "CORRENTE AC3",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + A",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM063",
+     "ordem": 2,
+     "nome": "TENSAO BOBINA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "110VCA",
+      "220VCA",
+      "24VCC",
+      "380VCA"
+     ]
+    },
+    {
+     "id_pdm": "PDM063",
+     "ordem": 3,
+     "nome": "CONTATOS AUXILIARES",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "1NA",
+      "1NA+1NF",
+      "1NF",
+      "2NA+2NF"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM064",
+   "substantivos": [
+    "FUSIVEL"
+   ],
+   "qualificadores": [],
+   "grupo": "ELE01",
+   "unidade": "PC",
+   "ncm": [
+    "85361000"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM064",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "CARTUCHO",
+      "DIAZED",
+      "NH",
+      "ULTRARRAPIDO NH"
+     ]
+    },
+    {
+     "id_pdm": "PDM064",
+     "ordem": 2,
+     "nome": "TAMANHO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "código",
+     "valores": [
+      "10X38MM",
+      "14X51MM",
+      "22X58MM",
+      "D II",
+      "D III",
+      "NH0",
+      "NH00",
+      "NH1",
+      "NH2",
+      "NH3"
+     ]
+    },
+    {
+     "id_pdm": "PDM064",
+     "ordem": 3,
+     "nome": "CORRENTE NOMINAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + A",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM064",
+     "ordem": 4,
+     "nome": "CLASSE",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "AR",
+      "GL/GG",
+      "RAPIDO"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM065",
+   "substantivos": [
+    "LAMPADA"
+   ],
+   "qualificadores": [
+    "LED"
+   ],
+   "grupo": "ELE01",
+   "unidade": "PC",
+   "ncm": [
+    "85395200"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM065",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "BULBO",
+      "TUBULAR T8"
+     ]
+    },
+    {
+     "id_pdm": "PDM065",
+     "ordem": 2,
+     "nome": "POTENCIA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + W",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM065",
+     "ordem": 3,
+     "nome": "TENSAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "220V",
+      "BIVOLT"
+     ]
+    },
+    {
+     "id_pdm": "PDM065",
+     "ordem": 4,
+     "nome": "BASE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "código",
+     "valores": [
+      "E27",
+      "E40",
+      "G13"
+     ]
+    },
+    {
+     "id_pdm": "PDM065",
+     "ordem": 5,
+     "nome": "TEMPERATURA COR",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "código",
+     "valores": [
+      "3000K",
+      "4000K",
+      "5000K",
+      "6500K"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM066",
+   "substantivos": [
+    "SENSOR"
+   ],
+   "qualificadores": [
+    "INDUTIVO"
+   ],
+   "grupo": "INS01",
+   "unidade": "PC",
+   "ncm": [
+    "85365090"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM066",
+     "ordem": 1,
+     "nome": "ROSCA CORPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "rosca métrica do corpo do sensor (M18)",
+     "valores": [
+      "M8",
+      "M12",
+      "M18",
+      "M30"
+     ]
+    },
+    {
+     "id_pdm": "PDM066",
+     "ordem": 2,
+     "nome": "DISTANCIA SENSORA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM066",
+     "ordem": 3,
+     "nome": "MONTAGEM",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "FACEADO",
+      "NAO FACEADO"
+     ]
+    },
+    {
+     "id_pdm": "PDM066",
+     "ordem": 4,
+     "nome": "SAIDA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "NPN NA",
+      "PNP NA",
+      "PNP NF"
+     ]
+    },
+    {
+     "id_pdm": "PDM066",
+     "ordem": 5,
+     "nome": "TENSAO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "10-30VCC"
+     ]
+    },
+    {
+     "id_pdm": "PDM066",
+     "ordem": 6,
+     "nome": "CONEXAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "CABO 2M",
+      "CABO 5M",
+      "CONECTOR M12"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM067",
+   "substantivos": [
+    "MANOMETRO"
+   ],
+   "qualificadores": [],
+   "grupo": "INS01",
+   "unidade": "PC",
+   "ncm": [
+    "90262010"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM067",
+     "ordem": 1,
+     "nome": "DIAMETRO VISOR",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM067",
+     "ordem": 2,
+     "nome": "FAIXA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "faixa de medição: 0- seguido do valor máximo e BAR (0-16BAR)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM067",
+     "ordem": 3,
+     "nome": "CONEXAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "1/2POL NPT INFERIOR",
+      "1/2POL NPT TRASEIRA",
+      "1/4POL NPT INFERIOR",
+      "1/4POL NPT TRASEIRA"
+     ]
+    },
+    {
+     "id_pdm": "PDM067",
+     "ordem": 4,
+     "nome": "MATERIAL CAIXA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO",
+      "ACO INOX 304"
+     ]
+    },
+    {
+     "id_pdm": "PDM067",
+     "ordem": 5,
+     "nome": "ENCHIMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "GLICERINA",
+      "SECO"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM070",
+   "substantivos": [
+    "LUVA"
+   ],
+   "qualificadores": [
+    "SEGURANCA"
+   ],
+   "grupo": "EPI01",
+   "unidade": "PR",
+   "ncm": [
+    "40151900",
+    "42032900",
+    "61161000"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM070",
+     "ordem": 1,
+     "nome": "MATERIAL",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ANTICORTE",
+      "LATEX",
+      "MALHA PIGMENTADA",
+      "MALHA REVESTIDA PU",
+      "NITRILICA",
+      "RASPA",
+      "VAQUETA"
+     ]
+    },
+    {
+     "id_pdm": "PDM070",
+     "ordem": 2,
+     "nome": "TAMANHO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "código",
+     "valores": [
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "G",
+      "M",
+      "P",
+      "UNICO"
+     ]
+    },
+    {
+     "id_pdm": "PDM070",
+     "ordem": 3,
+     "nome": "CANO",
+     "obrigatorio": false,
+     "quando": "somente VAQUETA e RASPA",
+     "formato": "lista de valores",
+     "valores": [
+      "CURTO",
+      "LONGO 20CM",
+      "LONGO 30CM"
+     ]
+    },
+    {
+     "id_pdm": "PDM070",
+     "ordem": 4,
+     "nome": "CA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número do Certificado de Aprovação do Ministério do Trabalho, 5 dígitos",
+     "valores": []
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM071",
+   "substantivos": [
+    "CALCADO"
+   ],
+   "qualificadores": [
+    "SEGURANCA"
+   ],
+   "grupo": "EPI01",
+   "unidade": "PR",
+   "ncm": [
+    "64034000",
+    "64039990"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM071",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "BOTA CANO LONGO",
+      "BOTINA CADARCO",
+      "BOTINA ELASTICO"
+     ]
+    },
+    {
+     "id_pdm": "PDM071",
+     "ordem": 2,
+     "nome": "TAMANHO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "código",
+     "valores": [
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46"
+     ]
+    },
+    {
+     "id_pdm": "PDM071",
+     "ordem": 3,
+     "nome": "BIQUEIRA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO",
+      "COMPOSITE"
+     ]
+    },
+    {
+     "id_pdm": "PDM071",
+     "ordem": 4,
+     "nome": "SOLADO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "NBR",
+      "PU BIDENSIDADE",
+      "PU MONODENSIDADE"
+     ]
+    },
+    {
+     "id_pdm": "PDM071",
+     "ordem": 5,
+     "nome": "COR",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "MARROM",
+      "PRETA"
+     ]
+    },
+    {
+     "id_pdm": "PDM071",
+     "ordem": 6,
+     "nome": "CA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número do Certificado de Aprovação do Ministério do Trabalho, 5 dígitos",
+     "valores": []
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM072",
+   "substantivos": [
+    "OCULOS"
+   ],
+   "qualificadores": [
+    "SEGURANCA"
+   ],
+   "grupo": "EPI01",
+   "unidade": "PC",
+   "ncm": [
+    "90049020"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM072",
+     "ordem": 1,
+     "nome": "LENTE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "AMBAR",
+      "CINZA",
+      "ESPELHADA",
+      "INCOLOR"
+     ]
+    },
+    {
+     "id_pdm": "PDM072",
+     "ordem": 2,
+     "nome": "TRATAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ANTIEMBACANTE",
+      "ANTIEMBACANTE E ANTIRRISCO",
+      "ANTIRRISCO"
+     ]
+    },
+    {
+     "id_pdm": "PDM072",
+     "ordem": 3,
+     "nome": "TIPO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "AMPLA VISAO",
+      "LENTE UNICA",
+      "SOBREPOR"
+     ]
+    },
+    {
+     "id_pdm": "PDM072",
+     "ordem": 4,
+     "nome": "CA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número do Certificado de Aprovação do Ministério do Trabalho, 5 dígitos",
+     "valores": []
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM080",
+   "substantivos": [
+    "ELETRODO"
+   ],
+   "qualificadores": [
+    "REVESTIDO"
+   ],
+   "grupo": "SOL01",
+   "unidade": "KG",
+   "ncm": [
+    "83111000"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM080",
+     "ordem": 1,
+     "nome": "CLASSIFICACAO AWS",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "código",
+     "valores": [
+      "E308L-16",
+      "E316L-16",
+      "E6010",
+      "E6013",
+      "E7018",
+      "E7018-1",
+      "ENICRFE-3"
+     ]
+    },
+    {
+     "id_pdm": "PDM080",
+     "ordem": 2,
+     "nome": "DIAMETRO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM080",
+     "ordem": 3,
+     "nome": "REVESTIMENTO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "BASICO",
+      "CELULOSICO",
+      "RUTILICO"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM081",
+   "substantivos": [
+    "DISCO"
+   ],
+   "qualificadores": [
+    "ABRASIVO"
+   ],
+   "grupo": "SOL01",
+   "unidade": "PC",
+   "ncm": [
+    "68042211",
+    "68051000"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM081",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "CORTE",
+      "DESBASTE",
+      "FLAP"
+     ]
+    },
+    {
+     "id_pdm": "PDM081",
+     "ordem": 2,
+     "nome": "DIAMETRO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM081",
+     "ordem": 3,
+     "nome": "ESPESSURA",
+     "obrigatorio": true,
+     "quando": "somente CORTE e DESBASTE",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM081",
+     "ordem": 4,
+     "nome": "FURO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM081",
+     "ordem": 5,
+     "nome": "APLICACAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO",
+      "ACO CARBONO E INOX",
+      "ACO INOX"
+     ]
+    },
+    {
+     "id_pdm": "PDM081",
+     "ordem": 6,
+     "nome": "GRAO",
+     "obrigatorio": true,
+     "quando": "somente FLAP",
+     "formato": "código",
+     "valores": [
+      "40",
+      "60",
+      "80",
+      "120"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM082",
+   "substantivos": [
+    "BROCA"
+   ],
+   "qualificadores": [
+    "HELICOIDAL"
+   ],
+   "grupo": "FER01",
+   "unidade": "PC",
+   "ncm": [
+    "82075011"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM082",
+     "ordem": 1,
+     "nome": "TIPO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "HSS",
+      "HSS COBALTO",
+      "METAL DURO"
+     ]
+    },
+    {
+     "id_pdm": "PDM082",
+     "ordem": 2,
+     "nome": "DIAMETRO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "número + MM, decimal com vírgula (ex.: 16,25MM)",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM082",
+     "ordem": 3,
+     "nome": "HASTE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "CILINDRICA",
+      "CONE MORSE"
+     ]
+    },
+    {
+     "id_pdm": "PDM082",
+     "ordem": 4,
+     "nome": "NORMA",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "DIN 338",
+      "DIN 340",
+      "DIN 345"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM090",
+   "substantivos": [
+    "OLEO"
+   ],
+   "qualificadores": [
+    "LUBRIFICANTE"
+   ],
+   "grupo": "LUB01",
+   "unidade": "L",
+   "ncm": [
+    "27101932"
+   ],
+   "criterio": "ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)",
+   "atributos": [
+    {
+     "id_pdm": "PDM090",
+     "ordem": 1,
+     "nome": "APLICACAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "COMPRESSOR",
+      "ENGRENAGEM",
+      "HIDRAULICO",
+      "MOTOR DIESEL",
+      "TURBINA"
+     ]
+    },
+    {
+     "id_pdm": "PDM090",
+     "ordem": 2,
+     "nome": "VISCOSIDADE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "código",
+     "valores": [
+      "ISO VG 32",
+      "ISO VG 46",
+      "ISO VG 68",
+      "ISO VG 100",
+      "ISO VG 150",
+      "ISO VG 220",
+      "ISO VG 320",
+      "ISO VG 460",
+      "SAE 5W40",
+      "SAE 10W30",
+      "SAE 15W40"
+     ]
+    },
+    {
+     "id_pdm": "PDM090",
+     "ordem": 3,
+     "nome": "EMBALAGEM",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "código",
+     "valores": [
+      "BALDE 20L",
+      "CONTAINER 1000L",
+      "FRASCO 1L",
+      "TAMBOR 200L"
+     ]
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM100",
+   "substantivos": [
+    "FILTRO"
+   ],
+   "qualificadores": [
+    "AR",
+    "COMBUSTIVEL",
+    "HIDRAULICO",
+    "OLEO LUBRIFICANTE",
+    "SEPARADOR AR/OLEO"
+   ],
+   "grupo": "FIL01",
+   "unidade": "PC",
+   "ncm": [
+    "84212300",
+    "84212990",
+    "84213100",
+    "84213990"
+   ],
+   "criterio": "REFERENCIA DO FABRICANTE (FABRICANTE + PART NUMBER)",
+   "atributos": [
+    {
+     "id_pdm": "PDM100",
+     "ordem": 1,
+     "nome": "APLICACAO",
+     "obrigatorio": false,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "CAMINHAO FORA DE ESTRADA",
+      "COMPRESSOR",
+      "ESCAVADEIRA HIDRAULICA",
+      "GERADOR DIESEL",
+      "MOTOR DIESEL",
+      "PERFURATRIZ",
+      "UNIDADE HIDRAULICA",
+      "VEICULO LEVE"
+     ]
+    },
+    {
+     "id_pdm": "PDM100",
+     "ordem": 2,
+     "nome": "FABRICANTE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "BALDWIN",
+      "CATERPILLAR",
+      "DONALDSON",
+      "FLEETGUARD",
+      "FRAM",
+      "HYDAC",
+      "MANN",
+      "PARKER",
+      "TECFIL"
+     ]
+    },
+    {
+     "id_pdm": "PDM100",
+     "ordem": 3,
+     "nome": "REFERENCIA FABRICANTE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "código da peça no catálogo do fabricante, como ele informa",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM100",
+     "ordem": 4,
+     "nome": "ALTURA",
+     "obrigatorio": false,
+     "quando": "quando informado pelo fabricante",
+     "formato": "número + MM, decimal com vírgula",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM100",
+     "ordem": 5,
+     "nome": "DIAMETRO EXTERNO",
+     "obrigatorio": false,
+     "quando": "quando informado pelo fabricante",
+     "formato": "número + MM, decimal com vírgula",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM100",
+     "ordem": 6,
+     "nome": "ROSCA",
+     "obrigatorio": false,
+     "quando": "quando informado pelo fabricante",
+     "formato": "rosca de fixação como o fabricante informa (1.1/2-16 UN)",
+     "valores": []
+    }
+   ]
+  },
+  {
+   "id_pdm": "PDM110",
+   "substantivos": [
+    "ADAPTADOR",
+    "AMORTECEDOR",
+    "ANEL DESGASTE",
+    "ANEL EXPULSOR",
+    "ANEL LABIRINTO",
+    "ANEL VEDACAO",
+    "BARRA TENSORA",
+    "BRACO SUSPENSAO",
+    "BUCHA",
+    "BUCHA CABECOTE",
+    "BUCHA EXCENTRICO",
+    "BUCHA GUIA",
+    "BUCHA MANCAL GUIA",
+    "CABECOTE",
+    "CARCACA",
+    "CHAPA LATERAL",
+    "CILINDRO",
+    "CONCAVO",
+    "CONTRAEIXO",
+    "CUBO RODA",
+    "CUNHA",
+    "DENTE CACAMBA",
+    "DISCO FREIO",
+    "EIXO",
+    "EIXO ENTRADA",
+    "EIXO SAIDA",
+    "ENGRENAGEM",
+    "GRELHA",
+    "LAMINA RASPADOR",
+    "LEVANTADOR",
+    "LUVA EIXO",
+    "MANDIBULA FIXA",
+    "MANDIBULA MOVEL",
+    "MANTO",
+    "PALHETA DIRETRIZ",
+    "PASTILHA FREIO",
+    "PINHAO",
+    "PINO",
+    "PISTAO",
+    "PLACA ARTICULACAO",
+    "PLACA SUCCAO",
+    "PLACA TRASEIRA",
+    "RASPADOR PRIMARIO",
+    "REVESTIMENTO",
+    "REVESTIMENTO VOLUTA",
+    "RODA GUIA",
+    "ROLETE CARGA",
+    "ROLETE ESTEIRA",
+    "ROLETE IMPACTO",
+    "ROLETE RETORNO",
+    "ROTOR",
+    "SAPATA ESTEIRA",
+    "SEGMENTO MANCAL",
+    "TAMBOR ACIONAMENTO",
+    "TAMBOR RETORNO",
+    "TAMPA",
+    "TAMPA DESCARGA",
+    "TAMPA PRESSAO",
+    "TAMPA SUCCAO",
+    "TELA",
+    "VEDACAO EIXO",
+    "VIGA"
+   ],
+   "qualificadores": [],
+   "grupo": "SOB01",
+   "unidade": "PC",
+   "ncm": [
+    "84109000",
+    "84139190",
+    "84149039",
+    "84313900",
+    "84314390",
+    "84314929",
+    "84749000",
+    "84839000",
+    "87083011",
+    "87083090",
+    "87089990"
+   ],
+   "criterio": "REFERENCIA DO FABRICANTE (FABRICANTE + PART NUMBER)",
+   "atributos": [
+    {
+     "id_pdm": "PDM110",
+     "ordem": 1,
+     "nome": "APLICACAO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "BOMBA CENTRIFUGA",
+      "BOMBA POLPA",
+      "BRITADOR CONICO",
+      "BRITADOR MANDIBULA",
+      "CAMINHAO FORA DE ESTRADA",
+      "COMPRESSOR",
+      "CORREIA TRANSPORTADORA",
+      "ESCAVADEIRA HIDRAULICA",
+      "MOINHO BOLAS",
+      "PENEIRA VIBRATORIA",
+      "PERFURATRIZ",
+      "REDUTOR",
+      "TURBINA HIDRAULICA"
+     ]
+    },
+    {
+     "id_pdm": "PDM110",
+     "ordem": 2,
+     "nome": "MODELO EQUIPAMENTO",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "modelo do equipamento como o fabricante designa",
+     "valores": [
+      "777G",
+      "785D",
+      "793F",
+      "830E",
+      "6015B",
+      "6030",
+      "AHLSTAR A22-80",
+      "AHLSTAR A31-100",
+      "B3SH 11",
+      "C106",
+      "C120",
+      "C140",
+      "CESTARI M200",
+      "CESTARI M250",
+      "CH440",
+      "CH660",
+      "CJ412",
+      "CJ615",
+      "DI550",
+      "DP1500",
+      "ETANORM 65-200",
+      "EX1200",
+      "EX2600",
+      "F-CLASS 2.4X6.1",
+      "FLEXIROC T45",
+      "FRANCIS 6MW",
+      "FRANCIS 12MW",
+      "GA75",
+      "GA90",
+      "GA160",
+      "H3SH 9",
+      "HD785",
+      "HP300",
+      "HP400",
+      "KAPLAN 8MW",
+      "LH 8X20",
+      "LUDOWICI 3.6X8.5",
+      "MB 4.2X6.8",
+      "MB 5.0X7.6",
+      "MC3RLSF07",
+      "MEGANORM 80-250",
+      "MEGANORM 100-315",
+      "MM300",
+      "MM400",
+      "MP800",
+      "PC2000",
+      "PC3000",
+      "RAPTOR 450",
+      "SMARTROC D65",
+      "T-CLASS 3.0X7.3",
+      "TC-01",
+      "TC-04",
+      "TC-12",
+      "TC-25",
+      "TS 3.6X7.3",
+      "WARMAN 6/4 D AH",
+      "WARMAN 8/6 AH",
+      "WARMAN 10/8 F AH",
+      "X3FS170",
+      "ZR250"
+     ]
+    },
+    {
+     "id_pdm": "PDM110",
+     "ordem": 3,
+     "nome": "FABRICANTE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "lista de valores",
+     "valores": [
+      "ATLAS COPCO",
+      "CATERPILLAR",
+      "CONTINENTAL",
+      "EPIROC",
+      "FLENDER",
+      "FLEXCO",
+      "FLSMIDTH",
+      "HAVER",
+      "HITACHI",
+      "KOMATSU",
+      "KSB",
+      "MARTIN ENGINEERING",
+      "METSO",
+      "SANDVIK",
+      "SEW",
+      "SULZER",
+      "VOITH",
+      "WEG",
+      "WEIR"
+     ]
+    },
+    {
+     "id_pdm": "PDM110",
+     "ordem": 4,
+     "nome": "REFERENCIA FABRICANTE",
+     "obrigatorio": true,
+     "quando": "sempre",
+     "formato": "código da peça no catálogo do fabricante, como ele informa",
+     "valores": []
+    },
+    {
+     "id_pdm": "PDM110",
+     "ordem": 5,
+     "nome": "MATERIAL",
+     "obrigatorio": false,
+     "quando": "quando informado pelo fabricante",
+     "formato": "lista de valores",
+     "valores": [
+      "ACO CARBONO SAE 1045",
+      "ACO CROMO-MOLIBDENIO",
+      "ACO INOX 316",
+      "ACO INOX FUNDIDO A351 CF8M",
+      "ACO LIGA",
+      "ACO MANGANES",
+      "ACO MOLA",
+      "BORRACHA",
+      "BORRACHA NATURAL",
+      "BRONZE",
+      "BRONZE TM23",
+      "CARBETO TUNGSTENIO",
+      "FERRO FUNDIDO",
+      "FERRO FUNDIDO ALTO CROMO",
+      "POLIURETANO"
+     ]
+    }
+   ]
+  }
+ ],
+ "unidades": [
+  "PC",
+  "M",
+  "PR",
+  "KG",
+  "L"
+ ],
+ "grupos": {
+  "FIX01": "FIXADORES",
+  "MAN01": "MANGUEIRAS E MANGOTES",
+  "ROL01": "ROLAMENTOS E MANCAIS",
+  "VED01": "VEDACOES",
+  "TRA01": "TRANSMISSAO MECANICA",
+  "VAL01": "VALVULAS",
+  "TUB01": "TUBOS E CONEXOES",
+  "ELE01": "MATERIAL ELETRICO",
+  "INS01": "INSTRUMENTACAO",
+  "EPI01": "EPI",
+  "SOL01": "SOLDA E CORTE",
+  "FER01": "FERRAMENTAS",
+  "LUB01": "LUBRIFICANTES",
+  "FIL01": "FILTROS",
+  "SOB01": "SOBRESSALENTES"
+ },
+ "ncm_por_classe": {
+  "PDM001": [
+   "73181500"
+  ],
+  "PDM002": [
+   "73181500"
+  ],
+  "PDM003": [
+   "73181600"
+  ],
+  "PDM004": [
+   "73182200"
+  ],
+  "PDM005": [
+   "73182100"
+  ],
+  "PDM006": [
+   "73181500"
+  ],
+  "PDM010": [
+   "40092110"
+  ],
+  "PDM011": [
+   "40092210"
+  ],
+  "PDM012": [
+   "39173900",
+   "40093100",
+   "40094100"
+  ],
+  "PDM013": [
+   "39173290"
+  ],
+  "PDM014": [
+   "39173900",
+   "40094100"
+  ],
+  "PDM020": [
+   "84821010"
+  ],
+  "PDM021": [
+   "84823000"
+  ],
+  "PDM022": [
+   "84822090"
+  ],
+  "PDM023": [
+   "84832000"
+  ],
+  "PDM030": [
+   "40103200",
+   "40103400",
+   "40103900"
+  ],
+  "PDM031": [
+   "40169300"
+  ],
+  "PDM032": [
+   "40169300"
+  ],
+  "PDM033": [
+   "84841000"
+  ],
+  "PDM034": [
+   "39269090",
+   "40169300"
+  ],
+  "PDM040": [
+   "84818095"
+  ],
+  "PDM041": [
+   "84818093"
+  ],
+  "PDM042": [
+   "84818094"
+  ],
+  "PDM043": [
+   "84813000"
+  ],
+  "PDM044": [
+   "84818097"
+  ],
+  "PDM050": [
+   "73071990",
+   "73072100",
+   "73072200",
+   "73072300",
+   "73072900",
+   "73079100",
+   "73079200",
+   "73079300",
+   "73079900"
+  ],
+  "PDM051": [
+   "73041900",
+   "73043910",
+   "73043990",
+   "73063000",
+   "73064000"
+  ],
+  "PDM060": [
+   "85444900"
+  ],
+  "PDM061": [
+   "85369090"
+  ],
+  "PDM062": [
+   "85362000"
+  ],
+  "PDM063": [
+   "85364900"
+  ],
+  "PDM064": [
+   "85361000"
+  ],
+  "PDM065": [
+   "85395200"
+  ],
+  "PDM066": [
+   "85365090"
+  ],
+  "PDM067": [
+   "90262010"
+  ],
+  "PDM070": [
+   "40151900",
+   "42032900",
+   "61161000"
+  ],
+  "PDM071": [
+   "64034000",
+   "64039990"
+  ],
+  "PDM072": [
+   "90049020"
+  ],
+  "PDM080": [
+   "83111000"
+  ],
+  "PDM081": [
+   "68042211",
+   "68051000"
+  ],
+  "PDM082": [
+   "82075011"
+  ],
+  "PDM090": [
+   "27101932"
+  ],
+  "PDM100": [
+   "84212300",
+   "84212990",
+   "84213100",
+   "84213990"
+  ],
+  "PDM110": [
+   "84109000",
+   "84139190",
+   "84149039",
+   "84313900",
+   "84314390",
+   "84314929",
+   "84749000",
+   "84839000",
+   "87083011",
+   "87083090",
+   "87089990"
+  ]
+ },
+ "nomes_atributos": [
+  "ACABAMENTO",
+  "ACIONAMENTO",
+  "ALTURA",
+  "ANEL INTERNO",
+  "APLICACAO",
+  "BASE",
+  "BIQUEIRA",
+  "BITOLA",
+  "CA",
+  "CANO",
+  "CAPACIDADE INTERRUPCAO",
+  "CASTELO",
+  "CLASSE",
+  "CLASSE PRESSAO",
+  "CLASSE RESISTENCIA",
+  "CLASSIFICACAO AWS",
+  "COMPRIMENTO",
+  "COMPRIMENTO EXTERNO",
+  "CONEXAO",
+  "CONTATOS AUXILIARES",
+  "COR",
+  "CORRENTE AC3",
+  "CORRENTE NOMINAL",
+  "COSTURA",
+  "CURVA",
+  "DIAMETRO",
+  "DIAMETRO ALOJAMENTO",
+  "DIAMETRO EIXO",
+  "DIAMETRO EXTERNO",
+  "DIAMETRO INTERNO",
+  "DIAMETRO NOMINAL",
+  "DIAMETRO REDUZIDO",
+  "DIAMETRO VISOR",
+  "DISTANCIA SENSORA",
+  "DUREZA",
+  "EMBALAGEM",
+  "ENCHIMENTO",
+  "ESPESSURA",
+  "EXTREMIDADES",
+  "FABRICANTE",
+  "FACE",
+  "FAIXA",
+  "FAIXA AJUSTE",
+  "FOLGA",
+  "FURO",
+  "GRAO",
+  "HASTE",
+  "ISOLACAO",
+  "LARGURA",
+  "LENTE",
+  "MATERIAL",
+  "MATERIAL CAIXA",
+  "MATERIAL COBERTURA",
+  "MATERIAL CORPO",
+  "MATERIAL DISCO",
+  "MATERIAL FITA",
+  "MATERIAL TERMINAIS",
+  "MODELO EQUIPAMENTO",
+  "MONTAGEM",
+  "NORMA",
+  "NUMERO CONDUTORES",
+  "PARA PARAFUSO",
+  "PASSAGEM",
+  "PERFIL",
+  "POLOS",
+  "POTENCIA",
+  "PRESSAO TRABALHO",
+  "REFERENCIA",
+  "REFERENCIA FABRICANTE",
+  "REFORCO",
+  "REVESTIMENTO",
+  "ROSCA",
+  "ROSCA CORPO",
+  "SAIDA",
+  "SCHEDULE",
+  "SECAO",
+  "SECAO CABO",
+  "SOLADO",
+  "TAMANHO",
+  "TEMPERATURA COR",
+  "TENSAO",
+  "TENSAO BOBINA",
+  "TENSAO ISOLAMENTO",
+  "TERMINAL A",
+  "TERMINAL B",
+  "TIPO",
+  "TIPO CABECA",
+  "TIPO CORPO",
+  "TIPO FACE",
+  "TRATAMENTO",
+  "VEDACAO",
+  "VEDACAO SEDE",
+  "VISCOSIDADE"
+ ]
+}
