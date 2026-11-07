@@ -1,20 +1,44 @@
 """Quantifica o custo da bagunça cadastral a partir da base real.
 
-Uso: python3 -I analise_mercado.py <base_materiais.csv> <padrao_PDM.xlsx>
+Uso:  uv run --with openpyxl python -I scripts/analise_mercado.py
+      (opcional) ... <base_materiais.xlsx> <padrao_PDM.xlsx>
+
+Sem argumentos, le os arquivos de dados/ na raiz do repositorio.
 
 Todos os numeros deste script saem dos dados entregues no desafio.
 Nada aqui e estimativa de mercado.
 """
 
-import csv
 import re
 import sys
 import unicodedata
 from collections import Counter, defaultdict
+from pathlib import Path
 
-BASE_CSV, PDM_XLSX = sys.argv[1], sys.argv[2]
+import openpyxl
+
+DADOS = Path(__file__).resolve().parent.parent / "dados"
+BASE_XLSX = sys.argv[1] if len(sys.argv) > 1 else DADOS / "01_base_materiais.xlsx"
+PDM_XLSX = sys.argv[2] if len(sys.argv) > 2 else DADOS / "03_padrao_cadastro_PDM.xlsx"
 
 # ---------------------------------------------------------------- utilidades
+
+
+def le_xlsx(caminho, aba):
+    """Le uma aba do xlsx como lista de dicts, tudo em texto.
+
+    Manter texto preserva zero a esquerda do NCM e o formato das datas.
+    """
+    wb = openpyxl.load_workbook(caminho, read_only=True, data_only=True)
+    it = wb[aba].iter_rows(values_only=True)
+    cab = [str(c).strip() if c is not None else "" for c in next(it)]
+    linhas = [
+        {k: ("" if v is None else str(v)) for k, v in zip(cab, row)}
+        for row in it
+        if any(c is not None for c in row)
+    ]
+    wb.close()
+    return linhas
 
 
 def sem_acento(s):
@@ -52,15 +76,13 @@ def pct(a, b):
 
 # ---------------------------------------------------------------- carga
 
-linhas = []
-with open(BASE_CSV, encoding="utf-8-sig", newline="") as fh:
-    for r in csv.DictReader(fh):
-        r["_estoque"] = num(r["ESTOQUE_ATUAL"])
-        r["_preco"] = num(r["PRECO_MEDIO_UNITARIO"])
-        r["_valor"] = r["_estoque"] * r["_preco"]
-        r["_centro"] = r["CENTRO"].split(" - ")[0].strip()
-        r["_ncm"] = re.sub(r"\D", "", r["NCM"] or "")
-        linhas.append(r)
+linhas = le_xlsx(BASE_XLSX, "BASE_MATERIAIS")
+for r in linhas:
+    r["_estoque"] = num(r["ESTOQUE_ATUAL"])
+    r["_preco"] = num(r["PRECO_MEDIO_UNITARIO"])
+    r["_valor"] = r["_estoque"] * r["_preco"]
+    r["_centro"] = r["CENTRO"].split(" - ")[0].strip()
+    r["_ncm"] = re.sub(r"\D", "", r["NCM"])
 
 N = len(linhas)
 VALOR_TOTAL = sum(r["_valor"] for r in linhas)
@@ -148,9 +170,6 @@ print(f"  valor imobilizado ................... {brl(valor_sem_mov)}")
 # ---------------------------------------------------------------- 3. risco fiscal
 
 # NCM valido por grupo, direto da aba CLASSES do PDM.
-sys.path.insert(0, "/home/leticia/Hackathon_xv/.venv/lib/python3.13/site-packages")
-import openpyxl  # noqa: E402
-
 wb = openpyxl.load_workbook(PDM_XLSX, read_only=True, data_only=True)
 ncm_por_grupo = defaultdict(set)
 ws = wb["CLASSES"]
@@ -162,9 +181,9 @@ for row in ws.iter_rows(min_row=2, values_only=True):
         for parte in re.findall(r"\d{4}\.?\d{2}\.?\d{2}", str(n)):
             ncm_por_grupo[str(g).strip()].add(re.sub(r"\D", "", parte))
 # NCM_REFERENCIA tambem lista NCMs condicionais por classe
+todos_ref = set()
 if "NCM_REFERENCIA" in wb.sheetnames:
     wsr = wb["NCM_REFERENCIA"]
-    todos_ref = set()
     for row in wsr.iter_rows(min_row=2, values_only=True):
         for cel in row:
             if cel:

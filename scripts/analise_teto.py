@@ -3,27 +3,45 @@
 Testa o casamento de texto contra os casos de duplicidade conhecidos
 (os 15 produtos reais no fim da base) e estima o teto por chave de atributo.
 
-Uso: python3 -I analise_teto.py <base_materiais.csv>
+Uso:  uv run --with openpyxl python -I scripts/analise_teto.py
+      (opcional) ... <base_materiais.xlsx>
+
+Sem argumentos, le os arquivos de dados/ na raiz do repositorio.
 """
 
-import csv
 import re
 import sys
 import unicodedata
 from collections import defaultdict
+from pathlib import Path
 
-BASE_CSV = sys.argv[1]
+import openpyxl
+
+DADOS = Path(__file__).resolve().parent.parent / "dados"
+BASE_XLSX = sys.argv[1] if len(sys.argv) > 1 else DADOS / "01_base_materiais.xlsx"
+
+
+def le_xlsx(caminho, aba):
+    """Le uma aba do xlsx como lista de dicts, tudo em texto."""
+    wb = openpyxl.load_workbook(caminho, read_only=True, data_only=True)
+    it = wb[aba].iter_rows(values_only=True)
+    cab = [str(c).strip() if c is not None else "" for c in next(it)]
+    linhas = [
+        {k: ("" if v is None else str(v)) for k, v in zip(cab, row)}
+        for row in it
+        if any(c is not None for c in row)
+    ]
+    wb.close()
+    return linhas
 
 
 def sa(s):
     return "".join(c for c in unicodedata.normalize("NFKD", s) if not unicodedata.combining(c))
 
 
-linhas = []
-with open(BASE_CSV, encoding="utf-8-sig", newline="") as fh:
-    for r in csv.DictReader(fh):
-        r["_valor"] = float(r["ESTOQUE_ATUAL"] or 0) * float(r["PRECO_MEDIO_UNITARIO"] or 0)
-        linhas.append(r)
+linhas = le_xlsx(BASE_XLSX, "BASE_MATERIAIS")
+for r in linhas:
+    r["_valor"] = float(r["ESTOQUE_ATUAL"] or 0) * float(r["PRECO_MEDIO_UNITARIO"] or 0)
 
 
 def brl(v):

@@ -437,11 +437,14 @@ E vale **1.024 vezes por ano, para sempre**, na porta de entrada — que é onde
 
 ### Reprodutibilidade
 
+A partir da raiz do repositório, sem nenhuma preparação de ambiente:
+
 ```bash
-python3 -I scripts/analise_mercado.py      dados/01_base_materiais.csv dados/03_padrao_cadastro_PDM.xlsx
-python3 -I scripts/analise_normalizacao.py dados/01_base_materiais.csv dados/02_pedidos_cadastro.csv
-python3 -I scripts/analise_teto.py         dados/01_base_materiais.csv
+uv run --with openpyxl python -I scripts/analise_mercado.py       # seções 1, 2, 3, 5
+uv run --with openpyxl python -I scripts/analise_normalizacao.py  # seção 4.1
+uv run --with openpyxl python -I scripts/analise_teto.py          # seções 4.2, 4.3
 ```
 
-Todos os números 🟢 deste documento saem desses três scripts. Nenhum depende de serviço externo,
-de modelo de linguagem ou de premissa.
+Os scripts leem `dados/*.xlsx` deste repositório por padrão; aceitam caminhos alternativos como
+argumentos. Todos os números 🟢 deste documento saem desses três scripts. Nenhum depende de serviço
+externo, de modelo de linguagem ou de premissa.

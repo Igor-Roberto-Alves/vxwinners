@@ -3,16 +3,37 @@
 Compara: casamento ingenuo de texto  vs  casamento apos normalizacao.
 E a prova quantitativa da tese do projeto.
 
-Uso: python3 -I analise_normalizacao.py <base_materiais.csv> <pedidos.csv>
+Uso:  uv run --with openpyxl python -I scripts/analise_normalizacao.py
+      (opcional) ... <base_materiais.xlsx> <pedidos.xlsx>
+
+Sem argumentos, le os arquivos de dados/ na raiz do repositorio.
 """
 
-import csv
 import re
 import sys
 import unicodedata
 from collections import Counter, defaultdict
+from pathlib import Path
 
-BASE_CSV, PEDIDOS_CSV = sys.argv[1], sys.argv[2]
+import openpyxl
+
+DADOS = Path(__file__).resolve().parent.parent / "dados"
+BASE_XLSX = sys.argv[1] if len(sys.argv) > 1 else DADOS / "01_base_materiais.xlsx"
+PEDIDOS_XLSX = sys.argv[2] if len(sys.argv) > 2 else DADOS / "02_pedidos_cadastro.xlsx"
+
+
+def le_xlsx(caminho, aba):
+    """Le uma aba do xlsx como lista de dicts, tudo em texto."""
+    wb = openpyxl.load_workbook(caminho, read_only=True, data_only=True)
+    it = wb[aba].iter_rows(values_only=True)
+    cab = [str(c).strip() if c is not None else "" for c in next(it)]
+    linhas = [
+        {k: ("" if v is None else str(v)) for k, v in zip(cab, row)}
+        for row in it
+        if any(c is not None for c in row)
+    ]
+    wb.close()
+    return linhas
 
 
 def sem_acento(s):
@@ -126,15 +147,13 @@ def ingenuo(desc):
 
 # ---------------------------------------------------------------- carga
 
-linhas = []
-with open(BASE_CSV, encoding="utf-8-sig", newline="") as fh:
-    for r in csv.DictReader(fh):
-        est = float(r["ESTOQUE_ATUAL"] or 0)
-        pr = float(r["PRECO_MEDIO_UNITARIO"] or 0)
-        r["_valor"] = est * pr
-        r["_estoque"] = est
-        r["_preco"] = pr
-        linhas.append(r)
+linhas = le_xlsx(BASE_XLSX, "BASE_MATERIAIS")
+for r in linhas:
+    est = float(r["ESTOQUE_ATUAL"] or 0)
+    pr = float(r["PRECO_MEDIO_UNITARIO"] or 0)
+    r["_valor"] = est * pr
+    r["_estoque"] = est
+    r["_preco"] = pr
 
 
 def agrupa(fn):
@@ -201,8 +220,7 @@ for v in sorted(novos, key=lambda v: -sum(r["_valor"] for r in v))[:8]:
 
 # ---------------------------------------------------------------- pedidos
 
-with open(PEDIDOS_CSV, encoding="utf-8-sig", newline="") as fh:
-    pedidos = list(csv.DictReader(fh))
+pedidos = le_xlsx(PEDIDOS_XLSX, "PEDIDOS")
 
 chaves_base = set(cl_b.keys()) | {(r["GRUPO_MERCADORIA"], normaliza(r["DESCRICAO_LONGA"])) for r in linhas}
 
