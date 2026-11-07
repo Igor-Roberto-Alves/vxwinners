@@ -18,7 +18,7 @@ Termos usados no documento:
 
 ## 0. Estado da implementação
 
-O backend está em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 276 testes) e foi rodado contra a base inteira. **O frontend é o do time:** [`mockup_plataforma.html`](../mockup_plataforma.html) é a casca, e o cadastro real está em [`frontend/`](../frontend/cadastro.js), servido em `http://localhost:8000/`. Busca, cadastro, pedidos, acompanhamento e revisão usam a API e a base real. As demais telas (Início, Radar, Requisições, Aprovar compras, Estoque, Base e Clusters) continuam com dados de demonstração, e a etiqueta do topo diz isso. O contrato é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
+O backend está em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 276 testes) e foi rodado contra a base inteira. **O frontend é o do time:** [`mockup_plataforma.html`](../mockup_plataforma.html) é a casca, e o cadastro real está em [`frontend/`](../frontend/cadastro.js), servido em `http://localhost:8000/`. Busca, cadastro, pedidos, acompanhamento e revisão usam a API e a base real. As demais telas (Início, Radar, Requisições, Base e Clusters) continuam com dados de demonstração, e a etiqueta do topo diz isso. O contrato é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
 
 | Fase | Estado | Evidência |
 |---|---|---|
@@ -85,7 +85,7 @@ A divergência achou erros nos dois lados, corrigidos com teste. No backend: `RE
 
 ### Frontend
 
-O frontend do time continua sendo um arquivo só, que o time pode seguir redesenhando. A lógica do cadastro fica fora dele, em `frontend/cadastro.js` e `frontend/cadastro.css`, e usa os mesmos componentes visuais. Toda regra de negócio fica no servidor. A base é a versão integrada de `origin/main` (`aac4fbb`). O redesign de 57f4726, que ficou fora dela, voltou em `frontend/tema.css`: cores semânticas, contraste, foco visível e movimento reduzido.
+O frontend do time continua sendo um arquivo só, que o time pode seguir redesenhando. A lógica do cadastro fica fora dele, em `frontend/cadastro.js` e `frontend/cadastro.css`, e usa os mesmos componentes visuais. Toda regra de negócio fica no servidor. A base é a versão integrada de `origin/main` (`00aeadb`). O redesign de 57f4726, que ficou fora dela, voltou em `frontend/tema.css`: cores semânticas, contraste, foco visível e movimento reduzido.
 
 Da versão integrada vieram para o fluxo real: o banner `JÁ EXISTE`, "Aplicar aos campos", o corte de confiança em 0,60 com chip tracejado e a entrada colando o texto do pedido. **Uma decisão difere:** lá, "já existe" era similaridade de texto ≥ 85%. Aqui vem da comparação por atributos, porque na análise de mercado comparar texto não achou nenhum dos duplicados reais.
 
@@ -108,7 +108,7 @@ O usuário e o papel são escolhidos no topo da tela, porque a autenticação ai
 
 ### O que ainda não existe
 
-- **Telas de gestão ligadas à API.** Início, Radar, Requisições, Aprovar compras, Estoque, Base e Clusters ainda são demonstração. A entrada por foto saiu da busca, porque está fora da primeira versão.
+- **Telas de gestão ligadas à API.** Início, Radar, Requisições, Base e Clusters ainda são demonstração. A entrada por foto saiu da busca, porque está fora da primeira versão.
 - **Autenticação OIDC.** A API só aceita `AUTH_MODO=dev` (cabeçalhos `X-Usuario` e `X-Papel`) e **recusa subir** com outro modo, em vez de fingir proteção. Não pode ir para produção assim.
 - **Envio real de e-mail (SES).** A devolução grava o e-mail em `backend/erp_out/emails/`. Também não há contato por área cadastrado: sem ele, a API avisa que nada foi enviado.
 - **Amostra anotada à mão** e as metas de 98% e 97% do plano.

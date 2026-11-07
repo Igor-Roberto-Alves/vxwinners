@@ -76,7 +76,7 @@ A casca é o arquivo do time; o cadastro real fica em `frontend/`, para o desenh
 colidir com a lógica. A etiqueta no topo diz se a tela usa **dados reais** ou é **demonstração**.
 
 - **Reais:** Buscar material, Cadastrar novo item, Pedidos de cadastro, Cadastros e Revisão de exceções.
-- **Demonstração:** Início, Radar, Requisições, Aprovar compras, Estoque por centro, Base e Clusters.
+- **Demonstração:** Início, Radar, Requisições, Base e Clusters.
 
 Três decisões de projeto na ligação:
 
@@ -278,6 +278,6 @@ podem ser reauditados antes de regenerar os splits.
 do rótulo com confiança alta; as amostras inspecionadas estão certas, mas a lista inteira ainda
 precisa de revisão humana antes de virar correção na base.
 
-**4. A interface ainda tem telas de demonstração.** Início, Radar, Requisições, Aprovar compras, Estoque por
-centro, Base e Clusters usam dados embutidos no arquivo. A autenticação é só de desenvolvimento, e o usuário é
+**4. A interface ainda tem telas de demonstração.** Início, Radar, Requisições, Base e Clusters usam dados
+embutidos no arquivo. A autenticação é só de desenvolvimento, e o usuário é
 escolhido no topo da tela: não use em produção. Limites completos em [`backend/README.md`](backend/README.md).

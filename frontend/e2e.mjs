@@ -265,7 +265,7 @@ await pausa(300);
 await shot("9_cadastros_outro_tema");
 
 console.log("\n== telas novas do time continuam de pé");
-for (const p of ["estoque", "base", "clusters", "aprovacoes", "requisicoes", "radar", "inicio"]) {
+for (const p of ["base", "clusters", "requisicoes", "radar", "inicio"]) {
   await ev(`go(${JSON.stringify(p)})`); await pausa(250);
   await ok(`tela ${p}`, (await ev(`document.querySelector('#page-${p}').classList.contains('active')&&document.querySelector('#page-${p}').innerText.length>50`)));
 }
