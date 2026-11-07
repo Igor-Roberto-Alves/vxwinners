@@ -46,16 +46,37 @@ Tudo abaixo saiu de execução real sobre os 23.554 registros, não de estimativ
 
 | Indicador | Só regras | Com BERT |
 |---|---|---|
-| Completude média | 0,759 | **0,814** |
-| Chave de identidade fechada | 8.694 | **12.848** |
-| Códigos redundantes | 876 | **1.657** |
+| Completude média das obrigatórias | 0,759 | **0,826** |
+| Chave de identidade fechada | 8.694 | **13.343** |
+| **Códigos redundantes** | 876 | **1.740** |
+| SANEADO | 34,0% | 33,1% |
+| REVISAO_HUMANA | 7,9% | 9,8% |
+| Registros que o árbitro escalaria | 15,2% | 18,4% |
 | Velocidade | 700 reg/s | 33 reg/s (CPU) |
 
-**A junção quase dobrou com o BERT.** É o resultado principal do dia.
+**A junção dobrou com o BERT: 876 → 1.740 códigos redundantes.** É o resultado
+principal do dia.
 
-> Em reprocessamento: a última execução ainda usa a classificação anterior à
-> correção de qualificador e ao ajuste de train/serve skew. Os números de
-> SANEADO e REVISAO vão mudar; os de junção devem subir.
+De onde vem cada valor aceito, com o BERT ligado:
+
+```
+acordo (regra e BERT concordam) .... 49.488   52,9%   <- o sinal de saude
+gazetteer (lista do PDM) .......... 19.143   20,5%
+bert .............................   9.493   10,1%
+sinonimo .........................   4.722    5,0%
+gramatica ........................   3.479    3,7%
+bert_desempata ...................   1.993    2,1%
+dominio (alojamento > eixo > larg)    524    0,6%
+```
+
+Duas leituras importantes:
+
+- **`acordo` em 52,9%** quer dizer que regra e BERT chegam ao mesmo valor em
+  quase 50 mil caixas. É a melhor evidência de que as duas camadas estão certas.
+- **SANEADO cai 0,9 ponto** enquanto a completude sobe 0,067 e as chaves sobem
+  54%. O BERT preenche muito mais caixas, mas introduz alguma divergência, e um
+  registro em REVISAO não conta como SANEADO. Para o objetivo (provar
+  duplicidade) a troca vale: o que importa é a chave fechar.
 
 ### Modelo BERT
 
@@ -78,6 +99,7 @@ Tudo abaixo saiu de execução real sobre os 23.554 registros, não de estimativ
 | Custo estimado (3.569 registros escalados) | **~US$ 11** |
 | Com prompt caching agrupado por classe | ~US$ 5,50 |
 | Status | validado em 3 casos de teste; **ainda não rodou na base** |
+| Dicionário aprendido | 0 termos — só enche quando o LLM rodar (ver nota) |
 
 ---
 
@@ -262,7 +284,7 @@ Em ordem de retorno por esforço:
 |---|---|---|
 | 1 | **Extração em duas passadas** para atributos condicionais | trava `PDM062` (disjuntor, 354 registros) em 0%: `CORRENTE NOMINAL` e `CURVA` só se aplicam depois de saber o `TIPO`, mas a extração decide as caixas antes. O dado está no texto (`IN 25A CURVA C`) e nunca é lido |
 | 2 | **Fechar lacunas de substantivo** nos 718 `FORA_DO_PDM` | `O-RING`→`ANEL O-RING`, `CONTACTOR`→`CONTATOR`, `JOELHO`→`COTOVELO`, `TAMPAO`→`CAP`, `BOTINA`→`CALCADO SEGURANCA`. Entradas de dicionário, determinísticas |
-| 3 | **Rodar o LLM** nos registros escalados | mede o ganho real e alimenta o dicionário aprendido pela primeira vez (~US$ 11) |
+| 3 | **Rodar o LLM** nos 4.341 registros escalados | mede o ganho real e enche o dicionário aprendido pela primeira vez (~US$ 11). Hoje ele está com 0 termos: o BERT quase sempre recorta o valor já canônico, que não há o que aprender. O material de aprendizado são os **13.329 trechos que o validador recusou** (`ZINC`, `MANOPLA`, `ACO ESPECIAL`, `TC 12`) — o LLM os canoniza e o dicionário guarda, fechando o ciclo |
 | 4 | **Retreinar o BERT** com as duas variantes de texto (com e sem rótulo, marcando o rótulo como `O`) | corrige o train/serve skew na origem, em vez de filtrar na inferência |
 | 5 | **Processar os 520 pedidos** de cadastro | o fluxo de entrada: `APROVADO` / `JA_EXISTE` / `DEVOLVIDO` / `FORA_DO_PDM`. É o slide do pitch |
 | 6 | **Enriquecimento** com fonte registrada | único caminho para os 14.158 em PENDENTE |
