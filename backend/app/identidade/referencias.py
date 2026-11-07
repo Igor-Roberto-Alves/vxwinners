@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import re
 
+from ..normalizacao.curados import referencia_canonica
 from ..normalizacao.texto import normaliza
 
 ALIAS_FABRICANTE = {
@@ -37,9 +38,24 @@ def fabricante_canonico(texto: str | None, permitidos: tuple[str, ...] = ()) -> 
 
 
 def referencia_generica(texto: str | None) -> str | None:
-    """Maiúsculas e sem separadores: `1R-1808`, `1R 1808` e `1R1808` são a mesma referência."""
-    n = re.sub(r"[\s\-/\.\\_]+", "", normaliza(texto))
-    return n or None
+    """Sem ruído de cadastro e sem separadores: `1R-1808`, `1R 1808` e `1R1808 REV A` são a mesma referência."""
+    return referencia_canonica(texto) or None
+
+
+_CORREIA = re.compile(r"(?<![A-Z0-9])(5V|SP[ABCZ]|[ABC]X?)\s?-?\s?(\d{2,5})(?![0-9])")
+
+
+def referencia_correia(texto: str | None) -> str | None:
+    """Referência de correia: letra(s) do perfil colada(s) ao número (`B54`, `AX177`, `SPB 2325`).
+
+    O PDM descreve o formato como "perfil + comprimento", e o modelo chegou a compor `A DENTADA 4546`
+    com o comprimento externo. Só vale o código que está escrito no texto.
+    """
+    m = _CORREIA.search(normaliza(texto))
+    if not m:
+        return None
+    sep = " " if m.group(1).startswith("SP") or m.group(1) == "5V" else ""
+    return f"{m.group(1)}{sep}{m.group(2)}"
 
 
 _SERIE = re.compile(r"(?<![A-Z0-9])(\d{4,5})([A-Z0-9\-/]*)")

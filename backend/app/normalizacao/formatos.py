@@ -63,6 +63,11 @@ def valida(tipo: str, valor: str) -> bool:
     return re.fullmatch(_VALIDADORES[tipo], valor or "") is not None
 
 
+def _sem_zero_decimal(v: str) -> str:
+    """`7,0MM` → `7MM` e `16,250MM` → `16,25MM`: a mesma medida precisa fechar a mesma chave."""
+    return re.sub(r"(,\d*?)0+(?=[A-Z])", r"\1", v).replace(",MM", "MM").replace(",BAR", "BAR").replace(",A", "A").replace(",W", "W").replace(",M", "M")
+
+
 def normaliza_valor(tipo: str, texto: str, *, atributo: str = "") -> g.Norm:
     """Converte um texto qualquer para o formato do tipo. Texto já canônico passa direto."""
     t = normaliza(texto)
@@ -70,7 +75,7 @@ def normaliza_valor(tipo: str, texto: str, *, atributo: str = "") -> g.Norm:
         return g.Norm(t or None, 0.9 if t else 0.0, "livre")
     # "já no formato" confere o texto como veio: remover espaços antes faria `1 1/2 POL` virar `11/2POL`
     if tipo != "LISTA" and valida(tipo, t):
-        return g.Norm(t, 1.0, "ja no formato")
+        return g.Norm(_sem_zero_decimal(t), 1.0, "ja no formato")
     t = t.replace(" ", "")
     if tipo == "MM":
         return g.mm(texto, aceita_metro="COMPRIMENTO" in atributo)

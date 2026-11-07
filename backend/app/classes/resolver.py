@@ -12,6 +12,7 @@ import re
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 
+from ..normalizacao.curados import SINONIMO_SUJEITO
 from ..normalizacao.texto import ABREVIACOES, normaliza, tokens
 from ..pdm.modelo import Pdm
 
@@ -35,7 +36,10 @@ GLOSSARIO_EN: dict[str, str] = {
     "BOLT": "PARAFUSO", "NUT": "PORCA", "WASHER": "ARRUELA", "VALVE": "VALVULA", "PIPE": "TUBO", "CABLE": "CABO",
     "LUBRICANT": "OLEO LUBRIFICANTE", "SENSOR": "SENSOR", "BELT": "CORREIA",
 }
-_GLOSSARIO_ORDENADO = sorted(GLOSSARIO_EN.items(), key=lambda kv: -len(kv[0]))
+# Sinônimos de substantivo: os curados pela equipe e as lacunas listadas em docs/00-estado-do-projeto.md.
+GLOSSARIO_PT = {**SINONIMO_SUJEITO, "ORING": "ANEL O-RING", "JOELHO": "COTOVELO", "TAMPAO": "CAP",
+                "BOTINA": "CALCADO SEGURANCA", "BOTA SEGURANCA": "CALCADO SEGURANCA"}
+_GLOSSARIO_ORDENADO = sorted({**GLOSSARIO_EN, **GLOSSARIO_PT}.items(), key=lambda kv: -len(kv[0]))
 # Plurais e variações de gênero comuns em pedidos.
 _VARIACOES = {"PARAFUSOS": "PARAFUSO", "PORCAS": "PORCA", "ARRUELAS": "ARRUELA", "VALVULAS": "VALVULA",
               "RETENTORES": "RETENTOR", "ROLAMENTOS": "ROLAMENTO", "MANGUEIRAS": "MANGUEIRA",

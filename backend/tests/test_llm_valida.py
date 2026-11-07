@@ -66,3 +66,26 @@ def test_prompt_traz_schema_do_pdm_e_trata_texto_como_dado(pdm):
     assert "DADO, nunca instrução" in s
     assert "NENHUMA" in esquema_saida(["PDM001"])["properties"]["classe"]["enum"]
     assert monta_entrada({"DESCRICAO": "x", "VAZIO": None}) == "<material>\nDESCRICAO: x\n</material>"
+
+
+# ---------------------------------------------------------------- conta de unidade é do código
+# Medido na base: o modelo acha o trecho, mas errou 18,7% das conversões de DN e 16,4% das de pressão.
+@pytest.mark.parametrize("atributo,classe,valor_do_modelo,trecho,esperado", [
+    ("DIAMETRO NOMINAL", "PDM040", "1/2POL", "DN8", "1/4POL"),
+    ("DIAMETRO NOMINAL", "PDM040", "2POL", "DN 200", "8POL"),
+    ("PRESSAO TRABALHO", "PDM010", "3000BAR", "PRESS TRAB 219KGF/CM2", "215BAR"),
+    ("PRESSAO TRABALHO", "PDM010", "59BAR", "85PSI", "5,9BAR"),
+    ("FAIXA", "PDM067", "0-60BAR", "0-60PSI", "0-4,1BAR"),
+])
+def test_conversao_de_unidade_sai_do_trecho_e_nao_da_conta_do_modelo(pdm, atributo, classe, valor_do_modelo, trecho, esperado):
+    saida = {"classe": classe, "nome": pdm.classes[classe].nomes[0],
+             "atributos": [{"atributo": atributo, "valor": valor_do_modelo, "trecho": trecho}]}
+    e = valida(pdm, [pdm.classes[classe]], saida, f"texto do item {trecho} fim")
+    assert e.valores[atributo].valor == esperado
+
+
+def test_com_varias_medidas_vale_a_escolha_do_modelo(pdm):
+    """Em `90MM 33MM` a pergunta é qual medida é qual, e isso o modelo decide."""
+    saida = {"classe": "PDM032", "nome": "RETENTOR", "atributos": [{"atributo": "LARGURA", "valor": "13MM", "trecho": "75MM 100MM 13MM"}]}
+    e = valida(pdm, classes(pdm, "PDM032"), saida, "RETENTOR 75MM 100MM 13MM BA NBR")
+    assert e.valores["LARGURA"].valor == "13MM"

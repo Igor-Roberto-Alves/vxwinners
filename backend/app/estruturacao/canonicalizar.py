@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 
 from ..identidade.referencias import fabricante_canonico, referencia_generica
 from ..normalizacao import formatos, grandezas
+from ..normalizacao.curados import referencia_limpa
 from ..normalizacao.vocabulario import casa_lista
 from ..pdm.modelo import Atributo, Pdm
 
@@ -40,6 +41,16 @@ def canonicaliza_atributo(a: Atributo, texto: str | None, id_pdm: str | None = N
         if r.valor:
             return Canonico(r.valor, r.confianca, r.motivo)
         return Canonico(None, 0.0, r.motivo, r.candidatos, fora_do_pdm=r.motivo != "vazio")
+    if id_pdm == "PDM030" and a.nome == "REFERENCIA":
+        from ..identidade.referencias import referencia_correia
+
+        ref = referencia_correia(texto)
+        if ref:
+            return Canonico(ref, 0.95, "codigo da correia")
+        return Canonico(None, 0.0, "sem codigo de correia no texto", (), fora_do_pdm=True)
+    if a.nome == "REFERENCIA FABRICANTE":
+        limpa = referencia_limpa(texto)
+        return Canonico(limpa or None, 0.9 if limpa else 0.0, "referencia sem ruido de cadastro")
     if id_pdm == "PDM020" and a.nome == "REFERENCIA":
         from ..identidade.referencias import referencia_rolamento
 

@@ -14,6 +14,7 @@ from dataclasses import dataclass
 from ..config import settings
 from ..estruturacao.canonicalizar import canonicaliza_atributo
 from ..estruturacao.modelo import Extracao, Valor
+from ..normalizacao import grandezas
 from ..normalizacao.texto import normaliza
 from ..pdm.modelo import Classe, Pdm
 from . import cliente as _cli
@@ -64,6 +65,36 @@ def chama(pdm: Pdm, classes: list[Classe], entrada: str, modelo: str | None = No
                         ms=int((time.time() - t0) * 1000))
 
 
+def reconverte(tipo: str, atributo: str, trecho: str | None, valor: str) -> str:
+    """Conta de unidade é do código, nunca do modelo.
+
+    O modelo acha o trecho muito bem, mas erra a conversão (`219KGF/CM2` → `3000BAR`, `DN 200` → `2POL`,
+    `0-60PSI` → `0-60BAR`). Quando o trecho tem UMA medida em unidade não canônica, o valor sai dela pela
+    tabela. Com várias medidas (`40MM 90MM`) vale a escolha do modelo: aí ele decide qual é qual, não a conta.
+    """
+    t = normaliza(trecho)
+    if not t:
+        return valor
+    if tipo == "POL":
+        dns = set(grandezas._DN.findall(t))
+        if len(dns) == 1:
+            return grandezas.polegada(f"DN {dns.pop()}").valor or valor
+    elif tipo in ("BAR", "FAIXA_BAR"):
+        achados = list(grandezas._PRESSAO.finditer(t))
+        if len(achados) == 1 and achados[0].group(2) != "BAR":
+            n = grandezas.pressao_bar(achados[0].group(0))
+            if n.valor:
+                return f"0-{n.valor}" if tipo == "FAIXA_BAR" else n.valor
+    elif tipo == "MM":
+        achados = list(grandezas._MM.finditer(t))
+        if len(achados) == 1 and achados[0].group(2) != "MM":
+            aceita_metro = "COMPRIMENTO" in atributo
+            n = grandezas.mm(achados[0].group(0), aceita_metro=aceita_metro)
+            if n.valor:
+                return n.valor
+    return valor
+
+
 def _colapsa(s: str) -> str:
     return re.sub(r"[^A-Z0-9]+", "", normaliza(s))
 
@@ -103,5 +134,6 @@ def valida(pdm: Pdm, classes: list[Classe], saida: dict | None, texto_entrada: s
             ex.valores[a.nome] = Valor(None, bruto, "LLM", trecho or None, 0.0, c.candidatos)
             continue
         conf = min(c.confianca, 0.93) if trecho_ok else 0.5
-        ex.valores[a.nome] = Valor(c.valor, bruto, "LLM", trecho or None, conf)
+        valor = reconverte(a.tipo, a.nome, trecho, c.valor) if trecho_ok else c.valor
+        ex.valores[a.nome] = Valor(valor, bruto, "LLM", trecho or None, conf)
     return ex

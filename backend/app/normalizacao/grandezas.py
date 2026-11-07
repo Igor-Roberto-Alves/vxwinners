@@ -165,12 +165,19 @@ _ROSCA = re.compile(
 )
 
 
+_POL_COMPOSTA = re.compile(
+    r"(?<![0-9/.])((?:\d+[ .])?\d+/\d+|\d+)\s?(?:POL|\")\s?[X×]\s?((?:\d+[ .])?\d+/\d+|\d+)\s?(?:POL|\")")
+
+
 def rosca_composta(texto: str) -> dict[str, Norm]:
     """`M12X50` → BITOLA M12 + COMPRIMENTO 50MM (regra 2 do PDM); sem passo = métrica grossa.
     `M12X1,5X50` → BITOLA M12X1,5 (passo fino) + COMPRIMENTO 50MM."""
     t = normaliza(texto)
     m = _ROSCA.search(t)
     if not m:
+        p = _POL_COMPOSTA.search(t)
+        if p:  # 1/2POLX3 1/2POL: bitola x comprimento em polegada
+            return {"BITOLA": polegada(p.group(1) + "POL"), "COMPRIMENTO": polegada(p.group(2) + "POL")}
         return {}
     d, b, c = m.group(1), m.group(2), m.group(3)
 

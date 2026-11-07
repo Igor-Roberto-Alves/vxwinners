@@ -338,7 +338,45 @@ def fmt_inteiro(valor: float | str) -> str | None:
 
 # ------------------------------------------------------------------ rosca
 
-_BITOLA = re.compile(r"(?<![A-Z0-9])M\s?-?(\d{1,2})(?:\s?[Xx*]\s?(\d{1,4}(?:[.,]\d+)?))?(?![0-9])")
+_BITOLA = re.compile(r"(?<![A-Z0-9])M\s?-?(\d{1,2})(?:\s?[Xx*]\s?(\d{1,4}(?:[.,]\d+)?))?(?:\s?[Xx*]\s?(\d{1,4}(?:[.,]\d+)?))?(?![0-9])")
+# 1/2POLX3 1/2POL: bitola x comprimento em polegada (a segunda medida pode ter parte inteira)
+_POLEGADA_COMPOSTA = re.compile(
+    r"(?<![0-9/.])((?:\d+[ .])?\d+/\d+|\d+)\s?(?:POL|\")\s?[Xx*]\s?((?:\d+[ .])?\d+/\d+|\d+)\s?(?:POL|\")")
+
+
+def _eh_passo(numero: str) -> bool:
+    """O passo da rosca tem casa decimal ou e pequeno (1; 1,25; 1,5). Comprimento de parafuso nunca."""
+    return "," in numero or "." in numero or int(numero) <= 3
+
+
+def _pol(medida: str) -> str:
+    """'3 1/2' ou '3.1/2' -> '3.1/2POL'."""
+    return re.sub(r"\s", ".", medida.strip()) + "POL"
+
+
+_REF_LIXO = re.compile(r"\s*(?:[,;]|\bP/\s|\bPARA\b|\bITEM CRITICO\b|\bVER DESENHO\b|\bCONF\b|\bCOMPRA LOCAL\b|\bREF ANTIGA\b).*$")
+_REF_REVISAO = re.compile(r"[\s\-/]*\bREV(?:ISAO)?\.?\s*[A-Z0-9]{0,2}$")
+_REF_SUFIXO_00 = re.compile(r"[\s\-/]00$")
+
+
+def referencia_limpa(valor: str | None) -> str:
+    """Part number sem o ruido de cadastro, ainda legivel: `5751 9508 65 REV A` -> `5751 9508 65`.
+
+    A base traz sufixo de revisao, observacao colada (`05307 P/ MANUTENCAO`) e `-00` de versao.
+    """
+    # sobre o texto ainda com pontuacao: a virgula e o `P/` marcam onde a observacao comeca
+    t = re.sub(r"\s+", " ", sem_acento(str(valor or "")).upper()).strip()
+    t = _REF_LIXO.sub("", t)
+    t = _REF_REVISAO.sub("", t)
+    if len(re.sub(r"[^A-Z0-9]", "", t)) > 6:
+        t = _REF_SUFIXO_00.sub("", t)
+    return t.strip(" -/.")
+
+
+def referencia_canonica(valor: str | None) -> str:
+    """Part number para comparar (regra 10): sem ruido, sem separadores e sem zero a esquerda."""
+    r = re.sub(r"[^A-Z0-9]", "", referencia_limpa(valor))
+    return r.lstrip("0") or r
 
 
 def separar_rosca_metrica(texto: str) -> dict[str, str]:
@@ -352,11 +390,16 @@ def separar_rosca_metrica(texto: str) -> dict[str, str]:
     t = normalizar(texto)
     m = _BITOLA.search(t)
     if not m:
-        return {}
-    out = {"BITOLA": f"M{int(m.group(1))}"}
-    if m.group(2):
-        out["COMPRIMENTO"] = fmt_mm(m.group(2)) or ""
-    # passo explicito: M12X1,5X50 ou 'METRICA FINA' escrito
-    tem_passo = re.search(r"M\s?\d{1,2}\s?[Xx]\s?\d[.,]\d+\s?[Xx]", t) or "FINA" in t
+        p = _POLEGADA_COMPOSTA.search(t)
+        return {"BITOLA": _pol(p.group(1)), "COMPRIMENTO": _pol(p.group(2))} if p else {}
+    d, b, c = m.group(1), m.group(2), m.group(3)
+    # M12X1,5X50: passo e comprimento. M12X1,5: so o passo. M12X50: so o comprimento.
+    # Ler o passo como comprimento fechava a mesma chave para parafusos de 35, 60 e 150 mm.
+    passo = b if b and (c or _eh_passo(b)) else None
+    comprimento = c if c else (b if b and not passo else None)
+    out = {"BITOLA": f"M{int(d)}X{passo.replace('.', ',')}" if passo else f"M{int(d)}"}
+    if comprimento:
+        out["COMPRIMENTO"] = fmt_mm(comprimento) or ""
+    tem_passo = bool(passo) or "FINA" in t
     out["ROSCA"] = "METRICA FINA" if tem_passo else "METRICA GROSSA"
     return out

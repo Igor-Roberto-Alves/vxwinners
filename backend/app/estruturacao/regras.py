@@ -11,7 +11,8 @@ from __future__ import annotations
 import re
 
 from ..classes.resolver import IndiceClasses, prepara
-from ..identidade.referencias import deduz_vedacao_folga, fabricante_canonico, fabricante_no_texto
+from ..identidade.referencias import deduz_vedacao_folga, fabricante_canonico, fabricante_no_texto, referencia_correia
+from ..normalizacao.curados import referencia_limpa
 from ..normalizacao import grandezas
 from ..normalizacao.texto import normaliza
 from ..normalizacao.vocabulario import acha_no_texto
@@ -140,7 +141,34 @@ def extrai_por_regras(pdm: Pdm, indice: IndiceClasses, r: dict) -> Extracao:
         ex.avisos.append(f"grupo do ERP ({grupo}) difere do grupo da classe ({classe.grupo})")
 
     _extrai_atributos(pdm, classe, ex, texto, partes, primeira, r)
-    return ex
+    irmao = _irmao_mais_especifico(pdm, ex, classe, texto, partes, primeira, r)
+    return irmao or ex
+
+
+def _irmao_mais_especifico(pdm: Pdm, ex: Extracao, classe: Classe, texto: str, partes: list[str], primeira: str, r: dict) -> Extracao | None:
+    """Troca para a classe mais específica quando o texto evidencia as caixas exclusivas dela.
+
+    `MANGUEIRA HIDRAULICA C/TERMINAIS` não traz a palavra MONTADA, mas tem comprimento e terminais:
+    só PDM011 tem esses atributos. A regra é estrutural (vale para todo par do PDM em que o nome de uma
+    classe contém o da outra), exige ao menos 2 evidências e veio de src/saneamento/regras.py.
+    """
+    if not ex.nome or len(classe.nomes) != 1:
+        return None
+    meus = set(prepara(ex.nome))
+    nomes_meus = {a.nome for a in classe.atributos}
+    melhor = None
+    for c in pdm.classes_do_grupo(classe.grupo):
+        if c.id_pdm == classe.id_pdm or len(c.nomes) != 1 or not meus < set(prepara(c.nomes[0])):
+            continue
+        exclusivas = [a.nome for a in c.atributos if a.obrigatorio and a.nome not in nomes_meus]
+        if len(exclusivas) < 2:
+            continue
+        tentativa = Extracao(id_pdm=c.id_pdm, nome=c.nomes[0], confianca_classe=0.85, metodo="REGRA", ambiguas=ex.ambiguas, avisos=list(ex.avisos))
+        _extrai_atributos(pdm, c, tentativa, texto, partes, primeira, r)
+        evidencias = sum(1 for n in exclusivas if n in tentativa.valores and tentativa.valores[n].valor)
+        if evidencias >= max(2, (len(exclusivas) + 1) // 2) and (melhor is None or evidencias > melhor[0]):
+            melhor = (evidencias, tentativa)
+    return melhor[1] if melhor else None
 
 
 def extrai_para_classe(pdm: Pdm, id_pdm: str, nome: str | None, texto: str, r: dict | None = None) -> Extracao:
@@ -211,9 +239,15 @@ def _extrai_atributos(pdm: Pdm, classe: Classe, ex: Extracao, texto: str, partes
                 ex.valores["FABRICANTE"] = Valor(c.valor, fab_col, "COLUNA_ERP", fab_col, 0.95)
         if ref_col and classe.atributo("REFERENCIA FABRICANTE") and not (
                 ex.valores.get("REFERENCIA FABRICANTE") and ex.valores["REFERENCIA FABRICANTE"].valor):
-            ex.valores["REFERENCIA FABRICANTE"] = Valor(ref_col.strip(), ref_col, "COLUNA_ERP", ref_col, 0.95)
+            ex.valores["REFERENCIA FABRICANTE"] = Valor(referencia_limpa(ref_col), ref_col, "COLUNA_ERP", ref_col, 0.95)
 
-    # ---- 5. rolamento: vedação e folga saem do sufixo da referência
+    # ---- 5. correia: o código (AX177, SPB 2325) está no texto mesmo sem rótulo
+    if classe.id_pdm == "PDM030" and not (ex.valores.get("REFERENCIA") and ex.valores["REFERENCIA"].valor):
+        ref = referencia_correia(texto)
+        if ref:
+            ex.valores["REFERENCIA"] = Valor(ref, ref, "REGRA_TEXTO", ref, 0.9)
+
+    # ---- 6. rolamento: vedação e folga saem do sufixo da referência
     if classe.id_pdm == "PDM020":
         ref = ex.valores.get("REFERENCIA")
         if not (ref and ref.valor):

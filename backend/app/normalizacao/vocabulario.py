@@ -10,6 +10,7 @@ import re
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 
+from .curados import SINONIMOS
 from .texto import normaliza, tokens
 
 
@@ -45,6 +46,11 @@ DIRETOS: dict[str, str] = {
     "SEM TRATAMENTO": "SEM ACABAMENTO", "BRUTO": "NATURAL",
 }
 _CONFIANCA_DIRETO_BAIXA = {"ZINCADO", "ZN", "ZINCADO ELETROLITICO", "OXIDADO", "VEDADO", "BLINDADO", "A2", "A4", "BRUTO"}
+
+# O dicionário curado da equipe (src/saneamento/sinonimos.py) é a referência; as entradas acima só
+# completam o que ele não tem. Em conflito, vale o curado.
+_SO_AQUI = frozenset(k for k in DIRETOS if k not in SINONIMOS)
+DIRETOS = {**DIRETOS, **SINONIMOS}
 
 # Termos que, sozinhos, são ambíguos no mercado: "galvanizado" pode ser zincado ou a fogo.
 AMBIGUOS: dict[str, tuple[str, ...]] = {
@@ -140,7 +146,9 @@ def acha_no_texto(permitidos: tuple[str, ...] | list[str], texto: str) -> Casame
                 achados.append(v)
                 por_codigo.add(v)
     for variante, canon in DIRETOS.items():
-        if len(variante) >= 3 and re.search(rf"(?<![A-Z0-9]){re.escape(variante)}(?![A-Z0-9])", nt):
+        # em texto corrido, sigla curta (GAS, MA, ZA) só vale se for do vocabulário técnico de rolamento
+        if (len(variante) >= 4 or (len(variante) == 3 and variante in _SO_AQUI)) and \
+                re.search(rf"(?<![A-Z0-9]){re.escape(variante)}(?![A-Z0-9])", nt):
             alvo = _procura_canonico(canon, {v: normaliza(v) for v in permitidos})
             if alvo and alvo not in achados:
                 achados.append(alvo)
