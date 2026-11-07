@@ -9,12 +9,15 @@
 :root{
   --bg:#1c1c1c; --bg-alt:#171717; --panel:#232323; --panel-2:#2a2a2a; --hover:#2e2e2e;
   --border:#2e2e2e; --border-strong:#3e3e3e;
-  --text:#ededed; --text-2:#a0a0a0; --text-3:#707070;
-  --brand:#3ecf8e; --brand-dim:#1f4d38; --brand-bg:rgba(62,207,142,.10);
-  --warn:#f5a524; --warn-bg:rgba(245,165,36,.10);
+  --text:#ededed; --text-2:#a0a0a0; --text-3:#8c8c8c;
+  --brand:#3ecf8e; --brand-dim:#1f4d38; --brand-bg:rgba(62,207,142,.10); --brand-text:#3ecf8e;
+  --warn:#e3a63c; --warn-bg:rgba(227,166,60,.10); --warn-text:#e3a63c;
   --err:#f06a6a; --err-bg:rgba(240,106,106,.10);
   --info:#6aa6f0; --info-bg:rgba(106,166,240,.10);
   --warn-bd:#5c4316; --err-bd:#5a2c2c; --info-bd:#25415f;
+  --ok:#4ad295; --ok-bg:rgba(74,210,149,.12);
+  --danger:#e87474; --danger-bg:rgba(227,96,96,.10);
+  --iainfo:#6fb3e8; --ia-bd:rgba(111,179,232,.35); --ia-bg:rgba(111,179,232,.10);
   --track:#333; --row-hover:#262626; --pop:#111; --border-hover:#4a4a4a; --avatar:#3a3a3a;
   --btn-primary:#1f7a52; --btn-primary-h:#24905f; --sel-row:rgba(62,207,142,.06); --shadow:rgba(0,0,0,.55);
   color-scheme:dark;
@@ -30,9 +33,9 @@ svg{flex:none}
 /* ---------- rail ---------- */
 .rail{width:56px;background:var(--bg-alt);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:4px}
 .logo{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;margin-bottom:10px}
-.rail-btn{width:38px;height:38px;border-radius:6px;display:grid;place-items:center;color:var(--text-3);cursor:pointer;border:none;background:none;position:relative}
+.rail-btn{width:38px;height:38px;border-radius:6px;display:grid;place-items:center;color:var(--text-3);cursor:pointer;border:none;background:none;position:relative;transition:background .15s,color .15s}
 .rail-btn:hover{background:var(--hover);color:var(--text)}
-.rail-btn.active{background:var(--panel-2);color:var(--text)}
+.rail-btn.active{background:var(--brand-bg);color:var(--text);box-shadow:inset 3px 0 0 var(--brand)}
 .rail-btn[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:46px;top:50%;transform:translateY(-50%);background:var(--pop);border:1px solid var(--border-strong);padding:4px 8px;border-radius:4px;white-space:nowrap;font-size:12px;color:var(--text);z-index:50}
 .rail .sep{width:24px;height:1px;background:var(--border);margin:6px 0}
 .rail .spacer{flex:1}
@@ -43,9 +46,9 @@ svg{flex:none}
 .side-head{height:48px;display:flex;align-items:center;padding:0 16px;border-bottom:1px solid var(--border);font-weight:500}
 .side-sec{padding:14px 10px 4px}
 .side-sec h6{font-size:11px;font-weight:500;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;padding:0 8px 6px}
-.side-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:5px;color:var(--text-2);cursor:pointer}
+.side-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:5px;color:var(--text-2);cursor:pointer;transition:background .15s,color .15s}
 .side-item:hover{background:var(--hover);color:var(--text)}
-.side-item.active{background:var(--panel-2);color:var(--text)}
+.side-item.active{background:var(--brand-bg);color:var(--text);box-shadow:inset 3px 0 0 var(--brand);border-radius:0 5px 5px 0}
 .side-item .count{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--text-3)}
 .side-item.disabled{opacity:.5;cursor:default}
 .side-item.disabled:hover{background:none;color:var(--text-2)}
@@ -70,7 +73,7 @@ svg{flex:none}
 .page-head .actions{margin-left:auto;display:flex;gap:8px}
 
 /* ---------- primitives ---------- */
-.btn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:6px;border:1px solid var(--border-strong);background:var(--panel-2);cursor:pointer;font-size:12.5px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:6px;border:1px solid var(--border-strong);background:var(--panel-2);cursor:pointer;font-size:12.5px;white-space:nowrap;transition:background .15s,border-color .15s,color .15s}
 .btn:hover{background:var(--hover);border-color:var(--border-hover)}
 .btn.primary{background:var(--btn-primary);border-color:var(--brand);color:#fff}
 .btn.primary:hover{background:var(--btn-primary-h)}
@@ -88,8 +91,8 @@ svg{flex:none}
 .g-2{grid-template-columns:1fr 1fr}
 .g-3{grid-template-columns:repeat(3,1fr)}
 .g-main{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)}
-label.lbl{display:block;font-size:12px;color:var(--text-2);margin-bottom:6px}
-label.lbl .req{color:var(--err);margin-left:2px}
+label.lbl{display:block;font-size:12.5px;color:var(--text-2);margin-bottom:6px}
+label.lbl .req{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--danger);margin-left:5px;vertical-align:1px;font-size:0;color:transparent;overflow:hidden}
 label.lbl .hint{color:var(--text-3);font-weight:400;margin-left:6px}
 .inp,.sel,textarea.inp{width:100%;height:32px;background:var(--bg-alt);border:1px solid var(--border-strong);border-radius:6px;padding:0 10px;outline:none}
 textarea.inp{height:auto;padding:8px 10px;resize:vertical;min-height:72px}
@@ -103,7 +106,7 @@ textarea.inp{height:auto;padding:8px 10px;resize:vertical;min-height:72px}
 .b-err{color:var(--err);border-color:var(--err-bd);background:var(--err-bg)}
 .b-info{color:var(--info);border-color:var(--info-bd);background:var(--info-bg)}
 .b-gray{color:var(--text-2);border-color:var(--border-strong);background:var(--panel-2)}
-.mono{font-family:var(--mono)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .muted{color:var(--text-2)}
 .faint{color:var(--text-3)}
 .tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:16px}
@@ -114,22 +117,23 @@ textarea.inp{height:auto;padding:8px 10px;resize:vertical;min-height:72px}
 
 /* table (table-editor look) */
 .tbl{width:100%;border-collapse:collapse;font-size:12.5px}
-.tbl th{text-align:left;font-weight:500;color:var(--text-2);background:var(--panel-2);padding:7px 12px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);white-space:nowrap;font-size:12px}
+.tbl th{text-align:left;font-weight:600;color:var(--text);background:var(--panel-2);padding:7px 12px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);white-space:nowrap;font-size:12px}
 .tbl th .ty{font-family:var(--mono);color:var(--text-3);font-weight:400;font-size:10.5px;margin-left:6px}
 .tbl td{padding:7px 12px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);white-space:nowrap}
+.tbl tr:nth-child(even) td{background:rgba(255,255,255,.02)}
 .tbl tr:hover td{background:var(--row-hover)}
 .tbl td.wrap{white-space:normal}
 #req-table tr{cursor:pointer}
 #req-table td:nth-child(4){max-width:200px;overflow:hidden;text-overflow:ellipsis}
 #req-table td:nth-child(2){max-width:150px;overflow:hidden;text-overflow:ellipsis}
 .tbl tr.sel td{background:var(--sel-row)}
-.tbl .num{text-align:right;font-family:var(--mono)}
+.tbl .num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
 
 /* descrição PDM preview */
 .pdm-preview{font-family:var(--mono);font-size:12px;background:var(--bg-alt);border:1px solid var(--border);border-radius:6px;padding:12px;line-height:1.7;word-break:break-word}
 .pdm-preview .k{color:var(--text-3)}
-.pdm-preview .v{color:var(--brand)}
-.pdm-preview .miss{color:var(--warn)}
+.pdm-preview .v{color:var(--brand-text)}
+.pdm-preview .miss{color:var(--warn-text)}
 .check{display:flex;gap:8px;align-items:flex-start;padding:6px 0;font-size:12.5px}
 .check .ic{width:16px;height:16px;border-radius:50%;display:grid;place-items:center;font-size:10px;margin-top:1px}
 .ic.ok{background:var(--brand-bg);color:var(--brand)}
@@ -146,13 +150,12 @@ textarea.inp{height:auto;padding:8px 10px;resize:vertical;min-height:72px}
 .chip-row{display:flex;flex-wrap:wrap;gap:6px}
 .chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;padding:3px 8px;border-radius:5px;background:var(--panel-2);border:1px solid var(--border-strong)}
 .chip .src{font-family:var(--mono);font-size:10px;color:var(--text-3)}
-.chip.from-img{border-color:var(--info-bd)}
-.chip.from-txt{border-color:var(--brand-dim)}
+.chip.from-img,.chip.from-txt{border-color:var(--ia-bd)}
 .cand{border:1px solid var(--border);border-radius:8px;background:var(--panel);margin-bottom:10px}
 .cand.top{border-color:var(--brand-dim)}
 .cand-h{display:flex;gap:14px;align-items:center;padding:12px 14px}
 .conf{width:54px;flex:none;text-align:center}
-.conf .n{font-family:var(--mono);font-size:17px;font-weight:500}
+.conf .n{font-family:var(--mono);font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
 .conf .bar{height:4px;border-radius:2px;background:var(--track);margin-top:4px;overflow:hidden}
 .conf .bar i{display:block;height:100%}
 .cand-b{padding:0 14px 12px 82px}
@@ -177,7 +180,7 @@ textarea.inp{height:auto;padding:8px 10px;resize:vertical;min-height:72px}
 .legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 .kpi{padding:14px 16px}
 .kpi .l{font-size:12px;color:var(--text-2)}
-.kpi .v{font-size:22px;font-weight:500;margin-top:4px;font-family:var(--mono)}
+.kpi .v{font-size:22px;font-weight:600;margin-top:4px;font-family:var(--mono);font-variant-numeric:tabular-nums}
 .kpi .s{font-size:11.5px;color:var(--text-3);margin-top:2px}
 .step{display:flex;gap:12px;padding:10px 0}
 .step .dot{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-family:var(--mono);flex:none;border:1px solid var(--border-strong);color:var(--text-2)}
@@ -199,13 +202,16 @@ textarea.inp{height:auto;padding:8px 10px;resize:vertical;min-height:72px}
 [data-theme="light"]{
   --bg:#fcfcfc; --bg-alt:#f8f8f8; --panel:#ffffff; --panel-2:#f3f3f3; --hover:#ededed;
   --border:#e6e6e6; --border-strong:#d4d4d4; --border-hover:#bdbdbd;
-  --text:#171717; --text-2:#525252; --text-3:#8f8f8f;
-  --brand:#1a9e66; --brand-dim:#a6dfc4; --brand-bg:rgba(62,207,142,.12);
-  --warn:#b26b00; --warn-bg:rgba(245,165,36,.12); --warn-bd:#f0d29c;
-  --err:#d23b3b; --err-bg:rgba(240,106,106,.10); --err-bd:#f1b9b9;
+  --text:#171717; --text-2:#525252; --text-3:#707070;
+  --brand:#1a9e66; --brand-dim:#a6dfc4; --brand-bg:rgba(62,207,142,.12); --brand-text:#0f8050;
+  --warn:#b26b00; --warn-bg:rgba(245,165,36,.12); --warn-bd:#f0d29c; --warn-text:#9d5e00;
+  --err:#cf3939; --err-bg:rgba(240,106,106,.10); --err-bd:#f1b9b9;
   --info:#2f6fc4; --info-bg:rgba(106,166,240,.12); --info-bd:#b8d0f0;
+  --ok:#148556; --ok-bg:rgba(20,133,86,.10);
+  --danger:#c23c3c; --danger-bg:rgba(194,60,60,.08);
+  --iainfo:#2f6fc4; --ia-bd:rgba(47,111,196,.35); --ia-bg:rgba(47,111,196,.10);
   --track:#e3e3e3; --row-hover:#f6f6f6; --pop:#ffffff; --avatar:#e3e3e3;
-  --btn-primary:#1f9d66; --btn-primary-h:#1b8a5a; --sel-row:rgba(62,207,142,.09); --shadow:rgba(0,0,0,.25);
+  --btn-primary:#158252; --btn-primary-h:#126f46; --sel-row:rgba(62,207,142,.09); --shadow:rgba(0,0,0,.25);
   color-scheme:light;
 }
 [data-theme="light"] .toast,[data-theme="light"] .rail-btn[data-tip]:hover::after{box-shadow:0 6px 24px rgba(0,0,0,.12)}
@@ -222,8 +228,8 @@ textarea.inp{height:auto;padding:8px 10px;resize:vertical;min-height:72px}
 .src-pre{color:var(--warn);border-color:var(--warn-bd)}
 .hero{padding:16px}
 .hero .l{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;min-height:34px;font-size:12px;color:var(--text-2)}
-.hero .v{font-family:var(--mono);font-size:21px;white-space:nowrap;font-weight:500;margin:6px 0 2px;letter-spacing:-.01em}
-.hero .s{font-size:11.5px;color:var(--text-3);line-height:1.5}
+.hero .v{font-family:var(--mono);font-size:26px;white-space:nowrap;font-weight:600;margin:6px 0 2px;letter-spacing:-.01em;color:var(--text);font-variant-numeric:tabular-nums}
+.hero .s{font-size:12.5px;color:var(--text-3);line-height:1.5}
 .hero .s b{color:var(--text-2);font-weight:500}
 .chart svg text{font-family:var(--mono);font-size:10.5px;fill:var(--text-3)}
 .chart .grid-l{stroke:var(--border)}
@@ -235,7 +241,7 @@ textarea.inp{height:auto;padding:8px 10px;resize:vertical;min-height:72px}
 .hbar i:last-child{border-radius:0 4px 4px 0}
 .mtx td,.mtx th{text-align:right;white-space:normal}
 .mtx td:first-child,.mtx th:first-child{text-align:left}
-.mtx .lock{color:var(--brand);font-family:var(--mono)}
+.mtx .lock{color:var(--brand-text);font-family:var(--mono)}
 .feed-item{display:grid;grid-template-columns:42px 150px 1fr auto;gap:12px;align-items:start;padding:10px 16px;border-bottom:1px solid var(--border)}
 .feed-item:last-child{border-bottom:none}
 .feed-item .badge{justify-self:start}
@@ -244,7 +250,7 @@ textarea.inp{height:auto;padding:8px 10px;resize:vertical;min-height:72px}
 input[type=range]{accent-color:var(--brand);width:100%}
 
 .ev-tabs{display:flex;gap:6px}
-.seg-btn{height:28px;padding:0 11px;border-radius:6px;border:1px solid var(--border-strong);background:none;cursor:pointer;color:var(--text-2);font-size:12.5px}
+.seg-btn{height:28px;padding:0 11px;border-radius:6px;border:1px solid var(--border-strong);background:none;cursor:pointer;color:var(--text-2);font-size:12.5px;transition:background .15s,border-color .15s,color .15s}
 .seg-btn:hover{color:var(--text);background:var(--hover)}
 .seg-btn.on{background:var(--panel-2);color:var(--text);border-color:var(--border-hover)}
 .ab-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.4fr) 140px;gap:14px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}
@@ -283,12 +289,12 @@ input[type=range]{accent-color:var(--brand);width:100%}
 .pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
 .pipe>div{padding:14px 16px;border-right:1px solid var(--border);position:relative}
 .pipe>div:last-child{border-right:none}
-.pipe .n{font-family:var(--mono);font-size:11px;color:var(--brand)}
+.pipe .n{font-family:var(--mono);font-size:11px;color:var(--brand-text)}
 .pipe h4{font-size:13px;font-weight:500;margin:4px 0}
 .pipe p{font-size:12px;color:var(--text-2)}
 .man{display:grid;grid-template-columns:200px minmax(0,1fr);gap:32px}
 .man-toc{position:sticky;top:0;align-self:start;padding-top:4px}
-.man-toc a{display:block;padding:5px 10px;border-radius:5px;color:var(--text-2);cursor:pointer;font-size:12.5px;text-decoration:none;border-left:2px solid transparent}
+.man-toc a{display:block;padding:5px 10px;border-radius:5px;color:var(--text-2);cursor:pointer;font-size:12.5px;text-decoration:none;border-left:3px solid transparent;transition:background .15s,color .15s}
 .man-toc a:hover{color:var(--text);background:var(--hover)}
 .man-toc a.on{color:var(--text);border-left-color:var(--brand);border-radius:0 5px 5px 0}
 .man-body{max-width:780px}
@@ -304,6 +310,59 @@ input[type=range]{accent-color:var(--brand);width:100%}
 .man-body dl{display:grid;grid-template-columns:170px 1fr;gap:8px 16px;margin-top:6px}
 .man-body dt{font-family:var(--mono);font-size:12px;color:var(--text)}
 .man-body dd{color:var(--text-2);font-size:13px}
+
+/* ---------- semântica: status, confiança, duplicata, IA ---------- */
+.st{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--text-2);white-space:nowrap}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--text-3);flex:none}
+.st-ok::before{background:var(--ok)}
+.st-warn::before{background:var(--warn)}
+.st-danger::before{background:var(--danger)}
+.st-neutral::before{background:var(--text-3)}
+.b-ia{color:var(--iainfo);border-color:var(--ia-bd);background:rgba(111,179,232,.08)}
+
+.conf-chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;height:26px;padding:0 10px;border-radius:6px;background:var(--panel-2);border:1px solid var(--border-strong);color:var(--text);cursor:pointer;font-family:var(--sans);transition:transform .15s,background .15s,border-color .15s}
+.conf-chip:hover{transform:translateY(-1px);background:var(--hover);border-color:var(--border-hover)}
+.conf-chip .val{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+.conf-chip .pct{font-family:var(--mono);font-size:10.5px;color:var(--text-2);font-variant-numeric:tabular-nums}
+.conf-chip .meter{display:inline-flex;gap:3px;align-items:center}
+.conf-chip .meter i{width:5px;height:5px;border-radius:50%;border:1px solid var(--border-hover);background:transparent;flex:none}
+.conf-chip.c-hi .meter i{background:var(--ok);border-color:var(--ok)}
+.conf-chip.c-md .meter i:nth-child(-n+2){background:var(--warn);border-color:var(--warn)}
+.conf-chip.c-lo .meter i:first-child{border-color:var(--text-2)}
+.conf-chip.aplicado{background:var(--ok-bg);border-color:var(--ok)}
+.conf-chip.aplicado::after{content:"✓";color:var(--ok);font-weight:600}
+.conf-chip.estatico{cursor:default}
+.conf-chip.estatico:hover{transform:none;background:var(--panel-2);border-color:var(--border-strong)}
+
+#sugestoes-api{border-left:3px solid var(--iainfo);background:rgba(111,179,232,.04)}
+.sug-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sug-head b{font-size:12.5px;font-weight:600}
+.ia-badge{font-family:var(--mono);font-size:10px;color:var(--iainfo);border:1px solid var(--ia-bd);border-radius:4px;padding:0 5px;line-height:16px;white-space:nowrap}
+.sug-hint{font-size:11px;color:var(--text-3)}
+.sug-lbl{font-size:11px;color:var(--text-2);min-width:92px}
+.sug-estado{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-2);padding:8px 0 2px}
+.spin{width:12px;height:12px;border-radius:50%;border:2px solid var(--border-strong);border-top-color:var(--iainfo);animation:girar .7s linear infinite;flex:none}
+@keyframes girar{to{transform:rotate(360deg)}}
+
+.sim{display:inline-block;min-width:56px}
+.sim .pct{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+.sim .bar{height:3px;border-radius:2px;background:var(--track);margin-top:3px;overflow:hidden}
+.sim .bar i{display:block;height:100%;background:var(--text-3)}
+.tbl tr.dup-row td{background:var(--danger-bg)}
+.tbl tr.dup-row td:first-child{box-shadow:inset 3px 0 0 var(--danger)}
+.dup-note{font-family:var(--sans);font-size:10.5px;color:var(--danger);margin-top:3px;white-space:normal}
+.cand.dup{border-left:3px solid var(--danger);background:rgba(227,96,96,.05)}
+
+.delta{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums}
+.delta.up{color:var(--ok)}
+.delta.down{color:var(--danger)}
+#picked-code{font-weight:600}
+[data-theme="light"] .tbl tr:nth-child(even):not(:hover):not(.sel):not(.dup-row) td{background:rgba(0,0,0,.02)}
+[data-theme="light"] #sugestoes-api{background:rgba(47,111,196,.04)}
+
+/* foco visível e movimento reduzido */
+.inp:focus-visible,.sel:focus-visible,textarea:focus-visible,button:focus-visible,.btn:focus-visible,.conf-chip:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--ok);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -593,8 +652,8 @@ input[type=range]{accent-color:var(--brand);width:100%}
     </div>
     <div class="card hero" data-tt="Códigos bloqueados após unificação aprovada; saldo transferido ao código mantido.|Fonte: log de unificações (assinadas)">
       <div class="l">Capital já consolidado <span class="src-tag src-med">medido</span></div>
-      <div class="v" style="color:var(--brand)">R$ 4,7 mi</div>
-      <div class="s"><b>2.120</b> códigos bloqueados · <b>25%</b> do consolidável</div>
+      <div class="v">R$ 4,7 mi</div>
+      <div class="s"><b>2.120</b> códigos bloqueados · <span class="delta up">↑ 25%</span> do consolidável</div>
     </div>
     <div class="card hero">
       <div class="l">Custo de oportunidade evitado <span class="src-tag src-pre">premissa</span></div>
@@ -822,10 +881,10 @@ input[type=range]{accent-color:var(--brand);width:100%}
       <div id="cands">
         <div class="cand top" data-code="10897046" onclick="pick(this)">
           <div class="cand-h">
-            <div class="conf"><div class="n" style="color:var(--brand)">82%</div><div class="bar"><i style="width:82%;background:var(--brand)"></i></div></div>
+            <div class="conf"><div class="n" style="color:var(--warn)">82%</div><div class="bar"><i style="width:82%;background:var(--warn)"></i></div></div>
             <div class="radio"></div>
             <div style="flex:1;min-width:0">
-              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:500">10897046</span><span class="badge b-green">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">1200 - USINA DE BENEFICIAMENTO</span></div>
+              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:600;font-size:15px">10897046</span><span class="st st-ok">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">1200 - USINA DE BENEFICIAMENTO</span></div>
               <div class="desc muted" style="margin-top:3px">ROLAMENTO RIGIDO DE ESFERAS 6206-2RS 30MM 62MM VEDADO NORMAL</div>
             </div>
             <div style="text-align:right"><div class="mono">183 PC</div><div class="faint" style="font-size:11.5px">em estoque</div></div>
@@ -843,7 +902,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
             <div class="conf"><div class="n" style="color:var(--warn)">64%</div><div class="bar"><i style="width:64%;background:var(--warn)"></i></div></div>
             <div class="radio"></div>
             <div style="flex:1;min-width:0">
-              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:500">19576556</span><span class="badge b-green">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">1100 - MINA SERRA AZUL</span></div>
+              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:600;font-size:15px">19576556</span><span class="st st-ok">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">1100 - MINA SERRA AZUL</span></div>
               <div class="desc muted" style="margin-top:3px">ROLAMENTO RIGIDO ESF, REFERENCIA:6206-ZZ-C3, DIAM INT:30MM, ESPESSURA:16MM, DIAM EXT:62 MM, C3</div>
             </div>
             <div style="text-align:right"><div class="mono">0 PC</div><div class="faint" style="font-size:11.5px">KOYO</div></div>
@@ -853,10 +912,10 @@ input[type=range]{accent-color:var(--brand);width:100%}
 
         <div class="cand" data-code="26187360" onclick="pick(this)">
           <div class="cand-h">
-            <div class="conf"><div class="n" style="color:var(--warn)">58%</div><div class="bar"><i style="width:58%;background:var(--warn)"></i></div></div>
+            <div class="conf"><div class="n" style="color:var(--text-2)">58%</div><div class="bar"><i style="width:58%;background:var(--text-3)"></i></div></div>
             <div class="radio"></div>
             <div style="flex:1;min-width:0">
-              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:500">26187360</span><span class="badge b-green">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">1200 - USINA DE BENEFICIAMENTO</span></div>
+              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:600;font-size:15px">26187360</span><span class="st st-ok">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">1200 - USINA DE BENEFICIAMENTO</span></div>
               <div class="desc muted" style="margin-top:3px">ROLAMENTO RIG ESF, REF: 6206 C3, DIAM INTERNO: 30MM, DIAM EXTERNO: 62MM, L: 16MM, PROTECAO: ABERTO, FOLGA: C3</div>
             </div>
             <div style="text-align:right"><div class="mono">1 PC</div><div class="faint" style="font-size:11.5px">em estoque</div></div>
@@ -869,7 +928,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
             <div class="conf"><div class="n" style="color:var(--text-2)">51%</div><div class="bar"><i style="width:51%;background:var(--text-3)"></i></div></div>
             <div class="radio"></div>
             <div style="flex:1;min-width:0">
-              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:500">14139909</span><span class="badge b-green">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">9000 - CD CENTRAL</span></div>
+              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:600;font-size:15px">14139909</span><span class="st st-ok">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">9000 - CD CENTRAL</span></div>
               <div class="desc muted" style="margin-top:3px">ROLAMENTO RIGIDO ESFERAS 6206/C3 30MM 62MM ABERTO C3</div>
             </div>
             <div style="text-align:right"><div class="mono">12 PC</div><div class="faint" style="font-size:11.5px">em estoque</div></div>
@@ -957,7 +1016,7 @@ Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largu
 
       <div class="card" style="margin-bottom:16px">
         <div class="card-h"><h3>Classe e atributos</h3><span class="sub" id="cls-sub"></span>
-          <div class="r"><span class="badge b-info">IA preencheu 5 campos</span></div></div>
+          <div class="r"><span class="badge b-ia">IA preencheu 5 campos</span></div></div>
         <div class="card-b">
           <div class="grid g-2" style="gap:12px;margin-bottom:14px">
             <div><label class="lbl">Classe PDM<span class="req">*</span></label>
@@ -1025,9 +1084,9 @@ Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largu
 
   <div class="grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
     <div class="card kpi"><div class="l">Requisições abertas</div><div class="v">14</div><div class="s">3 emergenciais</div></div>
-    <div class="card kpi"><div class="l">Atendíveis por estoque interno</div><div class="v" style="color:var(--brand)">9</div><div class="s">transferência entre centros</div></div>
+    <div class="card kpi"><div class="l">Atendíveis por estoque interno</div><div class="v" style="color:var(--ok)">9</div><div class="s">transferência entre centros</div></div>
     <div class="card kpi"><div class="l">Atendimento parcial</div><div class="v" style="color:var(--warn)">3</div><div class="s">transferência + compra</div></div>
-    <div class="card kpi"><div class="l">Exigem compra</div><div class="v" style="color:var(--err)">2</div><div class="s">sem saldo em nenhum centro</div></div>
+    <div class="card kpi"><div class="l">Exigem compra</div><div class="v" style="color:var(--danger)">2</div><div class="s">sem saldo em nenhum centro</div></div>
   </div>
 
   <div class="card" style="margin-bottom:16px">
@@ -1047,13 +1106,13 @@ Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largu
         <th class="num">QTD</th><th>URGENCIA</th><th>ANÁLISE DE ESTOQUE</th>
       </tr></thead>
       <tbody>
-        <tr class="sel" onclick="showAnalysis(0)"><td class="mono">RQ-2026-00141</td><td>2100 - UTE SERRA AZUL</td><td class="mono">10897046</td><td class="mono muted">ROLAMENTO RIGIDO DE ESFERAS 6206-2RS 30</td><td class="num">40 PC</td><td><span class="badge b-warn">ALTA</span></td><td><span class="badge b-green">TRANSFERÊNCIA</span></td></tr>
-        <tr onclick="showAnalysis(1)"><td class="mono">RQ-2026-00140</td><td>1100 - MINA SERRA AZUL</td><td class="mono">10296003</td><td class="mono muted">CONCAVO BRITADOR CONICO HP400 METSO MM09</td><td class="num">2 PC</td><td><span class="badge b-err">EMERGENCIAL</span></td><td><span class="badge b-err">COMPRA</span></td></tr>
-        <tr onclick="showAnalysis(2)"><td class="mono">RQ-2026-00139</td><td>1200 - USINA DE BENEFICIAMENTO</td><td class="mono">17498387</td><td class="mono muted">RETENTOR FURO 50MM ALOJAMENTO 70MM LARG</td><td class="num">120 PC</td><td><span class="badge b-gray">NORMAL</span></td><td><span class="badge b-warn">PARCIAL 66+12/120</span></td></tr>
-        <tr><td class="mono">RQ-2026-00138</td><td>2200 - PCH RIO CLARO</td><td class="mono">25571564</td><td class="mono muted">UNIAO DIAM 1.1/4POL 3000# MAT ACO CARBON</td><td class="num">10 PC</td><td><span class="badge b-gray">NORMAL</span></td><td><span class="badge b-green">TRANSFERÊNCIA</span></td></tr>
-        <tr><td class="mono">RQ-2026-00137</td><td>1300 - TERMINAL PORTUARIO</td><td class="mono">22071112</td><td class="mono muted">CONT AC3 65A COM TENSAO COMANDO 24VCC CO</td><td class="num">4 PC</td><td><span class="badge b-warn">ALTA</span></td><td><span class="badge b-green">TRANSFERÊNCIA</span></td></tr>
-        <tr><td class="mono">RQ-2026-00136</td><td>9000 - CD CENTRAL</td><td class="mono">11153902</td><td class="mono muted">MANG MONT HIDR SAE 100R1AT DN12 1960PSI</td><td class="num">6 PC</td><td><span class="badge b-gray">NORMAL</span></td><td><span class="badge b-info">EM ANÁLISE</span></td></tr>
-        <tr><td class="mono">RQ-2026-00135</td><td>1100 - MINA SERRA AZUL</td><td class="mono">22976650</td><td class="mono muted">CUNHA PARA BRITADOR MANDIBULA MOD CJ412</td><td class="num">1 JG</td><td><span class="badge b-err">EMERGENCIAL</span></td><td><span class="badge b-green">TRANSFERÊNCIA</span></td></tr>
+        <tr class="sel" onclick="showAnalysis(0)"><td class="mono">RQ-2026-00141</td><td title="2100 - UTE SERRA AZUL">2100 - UTE SERRA AZUL</td><td class="mono">10897046</td><td class="mono muted" title="ROLAMENTO RIGIDO DE ESFERAS 6206-2RS 30">ROLAMENTO RIGIDO DE ESFERAS 6206-2RS 30</td><td class="num">40 PC</td><td><span class="badge b-warn">ALTA</span></td><td><span class="st st-ok">TRANSFERÊNCIA</span></td></tr>
+        <tr onclick="showAnalysis(1)"><td class="mono">RQ-2026-00140</td><td title="1100 - MINA SERRA AZUL">1100 - MINA SERRA AZUL</td><td class="mono">10296003</td><td class="mono muted" title="CONCAVO BRITADOR CONICO HP400 METSO MM09">CONCAVO BRITADOR CONICO HP400 METSO MM09</td><td class="num">2 PC</td><td><span class="badge b-err">EMERGENCIAL</span></td><td><span class="st st-danger">COMPRA</span></td></tr>
+        <tr onclick="showAnalysis(2)"><td class="mono">RQ-2026-00139</td><td title="1200 - USINA DE BENEFICIAMENTO">1200 - USINA DE BENEFICIAMENTO</td><td class="mono">17498387</td><td class="mono muted" title="RETENTOR FURO 50MM ALOJAMENTO 70MM LARG">RETENTOR FURO 50MM ALOJAMENTO 70MM LARG</td><td class="num">120 PC</td><td><span class="badge b-gray">NORMAL</span></td><td><span class="st st-warn">PARCIAL 66+12/120</span></td></tr>
+        <tr><td class="mono">RQ-2026-00138</td><td title="2200 - PCH RIO CLARO">2200 - PCH RIO CLARO</td><td class="mono">25571564</td><td class="mono muted" title="UNIAO DIAM 1.1/4POL 3000# MAT ACO CARBON">UNIAO DIAM 1.1/4POL 3000# MAT ACO CARBON</td><td class="num">10 PC</td><td><span class="badge b-gray">NORMAL</span></td><td><span class="st st-ok">TRANSFERÊNCIA</span></td></tr>
+        <tr><td class="mono">RQ-2026-00137</td><td title="1300 - TERMINAL PORTUARIO">1300 - TERMINAL PORTUARIO</td><td class="mono">22071112</td><td class="mono muted" title="CONT AC3 65A COM TENSAO COMANDO 24VCC CO">CONT AC3 65A COM TENSAO COMANDO 24VCC CO</td><td class="num">4 PC</td><td><span class="badge b-warn">ALTA</span></td><td><span class="st st-ok">TRANSFERÊNCIA</span></td></tr>
+        <tr><td class="mono">RQ-2026-00136</td><td title="9000 - CD CENTRAL">9000 - CD CENTRAL</td><td class="mono">11153902</td><td class="mono muted" title="MANG MONT HIDR SAE 100R1AT DN12 1960PSI">MANG MONT HIDR SAE 100R1AT DN12 1960PSI</td><td class="num">6 PC</td><td><span class="badge b-gray">NORMAL</span></td><td><span class="st st-neutral">EM ANÁLISE</span></td></tr>
+        <tr><td class="mono">RQ-2026-00135</td><td title="1100 - MINA SERRA AZUL">1100 - MINA SERRA AZUL</td><td class="mono">22976650</td><td class="mono muted" title="CUNHA PARA BRITADOR MANDIBULA MOD CJ412">CUNHA PARA BRITADOR MANDIBULA MOD CJ412</td><td class="num">1 JG</td><td><span class="badge b-err">EMERGENCIAL</span></td><td><span class="st st-ok">TRANSFERÊNCIA</span></td></tr>
       </tbody>
     </table>
     </div>
@@ -1091,7 +1150,7 @@ Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largu
   <div class="drawer-b">
     <div class="field"><label class="lbl">Material<span class="req">*</span> <span class="hint">somente itens validados na base</span></label>
       <div class="searchbox" style="border-radius:6px"><input id="dr-mat" class="mono" style="height:32px;font-size:12px" value="10897046 · ROLAMENTO RIGIDO DE ESFERAS 6206-2RS 30"></div>
-      <div style="margin-top:6px;display:flex;gap:8px"><span class="badge b-green">ATIVO</span><span class="badge b-gray">PC</span><a class="faint" style="font-size:12px;cursor:pointer" onclick="closeDrawer();go('busca')">Não encontrou? Buscar por texto ou foto →</a></div>
+      <div style="margin-top:6px;display:flex;gap:8px;align-items:center"><span class="st st-ok">ATIVO</span><span class="badge b-gray">PC</span><a class="faint" style="font-size:12px;cursor:pointer" onclick="closeDrawer();go('busca')">Não encontrou? Buscar por texto ou foto →</a></div>
     </div>
     <div class="grid g-2" style="gap:12px">
       <div class="field"><label class="lbl">Unidade (centro destino)<span class="req">*</span></label>
@@ -1199,7 +1258,12 @@ function render(){
   document.getElementById('checks').innerHTML=ch;
   document.getElementById('val-sum').textContent=miss.length?miss.length+' pendência(s)':'pronto para aprovação';
   document.getElementById('similar').innerHTML=`<tr><th>código</th><th>descrição</th><th class="num">conf.</th></tr>`+
-    c.similar.map(s=>`<tr><td class="mono">${s[0]}</td><td class="wrap mono muted" style="font-size:11.5px">${s[1]}</td><td class="num">${s[2]}</td></tr>`).join('');
+    c.similar.map(s=>{
+      const p=parseInt(s[2],10),dup=!isNaN(p)&&p>=90;
+      const ttl=String(s[1]).replace(/"/g,'&quot;');
+      const conf=isNaN(p)?'<span class="faint">—</span>':`<div class="sim"><span class="pct"${dup?' style="color:var(--danger)"':''}>${p}%</span><div class="bar"><i style="width:${p}%${dup?';background:var(--danger)':''}"></i></div></div>`;
+      return `<tr${dup?' class="dup-row"':''}><td class="mono">${s[0]}</td><td class="wrap mono muted" style="font-size:11.5px" title="${ttl}">${s[1]}${dup?'<div class="dup-note">Possível duplicata — confira antes de criar</div>':''}</td><td class="num">${conf}</td></tr>`;
+    }).join('');
 }
 function copyDesc(){toast('Descrição copiada')}
 function submitNew(){const m=PDM[cur].attrs.filter(a=>a[1]==='S'&&!a[3]);toast(m.length?'Há '+m.length+' atributo(s) obrigatório(s) pendente(s)':'Item enviado para aprovação do analista de cadastro')}
@@ -1342,7 +1406,7 @@ function fxSel(k){fxCur=k;document.querySelectorAll('[data-fx]').forEach(b=>b.cl
     return `<div class="ab-row" data-tt="${n}|antes ${nf(a)} · hoje ${nf(h)}|fonte: ${orig}">
       <div><div style="font-size:12.5px">${n} <span class="src-tag ${src==='med'?'src-med':'src-est'}">${src==='med'?'medido':'estimado'}</span></div><div class="faint" style="font-size:11px">${d}</div></div>
       <div class="ab-bars"><i style="width:${a/mx*100}%;background:var(--text-3)"></i><i style="width:${h/mx*100}%;background:var(--brand)"></i></div>
-      <div class="ab-num">${nf(a)} → <b style="font-weight:500;color:var(--text)">${nf(h)}</b><div style="font-size:10.5px;color:${good?'var(--brand)':'var(--err)'}">${pct===null?'novo':(pct>0?'+':'')+pct+'%'} ${good?'✓':''}</div></div></div>`}).join('');
+      <div class="ab-num">${nf(a)} → <b style="font-weight:600;color:var(--text)">${nf(h)}</b><div style="font-size:10.5px;color:${good?'var(--ok)':'var(--danger)'}">${pct===null?'novo':(h>a?'↑ ':h<a?'↓ ':'')+(pct>0?'+':'')+pct+'%'} ${good?'✓':''}</div></div></div>`}).join('');
   document.getElementById('fx-eff-t').textContent=F.effT;
   document.getElementById('fx-eff').innerHTML=F.eff.map(([a,b,c])=>`<div class="fx-row" style="display:flex;justify-content:space-between;gap:10px"><div>${a}<div class="faint" style="font-size:11px">${c}</div></div><div class="mono" style="font-size:13px;white-space:nowrap">${b}</div></div>`).join('');
   document.getElementById('fx-note').innerHTML=F.note;
@@ -1423,25 +1487,41 @@ const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 const pct=c=>Math.round((+c||0)*100)+'%';
 const trunca=(s,n)=>{s=String(s==null?'':s);return s.length>n?s.slice(0,n-1)+'…':s};
 const debounce=(fn,ms)=>{let t;return()=>{clearTimeout(t);t=setTimeout(fn,ms)}};
-const CHIP='display:inline-flex;align-items:center;gap:6px;font-size:11.5px;padding:3px 9px;border-radius:5px;background:var(--panel-2);border:1px solid var(--border-strong);color:var(--text);cursor:pointer;font-family:var(--sans)';
+const stCls=s=>s==='ATIVO'?'st-ok':s==='BLOQUEADO'?'st-danger':'st-neutral';
+const nivelConf=c=>c>=0.85?'c-hi':c>=0.60?'c-md':'c-lo';
 
 /* ----- cadastro: #texto-origem -> POST /sugerir ----- */
 let ctrlSugerir=null,apiSimilares=null;
 
-function mkChip(txt,sub,fn){
-  const b=document.createElement('button');b.type='button';b.style.cssText=CHIP;
-  b.innerHTML=esc(txt)+(sub?` <span class="mono" style="font-size:10px;color:var(--text-3)">${esc(sub)}</span>`:'');
-  if(fn)b.addEventListener('click',fn);else b.style.cursor='default';
+function mkChip(txt,conf,fn){
+  const b=document.createElement('button');b.type='button';
+  b.className='conf-chip'+(conf!=null?' '+nivelConf(+conf):'');
+  b.innerHTML='<span class="val">'+esc(txt)+'</span>'+(conf!=null?'<span class="pct">'+pct(conf)+'</span><span class="meter" aria-hidden="true"><i></i><i></i><i></i></span>':'');
+  if(fn)b.addEventListener('click',()=>{fn();if(b.parentElement)b.parentElement.querySelectorAll('.conf-chip').forEach(x=>x.classList.remove('aplicado'));b.classList.add('aplicado')});
+  else b.classList.add('estatico');
   return b;
 }
 function linhaChips(box,rotulo,chips){
   if(!chips.length)return false;
   const row=document.createElement('div');
   row.style.cssText='display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px';
-  const lb=document.createElement('span');lb.className='lbl';lb.style.cssText='margin:0;min-width:96px';lb.textContent=rotulo;
+  const lb=document.createElement('span');lb.className='sug-lbl';lb.textContent=rotulo;
   row.appendChild(lb);chips.forEach(c=>row.appendChild(c));box.appendChild(row);
   return true;
 }
+function cabecalhoSug(hint){
+  const head=document.createElement('div');head.className='sug-head';
+  head.innerHTML='<b>Sugestões automáticas</b><span class="ia-badge">motor de sugestões</span>'+(hint?'<span class="sug-hint">'+hint+'</span>':'');
+  return head;
+}
+function estadoSugestoes(tipo){
+  const box=document.getElementById('sugestoes-api');if(!box)return;
+  box.innerHTML='';box.appendChild(cabecalhoSug(''));
+  const row=document.createElement('div');row.className='sug-estado';
+  row.innerHTML=tipo==='carregando'?'<span class="spin" aria-hidden="true"></span>analisando descrição…':'Digite a descrição do item para receber sugestões';
+  box.appendChild(row);box.style.display='';
+}
+const relevante=s=>s&&(s.conf==null||+s.conf>=0.05);
 function aplica(id,v){const el=document.getElementById(id);if(el)el.value=v}
 function classePorGrupo(cod){
   try{return Object.keys(PDM).find(k=>((PDM[k].grupo||'').split(' ')[0]===cod))||null}catch(e){return null}
@@ -1449,21 +1529,19 @@ function classePorGrupo(cod){
 function pintaSugestoes(d){
   const box=document.getElementById('sugestoes-api');if(!box)return;
   box.innerHTML='';let tem=false;
-  const head=document.createElement('div');head.className='lbl';head.style.margin='0';
-  head.innerHTML='Sugestões da IA <span class="hint">clique num chip para aplicar'+(typeof d.latencia_ms==='number'?' · '+d.latencia_ms+' ms':'')+'</span>';
-  box.appendChild(head);
-  const ncm=((d.ncm||{}).sugestoes||[]).slice(0,3).map(s=>mkChip(s.valor_formatado||s.valor,pct(s.conf),()=>aplica('f-ncm',s.valor_formatado||s.valor)));
+  box.appendChild(cabecalhoSug('clique para aplicar no campo'));
+  const ncm=((d.ncm||{}).sugestoes||[]).filter(relevante).slice(0,3).map(s=>mkChip(s.valor_formatado||s.valor,s.conf,()=>aplica('f-ncm',s.valor_formatado||s.valor)));
   tem=linhaChips(box,'NCM',ncm)||tem;
   const fabInfo=d.fabricante||{};
-  const fab=(fabInfo.sugestoes||[]).slice(0,3).map(s=>mkChip(s.valor,pct(s.conf),()=>aplica('f-fab',s.valor)));
-  tem=linhaChips(box,'Fabricante'+(fabInfo.origem?' · '+fabInfo.origem:''),fab)||tem;
+  const fab=(fabInfo.sugestoes||[]).filter(relevante).slice(0,3).map(s=>mkChip(s.valor,s.conf,()=>aplica('f-fab',s.valor)));
+  tem=linhaChips(box,'Fabricante',fab)||tem;
   const ref=d.referencia||{};
-  const refChips=ref.valor?[mkChip(ref.valor,ref.conf!=null?pct(ref.conf):'extração',()=>aplica('f-ref',ref.valor))]:[];
+  const refChips=ref.valor?[mkChip(ref.valor,ref.conf,()=>aplica('f-ref',ref.valor))]:[];
   tem=linhaChips(box,'Referência',refChips)||tem;
-  const grp=((d.grupo||{}).sugestoes||[]).slice(0,3).map(s=>{
+  const grp=((d.grupo||{}).sugestoes||[]).filter(relevante).slice(0,3).map(s=>{
     const pdmId=classePorGrupo(s.valor);
-    if(pdmId)return mkChip(s.valor+' → aplicar '+pdmId,pct(s.conf),()=>{setClass(pdmId);toast('Classe '+pdmId+' aplicada pela sugestão de grupo '+s.valor)});
-    return mkChip(s.valor,pct(s.conf),null);
+    if(pdmId)return mkChip(s.valor+' → aplicar '+pdmId,s.conf,()=>{setClass(pdmId);toast('Classe '+pdmId+' aplicada pela sugestão de grupo '+s.valor)});
+    return mkChip(s.valor,s.conf,null);
   });
   tem=linhaChips(box,'Grupo',grp)||tem;
   box.style.display=tem?'':'none';
@@ -1472,11 +1550,11 @@ function pintaSimilares(list){
   const tb=document.getElementById('similar');if(!tb)return;
   let html='<tr><th>código</th><th>descrição</th><th>grupo</th><th>status</th><th class="num">simil.</th></tr>';
   if(!list.length){
-    html+='<tr><td colspan="5" class="muted" style="font-size:11.5px;white-space:normal">Nenhum item parecido encontrado na base (via API).</td></tr>';
+    html+='<tr><td colspan="5" class="muted" style="font-size:11.5px;white-space:normal">Nenhum item parecido na base. Pode seguir com o cadastro.</td></tr>';
   }else{
     html+=list.slice(0,5).map(s=>{
-      const sim=+s.similaridade||0,dup=sim>=0.90;
-      return `<tr><td class="mono">${esc(s.codigo)}</td><td class="wrap mono muted" style="font-size:11.5px">${esc(trunca(s.descricao,60))}</td><td class="mono" style="font-size:11px">${esc(s.grupo||'—')}</td><td><span class="badge ${s.status==='ATIVO'?'b-green':'b-gray'}" style="font-size:10px">${esc(s.status||'—')}</span></td><td class="num" style="${dup?'color:var(--err);font-weight:600':''}">${Math.round(sim*100)}%${dup?'<div style="font-size:9.5px;color:var(--err);white-space:nowrap">possível duplicata</div>':''}</td></tr>`;
+      const sim=+s.similaridade||0,p=Math.round(sim*100),dup=sim>=0.90;
+      return `<tr${dup?' class="dup-row"':''}><td class="mono">${esc(s.codigo)}</td><td class="wrap mono muted" style="font-size:11.5px" title="${esc(s.descricao)}">${esc(trunca(s.descricao,60))}${dup?'<div class="dup-note">Possível duplicata — confira antes de criar</div>':''}</td><td class="mono" style="font-size:11px">${esc(s.grupo||'—')}</td><td><span class="st ${stCls(s.status)}">${esc(s.status||'—')}</span></td><td class="num"><div class="sim"><span class="pct"${dup?' style="color:var(--danger)"':''}>${p}%</span><div class="bar"><i style="width:${p}%${dup?';background:var(--danger)':''}"></i></div></div></td></tr>`;
     }).join('');
   }
   tb.innerHTML=html;
@@ -1488,6 +1566,7 @@ window.render=function(){renderBase();if(apiSimilares)pintaSimilares(apiSimilare
 async function sugerir(txt){
   if(ctrlSugerir)ctrlSugerir.abort();
   ctrlSugerir=new AbortController();
+  estadoSugestoes('carregando');
   try{
     const r=await fetch(SUGESTAO_API+'/sugerir',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({descricao:txt,grupo:null}),signal:ctrlSugerir.signal});
     if(!r.ok)throw new Error('HTTP '+r.status);
@@ -1497,13 +1576,14 @@ async function sugerir(txt){
     pintaSimilares(apiSimilares);
   }catch(e){
     if(e&&e.name==='AbortError')return;
+    const box=document.getElementById('sugestoes-api');
+    if(box){box.style.display='none';box.innerHTML=''}
     console.info('API de sugestões indisponível (/sugerir):',e&&e.message||e);
   }
 }
 function limpaSugestoes(){
   if(ctrlSugerir)ctrlSugerir.abort();
-  const box=document.getElementById('sugestoes-api');
-  if(box){box.style.display='none';box.innerHTML=''}
+  estadoSugestoes('vazio');
   if(apiSimilares){apiSimilares=null;window.render()}
 }
 const ta=document.getElementById('texto-origem');
@@ -1521,17 +1601,17 @@ function pintaCands(list){
   if(!cands)return;
   if(!list.length){cands.innerHTML=candsOriginal;return}
   cands.innerHTML=list.slice(0,5).map((s,i)=>{
-    const sim=+s.similaridade||0,p=Math.round(sim*100);
-    const cor=sim>=0.8?'var(--brand)':sim>=0.6?'var(--warn)':'var(--text-3)';
-    return `<div class="cand${i===0&&sim>=0.8?' top':''}" data-code="${esc(s.codigo)}" onclick="pick(this)">
+    const sim=+s.similaridade||0,p=Math.round(sim*100),dup=sim>=0.90;
+    const cor=dup?'var(--danger)':sim>=0.85?'var(--ok)':sim>=0.6?'var(--warn)':'var(--text-3)';
+    return `<div class="cand${i===0&&sim>=0.85&&!dup?' top':''}${dup?' dup':''}" data-code="${esc(s.codigo)}" onclick="pick(this)">
       <div class="cand-h">
         <div class="conf"><div class="n" style="color:${cor}">${p}%</div><div class="bar"><i style="width:${p}%;background:${cor}"></i></div></div>
         <div class="radio"></div>
         <div style="flex:1;min-width:0">
-          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="mono" style="font-weight:500">${esc(s.codigo)}</span><span class="badge ${s.status==='ATIVO'?'b-green':'b-gray'}">${esc(s.status||'—')}</span><span class="badge b-gray">${esc(s.grupo||'—')}</span><span class="badge b-info">via API</span></div>
-          <div class="desc muted" style="margin-top:3px">${esc(trunca(s.descricao,120))}</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="mono" style="font-weight:600;font-size:15px">${esc(s.codigo)}</span><span class="st ${stCls(s.status)}">${esc(s.status||'—')}</span><span class="badge b-gray">${esc(s.grupo||'—')}</span><span class="badge b-ia">via API</span></div>
+          <div class="desc muted" style="margin-top:3px" title="${esc(s.descricao)}">${esc(trunca(s.descricao,120))}</div>
+          ${dup?'<div class="dup-note">Possível duplicata — confira antes de criar</div>':''}
         </div>
-        <div style="text-align:right"><div class="mono">${p}%</div><div class="faint" style="font-size:11.5px">similaridade</div></div>
       </div>
     </div>`;
   }).join('');
