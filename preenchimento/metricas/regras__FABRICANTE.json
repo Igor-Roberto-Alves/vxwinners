@@ -1,0 +1,11 @@
+{
+ "segundos": 0.62,
+ "chamadas_api": 0,
+ "tokens_entrada": 0,
+ "tokens_saida": 0,
+ "modelo": "",
+ "custo_estimado_usd": 0.0,
+ "observacoes": "lexico de 88 nomes distintos do treino; casamento por palavra inteira; abstencao 521/2000 (26.1%) quando nenhum nome aparece no texto",
+ "solucao": "regras",
+ "campo": "FABRICANTE"
+}

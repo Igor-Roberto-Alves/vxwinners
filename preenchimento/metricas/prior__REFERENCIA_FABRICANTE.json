@@ -1,0 +1,11 @@
+{
+ "segundos": 0.008,
+ "chamadas_api": 0,
+ "tokens_entrada": 0,
+ "tokens_saida": 0,
+ "modelo": "",
+ "custo_estimado_usd": 0.0,
+ "observacoes": "Abstencao total: prior de frequencia nao se aplica a REFERENCIA_FABRICANTE, texto livre quase-unico por item (~4450 valores distintos no treino).",
+ "solucao": "prior",
+ "campo": "REFERENCIA_FABRICANTE"
+}

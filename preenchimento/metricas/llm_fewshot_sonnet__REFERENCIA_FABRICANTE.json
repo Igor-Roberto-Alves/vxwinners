@@ -1,0 +1,11 @@
+{
+ "segundos": 145.5,
+ "chamadas_api": 76,
+ "tokens_entrada": 804257,
+ "tokens_saida": 88561,
+ "modelo": "us.anthropic.claude-sonnet-5",
+ "custo_estimado_usd": 2.4941,
+ "observacoes": "lotes de 20 itens (75 lotes); few-shot 3 vizinhos TF-IDF do treino; abstencoes=58 (itens sem resposta/ilegiveis do modelo=0); prep tfidf 0.4s compartilhada entre os dois modelos; conf vazia (formato de extracao nao pede probabilidade)",
+ "solucao": "llm_fewshot_sonnet",
+ "campo": "REFERENCIA_FABRICANTE"
+}

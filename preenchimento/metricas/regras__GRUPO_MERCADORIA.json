@@ -1,0 +1,11 @@
+{
+ "segundos": 0.29,
+ "chamadas_api": 0,
+ "tokens_entrada": 0,
+ "tokens_saida": 0,
+ "modelo": "",
+ "custo_estimado_usd": 0.0,
+ "observacoes": "lexico substantivo(+qualificador)->grupo do PDM (166 entradas) + 41 abreviacoes (dadas + identificadas no treino); casa primeiros tokens da descricao (curta, senao longa); abstencao 8/2000 (0.4%)",
+ "solucao": "regras",
+ "campo": "GRUPO_MERCADORIA"
+}

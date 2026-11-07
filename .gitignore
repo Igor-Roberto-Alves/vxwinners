@@ -1,2 +1,9 @@
 .env
 .claude/settings.local.json
+preenchimento/cache/
+preenchimento/dados/
+preenchimento/saida/fab_llm_ckpt.jsonl
+servico/modelos/
+*.log
+*.out
+__pycache__/

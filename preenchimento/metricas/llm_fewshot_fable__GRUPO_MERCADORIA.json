@@ -1,0 +1,11 @@
+{
+ "segundos": 218.2,
+ "chamadas_api": 100,
+ "tokens_entrada": 1079854,
+ "tokens_saida": 138737,
+ "modelo": "us.anthropic.claude-fable-5",
+ "custo_estimado_usd": 17.7354,
+ "observacoes": "lotes de 20 itens (100 lotes); few-shot 3 vizinhos TF-IDF do treino; abstencoes=0 (itens sem resposta/ilegiveis do modelo=0); prep tfidf 3.2s compartilhada entre os modelos da execucao",
+ "solucao": "llm_fewshot_fable",
+ "campo": "GRUPO_MERCADORIA"
+}

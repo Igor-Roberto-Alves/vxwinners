@@ -1,0 +1,11 @@
+{
+ "segundos": 0.043,
+ "chamadas_api": 0,
+ "tokens_entrada": 0,
+ "tokens_saida": 0,
+ "modelo": "",
+ "custo_estimado_usd": 0.0,
+ "observacoes": "Moda global do treino aplicada a todas as linhas; top3 = 3 classes mais frequentes do treino.",
+ "solucao": "prior",
+ "campo": "GRUPO_MERCADORIA"
+}
