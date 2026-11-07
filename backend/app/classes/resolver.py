@@ -38,7 +38,8 @@ GLOSSARIO_EN: dict[str, str] = {
 }
 # Sinônimos de substantivo: os curados pela equipe e as lacunas listadas em docs/00-estado-do-projeto.md.
 GLOSSARIO_PT = {**SINONIMO_SUJEITO, "ORING": "ANEL O-RING", "JOELHO": "COTOVELO", "TAMPAO": "CAP",
-                "BOTINA": "CALCADO SEGURANCA", "BOTA SEGURANCA": "CALCADO SEGURANCA"}
+                "BOTINA": "CALCADO SEGURANCA", "BOTA SEGURANCA": "CALCADO SEGURANCA",
+                "ALLEN": "SEXTAVADO INTERNO"}  # parafuso Allen é sextavado interno (PDM002)
 _GLOSSARIO_ORDENADO = sorted({**GLOSSARIO_EN, **GLOSSARIO_PT}.items(), key=lambda kv: -len(kv[0]))
 # Plurais e variações de gênero comuns em pedidos.
 _VARIACOES = {"PARAFUSOS": "PARAFUSO", "PORCAS": "PORCA", "ARRUELAS": "ARRUELA", "VALVULAS": "VALVULA",

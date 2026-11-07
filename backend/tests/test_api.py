@@ -24,7 +24,7 @@ def cliente(banco, base_teste, tmp_path_factory):
         {"Codigo": c, "Descricao": "x", "Data_Inicio": "01/01/2020", "Data_Fim": "31/12/9999"} for c in codigos]}))
     with banco.begin() as c:
         tabela.importa(c, arq)
-    app = cria_app(verifica_migracoes=False)  # o banco de teste é montado aqui, pelas migrações
+    app = cria_app(verifica_migracoes=False, carrega_modelos=False)  # banco e modelos de teste são montados aqui
 
     def conexao_teste():
         with banco.begin() as conn:
@@ -210,7 +210,7 @@ def test_api_recusa_subir_com_banco_desatualizado(banco, monkeypatch):
             main.confere_migracoes()
     finally:
         with banco.begin() as c:
-            c.execute(text("update alembic_version set version_num = '0003'"))
+            c.execute(text("update alembic_version set version_num = '0004'"))
     main.confere_migracoes()  # no head: passa
 
 
@@ -218,3 +218,70 @@ def test_painel_de_desenvolvimento_e_servido_so_em_dev(cliente):
     r = cliente.get("/painel")
     assert r.status_code == 200 and r.headers["content-type"].startswith("text/html")
     assert "nao e o frontend do produto" in r.text.lower() or "não é o frontend do produto" in r.text.lower()
+
+
+# ------------------------------------------------------------------ integração com o serviço de sugestão do time
+class ModelosFalsos:
+    def pronto(self):
+        return True
+
+    def similares(self, texto):
+        return [{"codigo": "90000002", "similaridade": 0.8}, {"codigo": "90000003", "similaridade": 0.3}]
+
+
+def test_mockup_do_time_e_servido_apontando_para_este_servidor(cliente):
+    r = cliente.get("/mockup")
+    assert r.status_code == 200 and "const SUGESTAO_API='/sugestao'" in r.text and "127.0.0.1:8700" not in r.text.split("const SUGESTAO_API")[1][:40]
+
+
+def test_sem_modelos_o_contrato_do_servico_responde_503_e_o_cadastro_segue(cliente):
+    from app.sugestoes import modelos
+
+    assert not modelos.pronto()
+    problema(cliente.post("/sugestao/sugerir", json={"descricao": "parafuso"}), 503, "modelos_indisponiveis")
+    assert cliente.get("/sugestao/saude").json()["ok"] is False
+    v = cliente.post("/api/v1/cadastros", json={"id_pdm": "PDM001", "centro": CENTRO, "texto": "parafuso"}, headers=ANA).json()
+    r = cliente.get(f"/api/v1/cadastros/{v['id']}/sugestoes-modelo", headers=ANA).json()
+    assert r["estado"] == "indisponivel"
+    assert cliente.post("/sugestao/sugerir", json={"descricao": "   "}).status_code == 422
+
+
+def test_sugestoes_de_modelo_so_propoem_nao_aplicam(cliente, monkeypatch):
+    from app.sugestoes import modelos
+
+    resposta = {"grupo": {"sugestoes": [{"valor": "FIX01", "conf": 0.9}]},
+                "ncm": {"sugestoes": [{"valor": "73181500", "valor_formatado": "7318.15.00", "conf": 0.91}]},
+                "fabricante": {"origem": "lexico", "sugestoes": [{"valor": "SKF", "conf": 0.99}]},
+                "referencia": {"valor": "ABC123", "conf": 0.85, "origem": "extracao"}, "similares": []}
+    monkeypatch.setattr(modelos, "pronto", lambda: True)
+    monkeypatch.setattr(modelos, "sugerir", lambda *a, **k: resposta)
+    monkeypatch.setattr(modelos, "similares", lambda *a, **k: [])
+    v = cliente.post("/api/v1/cadastros", json={"id_pdm": "PDM001", "centro": CENTRO, "texto": "parafuso skf abc123"}, headers=ANA).json()
+    r = cliente.get(f"/api/v1/cadastros/{v['id']}/sugestoes-modelo", headers=ANA).json()
+    assert r["estado"] == "ok" and r["ncm"][0]["valor_formatado"] == "7318.15.00" and r["referencia"]["valor"] == "ABC123"
+    depois = cliente.get(f"/api/v1/cadastros/{v['id']}", headers=ANA).json()
+    assert depois["fabricante"] is None and depois["fiscal"]["ncm"]["personalizado"] is False  # nada foi aplicado
+
+
+def test_vizinhos_de_texto_entram_como_parecido_e_nunca_como_igual(banco, base_teste):
+    from app.identidade import candidatos
+
+    pdm = base_teste["pdm"]
+    with banco.connect() as c:
+        r = candidatos.busca(c, pdm, "PDM020", "ROLAMENTO RIGIDO ESFERAS", {"REFERENCIA": "6307-2RS/C3", "VEDACAO": "BORRACHA AMBOS LADOS", "FOLGA": "C3"})
+        r = candidatos.acrescenta_vizinhos(c, r, [{"codigo": "90000002", "similaridade": 0.8}, {"codigo": "90000003", "similaridade": 0.3}])
+    assert [(x.codigo, x.nivel) for x in r.candidatos] == [("90000002", "PARECIDO")]  # 0,3 fica abaixo do corte
+    assert "80%" in r.candidatos[0].motivo
+
+
+def test_preenchimento_entra_como_sugestao_e_nao_mexe_na_identidade(banco, base_teste):
+    from sqlalchemy import text as t
+
+    from app.estruturacao import preenchimento
+
+    with banco.begin() as c:
+        c.execute(t("delete from material_sugestao"))
+        antes = c.execute(t("select count(*) from material_identidade where completa")).scalar()
+        r = preenchimento.importa(c)  # so ha codigos de teste no banco: os demais sao ignorados
+        depois = c.execute(t("select count(*) from material_identidade where completa")).scalar()
+    assert antes == depois and sum(r.values()) == 0

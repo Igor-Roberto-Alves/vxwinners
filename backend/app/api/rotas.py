@@ -1,4 +1,4 @@
-"""Rotas da API v1 (docs/04-plano-modo-cadastro.md, seção 12)."""
+"""Rotas da API v1 (docs/06-plano-modo-cadastro.md, seção 12)."""
 from __future__ import annotations
 
 import json
@@ -160,6 +160,12 @@ def sugestoes(cid: str, atributo: str, conn: Connection = Depends(conexao), ctx:
                            base=o.base, contexto=o.contexto, sem_opcoes_motivo=o.sem_opcoes_motivo, valores_permitidos=list(a.valores))
 
 
+@router.get("/cadastros/{cid}/sugestoes-modelo", tags=["cadastros"],
+            summary="NCM, fabricante, referência e grupo sugeridos pelos modelos do texto (só propõem)")
+def sugestoes_modelo(cid: str, conn: Connection = Depends(conexao), _: Principal = Depends(exige("leitor"))):
+    return S.sugestoes_modelo(conn, cid)
+
+
 @router.get("/cadastros/{cid}/candidatos", tags=["cadastros"], summary="Itens existentes parecidos (verificação de duplicidade)")
 def candidatos(cid: str, conn: Connection = Depends(conexao), ctx: Ctx = Depends(contexto), _: Principal = Depends(exige("leitor"))):
     return S.candidatos(conn, ctx[0], cid)
@@ -285,7 +291,9 @@ def material(codigo: str, conn: Connection = Depends(conexao), _: Principal = De
     k = conn.execute(text("select id_pdm, nome, confianca, metodo from material_classificacao where codigo = :c"), {"c": codigo}).mappings().first()
     a = conn.execute(text("select atributo, valor, origem, trecho, confianca from material_atributo where codigo = :c order by atributo"),
                      {"c": codigo}).mappings().all()
-    return {"material": json.loads(json.dumps(dict(m), default=str)), "classificacao": dict(k) if k else None, "atributos": [dict(x) for x in a]}
+    sug = conn.execute(text("select campo, valor, conf, metodo from material_sugestao where codigo = :c order by campo"), {"c": codigo}).mappings().all()
+    return {"material": json.loads(json.dumps(dict(m), default=str)), "classificacao": dict(k) if k else None, "atributos": [dict(x) for x in a],
+            "sugestoes_preenchimento": [dict(x) for x in sug]}
 
 
 @router.get("/erp/envios", tags=["erp"], summary="Envios ao ERP (pendentes e com erro ficam visíveis)")

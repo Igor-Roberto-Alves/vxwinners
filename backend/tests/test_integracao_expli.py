@@ -94,3 +94,8 @@ def test_sigla_curta_nao_dispara_em_texto_corrido():
 @pytest.mark.parametrize("consulta,nome", [("joelho 90", "COTOVELO 90 GRAUS"), ("tampao", "CAP"), ("botina", "CALCADO SEGURANCA"), ("vedador", "RETENTOR"), ("chave contatora", "CONTATOR")])
 def test_sinonimos_de_substantivo(indice, consulta, nome):
     assert indice.buscar(consulta)[0].nome == nome
+
+
+@pytest.mark.parametrize("texto", ["PARAFUSO SEXTAVADO ALLEN TIPO CABECA CILINDRICA M3", "PARAF. CAB SEXTAVADA ALLEN M4", "PARAFUSO ALLEN M8X20"])
+def test_parafuso_allen_e_sextavado_interno(pdm, indice, texto):
+    assert ex(pdm, indice, texto, "FIX01").id_pdm == "PDM002"

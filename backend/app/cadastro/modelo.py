@@ -1,4 +1,4 @@
-"""Estados do cadastro, transições permitidas e erros de negócio (docs/04-plano-modo-cadastro.md, seção 3)."""
+"""Estados do cadastro, transições permitidas e erros de negócio (docs/06-plano-modo-cadastro.md, seção 3)."""
 from __future__ import annotations
 
 RASCUNHO = "RASCUNHO"

@@ -1,6 +1,6 @@
 """Opções de valor para um atributo, a partir do que já está cadastrado.
 
-Regras (docs/04-plano-modo-cadastro.md, seção 6.3): nada vem preenchido por frequência; a pessoa vê
+Regras (docs/06-plano-modo-cadastro.md, seção 6.3): nada vem preenchido por frequência; a pessoa vê
 até 3 opções com a contagem. A frequência é calculada dentro do NOME do material (não da classe) e,
 quando há atributos já preenchidos, dentro dos itens que coincidem com eles. Part number não tem
 opções, porque quase cada item tem o seu.

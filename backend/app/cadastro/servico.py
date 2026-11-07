@@ -1,4 +1,4 @@
-"""Regras de negócio do cadastro de materiais (docs/04-plano-modo-cadastro.md).
+"""Regras de negócio do cadastro de materiais (docs/06-plano-modo-cadastro.md).
 
 Princípios que este módulo garante:
  - a classe é sempre confirmada por uma pessoa; nenhum valor vindo do histórico entra sozinho;
@@ -26,6 +26,7 @@ from ..leitura.regras import le_pedido
 from ..ncm import tabela as ncm_tabela
 from ..ncm.regras import formata_ncm, ncm_esperado
 from ..pdm.modelo import Pdm
+from ..sugestoes import modelos
 from ..tabelas import rolamentos as tabelas_rolamentos
 from . import descricao as desc
 from . import modelo as M
@@ -141,8 +142,9 @@ def _esperados(pdm: Pdm, cad: dict) -> dict:
 def _busca(conn: Connection, pdm: Pdm, cad: dict, limite: int = 8) -> cand_mod.Resultado | None:
     if not cad["id_pdm"]:
         return None
-    return cand_mod.busca(conn, pdm, cad["id_pdm"], cad["nome"] or None, _plano(cad), limite=limite,
-                          texto=cad.get("descricao_longa") or cad.get("texto_inicial"))
+    texto = cad.get("descricao_longa") or cad.get("texto_inicial")
+    r = cand_mod.busca(conn, pdm, cad["id_pdm"], cad["nome"] or None, _plano(cad), limite=limite, texto=texto)
+    return cand_mod.acrescenta_vizinhos(conn, r, modelos.similares(texto or ""), limite=limite)
 
 
 def analisa(conn: Connection, pdm: Pdm, cad: dict, busca: cand_mod.Resultado | None) -> Analise:
@@ -492,6 +494,19 @@ def candidatos(conn: Connection, pdm: Pdm, cid: str) -> dict:
     if r is None:
         return {"candidatos": [], "comparaveis": 0, "total_classe": 0}
     return {"candidatos": [_cand_dict(c) for c in r.candidatos], "comparaveis": r.comparaveis, "total_classe": r.total_classe}
+
+
+def sugestoes_modelo(conn: Connection, cid: str) -> dict:
+    """NCM, fabricante, referência e grupo sugeridos pelos modelos do time, a partir do texto do item.
+    Só propõem: nada é aplicado sem um clique, e o NCM da regra do PDM continua sendo a referência."""
+    cad = _linha(conn, cid)
+    texto = " ".join(x for x in (cad.get("texto_inicial"), cad.get("descricao_longa")) if x)
+    if not modelos.pronto():
+        return {"estado": "indisponivel", "motivo": modelos.estado()["erro"] or "modelos ainda nao carregados"}
+    r = modelos.sugerir(texto, cad.get("grupo"))
+    if r is None:
+        return {"estado": "sem_texto"}
+    return {"estado": "ok", "ncm": r["ncm"]["sugestoes"], "fabricante": r["fabricante"], "referencia": r["referencia"], "grupo": r["grupo"]["sugestoes"]}
 
 
 # ================================================================== decisões

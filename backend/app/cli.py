@@ -7,6 +7,8 @@
   relatorio   mede a cobertura da estruturação
   avaliar     mede precisão do LLM contra gabarito derivado da base
   avaliar-sugestoes   mede se a opção certa aparece entre as sugestões (base inteira)
+  importar-preenchimento   carrega preenchimento/saida como sugestões (nunca como dado confirmado)
+  comparar-pipelines       compara este backend com o pipeline de src/saneamento (artefatos/saneado_base.csv)
 """
 from __future__ import annotations
 
@@ -91,6 +93,20 @@ def _avaliar_sugestoes(args) -> None:
     print(json.dumps(avaliar.avalia(args.n), ensure_ascii=False, indent=2))
 
 
+def _importar_preenchimento() -> None:
+    from .db import transacao
+    from .estruturacao import preenchimento
+
+    with transacao() as c:
+        print(preenchimento.importa(c))
+
+
+def _comparar(args) -> None:
+    from .estruturacao import comparar
+
+    comparar.imprime(amostra=args.amostra)
+
+
 def _relatorio() -> None:
     from .estruturacao import relatorio
 
@@ -112,6 +128,9 @@ def main(argv: list[str] | None = None) -> int:
     e.add_argument("--tudo", action="store_true", help="llm: todos os candidatos, em lotes, com teto de gasto")
     e.add_argument("--teto-usd", type=float, default=60.0, help="llm --tudo: para ao passar deste gasto estimado")
     sub.add_parser("relatorio")
+    sub.add_parser("importar-preenchimento")
+    cp = sub.add_parser("comparar-pipelines")
+    cp.add_argument("--amostra", type=int, default=5, help="pares a mostrar em cada divergência")
     sg = sub.add_parser("avaliar-sugestoes")
     sg.add_argument("-n", type=int, default=1500)
     av = sub.add_parser("avaliar")
@@ -119,7 +138,8 @@ def main(argv: list[str] | None = None) -> int:
     av.add_argument("--modelo")
     args = ap.parse_args(argv)
     {"migrar": lambda: _migrar(), "ingerir": lambda: _ingerir(args), "contagens": lambda: _contagens(),
-     "estruturar": lambda: _estruturar(args), "relatorio": lambda: _relatorio(), "avaliar": lambda: _avaliar(args), "avaliar-sugestoes": lambda: _avaliar_sugestoes(args)}[args.cmd]()
+     "estruturar": lambda: _estruturar(args), "relatorio": lambda: _relatorio(), "avaliar": lambda: _avaliar(args), "avaliar-sugestoes": lambda: _avaliar_sugestoes(args),
+     "importar-preenchimento": lambda: _importar_preenchimento(), "comparar-pipelines": lambda: _comparar(args)}[args.cmd]()
     return 0
 
 

@@ -6,15 +6,17 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from sqlalchemy import text
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from .api.deps import conexao
 from .api.rotas import router
+from .api.rotas_sugestao import router as rotas_sugestao
 from .cadastro.modelo import ErroNegocio
-from .config import settings
+from .config import RAIZ_REPO, settings
 from .db import engine
+from .sugestoes import modelos
 
 PROBLEM = "application/problem+json"
 
@@ -43,13 +45,15 @@ def confere_migracoes() -> None:
         raise RuntimeError(f"banco na versao {atual!r}, esperado {cabeca!r}: rode `python -m app.cli migrar` antes de subir a API")
 
 
-def cria_app(verifica_migracoes: bool = True) -> FastAPI:
+def cria_app(verifica_migracoes: bool = True, carrega_modelos: bool = True) -> FastAPI:
     @asynccontextmanager
     async def ciclo(app: FastAPI):
         if settings().auth_modo != "dev":
             raise RuntimeError("AUTH_MODO diferente de 'dev' ainda nao e suportado: a autenticacao OIDC nao foi implementada")
         if verifica_migracoes:
             confere_migracoes()
+        if carrega_modelos:
+            modelos.carrega()   # opcional: sem modelos treinados o cadastro segue sem estas sugestões
         yield
 
     app = FastAPI(title="Cadastro de materiais", version="0.1.0", lifespan=ciclo,
@@ -83,7 +87,8 @@ def cria_app(verifica_migracoes: bool = True) -> FastAPI:
             c.execute(text("select 1"))
             versao = c.execute(text("select id from pdm_versao where ativa")).scalar()
         s = settings()
-        return {"status": "ok", "pdm_versao": versao, "llm": {"provider": s.llm_provider, "habilitado": s.llm_habilitado}}
+        return {"status": "ok", "pdm_versao": versao, "llm": {"provider": s.llm_provider, "habilitado": s.llm_habilitado},
+                "modelos_sugestao": modelos.estado()}
 
     if settings().auth_modo == "dev":
         # Painel de desenvolvimento para ver o fluxo ao vivo. NÃO é o frontend do produto, que vem de outra branch.
@@ -96,6 +101,14 @@ def cria_app(verifica_migracoes: bool = True) -> FastAPI:
         @app.get("/painel", include_in_schema=False)
         def painel():
             return FileResponse(pagina, media_type="text/html")
+
+        @app.get("/mockup", include_in_schema=False)
+        def mockup():
+            # o mockup do time, sem alterar o arquivo: só aponta as chamadas para este mesmo servidor
+            html = (RAIZ_REPO / "mockup_plataforma.html").read_text(encoding="utf-8")
+            return HTMLResponse(html.replace("const SUGESTAO_API='http://127.0.0.1:8700'", "const SUGESTAO_API='/sugestao'"))
+
+        app.include_router(rotas_sugestao)
 
     app.include_router(router)
     return app

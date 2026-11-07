@@ -84,6 +84,7 @@
 <header>
   <h1>Cadastro de materiais</h1>
   <span class="aviso-dev">painel de desenvolvimento · não é o frontend do produto</span>
+  <a class="peq" href="/mockup" target="_blank" style="color:var(--marca)">abrir o mockup do time</a>
   <span class="esp"></span>
   <span class="peq suave" id="api-status">conectando…</span>
   <label class="peq suave">usuário
@@ -337,8 +338,27 @@ function renderMeio(v) {
           h("div", { class: "peq suave" }, f.ncm.esperado ? `esperado: ${f.ncm.esperado} (${f.ncm.regra})` : `ainda não determinado: ${f.ncm.regra}`))),
       val ? h("div", { class: `aviso-caixa ${val.ok ? "ok" : "erro"}` },
         val.ok ? `NCM ${f.ncm.usado} válido na tabela oficial${val.descricao ? ": " + val.descricao : ""}` :
-          `NCM ${f.ncm.usado}: ${val.motivo}${val.sucessores.length ? ". Vigentes próximos: " + val.sucessores.join(", ") : ""}`) : null));
+          `NCM ${f.ncm.usado}: ${val.motivo}${val.sucessores.length ? ". Vigentes próximos: " + val.sucessores.join(", ") : ""}`) : null,
+      cls.criterio_identidade === "ESPECIFICACAO" ? h("div", { class: "grade", style: "margin-top:10px" },
+        h("div", { class: "campo" }, h("label", {}, "Fabricante (fora da descrição)"), h("input", { type: "text", value: v.fabricante || "", disabled: !editavel, onchange: e => edita({ campos: { fabricante: e.target.value.trim() || null } }) })),
+        h("div", { class: "campo" }, h("label", {}, "Referência do fabricante"), h("input", { type: "text", value: v.referencia_fabricante || "", disabled: !editavel, onchange: e => edita({ campos: { referencia_fabricante: e.target.value.trim() || null } }) }))) : null));
   }
+
+  // sugestões dos modelos do time (grupo, NCM, fabricante, referência)
+  if (editavel) { const card = h("div", { class: "card" }, h("h2", {}, "Sugestões do modelo"), h("div", { class: "vazio" }, "consultando…")); box.append(card); carregaModelo(v, card); }
+}
+async function carregaModelo(v, card) {
+  const r = await tenta(() => api("GET", `/cadastros/${v.id}/sugestoes-modelo`));
+  if (!r || !card.isConnected) return;
+  limpa(card).append(h("h2", {}, "Sugestões do modelo"));
+  if (r.estado !== "ok") { card.append(h("div", { class: "vazio" }, r.estado === "indisponivel" ? `Modelos indisponíveis: ${r.motivo || ""}` : "Sem texto suficiente para sugerir.")); return; }
+  const porReferencia = v.classe.criterio_identidade === "REFERENCIA";
+  const linha = (rotulo, chips) => chips.length ? card.append(h("div", { class: "linha", style: "margin-top:6px;flex-wrap:wrap" }, h("span", { class: "peq suave", style: "min-width:84px" }, rotulo), chips)) : null;
+  const pct = c => c != null ? ` · ${Math.round(c * 100)}%` : "";
+  linha("NCM", r.ncm.slice(0, 3).map(s => h("button", { class: "chip", title: "aplica este NCM; se diferir da regra do PDM, vira exceção", onclick: () => edita({ campos: { ncm: s.valor_formatado } }) }, s.valor_formatado + pct(s.conf))));
+  linha("Fabricante", (r.fabricante.sugestoes || []).slice(0, 3).map(s => h("button", { class: "chip", onclick: () => edita(porReferencia ? { valores: { FABRICANTE: { valor: s.valor, origem: "OPCAO" } } } : { campos: { fabricante: s.valor } }) }, s.valor + pct(s.conf))));
+  if (r.referencia && r.referencia.valor) linha("Referência", [h("button", { class: "chip", onclick: () => edita(porReferencia ? { valores: { "REFERENCIA FABRICANTE": { valor: r.referencia.valor, origem: "OPCAO" } } } : { campos: { referencia_fabricante: r.referencia.valor } }) }, r.referencia.valor + pct(r.referencia.conf))]);
+  card.append(h("p", { class: "legenda", style: "margin-bottom:0" }, "Vêm de modelos de texto treinados na base: confira antes de usar. Nada é aplicado sem o seu clique, e o NCM da regra do PDM continua sendo a referência."));
 }
 function dica(c) {
   if (c.tipo === "MM") return "ex.: 16,25MM ou 15 mm";
@@ -504,7 +524,7 @@ async function revisa(v, aprovar) {
   const tema = localStorage.getItem("painel-tema") || ""; $("#tema").value = tema; if (tema) document.documentElement.dataset.tema = tema;
   $("#usuario").addEventListener("change", () => { localStorage.setItem("painel-usuario", $("#usuario").value); if (S.cad) abre(S.cad.id); });
   $("#tema").addEventListener("change", e => { localStorage.setItem("painel-tema", e.target.value); if (e.target.value) document.documentElement.dataset.tema = e.target.value; else delete document.documentElement.dataset.tema; });
-  fetch("/saude").then(r => r.json()).then(s => { $("#api-status").textContent = `API ok · PDM v${s.pdm_versao} · IA ${s.llm.habilitado ? s.llm.provider : "desligada"}`; })
+  fetch("/saude").then(r => r.json()).then(s => { $("#api-status").textContent = `API ok · PDM v${s.pdm_versao} · IA ${s.llm.habilitado ? s.llm.provider : "desligada"} · modelos ${s.modelos_sugestao.pronto ? "ok" : "fora"}`; })
     .catch(() => { $("#api-status").textContent = "API fora do ar"; });
   const p = new URLSearchParams(location.search);
   if (p.get("q")) { $("#q").value = p.get("q"); buscaNomes(); }

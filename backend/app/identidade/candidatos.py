@@ -1,6 +1,6 @@
 """Verificação de duplicidade: quais itens já existentes se parecem com o que está sendo cadastrado.
 
-Níveis (docs/04-plano-modo-cadastro.md, seção 8):
+Níveis (docs/06-plano-modo-cadastro.md, seção 8):
   IGUAL        mesma chave de identidade, completa nos dois lados (regra 10)
   PROVAVEL     nenhum atributo diverge e o candidato só não tem alguns obrigatórios
   DIVERGENTE   mesma família, mas um atributo de identidade difere (mostra qual)
@@ -47,6 +47,28 @@ class Resultado:
     candidatos: list[Candidato]
     comparaveis: int                     # registros da classe com chave completa
     total_classe: int                    # registros da classe na base
+
+
+def acrescenta_vizinhos(conn: Connection, res: Resultado, vizinhos: list[dict], *, minimo: float = 0.6, limite: int = 8) -> Resultado:
+    """Vizinhos de texto na base inteira (serviço de sugestão), inclusive itens sem classe. Só informam:
+    texto parecido nunca prova duplicidade (nos 15 produtos reais, comparar texto achou 0 dos duplicados)."""
+    ja = {c.codigo for c in res.candidatos}
+    novos = [v for v in vizinhos if v.get("codigo") not in ja and float(v.get("similaridade") or 0) >= minimo]
+    if not novos:
+        return res
+    rows = conn.execute(text("select codigo, status, centro, estoque, descricao_longa from material where codigo = any(:c)"),
+                        {"c": [v["codigo"] for v in novos]}).mappings().all()
+    info = {r["codigo"]: r for r in rows}
+    for v in novos:
+        i = info.get(v["codigo"])
+        if not i:
+            continue
+        sim = float(v["similaridade"])
+        res.candidatos.append(Candidato(v["codigo"], "PARECIDO", round(min(sim, 0.7), 3), status=i["status"], centro=i["centro"],
+                                        estoque=float(i["estoque"] or 0), descricao=i["descricao_longa"],
+                                        motivo=f"texto {round(sim * 100)}% parecido; confira os atributos", permite_uso_direto=i["status"] == "ATIVO"))
+    res.candidatos = sorted(res.candidatos, key=lambda c: (ORDEM[c.nivel], -c.pontos, c.codigo))[:limite]
+    return res
 
 
 def _peso(pdm: Pdm, id_pdm: str, atr: str) -> int:
