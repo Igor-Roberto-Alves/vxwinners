@@ -18,13 +18,13 @@ Termos usados no documento:
 
 ## 0. Estado da implementação
 
-O backend está implementado em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 215 testes) e foi rodado contra a base inteira. O frontend **não existe**: não há branch de frontend no GitHub, só o [mockup](../mockup_plataforma.html). O contrato para ele é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
+O backend está implementado em [`backend/`](../backend/README.md) (FastAPI, PostgreSQL, 266 testes) e foi rodado contra a base inteira. O frontend do produto **não existe**: nenhuma branch do GitHub traz React. O que há de interface é o [mockup](../mockup_plataforma.html), servido em `/mockup` e ligado aos modelos de sugestão, e o painel de desenvolvimento em `/painel`. O contrato para o frontend é [`docs/openapi.json`](openapi.json), gerado dos esquemas da API.
 
 | Fase | Estado | Evidência |
 |---|---|---|
-| 0. Fundação | Feita | 23.554 materiais, 520 pedidos, 44 classes, 229 atributos e 10.516 NCMs oficiais importados; 3 migrações |
+| 0. Fundação | Feita | 23.554 materiais, 520 pedidos, 44 classes, 229 atributos e 10.516 NCMs oficiais importados; 4 migrações |
 | 1. PDM e normalização | Feita | PDM versionado no banco; as 19 condições do PDM (15 com predicado, 4 "quando informado pelo fabricante"), com falha explícita se uma nova versão trouxer condição desconhecida; normalizadores de polegada, mm, bar, mm², rosca; regras de NCM por classe |
-| 2. Estruturação da base | Feita, com ressalva | 99,4% com classe e 76,2% com chave fechada. A avaliação usa gabarito derivado da base, **não a amostra anotada à mão** que o plano previa |
+| 2. Estruturação da base | Feita, com ressalva | 99,5% com classe e 78,2% com chave fechada. A avaliação usa gabarito derivado da base, **não a amostra anotada à mão** que o plano previa |
 | 3. Núcleo do cadastro | Feita | autocomplete, rascunho com bloqueio otimista, sugestões, descrição gerada |
 | 4. Identidade | Feita | cinco níveis de candidato, ponderados; índice único; teste com duas transações concorrentes |
 | 5. Decisões | Feita | estados, exceções, segundo analista, propostas ao PDM, auditoria imutável. Papéis só no modo `dev` |
@@ -36,13 +36,13 @@ O backend está implementado em [`backend/`](../backend/README.md) (FastAPI, Pos
 
 | Medida | Resultado |
 |---|---|
-| Base com classe | 93,3% só com regras; **99,4%** com regras e LLM |
-| Base com chave de identidade fechada | 40,3% só com regras; **76,2%** com LLM (especificação 65,6%, referência do fabricante 94,8%) |
-| Redundância encontrada | 2.208 chaves com mais de um código, 2.970 códigos redundantes, R$ 16,8 milhões em estoque nesses códigos (sobrevivente: o ativo de maior valor). Estimativa deste pipeline, ainda sem revisão do time |
+| Base com classe | 93,3% só com regras; **99,5%** com regras e LLM |
+| Base com chave de identidade fechada | 40,3% só com regras; **78,2%** com LLM (especificação 68,7%, referência do fabricante 95,0%) |
+| Redundância encontrada | 2.417 chaves com mais de um código, 3.314 códigos redundantes, R$ 19,27 milhões em estoque nesses códigos, de R$ 200,87 milhões na base (sobrevivente: o ativo de maior valor). Estimativa deste pipeline, ainda sem revisão do time |
 | Casos do briefing | Rolamentos 6205 e 6310 unem em duas chaves; `CAT 1R1808` une com `CATERPILLAR 1R-1808`; `DONALDSON P551808` fica separado (regra 13) |
 | LLM na base | 13.604 chamadas, 0 erros, cerca de US$ 39,5 (Haiku 4.5), 17 minutos com 24 chamadas simultâneas |
-| Qualidade do LLM | em 120 registros: classe 99,2%, precisão de atributos 100% (465 de 465), recall 95,3%. Entrada telegráfica feita dos próprios valores do gabarito, então o recall é otimista |
-| Sugestões de valor (6.264 casos, base inteira) | acerto no 1º lugar 49%, entre os 3 primeiros 76%. Listas de especificação 48% e 81%, listas de filtros e sobressalentes 68% e 90%, medidas 20% e 39% |
+| Qualidade do LLM | em 120 registros: classe 99,2%, precisão de atributos 100% (465 de 465), recall 95,3%. Entrada telegráfica feita dos próprios valores do gabarito, então o recall é otimista. **Esse 100% mede localizar o valor no texto, não converter unidade:** na base inteira, o LLM errou 18,7% das conversões de DN (104 de 555) e 16,4% das de pressão (60 de 365). Por isso a conversão saiu da mão dele (ver abaixo) |
+| Sugestões de valor (6.225 casos, base inteira) | acerto no 1º lugar 50,1%, entre os 3 primeiros 76,1%. Listas de especificação 49,6% e 79,7%, listas de filtros e sobressalentes 66,9% e 89,1%, medidas 19,9% e 40,7% |
 | Leitura dos 520 pedidos | regras: 91,3% com classe (os 8,7% restantes são em geral itens fora do PDM: cadeira, toner, serviços). Em 40 pedidos incompletos, o LLM preencheu 46 de 60 obrigatórios faltantes e deixou 29 completos, a US$ 0,0028 por pedido |
 | NCM | dos 73 NCMs do PDM, 72 existem na tabela oficial. **`7306.30.00` (tubo galvanizado) deixou de existir em 01/02/2026** e virou `7306.30.10` e `7306.30.90`; o sistema bloqueia a aprovação e mostra os sucessores. O PDM precisa de manutenção |
 | Tabela técnica de rolamentos | ISO 15 séries 60, 62 e 63 conferida contra a base: 139 de 141 medidas batem; as 2 divergentes eram dado errado da base (6218) |
@@ -57,14 +57,40 @@ O backend está implementado em [`backend/`](../backend/README.md) (FastAPI, Pos
 6. **SQLAlchemy Core com SQL explícito** e Alembic, em vez do ORM.
 7. **A comparação de duplicidade é ponderada.** Atributos com poucos valores (vedação, folga) provam pouco; a série do rolamento prova muito. Sem isso, qualquer rolamento aparecia "divergente" de todos os outros.
 
+### Integração com o trabalho do time
+
+Em 2026-11-07 as três branches do GitHub foram unidas a `modo-cadastro`: `main` (preenchimento, serviço de sugestão e mockup), `analise-de-mercado` e `Expli` (pipeline de saneamento). A integração foi de código, não só de arquivos:
+
+- **Conhecimento de domínio em um lugar só.** `backend/app/normalizacao/curados.py` importa sinônimos e a limpeza de referência de `src/saneamento`, em vez de manter cópias. Por isso, **o deploy do backend precisa levar `src/`**.
+- **Conversão de unidade feita pelo código.** Quando o trecho apontado pelo LLM tem uma só medida, `reconverte()` em `llm/extrator.py` recalcula o valor (DN para polegada, pressão para bar, milímetros). Com várias medidas no trecho, vale a escolha do modelo. A comparação mostrou por que isso importa: `DN8` havia sido unido a `1/2"`, mas DN 8 equivale a 1/4".
+- **Classificação estrutural.** `_irmao_mais_especifico` em `estruturacao/regras.py` veio do saneamento: troca a classe genérica pela irmã mais específica quando há ao menos duas evidências no texto.
+- **Modelos de sugestão.** Os modelos do serviço de sugestão rodam dentro do backend, em `/sugestao/*` (`app/sugestoes/modelos.py`). A migração 0004 cria `material_sugestao`, com os valores de `preenchimento/saida`, e `GET /cadastros/{id}/sugestoes-modelo` leva NCM, fabricante e referência ao painel.
+- **Vizinhos de texto na busca de duplicidade.** Quando os modelos estão carregados, os vizinhos mais próximos entram como candidatos do nível `PARECIDO` (`acrescenta_vizinhos`). Eles ampliam a lista para a pessoa olhar, mas não afirmam duplicidade.
+
+**O que ficou de fora da identidade, de propósito:** o que vem dos modelos não entra na chave. O fabricante inferido tem confiança média de 0,43, e só 79 chaves fechariam com evidência no texto. Inferência não prova que dois itens são o mesmo, então esses valores são só sugestões: exigem clique e nunca são aplicados sozinhos.
+
+### Comparação dos dois pipelines
+
+`python -m app.cli comparar-pipelines` compara o backend com `artefatos/saneado_base.csv`. Nenhum dos dois é gabarito: uma divergência diz onde olhar, não quem acertou.
+
+| Medida | Resultado |
+|---|---|
+| Classe igual, entre os registros que os dois classificam | 96,08% (21.877 de 22.769). A maior divergência são 281 parafusos Allen, em que o backend usa `PDM002` e o saneamento `PDM001`; lido o caso, o backend parece certo |
+| Pares de duplicidade | saneamento 1.459, backend 4.480, em comum 1.398 |
+| Pares em que os dois têm chave e discordam | 19 (eram 201 antes das correções) |
+| Pares que só o saneamento une | 61, dos quais 4 discordam de verdade |
+| Pares que só o backend une | 3.082, dos quais 15 discordam de verdade. O restante é item em que o saneamento sem BERT não fechou a chave |
+
+A divergência achou erros nos dois lados, corrigidos com teste. No backend: `REV A`, ruído e `-00` na referência, zero à esquerda, `7,0MM`, `A DENTADA 4546` (LLM juntando perfil e comprimento), mangueira com terminais tratada como avulsa (73 registros) e Allen classificado como `PDM001`. No saneamento: passo da rosca lido como comprimento (68 registros, unia parafusos de 35, 60 e 150 mm), O-ring com diâmetro interno e seção trocados (41), `1/2POLX3 1/2POL`, ruído na referência e substantivo na chave de referência, contra a regra 10.
+
 ### O que ainda não existe
 
-- **Frontend.** Nenhuma branch no GitHub. O mockup precisa dos ajustes da seção 12.
+- **Frontend do produto.** Nenhuma branch traz React. O mockup já consulta os modelos (`/sugestao/sugerir` e `/sugestao/similares`), mas não usa o fluxo de cadastro da API: rascunho, duplicidade por chave e aprovação só existem no painel de desenvolvimento. O mockup precisa dos ajustes da seção 12.
 - **Autenticação OIDC.** A API só aceita `AUTH_MODO=dev` (cabeçalhos `X-Usuario` e `X-Papel`) e **recusa subir** com outro modo, em vez de fingir proteção. Não pode ir para produção assim.
 - **Envio real de e-mail (SES).** A devolução grava o e-mail em `backend/erp_out/emails/`. Também não há contato por área cadastrado: sem ele, a API avisa que nada foi enviado.
 - **Amostra anotada à mão** e as metas de 98% e 97% do plano.
 - **Reimportação automática do ERP**, conector por API, deploy, CI e observabilidade.
-- **O código do pipeline da branch `Expli`** (`texto.py`, `validador.py`, `pipeline.py`, 63 testes) não está no GitHub, só a documentação. Os módulos de normalização, PDM e identidade deste backend foram escritos do zero. Vale reconciliar quando esse código for enviado, começando pelos testes dos três bugs de junção falsa que a equipe descreveu.
+- **BERT do saneamento treinado nesta máquina.** O modelo não está no GitHub (518 MB, 40 minutos de CPU, exige `torch`). A comparação abaixo usa o saneamento **sem** BERT, então ela subestima o que esse pipeline alcança.
 
 ---
 

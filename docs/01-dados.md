@@ -342,4 +342,4 @@ Tudo abaixo sai dos próprios dados, sem premissa inventada:
 - `NCM`, `CODIGO_MATERIAL` e `ESTOQUE_ATUAL` chegam como **texto** — forçar tipo na ingestão (`NCM` deve permanecer string, com zeros à esquerda preservados).
 - `CONTEUDO_ANEXO` tem `\n` embutido: multi-linha dentro da célula.
 - 23.554 linhas × ~5 atributos é escala para rodar LLM na base **inteira**, desde que haja cache e um caminho determinístico para os casos fáceis.
-- LLM: o repositório não traz `claude-bedrock.sh` nem `.env`. As credenciais AWS ficam em um `.env` local, fora do git (modelo em `backend/.env.example`). Em 2026-11-07 a conta só permitia Haiku 4.5, Sonnet 4.6/5 e Opus 4.6 a 5 no Bedrock; ver `docs/04-plano-modo-cadastro.md`, seção 0.
+- LLM: o repositório não traz `claude-bedrock.sh` nem `.env`. As credenciais AWS ficam em um `.env` local, fora do git (modelo em `backend/.env.example`). Em 2026-11-07 a conta só permitia Haiku 4.5, Sonnet 4.6/5 e Opus 4.6 a 5 no Bedrock; ver `docs/06-plano-modo-cadastro.md`, seção 0.
