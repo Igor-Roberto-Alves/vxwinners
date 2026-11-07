@@ -1200,3 +1200,81 @@ def test_rotulo_interno_nao_entra_no_dicionario_como_termo(pdm):
     arb.incorporar_llm(classe, res2, {"ACABAMENTO": "OXIDADO PRETO"},
                        evidencias={"ACABAMENTO": "OXID"}, aprendizado=ap)
     assert "ACABAMENTO|OXID" in ap.entradas
+
+
+# ------------------------------------------------- contribuicao de cada camada
+
+def test_toda_camada_contribui(pdm):
+    """Camada que preenche ZERO caixas esta desligada, e o pipeline nao acusa.
+
+    Quatro vezes neste projeto uma camada entrou no codigo e ficou sem efeito,
+    com o pipeline rodando e entregando menos, em silencio:
+
+      1. sinonimos.py nao era consultado pelo caminho principal (valia +5,1
+         pontos de SANEADO ao ligar)
+      2. o dicionario aprendido ficava em 0 termos porque a chave de evidencia
+         vinha com underscore ('MODELO_EQUIPAMENTO') e nunca casava
+      3. pares() era usado so para gerar o treino do BERT, nunca na extracao
+      4. a camada 0 recebia o texto ja normalizado, sem os dois-pontos, e
+         pares() nao achava par nenhum - a fonte 'rotulo' ficou em ZERO
+
+    Nenhum dos quatro quebrava teste. Este quebra.
+    """
+    from collections import Counter
+
+    from saneamento import ler_base
+
+    amostra = ler_base(RAIZ / "dados/01_base_materiais.xlsx")[:400]
+    pipe = Pipeline(pdm)
+    fontes = Counter()
+    for r in amostra:
+        for d in pipe.processar(r).decisoes.values():
+            if d.valor:
+                fontes[d.fonte] += 1
+
+    # camadas deterministicas: tem de aparecer numa amostra de 400 registros
+    for camada in ("rotulo", "gazetteer", "sinonimo", "gramatica", "regra_pdm_2"):
+        assert fontes[camada] > 0, (
+            f"a camada {camada!r} nao preencheu nenhuma caixa em 400 registros: "
+            f"provavelmente esta desligada. Fontes vistas: {dict(fontes)}")
+
+
+def test_rotulo_ganha_da_deducao_da_regra_2(pdm):
+    """O cadastro escreveu 'ROSCA:MF': a deducao nao pode dizer METRICA GROSSA.
+
+    A regra 2 do PDM desmembra 'M12X50' em BITOLA + COMPRIMENTO, e assume
+    metrica grossa quando o passo nao aparece. E DEDUCAO, nao leitura - e
+    perdia para nada. No registro 27422515 o cadastro escreve 'ROSCA:MF,
+    BITOLA:M12X1,5' e a deducao sobrescrevia com METRICA GROSSA e M12,
+    deduzindo contra o que esta escrito.
+    """
+    from saneamento import ExtratorLexico
+
+    ext = ExtratorLexico(pdm)
+    texto = "PARAFUSO SEXT, ROSCA:MF, BITOLA:M12X1,5, COMPR:120MM, CLASSE:10.9"
+    c = ext.extrair(texto, pdm.classes["PDM001"], "PARAFUSO",
+                    texto_estruturado=texto)
+    assert c["COMPRIMENTO"].valor == "120MM", "o rotulo COMPR:120MM tem de valer"
+    assert c["COMPRIMENTO"].fonte == "rotulo"
+    assert c["CLASSE RESISTENCIA"].valor == "10.9"
+
+
+def test_opcional_nao_copia_o_primeiro_numero(pdm):
+    """Caixa opcional disputa a familia de grandeza, nao herda o primeiro numero.
+
+    SECAO de PDM031 (opcional) era 'irmao unico' da familia MM porque o filtro
+    de irmaos exigia obrigatorio, e irmao unico copia o primeiro numero que
+    acha: recebia o mesmo valor de DIAMETRO INTERNO. Com os tres numeros do
+    texto e as tres caixas de PDM004 (todas opcionais), a restricao de dominio
+    passa a atuar.
+    """
+    from saneamento import ExtratorLexico
+
+    texto = ("ARRUELA LISA, PARA PARAFUSO:M36, DIAMETRO INTERNO:39MM,"
+             " DIAM EXTERNO:110 MM, E:8 MM")
+    c = ExtratorLexico(pdm).extrair(texto, pdm.classes["PDM004"], "ARRUELA",
+                                    texto_estruturado=texto)
+    assert c["DIAMETRO INTERNO"].valor == "39MM"
+    assert c["DIAMETRO EXTERNO"].valor == "110MM"
+    assert c["ESPESSURA"].valor == "8MM"
+    assert c["DIAMETRO INTERNO"].valor != c["DIAMETRO EXTERNO"].valor

@@ -403,8 +403,14 @@ class ExtratorLexico:
         # primeiro do texto), em vez do segundo. O conjunto de irmaos tem de ser
         # o mesmo para todos eles, senao a atribuicao posicional troca medidas -
         # e trocar espessura por diametro cria item errado na base.
+        # Irmaos de grandeza: TODO atributo da mesma familia disputa os numeros do
+        # texto, obrigatorio ou nao. Filtrar por obrigatorio deixava o opcional
+        # como "irmao unico", e irmao unico copia o primeiro numero que achar:
+        # SECAO de PDM031 recebia o valor de DIAMETRO INTERNO, e as tres
+        # dimensoes de PDM004 (todas opcionais) nunca passavam pela restricao de
+        # dominio. Medido no gabarito: DIAMETRO INTERNO tinha recall de 66,5%.
         irmaos = [a for a in classe.atributos
-                  if a.obrigatorio and fam in _familias(a)
+                  if fam in _familias(a)
                   and aplica_atributo(a, substantivo, conhecidos)]
         achados = self._achar(t, fam)
 
@@ -422,8 +428,32 @@ class ExtratorLexico:
                 ambiguo=len(achados) > 1,
             )
 
-        # varios atributos, varios numeros: so resolve quando a contagem casa
-        if len(achados) != len(irmaos):
+        # Menos numeros que caixas: distribui pelas de MAIOR PRIORIDADE e deixa
+        # as de menor honestamente vazias, em vez de declarar tudo ambiguo.
+        #
+        # Reconcilia duas exigencias que pareciam opostas:
+        #   - 'DISCO ABRASIVO CORTE 115MM' tem um numero e tres caixas em MM
+        #     (DIAMETRO obrigatorio, ESPESSURA condicional, FURO opcional). O
+        #     diametro ja estava certo e nao pode ser perdido.
+        #   - mas caixa OPCIONAL nao pode copiar o primeiro numero que achar, que
+        #     e como SECAO de PDM031 recebia o valor de DIAMETRO INTERNO.
+        # A prioridade resolve: obrigatorio sempre > obrigatorio condicional >
+        # opcional. Com um numero so, ele vai para o obrigatorio e as outras
+        # ficam vazias.
+        if len(achados) < len(irmaos):
+            def prioridade(a):
+                return (0 if (a.obrigatorio and a.sempre) else
+                        1 if a.obrigatorio else 2, a.ordem)
+            elegiveis = sorted(irmaos, key=prioridade)[:len(achados)]
+            if alvo.nome not in {x.nome for x in elegiveis}:
+                return Candidato(alvo.nome, None, "gramatica", 0.0,
+                                 motivo=f"{len(achados)} numero(s) em {fam} para "
+                                        f"{len(irmaos)} caixas: prioridade foi para "
+                                        f"{[x.nome for x in elegiveis]}")
+            return self._atribuir_por_dominio(fam, elegiveis, achados, alvo)
+
+        # mais numeros que caixas: nao da para escolher sem inventar
+        if len(achados) > len(irmaos):
             return Candidato(
                 alvo.nome, None, "gramatica", 0.0,
                 alternativas=tuple(f"{b}{u}" for b, u in achados),
@@ -530,7 +560,7 @@ class ExtratorLexico:
         return c
 
     def extrair(self, texto: str, classe: Classe,
-                substantivo: str = "") -> dict[str, Candidato]:
+                substantivo: str = "", texto_estruturado: str = "") -> dict[str, Candidato]:
         """Extrai em passadas, porque a condicao de um atributo depende do valor de outro.
 
         A regra 7 nao se decide numa leitura so. A coluna QUANDO_SE_APLICA cita
@@ -564,7 +594,11 @@ class ExtratorLexico:
         rosca = separar_rosca_metrica(texto)
         # camada 0: pares 'ATRIBUTO: VALOR' escritos na propria linha.
         # Ultimo vence quando o rotulo repete: a base as vezes corrige adiante.
-        rotulados = {nome: valor for nome, valor in pares(texto)}
+        # `pares()` precisa dos dois-pontos, e o Pipeline entrega o texto ja
+        # normalizado (juntar/normalizar trocam ':' por espaco). Sem receber a
+        # versao estruturada, a camada 0 nunca via par nenhum: a fonte 'rotulo'
+        # ficava em ZERO - a quarta camada deste projeto ligada sem efeito.
+        rotulados = {nome: valor for nome, valor in pares(texto_estruturado or texto)}
 
         out: dict[str, Candidato] = {}
         conhecidos: dict[str, str | None] = {}

@@ -173,7 +173,12 @@ if llm:
 
 # ------------------------------------------------------------------ saida
 
+# Com --limite o resultado e PARCIAL e nao pode sobrescrever o artefato da base
+# inteira: foi assim que uma medicao de 6.000 registros quase apagou o
+# decisoes_base.jsonl de onde sairam o catalogo e os numeros reportados.
 sufixo = "pedidos" if a.pedidos else "base"
+if a.limite:
+    sufixo += f"_{a.limite}"
 saida = Path(a.saida or ART / f"saneado_{sufixo}.csv")
 with saida.open("w", encoding="utf-8", newline="") as fh:
     campos = list(resultados[0].como_dict().keys())

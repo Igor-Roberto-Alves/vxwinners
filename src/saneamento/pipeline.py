@@ -165,6 +165,9 @@ class Pipeline:
             for c in ("DESCRICAO_LONGA", "DESCRICAO_CURTA", "FABRICANTE", "REFERENCIA_FABRICANTE")
         ))
         original = str(registro.get("DESCRICAO_LONGA", "") or "")
+        estruturado = normalizar_estrutura(" ".join(
+            str(registro.get(c, "") or "")
+            for c in ("DESCRICAO_LONGA", "DESCRICAO_CURTA")))
 
         sujeito = self.clf.classificar(texto, grupo)
         if sujeito.classe is None:
@@ -176,7 +179,9 @@ class Pipeline:
             )
 
         classe = sujeito.classe
-        cand_regras = self.regras.extrair(texto, classe, sujeito.substantivo)
+        # texto_estruturado preserva ':' e ';' para a camada 0 ler o rotulo
+        cand_regras = self.regras.extrair(texto, classe, sujeito.substantivo,
+                                          texto_estruturado=estruturado)
         cand_bert = self._bert(texto, classe)
         res: Resultado = self.arbitro.arbitrar(classe, cand_regras, cand_bert,
                                                sujeito.confianca, sujeito.substantivo)
