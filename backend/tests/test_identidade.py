@@ -11,9 +11,9 @@ def test_rolamento_6205_tres_fabricantes_mesma_referencia(texto):
     assert referencia_rolamento(texto) == "6205-2RS/C3"
 
 
-@pytest.mark.parametrize("texto", ["SKF 6310-2Z/C3", "FAG 6310-C-2Z-C3", "NTN 6310ZZC3"])
+@pytest.mark.parametrize("texto", ["SKF 6310-ZZ/C3", "FAG 6310-C-2Z-C3", "NTN 6310ZZC3"])
 def test_rolamento_6310_mesma_referencia(texto):
-    assert referencia_rolamento(texto) == "6310-2Z/C3"
+    assert referencia_rolamento(texto) == "6310-ZZ/C3"
 
 
 def test_rolamentos_diferentes_nao_colidem():

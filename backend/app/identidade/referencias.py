@@ -49,7 +49,8 @@ _FOLGA = re.compile(r"C([2-5])")
 
 
 def referencia_rolamento(texto: str | None) -> str | None:
-    """`SKF 6205-2RSH/C3` → `6205-2RS/C3`. Sem série reconhecível devolve a referência genérica."""
+    """`SKF 6205-2RSH/C3` → `6205-2RS/C3`; `6310-2Z/C3` → `6310-ZZ/C3` (notação do PDM).
+    Sem série reconhecível devolve a referência genérica."""
     n = normaliza(texto)
     m = _SERIE.search(n)
     if not m:
@@ -59,7 +60,7 @@ def referencia_rolamento(texto: str | None) -> str | None:
     if (mv := _VEDACAO_BORRACHA.search(resto)):
         vedacao, resto = "2RS", resto.replace(mv.group(0), "", 1)
     elif (mv := _VEDACAO_METAL.search(resto)):
-        vedacao, resto = "2Z", resto.replace(mv.group(0), "", 1)
+        vedacao, resto = "ZZ", resto.replace(mv.group(0), "", 1)
     folga = None
     if (mf := _FOLGA.search(resto)):
         folga = "C" + mf.group(1)
@@ -78,8 +79,22 @@ def deduz_vedacao_folga(texto: str | None) -> dict[str, str]:
     out = {}
     if "-2RS" in ref:
         out["VEDACAO"] = "BORRACHA AMBOS LADOS"
-    elif "-2Z" in ref:
+    elif "-ZZ" in ref:
         out["VEDACAO"] = "METALICA AMBOS LADOS"
     if "/C" in ref:
         out["FOLGA"] = ref.split("/")[-1]
     return out
+
+
+def fabricante_no_texto(texto: str, permitidos: tuple[str, ...]) -> str | None:
+    """Fabricante da lista (ou apelido conhecido, como CAT) presente no texto, com fronteira de palavra.
+    Mais de um fabricante distinto no texto → None (não escolhe)."""
+    import re as _re
+
+    nt = " " + normaliza(texto) + " "
+    mapa = {normaliza(p): p for p in permitidos}
+    achados = set()
+    for chave, canon in list(mapa.items()) + [(a, mapa.get(normaliza(c))) for a, c in ALIAS_FABRICANTE.items()]:
+        if canon and len(chave) >= 3 and _re.search(rf"(?<![A-Z0-9]){_re.escape(chave)}(?![A-Z0-9])", nt):
+            achados.add(canon)
+    return next(iter(achados)) if len(achados) == 1 else None
