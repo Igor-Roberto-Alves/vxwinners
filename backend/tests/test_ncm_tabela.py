@@ -36,7 +36,7 @@ def test_ncm_desdobrado_acusa_sucessores(banco, tabela_pequena):
 
 def test_ncm_fora_de_vigencia_e_formato(banco, tabela_pequena):
     with banco.connect() as c:
-        assert "vigencia" in tabela_pequena.valida(c, "1111.11.11", em=date(2026, 1, 1)).motivo
+        assert "vigência" in tabela_pequena.valida(c, "1111.11.11", em=date(2026, 1, 1)).motivo
         assert not tabela_pequena.valida(c, "73181500").ok  # formato errado
         assert not tabela_pequena.valida(c, None).ok
 

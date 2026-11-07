@@ -45,4 +45,4 @@ class ErroNegocio(Exception):
 
 def exige_transicao(de: str, para: str) -> None:
     if para not in TRANSICOES.get(de, set()):
-        raise ErroNegocio("transicao_invalida", f"nao e possivel passar de {de} para {para}", 409)
+        raise ErroNegocio("transicao_invalida", f"não é possível passar de {de} para {para}", 409)

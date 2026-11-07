@@ -128,6 +128,7 @@ class CadastroView(BaseModel):
     motivo: str | None
     duplicidade: DuplicidadeView | None
     resumo_leitura: dict[str, Any] | None
+    texto_inicial: str | None = Field(None, description="texto de onde o rascunho partiu; serve para reler ao trocar de classe")
     interpretacao: dict[str, Any] | None = None
     devolucao: dict[str, Any] | None = None
     llm: dict[str, Any] | None = None
@@ -204,6 +205,46 @@ class PaginaPedidos(BaseModel):
     itens: list[PedidoView]
 
 
+class PedidoDetalhe(PedidoView):
+    conteudo_anexo: str | None = None
+
+
+class PerguntaView(BaseModel):
+    id: int
+    destinatario: str | None
+    pergunta: str
+    resposta: str | None
+    enviada_em: str | None
+    respondida_em: str | None
+
+
+class ResumoView(BaseModel):
+    pedidos: dict[str, int] = Field(description="pedidos por estado")
+    cadastros: dict[str, int] = Field(description="cadastros por estado")
+    excecoes_pendentes: int = Field(description="cadastros aguardando o segundo analista")
+
+
+class TrechoLido(BaseModel):
+    atributo: str
+    valor: str
+    trecho: str | None
+
+
+class BuscaView(BaseModel):
+    consulta: str
+    classe: ClasseView | None
+    campos: list[CampoView]
+    interpretacao: list[TrechoLido] = Field(description="o que foi lido do texto; a pessoa confere antes de usar")
+    descricao: DescricaoView
+    chave: ChaveView | None
+    duplicidade: DuplicidadeView | None
+    fabricante: str | None
+    referencia_fabricante: str | None
+    alternativas: list[SugestaoClasse]
+    ambiguo: bool
+    fora_do_pdm: bool
+
+
 # ------------------------------------------------------------------ requisições
 class NovoCadastro(BaseModel):
     id_pdm: str | None = None
@@ -228,6 +269,14 @@ class Interpretar(BaseModel):
 
 class UsarExistente(BaseModel):
     codigo: str
+    justificativa: str | None = Field(None, description="obrigatória (mín. 10 caracteres) se o código diverge do rascunho em atributo de identidade")
+
+
+class Busca(BaseModel):
+    texto: str = Field(min_length=1, max_length=2000)
+    id_pdm: str | None = Field(None, description="classe escolhida pela pessoa; vazio: usa a classe lida do texto, como proposta")
+    nome: str | None = None
+    valores: dict[str, str | None] | None = Field(None, description="atributo → valor refinado pela pessoa; substitui o lido do texto")
 
 
 class Reativar(BaseModel):

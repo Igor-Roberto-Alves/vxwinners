@@ -78,17 +78,17 @@ def _tabela(conn: Connection) -> dict[str, tuple[str, date, date]]:
 
 def valida(conn: Connection, ncm: str | None, *, em: date | None = None) -> Validacao:
     if not ncm or not _OITO.match(ncm):
-        return Validacao(False, "formato invalido (esperado 0000.00.00)")
+        return Validacao(False, "formato inválido (esperado 0000.00.00)")
     tab = _tabela(conn)
     if not tab:
-        return Validacao(True, "tabela oficial nao carregada: so o formato foi conferido")
+        return Validacao(True, "tabela oficial não carregada: só o formato foi conferido")
     hoje = em or date.today()
     item = tab.get(ncm)
     if item is None:
         prefixo = ncm[:7]  # 0000.00 → sucessores do desdobramento
         suc = tuple(sorted(c for c, (_, i, f) in tab.items() if c.startswith(prefixo) and i <= hoje <= f))
-        return Validacao(False, "codigo inexistente na tabela oficial vigente", sucessores=suc)
+        return Validacao(False, "código inexistente na tabela oficial vigente", sucessores=suc)
     desc, ini, fim = item
     if not (ini <= hoje <= fim):
-        return Validacao(False, f"codigo fora de vigencia ({ini:%d/%m/%Y} a {fim:%d/%m/%Y})", desc)
+        return Validacao(False, f"código fora de vigência ({ini:%d/%m/%Y} a {fim:%d/%m/%Y})", desc)
     return Validacao(True, "", desc)

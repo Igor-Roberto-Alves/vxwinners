@@ -43,10 +43,10 @@ def opcoes(conn: Connection, pdm: Pdm, id_pdm: str, nome: str | None, atributo: 
     a = pdm.classes[id_pdm].atributo(atributo)
     out = Opcoes(atributo)
     if a is None:
-        out.sem_opcoes_motivo = "atributo nao existe na classe"
+        out.sem_opcoes_motivo = "atributo não existe na classe"
         return out
     if a.tipo == "LIVRE":
-        out.sem_opcoes_motivo = "texto livre (referencia, codigo): quase cada item tem o seu; digite"
+        out.sem_opcoes_motivo = "texto livre (referência, código): quase cada item tem o seu; digite"
         return out
     if nome:
         rows = conn.execute(text("select valores from material_identidade where id_pdm = :i and nome = :n and ativo and codigo <> :x"),

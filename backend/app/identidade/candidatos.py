@@ -116,7 +116,7 @@ def _forca(comp: list[dict]) -> float:
 
 
 def busca(conn: Connection, pdm: Pdm, id_pdm: str, nome: str | None, valores: dict[str, str | None], *,
-          limite: int = 8, texto: str | None = None) -> Resultado:
+          limite: int = 8, texto: str | None = None, ignorar_cadastro: str | None = None) -> Resultado:
     classe = pdm.classes[id_pdm]
     plano = {k: v for k, v in valores.items() if v}
     ch = chave_identidade(pdm, id_pdm, nome or "", plano)
@@ -163,6 +163,7 @@ def busca(conn: Connection, pdm: Pdm, id_pdm: str, nome: str | None, valores: di
         if i:
             c.status, c.centro, c.estoque, c.descricao = i["status"], i["centro"], float(i["estoque"] or 0), i["descricao_longa"]
             c.permite_uso_direto = i["status"] == "ATIVO"
+    cands.pop(f"cadastro:{ignorar_cadastro}", None)  # um cadastro em revisão não é duplicata de si mesmo
     ordenados = sorted(cands.values(), key=lambda c: (ORDEM[c.nivel], -c.pontos, c.codigo))[:limite]
     return Resultado(ordenados, comparaveis, total)
 
@@ -186,14 +187,14 @@ def _classifica(cod, comp, ch, cands) -> None:
         if diverge_opcional:   # medida opcional diferente (ex.: diâmetro externo 150 x 52 mm) desmente o "provável"
             return
         cands[cod] = Candidato(cod, "PROVAVEL", round(0.6 + 0.3 * forca, 3), comparacao=comp,
-                               motivo="nao diverge em nada, mas faltam atributos no cadastro existente: " + ", ".join(ausentes))
+                               motivo="não diverge em nada, mas faltam atributos no cadastro existente: " + ", ".join(ausentes))
     elif (diverge or diverge_opcional) and forca >= 0.5:
         quais = diverge + [x["atributo"] for x in comp if x["estado"] == "diverge" and x.get("opcional")]
         cands[cod] = Candidato(cod, "DIVERGENTE", round(min(0.85, 0.4 + 0.45 * forca), 3), comparacao=comp,
                                motivo="atributo de identidade diverge: " + ", ".join(quais))
     elif not diverge and not ausentes and not diverge_opcional and len(iguais) == len(preenchidos) and not ch.completa:
         cands[cod] = Candidato(cod, "PROVAVEL", round(0.5 + 0.3 * forca, 3), comparacao=comp,
-                               motivo="igual no que ja foi preenchido; faltam atributos no rascunho")
+                               motivo="igual no que já foi preenchido; faltam atributos no rascunho")
 
 
 def _candidatos_especificacao(conn, pdm, classe, nome, plano, ch, cands) -> None:
@@ -211,7 +212,7 @@ def _candidatos_especificacao(conn, pdm, classe, nome, plano, ch, cands) -> None
                 x["opcional"] = True
                 comp.append(x)
         if ch.completa and completa and chave == ch.texto:
-            cands[cod] = Candidato(cod, "IGUAL", 1.0, comparacao=comp, motivo="todos os atributos obrigatorios coincidem")
+            cands[cod] = Candidato(cod, "IGUAL", 1.0, comparacao=comp, motivo="todos os atributos obrigatórios coincidem")
         elif any(x["estado"] == "ausente" and not x.get("opcional") for x in comp):
             pendentes[cod] = comp     # pode ter o valor no texto, fora da lista do PDM: confere abaixo
         else:
@@ -237,7 +238,7 @@ def _candidatos_especificacao(conn, pdm, classe, nome, plano, ch, cands) -> None
                 "select id::text, estado, codigo_erp from cadastro where chave = :c and estado = any(:e)"),
                 {"c": ch.texto, "e": list(ESTADOS_EM_ANDAMENTO)}):
             cands[f"cadastro:{cid}"] = Candidato(codigo_erp or f"cadastro:{cid}", "IGUAL", 1.0, origem="cadastro",
-                                                 status=estado, motivo="ja existe um cadastro novo aprovado com esta chave")
+                                                 status=estado, motivo="já existe um cadastro novo aprovado com esta chave")
 
 
 def _candidatos_referencia(conn, pdm, classe, plano, ch, cands) -> None:
@@ -258,12 +259,12 @@ def _candidatos_referencia(conn, pdm, classe, plano, ch, cands) -> None:
         if rc != ref:
             continue
         if fab and fc and fab == fc:
-            cands[cod] = Candidato(cod, "IGUAL", 1.0, comparacao=comp, motivo="mesmo fabricante e mesma referencia")
+            cands[cod] = Candidato(cod, "IGUAL", 1.0, comparacao=comp, motivo="mesmo fabricante e mesma referência")
         elif fab and fc and fab != fc:
             cands[cod] = Candidato(cod, "PARECIDO", 0.5, comparacao=comp,
-                                   motivo="mesma referencia, fabricante diferente: pode ser outro produto")
+                                   motivo="mesma referência, fabricante diferente: pode ser outro produto")
         else:
-            cands[cod] = Candidato(cod, "PROVAVEL", 0.7, comparacao=comp, motivo="mesma referencia; fabricante nao registrado no existente")
+            cands[cod] = Candidato(cod, "PROVAVEL", 0.7, comparacao=comp, motivo="mesma referência; fabricante não registrado no existente")
     # equivalência registrada (regra 13): só informa
     if fab:
         eq = conn.execute(text("""select b_fabricante, b_referencia, fonte from equivalencia where a_fabricante = :f and a_referencia = :r
@@ -272,10 +273,10 @@ def _candidatos_referencia(conn, pdm, classe, plano, ch, cands) -> None:
         for f2, r2, fonte in eq:
             for cod, in conn.execute(text("""select codigo from material_identidade where id_pdm = :i
                 and chave = :k"""), {"i": classe.id_pdm, "k": f"{classe.id_pdm}|{f2}|{referencia_generica(r2)}"}):
-                cands.setdefault(cod, Candidato(cod, "EQUIVALENTE", 0.6, motivo=f"intercambiavel ({f2} {r2}); item distinto, nao une codigos. Fonte: {fonte}"))
+                cands.setdefault(cod, Candidato(cod, "EQUIVALENTE", 0.6, motivo=f"intercambiável ({f2} {r2}); item distinto, não une códigos. Fonte: {fonte}"))
     if ch.completa:
         for cid, estado, codigo_erp in conn.execute(text(
                 "select id::text, estado, codigo_erp from cadastro where chave = :c and estado = any(:e)"),
                 {"c": ch.texto, "e": list(ESTADOS_EM_ANDAMENTO)}):
             cands[f"cadastro:{cid}"] = Candidato(codigo_erp or f"cadastro:{cid}", "IGUAL", 1.0, origem="cadastro",
-                                                 status=estado, motivo="ja existe um cadastro novo aprovado com esta chave")
+                                                 status=estado, motivo="já existe um cadastro novo aprovado com esta chave")

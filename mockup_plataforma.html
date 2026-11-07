@@ -364,6 +364,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
 .inp:focus-visible,.sel:focus-visible,textarea:focus-visible,button:focus-visible,.btn:focus-visible,.conf-chip:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--ok);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
+<link rel="stylesheet" href="frontend/cadastro.css">
 </head>
 <body>
 
@@ -399,7 +400,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
   <div class="spacer"></div>
   <button class="rail-btn" data-nav="manual" data-tip="Manual" onclick="go('manual')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/></svg></button>
   <button class="rail-btn" data-tip="Configurações"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></button>
-  <div class="avatar">AC</div>
+  <div class="avatar" id="avatar">AC</div>
 </nav>
 
 <!-- ============ SIDE MENU ============ -->
@@ -420,7 +421,9 @@ input[type=range]{accent-color:var(--brand);width:100%}
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Buscar material</div>
     <div class="side-item" data-nav="cadastro" onclick="go('cadastro')">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 5v14M5 12h14"/></svg>Cadastrar novo item</div>
-    <div class="side-item disabled"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v12H8l-4 4z"/></svg>Pedidos de cadastro<span class="count">520</span></div>
+    <div class="side-item" data-nav="pedidos" onclick="go('pedidos')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v12H8l-4 4z"/></svg>Pedidos de cadastro<span class="count" id="n-pedidos">—</span></div>
+    <div class="side-item" data-nav="cadastros" onclick="go('cadastros')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>Cadastros<span class="count" id="n-cadastros" title="em andamento">—</span></div>
+    <div class="side-item" data-nav="revisao" onclick="go('revisao')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Revisão de exceções<span class="count" id="n-revisao">—</span></div>
   </div>
   <div class="side-sec">
     <h6>Suprimentos</h6>
@@ -441,12 +444,14 @@ input[type=range]{accent-color:var(--brand);width:100%}
   <header class="topbar">
     <div class="crumb">
       <span>Serra Azul Mineração e Energia</span><span class="slash">/</span>
-      <b>catalogo-mro</b><span class="pill green">PRODUÇÃO</span><span class="slash">/</span>
+      <b>catalogo-mro</b><span class="pill">DESENVOLVIMENTO</span><span class="slash">/</span>
       <span id="crumb-page">Início</span>
     </div>
     <div class="grow"></div>
-    <div class="top-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Ir para código…<span style="margin-left:auto" class="kbd">⌘K</span></div>
-    <span class="pill">mockup · dados fictícios</span><button class="btn sm ghost theme-btn" onclick="toggleTheme()" title="Alternar modo claro/escuro" aria-label="Alternar tema">
+    <div class="top-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="ir-codigo" placeholder="Ir para código…" aria-label="Ir para código" autocomplete="off"></div>
+    <span class="cad-status" id="api-status">conectando…</span>
+    <span class="pill" id="pill-dados">tela de demonstração · dados fictícios</span>
+    <select class="sel cad-usuario" id="usuario" aria-label="Usuário"><option value="ana|analista">ana · analista</option><option value="beto|analista">beto · analista</option><option value="bia|revisor">bia · revisora</option><option value="leo|leitor">leo · leitor</option></select><button class="btn sm ghost theme-btn" onclick="toggleTheme()" title="Alternar modo claro/escuro" aria-label="Alternar tema">
       <svg class="moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
       <svg class="sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       <span class="theme-lbl">Escuro</span></button>
@@ -539,29 +544,28 @@ input[type=range]{accent-color:var(--brand);width:100%}
         <h3>Como descrever o item</h3>
         <ul>
           <li><b>Texto:</b> escreva como falaria, ex.: <code>rolamento 6206 vedado 2 lados folga c3</code>. Abreviações e unidades são entendidas.</li>
-          <li><b>Foto:</b> envie a peça, a etiqueta ou a embalagem. O sistema lê marcações (referência, fabricante) e reconhece a classe.</li>
-          <li><b>Atributos:</b> ajuste os campos da classe para refinar. Campos marcados como <i>dedutível</i> vêm de outros (ex.: medidas a partir da referência).</li>
+          <li><b>Atributos:</b> ajuste os campos da classe para refinar a comparação com a base.</li>
         </ul>
         <h3>Como ler os resultados</h3>
         <ul>
-          <li>O <b>percentual de confiança</b> pesa mais os atributos de identidade que o texto.</li>
+          <li>O <b>nível</b> diz o que a comparação concluiu: mesmo item, provável duplicata, quase igual ou só texto parecido. O percentual mostra quanto dos atributos coincide.</li>
           <li>Etiquetas verdes = atributo igual; vermelhas = <b>divergente</b>; amarelas = <b>ausente</b> no item da base.</li>
-          <li>Um atributo de identidade divergente limita a confiança a 85%: o item pode servir, mas não é o mesmo.</li>
+          <li>Um atributo de identidade divergente indica outro item: ele pode servir, mas a escolha exige justificativa.</li>
         </ul>
         <h3>Decidir</h3>
-        <p><b>Validar item selecionado</b> vincula sua solicitação ao código existente. Se houver divergência, a justificativa é obrigatória. <b>Nenhum serve — cadastrar novo</b> leva à tela de cadastro com o que já foi preenchido.</p>
+        <p><b>Usar este código</b> registra a decisão pelo código existente. Se houver divergência, a justificativa é obrigatória. Código bloqueado ou obsoleto só volta com reativação aprovada. <b>Nenhum serve</b> leva à tela de cadastro com o que já foi preenchido.</p>
       </section>
 
       <section id="m-cadastro">
         <h2>Cadastrar item</h2>
         <ol>
-          <li><b>Origem:</b> vincule a solicitação (ex.: <code>SC-202600002</code>), se houver. O texto ou anexo original fica visível para conferência.</li>
-          <li><b>Classe PDM:</b> define quais atributos são pedidos e em que ordem. Campos com <code>*</code> são obrigatórios.</li>
-          <li><b>Atributos:</b> use os valores da lista quando houver. Milímetros como <code>16,25MM</code>, polegadas como <code>1.1/4POL</code>, pressão em BAR.</li>
-          <li><b>Dados fiscais e logísticos:</b> grupo, unidade e NCM vêm da classe. Altere o NCM só com justificativa: a aprovação é do tributário.</li>
-          <li><b>Enviar para aprovação:</b> só fica disponível sem pendências obrigatórias.</li>
+          <li><b>Origem:</b> ao assumir um pedido em <b>Pedidos de cadastro</b>, o texto e o anexo originais ficam visíveis para conferência.</li>
+          <li><b>Classe PDM:</b> define quais atributos são pedidos e em que ordem. A classe sempre é confirmada por uma pessoa. Campos marcados são obrigatórios.</li>
+          <li><b>Atributos:</b> clique no campo para ver as opções mais usadas no histórico. Nada entra preenchido por frequência, e cada valor mostra sua origem. Milímetros como <code>16,25MM</code>, polegadas como <code>1.1/4POL</code>, pressão em BAR.</li>
+          <li><b>Dados fiscais e logísticos:</b> grupo, unidade e NCM vêm da classe. O NCM é conferido na tabela oficial vigente; alterá-lo vira exceção.</li>
+          <li><b>Aprovar:</b> só fica disponível sem pendências. O que contraria o PDM vira exceção, com justificativa, e o botão passa a <b>Enviar para revisão</b>: uma segunda pessoa decide em <b>Revisão de exceções</b>.</li>
         </ol>
-        <p>O painel <b>Validação</b> lista o que falta e sugere a pergunta ao solicitante (ex.: "o retentor é NBR ou FKM?"). <b>Itens parecidos na base</b> é a última checagem de duplicidade.</p>
+        <p>O quadro <b>Validação</b> lista o que falta. <b>Devolver ao solicitante</b> envia a pergunta, e a resposta é registrada no próprio cadastro. <b>Itens parecidos na base</b> muda a cada atributo preenchido. Alterações são salvas automaticamente.</p>
       </section>
 
       <section id="m-req">
@@ -805,7 +809,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
   <div class="page-head">
     <div>
       <h1>Buscar material</h1>
-      <p>Descreva o item por texto, foto ou atributos. Antes de pedir um código novo, confirme se ele já existe na base confiável.</p>
+      <p>Descreva o item como falaria. Antes de pedir um código novo, confirme se ele já existe na base.</p>
     </div>
   </div>
 
@@ -813,170 +817,36 @@ input[type=range]{accent-color:var(--brand);width:100%}
     <div class="card-b">
       <div class="searchbox">
         <svg style="margin-left:12px;align-self:center;color:var(--text-3)" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="q" value="rolamento 6206 vedado 2 lados folga c3 pra bomba de polpa">
-        <div class="seg" onclick="document.getElementById('photo-area').scrollIntoView({behavior:'smooth'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>Foto</div>
-        <div class="seg" style="background:var(--panel-2);color:var(--text)">Buscar</div>
+        <input id="q" placeholder="ex.: rolamento 6206 vedado 2 lados folga c3" autocomplete="off" aria-label="Descreva o material">
+        <div class="seg" id="b-limpar" role="button" tabindex="0">Limpar</div>
+        <div class="seg" id="b-buscar" role="button" tabindex="0" style="background:var(--panel-2);color:var(--text)">Buscar</div>
       </div>
-
-      <div class="grid g-2" style="margin-top:14px" id="photo-area">
-        <div class="drop">
-          <div class="thumb">
-            <svg width="54" height="54" viewBox="0 0 60 60" fill="none" stroke="currentColor" style="color:var(--text-3)" stroke-width="2"><circle cx="30" cy="30" r="24"/><circle cx="30" cy="30" r="10"/><circle cx="30" cy="30" r="17" stroke-dasharray="4 3"/></svg>
-            <span class="badge b-info" style="position:absolute;bottom:4px;left:4px;font-size:9.5px;padding:0 4px">foto_01.jpg</span>
-          </div>
-          <div style="flex:1">
-            <div style="font-weight:500">Foto da peça / etiqueta</div>
-            <div class="faint" style="font-size:12px;margin:2px 0 8px">Arraste imagens da peça, da etiqueta ou da embalagem. O sistema lê marcações (referência, fabricante) e a forma.</div>
-            <div class="chip-row">
-              <span class="chip from-img">Classe: ROLAMENTO RIGIDO ESFERAS <span class="src">img · 0,91</span></span>
-              <span class="chip from-img">Marcação: "6206-2RS1/C3" <span class="src">ocr · 0,84</span></span>
-              <span class="chip from-img">Fabricante: SKF <span class="src">ocr · 0,78</span></span>
-            </div>
-          </div>
-        </div>
-        <div class="drop" style="flex-direction:column;align-items:stretch;gap:8px">
-          <div style="font-weight:500">Interpretação do texto</div>
-          <div class="chip-row">
-            <span class="chip from-txt">ROLAMENTO RIGIDO ESFERAS <span class="src">txt</span></span>
-            <span class="chip from-txt">REFERENCIA: 6206 <span class="src">txt</span></span>
-            <span class="chip from-txt">VEDACAO: BORRACHA AMBOS LADOS <span class="src">"vedado 2 lados"</span></span>
-            <span class="chip from-txt">FOLGA: C3 <span class="src">"folga c3"</span></span>
-          </div>
-          <div class="faint" style="font-size:11.5px">"pra bomba de polpa" foi identificado como aplicação e não entra na identidade do item.</div>
-        </div>
-      </div>
+      <div id="b-leitura" style="margin-top:14px"></div>
     </div>
   </div>
 
   <div class="grid g-main">
-    <!-- left: refine form -->
     <div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-h"><h3>Refinar por atributos</h3><span class="sub">Classe PDM020 · preenchidos a partir do texto e da foto</span>
-          <div class="r"><button class="btn sm ghost">Limpar</button></div></div>
-        <div class="card-b">
-          <div class="grid g-3" style="gap:12px">
-            <div><label class="lbl">Classe PDM</label><select class="sel"><option>PDM020 · ROLAMENTO RIGIDO ESFERAS</option></select></div>
-            <div><label class="lbl">Referência<span class="req">*</span></label><input class="inp mono" value="6206-2RS/C3"></div>
-            <div><label class="lbl">Vedação<span class="req">*</span></label><select class="sel"><option>BORRACHA AMBOS LADOS</option><option>METALICA AMBOS LADOS</option><option>ABERTO</option></select></div>
-            <div><label class="lbl">Folga<span class="req">*</span></label><select class="sel"><option>C3</option><option>NORMAL</option></select></div>
-            <div><label class="lbl">Diâmetro interno <span class="hint">dedutível</span></label><input class="inp mono" value="30MM" readonly></div>
-            <div><label class="lbl">Diâmetro externo <span class="hint">dedutível</span></label><input class="inp mono" value="62MM" readonly></div>
-            <div><label class="lbl">Fabricante <span class="hint">opcional</span></label><input class="inp" value="SKF"></div>
-            <div><label class="lbl">Centro do solicitante</label><select class="sel"><option>1200 - USINA DE BENEFICIAMENTO</option><option>1100 - MINA SERRA AZUL</option></select></div>
-            <div><label class="lbl">Incluir status</label><select class="sel"><option>Somente ATIVO</option><option>ATIVO + BLOQUEADO</option></select></div>
-          </div>
-        </div>
-      </div>
-
+      <div id="b-refino"></div>
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <h3 style="font-size:14px;font-weight:500">Itens existentes sugeridos</h3>
-        <span class="badge b-gray">4 candidatos</span>
-        <span class="faint" style="font-size:12px">ordenados por confiança</span>
-        <div style="margin-left:auto" class="legend" >
+        <span class="badge b-gray" id="b-n">0 candidatos</span>
+        <div style="margin-left:auto" class="legend">
           <span><i style="background:var(--brand)"></i>igual</span><span><i style="background:var(--err)"></i>diverge</span><span><i style="background:var(--warn)"></i>ausente</span>
         </div>
       </div>
-
-      <div id="cands">
-        <div class="cand top" data-code="10897046" onclick="pick(this)">
-          <div class="cand-h">
-            <div class="conf"><div class="n" style="color:var(--warn)">82%</div><div class="bar"><i style="width:82%;background:var(--warn)"></i></div></div>
-            <div class="radio"></div>
-            <div style="flex:1;min-width:0">
-              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:600;font-size:15px">10897046</span><span class="st st-ok">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">1200 - USINA DE BENEFICIAMENTO</span></div>
-              <div class="desc muted" style="margin-top:3px">ROLAMENTO RIGIDO DE ESFERAS 6206-2RS 30MM 62MM VEDADO NORMAL</div>
-            </div>
-            <div style="text-align:right"><div class="mono">183 PC</div><div class="faint" style="font-size:11.5px">em estoque</div></div>
-          </div>
-          <div class="cand-b">
-            <div class="attr-cmp">
-              <span class="attr eq">SERIE 6206 ✓</span><span class="attr eq">VEDACAO BORRACHA ✓</span><span class="attr ne">FOLGA NORMAL ≠ C3</span><span class="attr eq">Ø 30/62MM ✓</span><span class="attr na">FABRICANTE ausente</span>
-            </div>
-            <div class="faint" style="font-size:11.5px;margin-top:6px">Atributo de identidade divergente (FOLGA). Só valide se a folga C3 não for exigência da aplicação.</div>
-          </div>
-        </div>
-
-        <div class="cand" data-code="19576556" onclick="pick(this)">
-          <div class="cand-h">
-            <div class="conf"><div class="n" style="color:var(--warn)">64%</div><div class="bar"><i style="width:64%;background:var(--warn)"></i></div></div>
-            <div class="radio"></div>
-            <div style="flex:1;min-width:0">
-              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:600;font-size:15px">19576556</span><span class="st st-ok">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">1100 - MINA SERRA AZUL</span></div>
-              <div class="desc muted" style="margin-top:3px">ROLAMENTO RIGIDO ESF, REFERENCIA:6206-ZZ-C3, DIAM INT:30MM, ESPESSURA:16MM, DIAM EXT:62 MM, C3</div>
-            </div>
-            <div style="text-align:right"><div class="mono">0 PC</div><div class="faint" style="font-size:11.5px">KOYO</div></div>
-          </div>
-          <div class="cand-b"><div class="attr-cmp"><span class="attr eq">SERIE 6206 ✓</span><span class="attr ne">VEDACAO METALICA (ZZ) ≠ BORRACHA</span><span class="attr eq">FOLGA C3 ✓</span><span class="attr eq">Ø 30/62MM ✓</span></div></div>
-        </div>
-
-        <div class="cand" data-code="26187360" onclick="pick(this)">
-          <div class="cand-h">
-            <div class="conf"><div class="n" style="color:var(--text-2)">58%</div><div class="bar"><i style="width:58%;background:var(--text-3)"></i></div></div>
-            <div class="radio"></div>
-            <div style="flex:1;min-width:0">
-              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:600;font-size:15px">26187360</span><span class="st st-ok">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">1200 - USINA DE BENEFICIAMENTO</span></div>
-              <div class="desc muted" style="margin-top:3px">ROLAMENTO RIG ESF, REF: 6206 C3, DIAM INTERNO: 30MM, DIAM EXTERNO: 62MM, L: 16MM, PROTECAO: ABERTO, FOLGA: C3</div>
-            </div>
-            <div style="text-align:right"><div class="mono">1 PC</div><div class="faint" style="font-size:11.5px">em estoque</div></div>
-          </div>
-          <div class="cand-b"><div class="attr-cmp"><span class="attr eq">SERIE 6206 ✓</span><span class="attr ne">VEDACAO ABERTO ≠ BORRACHA</span><span class="attr eq">FOLGA C3 ✓</span><span class="attr eq">Ø 30/62/16MM ✓</span></div></div>
-        </div>
-
-        <div class="cand" data-code="14139909" onclick="pick(this)">
-          <div class="cand-h">
-            <div class="conf"><div class="n" style="color:var(--text-2)">51%</div><div class="bar"><i style="width:51%;background:var(--text-3)"></i></div></div>
-            <div class="radio"></div>
-            <div style="flex:1;min-width:0">
-              <div style="display:flex;gap:8px;align-items:center"><span class="mono" style="font-weight:600;font-size:15px">14139909</span><span class="st st-ok">ATIVO</span><span class="badge b-gray">ROL01</span><span class="faint" style="font-size:12px">9000 - CD CENTRAL</span></div>
-              <div class="desc muted" style="margin-top:3px">ROLAMENTO RIGIDO ESFERAS 6206/C3 30MM 62MM ABERTO C3</div>
-            </div>
-            <div style="text-align:right"><div class="mono">12 PC</div><div class="faint" style="font-size:11.5px">em estoque</div></div>
-          </div>
-          <div class="cand-b"><div class="attr-cmp"><span class="attr eq">SERIE 6206 ✓</span><span class="attr ne">VEDACAO ABERTO ≠ BORRACHA</span><span class="attr eq">FOLGA C3 ✓</span></div>
-          <div class="faint" style="font-size:11.5px;margin-top:6px">Possível duplicidade com 26187360 — sinalizado para o saneamento.</div></div>
-        </div>
-      </div>
-
-      <div class="callout info" style="margin-top:6px">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--info)" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
-        <div style="flex:1"><b style="font-weight:500">Nenhum candidato tem todos os atributos de identidade iguais.</b>
-          <div class="muted" style="font-size:12px;margin-top:2px">A combinação 6206 + borracha ambos lados + folga C3 não existe na base ativa. Se nenhum item servir, cadastre um novo — os atributos já preenchidos serão levados.</div></div>
-      </div>
+      <div id="cands"></div>
+      <div id="b-nota"></div>
     </div>
-
-    <!-- right: decision panel -->
     <div>
       <div class="card" style="position:sticky;top:0">
-        <div class="card-h"><h3>Decisão</h3><span class="sub">obrigatória para seguir</span></div>
+        <div class="card-h"><h3>Decisão</h3><span class="sub">a palavra final é sua</span></div>
         <div class="card-b">
-          <div id="decision-empty" class="faint" style="font-size:12.5px;padding:8px 0 14px">Selecione um candidato à esquerda para validar, ou cadastre um item novo.</div>
-          <div id="decision-picked" style="display:none">
-            <div class="faint" style="font-size:12px">Item selecionado</div>
-            <div class="mono" style="font-size:16px;margin:2px 0 10px" id="picked-code">—</div>
-            <label class="lbl">Justificativa <span class="hint">obrigatória quando há atributo divergente</span></label>
-            <textarea class="inp" placeholder="Ex.: aplicação aceita folga normal; confirmado com PCM."></textarea>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
-            <button class="btn primary" style="justify-content:center;height:34px" onclick="validate()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12l5 5 9-10"/></svg>Validar item selecionado</button>
-            <button class="btn" style="justify-content:center;height:34px" onclick="go('cadastro');setClass('PDM020')">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Nenhum serve — cadastrar novo</button>
-          </div>
+          <div id="b-decisao"></div>
           <div class="divider"></div>
           <div class="faint" style="font-size:11.5px;line-height:1.6">
-            <div style="display:flex;justify-content:space-between"><span>Como a confiança é calculada</span><a class="mono" style="color:var(--text-2)">ver regra ↗</a></div>
-            Atributos de identidade da classe pesam mais que texto. Part number + fabricante iguais elevam a confiança; um atributo de identidade divergente limita o máximo a 85%.
+            <b style="font-weight:500">Como ler os níveis.</b> Mesmo item: todos os atributos de identidade coincidem. Provável duplicata: nada diverge, mas o item da base tem campos vazios. Quase igual: um atributo de identidade difere, então é outro item. Texto parecido: só uma pista, não prova nada.
           </div>
-          <div class="divider"></div>
-          <div style="font-size:12px;color:var(--text-2);margin-bottom:6px">Origem dos sinais</div>
-          <table class="tbl" style="font-size:11.5px">
-            <tr><th>sinal</th><th>fonte</th><th class="num">peso</th></tr>
-            <tr><td>Classe</td><td>texto + imagem</td><td class="num">0,91</td></tr>
-            <tr><td>Referência</td><td>texto + OCR</td><td class="num">0,88</td></tr>
-            <tr><td>Vedação / folga</td><td>texto</td><td class="num">0,80</td></tr>
-            <tr><td>Fabricante</td><td>OCR</td><td class="num">0,78</td></tr>
-          </table>
         </div>
       </div>
     </div>
@@ -987,87 +857,73 @@ input[type=range]{accent-color:var(--brand);width:100%}
 <section class="page" id="page-cadastro">
   <div class="page-head">
     <div>
-      <h1>Cadastrar novo item</h1>
-      <p>A descrição é gerada pelo padrão PDM a partir dos atributos. Itens só entram na base depois de passar pela busca de duplicidade.</p>
+      <h1 id="cad-titulo">Cadastrar novo item</h1>
+      <p id="cad-sub"></p>
     </div>
-    <div class="actions"><button class="btn">Salvar rascunho</button><button class="btn primary" onclick="submitNew()">Enviar para aprovação</button></div>
+    <div class="actions" id="cad-acoes"></div>
   </div>
+  <div id="cad-raiz"></div>
+</section>
 
-  <div class="steps-line card" style="display:flex;gap:0;margin-bottom:16px;padding:4px 8px">
-    <div class="step done" style="flex:1"><div class="dot">✓</div><div><div>Busca realizada</div><div class="faint" style="font-size:11.5px">sem correspondência com identidade completa</div></div></div>
-    <div class="step done" style="flex:1"><div class="dot">2</div><div><div>Classe e atributos</div><div class="faint" style="font-size:11.5px">preenchimento atual</div></div></div>
-    <div class="step" style="flex:1"><div class="dot">3</div><div><div>Dados fiscais e logísticos</div><div class="faint" style="font-size:11.5px">NCM, unidade, centro</div></div></div>
-    <div class="step" style="flex:1"><div class="dot">4</div><div><div>Aprovação do cadastro</div><div class="faint" style="font-size:11.5px">analista de cadastro</div></div></div>
+<!-- ================================================================ PEDIDOS -->
+<section class="page" id="page-pedidos">
+  <div class="page-head">
+    <div>
+      <h1>Pedidos de cadastro</h1>
+      <p>Assuma um pedido: o sistema lê o texto e o anexo, propõe a classe e preenche o que conseguir. Você confere e decide.</p>
+    </div>
   </div>
-
-  <div class="grid g-main">
-    <div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-h"><h3>Origem do pedido</h3><span class="sub">opcional · vincula a uma solicitação existente</span></div>
-        <div class="card-b grid g-3" style="gap:12px">
-          <div><label class="lbl">Solicitação</label><input class="inp mono" value="SC-202600002"></div>
-          <div><label class="lbl">Área solicitante</label><select class="sel"><option>PRODUCAO</option><option>ALMOXARIFADO</option><option>PCM</option><option>MANUTENCAO MECANICA</option><option>SUPRIMENTOS</option><option>UTILIDADES</option></select></div>
-          <div><label class="lbl">Urgência</label><select class="sel"><option>NORMAL</option><option>ALTA</option><option>EMERGENCIAL</option></select></div>
-          <div style="grid-column:1/-1"><label class="lbl" for="texto-origem">Texto original / anexo</label>
-            <textarea class="inp mono" id="texto-origem" spellcheck="false" style="font-size:11.5px">FICHA TÉCNICA
-Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largura: 15mm · Tipo: ba · Fabricante: FREUDENBERG</textarea></div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-h"><h3>Classe e atributos</h3><span class="sub" id="cls-sub"></span>
-          <div class="r"><span class="badge b-ia">IA preencheu 5 campos</span></div></div>
-        <div class="card-b">
-          <div class="grid g-2" style="gap:12px;margin-bottom:14px">
-            <div><label class="lbl">Classe PDM<span class="req">*</span></label>
-              <select class="sel" id="cls" onchange="setClass(this.value)">
-                <option value="PDM032">PDM032 · RETENTOR</option>
-                <option value="PDM020">PDM020 · ROLAMENTO RIGIDO ESFERAS</option>
-                <option value="PDM001">PDM001 · PARAFUSO SEXTAVADO</option>
-                <option value="PDM040">PDM040 · VALVULA ESFERA</option>
-                <option value="PDM100">PDM100 · FILTRO</option>
-              </select></div>
-            <div><label class="lbl">Critério de identidade</label><input class="inp" id="cls-crit" readonly></div>
-          </div>
-          <div id="attr-form" class="grid g-2" style="gap:12px"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-h"><h3>Dados fiscais, logísticos e de fabricante</h3></div>
-        <div class="card-b grid g-3" style="gap:12px">
-          <div><label class="lbl">Grupo de mercadoria</label><input class="inp mono" id="f-grupo" readonly></div>
-          <div><label class="lbl">Unidade de medida<span class="req">*</span></label><select class="sel" id="f-un"><option>PC</option><option>M</option><option>PR</option><option>KG</option><option>L</option></select></div>
-          <div><label class="lbl">NCM<span class="req">*</span> <span class="hint">sugerido pela classe</span></label><input class="inp mono" id="f-ncm"></div>
-          <div><label class="lbl">Fabricante</label><input class="inp" id="f-fab" value="FREUDENBERG"></div>
-          <div><label class="lbl">Referência do fabricante</label><input class="inp mono" id="f-ref" placeholder="part number"></div>
-          <div><label class="lbl">Centro<span class="req">*</span></label><select class="sel"><option>9000 - CD CENTRAL</option><option>1100 - MINA SERRA AZUL</option><option>1200 - USINA DE BENEFICIAMENTO</option><option>1300 - TERMINAL PORTUARIO</option><option>2100 - UTE SERRA AZUL</option><option>2200 - PCH RIO CLARO</option></select></div>
-        </div>
-        <div id="sugestoes-api" style="display:none;padding:12px 16px;border-top:1px solid var(--border)"></div>
+  <div class="grid" id="ped-kpis" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px"></div>
+  <div class="card">
+    <div class="card-h">
+      <h3>Fila</h3><span class="badge b-gray" id="ped-total">—</span>
+      <div class="r cad-filtros">
+        <input class="inp" id="ped-q" placeholder="filtrar por texto ou solicitação" aria-label="Filtrar pedidos">
+        <select class="sel" id="ped-urg" aria-label="Urgência"><option value="">Todas as urgências</option><option>EMERGENCIAL</option><option>ALTA</option><option>NORMAL</option></select>
+        <select class="sel" id="ped-estado" aria-label="Estado"><option value="NOVO">Novos</option><option value="EM_ANDAMENTO">Em andamento</option><option value="DEVOLVIDO">Devolvidos</option><option value="">Todos</option></select>
       </div>
     </div>
+    <div style="overflow:auto" id="ped-tabela"></div>
+    <div class="cad-pager" id="ped-pager"></div>
+  </div>
+</section>
 
+<!-- ================================================================ CADASTROS -->
+<section class="page" id="page-cadastros">
+  <div class="page-head">
     <div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-h"><h3>Descrição gerada</h3><span class="sub">padrão PDM</span><div class="r"><button class="btn sm ghost" onclick="copyDesc()">Copiar</button></div></div>
-        <div class="card-b">
-          <label class="lbl">DESCRICAO_LONGA</label>
-          <div class="pdm-preview" id="desc-long"></div>
-          <label class="lbl" style="margin-top:12px">DESCRICAO_CURTA <span class="hint" id="short-len"></span></label>
-          <div class="pdm-preview" id="desc-short" style="color:var(--text)"></div>
-        </div>
-      </div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-h"><h3>Validação</h3><span class="sub" id="val-sum"></span></div>
-        <div class="card-b" id="checks" style="padding-top:8px;padding-bottom:8px"></div>
-      </div>
-      <div class="card">
-        <div class="card-h"><h3>Itens parecidos na base</h3><span class="sub">checagem final de duplicidade</span></div>
-        <div class="card-b" style="padding:0">
-          <table class="tbl" id="similar"></table>
-        </div>
+      <h1>Cadastros</h1>
+      <p>Todos os cadastros e o estado de cada um.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h">
+      <h3>Cadastros</h3><span class="badge b-gray" id="cads-total">—</span>
+      <div class="r cad-filtros">
+        <label class="faint" style="font-size:12px;display:flex;gap:6px;align-items:center"><input type="checkbox" id="cads-meus">só os meus</label>
+        <select class="sel" id="cads-estado" aria-label="Estado"><option value="">Todos os estados</option><option value="RASCUNHO">Rascunho</option><option value="EM_REVISAO">Em revisão</option><option value="AGUARDANDO_SOLICITANTE">Aguardando solicitante</option><option value="AGUARDANDO_CLASSE">Aguardando classe</option><option value="APROVADO">Aprovado</option><option value="CADASTRADO">Cadastrado</option><option value="JA_EXISTE">Já existe</option><option value="FORA_DO_PDM">Fora do PDM</option><option value="CANCELADO">Cancelado</option></select>
       </div>
     </div>
+    <div style="overflow:auto" id="cads-tabela"></div>
+  </div>
+</section>
+
+<!-- ================================================================ REVISÃO -->
+<section class="page" id="page-revisao">
+  <div class="page-head">
+    <div>
+      <h1>Revisão de exceções</h1>
+      <p>O que contraria o PDM precisa de justificativa e da decisão de uma segunda pessoa.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-h"><h3>Aguardando segundo analista</h3></div>
+    <div style="overflow:auto" id="rev-tabela"></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h3>Envios ao ERP</h3><span class="sub">o ERP gera o código</span>
+      <div class="r"><button class="btn sm" id="rev-sync">Sincronizar com o ERP</button></div></div>
+    <div style="overflow:auto" id="rev-erp"></div>
   </div>
 </section>
 
@@ -1169,12 +1025,18 @@ Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largu
   <div class="drawer-f"><button class="btn" onclick="closeDrawer()">Cancelar</button><button class="btn primary" onclick="closeDrawer();toast('Requisição RQ-2026-00142 criada · análise de estoque em andamento')">Enviar e analisar estoque</button></div>
 </div>
 
+<div class="overlay" id="ov-mat"></div>
+<div class="drawer" id="drawer-mat">
+  <div class="drawer-h"><b style="font-weight:500" class="mono" id="mat-titulo">—</b><span class="faint" style="font-size:12px">material da base</span><button class="btn sm ghost" id="mat-fechar" style="margin-left:auto">Fechar</button></div>
+  <div class="drawer-b" id="mat-corpo"></div>
+</div>
+
 <div class="tt" id="tt"></div>
 <div class="toast" id="toast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.2"><path d="M5 12l5 5 9-10"/></svg><span id="toast-t"></span></div>
 
 <script>
 /* ---------- navegação ---------- */
-const titles={inicio:'Início',manual:'Manual',radar:'Radar',busca:'Buscar material',cadastro:'Cadastrar novo item',requisicoes:'Requisições'};
+const titles={inicio:'Início',manual:'Manual',radar:'Radar',busca:'Buscar material',cadastro:'Cadastrar novo item',requisicoes:'Requisições',pedidos:'Pedidos de cadastro',cadastros:'Cadastros',revisao:'Revisão de exceções'};
 function go(p){
   document.querySelectorAll('.page').forEach(e=>e.classList.toggle('active',e.id==='page-'+p));
   document.querySelectorAll('[data-nav]').forEach(e=>e.classList.toggle('active',e.dataset.nav===p));
@@ -1182,92 +1044,6 @@ function go(p){
   document.querySelector('.content').scrollTop=0;
 }
 function toast(t){const el=document.getElementById('toast');document.getElementById('toast-t').textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3200)}
-
-/* ---------- busca ---------- */
-let picked=null;
-function pick(el){
-  document.querySelectorAll('.cand').forEach(c=>c.classList.remove('picked'));
-  el.classList.add('picked');picked=el.dataset.code;
-  document.getElementById('decision-empty').style.display='none';
-  document.getElementById('decision-picked').style.display='block';
-  document.getElementById('picked-code').textContent=picked;
-}
-function validate(){
-  if(!picked){toast('Selecione um candidato antes de validar');return}
-  toast('Item '+picked+' validado · vínculo registrado na solicitação');
-}
-
-/* ---------- cadastro (PDM) ---------- */
-const PDM={
-  PDM032:{nome:'RETENTOR',q:'',grupo:'VED01 · VEDACOES',un:'PC',ncm:'4016.93.00',crit:'ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)',
-    attrs:[['DIAMETRO EIXO','S',null,'60MM'],['DIAMETRO ALOJAMENTO','S',null,'80MM'],['LARGURA','S',null,'15MM'],['TIPO','S',['B1','BA','BAB','BASL'],'BA'],['MATERIAL','S',['FKM (VITON)','NBR'],'']],
-    similar:[['28430861','RETENTOR 38X50X13 BA NBR','38%'],['17498387','RETENTOR, FURO:50MM, ALOJAMENTO:70MM, LARG:12 MM, MODELO:BA','44%']]},
-  PDM020:{nome:'ROLAMENTO',q:'RIGIDO ESFERAS',grupo:'ROL01 · ROLAMENTOS E MANCAIS',un:'PC',ncm:'8482.10.10',crit:'ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)',
-    attrs:[['REFERENCIA','S',null,'6206-2RS/C3'],['DIAMETRO INTERNO','N',null,'30MM'],['DIAMETRO EXTERNO','N',null,'62MM'],['LARGURA','N',null,'16MM'],['VEDACAO','S',['ABERTO','BORRACHA AMBOS LADOS','METALICA AMBOS LADOS'],'BORRACHA AMBOS LADOS'],['FOLGA','S',['C3','NORMAL'],'C3']],
-    similar:[['10897046','ROLAMENTO RIGIDO DE ESFERAS 6206-2RS 30MM 62MM VEDADO NORMAL','82%'],['19576556','ROLAMENTO RIGIDO ESF, REFERENCIA:6206-ZZ-C3','64%']]},
-  PDM001:{nome:'PARAFUSO',q:'SEXTAVADO',grupo:'FIX01 · FIXADORES',un:'PC',ncm:'7318.15.00',crit:'ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)',
-    attrs:[['ROSCA','S',['METRICA FINA','METRICA GROSSA','UNC','UNF'],'METRICA GROSSA'],['BITOLA','S',['M12','M14','M16','M20','1/2POL'],'M16'],['COMPRIMENTO','S',null,'60MM'],['CLASSE RESISTENCIA','S',['5.8','8.8','10.9','A2-70','A4-70'],'8.8'],['MATERIAL','S',['ACO CARBONO','ACO INOX 304','ACO INOX 316'],'ACO CARBONO'],['ACABAMENTO','S',['GALVANIZADO A FOGO','NATURAL','ZINCADO BRANCO','ZINCADO AMARELO','OXIDADO PRETO'],''],['NORMA','S',['ASME B18.2.1','DIN 931','DIN 933'],'DIN 933']],
-    similar:[['18310645','PARAFUSO SEXTAVADO, ROSCA:MA, BITOLA:M16, COMP:60MM, RESISTENCIA:5.8 … DIN 933','61%'],['15768527','PARAF. HEXAGONAL;MA;BITOLA:M16;C:35MM;CLASSE:8.8 … DIN 933','47%']]},
-  PDM040:{nome:'VALVULA',q:'ESFERA',grupo:'VAL01 · VALVULAS',un:'PC',ncm:'8481.80.95',crit:'ESPECIFICACAO TECNICA (ATRIBUTOS OBRIGATORIOS)',
-    attrs:[['DIAMETRO NOMINAL','S',null,'1.1/2POL'],['CLASSE PRESSAO','S',['150#','300#','600#','800#','PN 16','PN 25'],'800#'],['MATERIAL CORPO','S',['ACO CARBONO FORJADO A105','ACO INOX FORJADO A182 F316','ACO INOX FUNDIDO A351 CF8M','LATAO'],'ACO INOX FORJADO A182 F316'],['CONEXAO','S',['FLANGE RF','ROSCA BSP','ROSCA NPT','SOLDA ENCAIXE SW'],'ROSCA NPT'],['PASSAGEM','S',['PLENA','REDUZIDA'],'REDUZIDA'],['VEDACAO SEDE','S',['METAL-METAL','PTFE','RPTFE'],'METAL-METAL'],['ACIONAMENTO','S',['ALAVANCA','ATUADOR PNEUMATICO','REDUTOR'],'']],
-    similar:[['21457702','VALVULA ESFERA 1.1/2" 800# INOX 316 ROSCADA NPT PASSAGEM REDUZIDA METAL-METAL ATUADOR PNEUMATICO','88%'],['22228120','VALVULA ESFERA, BITOLA:1.1/2POL, RATING:800#, MAT CORPO:F316 …','79%']]},
-  PDM100:{nome:'FILTRO',q:'HIDRAULICO',grupo:'FIL01 · FILTROS',un:'PC',ncm:'8421.29.90',crit:'REFERENCIA DO FABRICANTE',
-    attrs:[['APLICACAO','N',['COMPRESSOR','UNIDADE HIDRAULICA','PERFURATRIZ','MOTOR DIESEL'],'UNIDADE HIDRAULICA'],['FABRICANTE','S',['DONALDSON','FRAM','HYDAC','MANN','PARKER'],'HYDAC'],['REFERENCIA FABRICANTE','S',null,'0158 D 058 BN4HC'],['ALTURA','N',null,''],['DIAMETRO EXTERNO','N',null,'']],
-    similar:[['—','Nenhum item com HYDAC + 0158 D 058 BN4HC','—']]}
-};
-let cur='PDM032';
-function setClass(id){
-  cur=id;const c=PDM[id];document.getElementById('cls').value=id;
-  document.getElementById('cls-sub').textContent=id+' · '+c.nome+(c.q?' '+c.q:'');
-  document.getElementById('cls-crit').value=c.crit;
-  document.getElementById('f-grupo').value=c.grupo;
-  document.getElementById('f-un').value=c.un;
-  document.getElementById('f-ncm').value=c.ncm;
-  const f=document.getElementById('attr-form');f.innerHTML='';
-  c.attrs.forEach((a,i)=>{
-    const [n,ob,vals,v]=a;const d=document.createElement('div');
-    const lab=`<label class="lbl">${n}${ob==='S'?'<span class="req">*</span>':' <span class="hint">opcional</span>'}${v&&id!=='PDM032'?'':''}</label>`;
-    let ctl;
-    if(vals){ctl=`<select class="sel" data-i="${i}" onchange="upd(${i},this.value)"><option value="">— selecionar —</option>${vals.map(x=>`<option ${x===v?'selected':''}>${x}</option>`).join('')}</select>`}
-    else{ctl=`<input class="inp mono" data-i="${i}" value="${v}" oninput="upd(${i},this.value)" placeholder="${n.includes('DIAM')||n.includes('LARG')||n.includes('COMP')||n.includes('ALT')?'ex.: 16,25MM':''}">`}
-    d.innerHTML=lab+ctl;f.appendChild(d);
-  });
-  render();
-}
-function upd(i,v){PDM[cur].attrs[i][3]=v.toUpperCase();render()}
-function render(){
-  const c=PDM[cur];
-  const head=c.nome+(c.q?' '+c.q:'');
-  let html=`<span class="v">${head}</span>`;let plain=head;
-  c.attrs.forEach(([n,ob,vals,v])=>{
-    if(!v&&ob!=='S')return;
-    html+=`<span class="k">; ${n}: </span>`+(v?`<span class="v">${v}</span>`:`<span class="miss">?</span>`);
-    if(v)plain+='; '+n+': '+v;
-  });
-  document.getElementById('desc-long').innerHTML=html;
-  const short=(head+' '+c.attrs.filter(a=>a[3]).map(a=>a[3]).join(' ')).slice(0,40);
-  document.getElementById('desc-short').textContent=short;
-  document.getElementById('short-len').textContent=short.length+'/40 caracteres';
-  const miss=c.attrs.filter(a=>a[1]==='S'&&!a[3]);
-  let ch=`<div class="check"><div class="ic ok">✓</div><div>Texto em maiúsculas, sem acentos e sem abreviações</div></div>`;
-  ch+= miss.length?miss.map(m=>`<div class="check"><div class="ic er">!</div><div>Atributo obrigatório <b class="mono" style="font-weight:500">${m[0]}</b> não preenchido</div></div>`).join(''):`<div class="check"><div class="ic ok">✓</div><div>Todos os atributos obrigatórios preenchidos</div></div>`;
-  ch+=`<div class="check"><div class="ic ok">✓</div><div>NCM <span class="mono">${c.ncm}</span> coerente com a classe ${cur}</div></div>`;
-  if(cur==='PDM032'&&!c.attrs[4][3])ch+=`<div class="check"><div class="ic wn">?</div><div>Material ausente na ficha técnica. Pergunta sugerida ao solicitante: <i>"O retentor é NBR ou FKM (Viton)?"</i> <button class="btn sm" style="margin-top:6px" onclick="toast('Pergunta enviada ao solicitante da SC-202600002')">Enviar pergunta</button></div></div>`;
-  if(cur==='PDM001'&&!c.attrs[5][3])ch+=`<div class="check"><div class="ic wn">?</div><div>"galvanizado" é ambíguo: zincado ou galvanizado a fogo? <button class="btn sm" style="margin-top:6px" onclick="toast('Pergunta enviada ao solicitante')">Enviar pergunta</button></div></div>`;
-  if(c.crit.startsWith('REFERENCIA'))ch+=`<div class="check"><div class="ic ok">✓</div><div>Classe por referência do fabricante: fabricante e part number entram na descrição</div></div>`;
-  document.getElementById('checks').innerHTML=ch;
-  document.getElementById('val-sum').textContent=miss.length?miss.length+' pendência(s)':'pronto para aprovação';
-  document.getElementById('similar').innerHTML=`<tr><th>código</th><th>descrição</th><th class="num">conf.</th></tr>`+
-    c.similar.map(s=>{
-      const p=parseInt(s[2],10),dup=!isNaN(p)&&p>=90;
-      const ttl=String(s[1]).replace(/"/g,'&quot;');
-      const conf=isNaN(p)?'<span class="faint">—</span>':`<div class="sim"><span class="pct"${dup?' style="color:var(--danger)"':''}>${p}%</span><div class="bar"><i style="width:${p}%${dup?';background:var(--danger)':''}"></i></div></div>`;
-      return `<tr${dup?' class="dup-row"':''}><td class="mono">${s[0]}</td><td class="wrap mono muted" style="font-size:11.5px" title="${ttl}">${s[1]}${dup?'<div class="dup-note">Possível duplicata — confira antes de criar</div>':''}</td><td class="num">${conf}</td></tr>`;
-    }).join('');
-}
-function copyDesc(){toast('Descrição copiada')}
-function submitNew(){const m=PDM[cur].attrs.filter(a=>a[1]==='S'&&!a[3]);toast(m.length?'Há '+m.length+' atributo(s) obrigatório(s) pendente(s)':'Item enviado para aprovação do analista de cadastro')}
-setClass('PDM032');
 
 /* ---------- requisições ---------- */
 const AN=[
@@ -1477,165 +1253,7 @@ function applyTheme(t){document.documentElement.dataset.theme=t;document.querySe
 function toggleTheme(){applyTheme(document.documentElement.dataset.theme==='light'?'dark':'light')}
 (function(){let t=null;try{t=localStorage.getItem('mro-theme')}catch(e){}
   if(!t)t=(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';applyTheme(t)})();
-
-// === sugestoes via API ===
-// Integração opcional com o serviço local de sugestões (FastAPI em 127.0.0.1:8700).
-// Toda falha é silenciosa (console.info): o mockup continua 100% funcional sem a API.
-(function(){
-const SUGESTAO_API='http://127.0.0.1:8700';
-const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const pct=c=>Math.round((+c||0)*100)+'%';
-const trunca=(s,n)=>{s=String(s==null?'':s);return s.length>n?s.slice(0,n-1)+'…':s};
-const debounce=(fn,ms)=>{let t;return()=>{clearTimeout(t);t=setTimeout(fn,ms)}};
-const stCls=s=>s==='ATIVO'?'st-ok':s==='BLOQUEADO'?'st-danger':'st-neutral';
-const nivelConf=c=>c>=0.85?'c-hi':c>=0.60?'c-md':'c-lo';
-
-/* ----- cadastro: #texto-origem -> POST /sugerir ----- */
-let ctrlSugerir=null,apiSimilares=null;
-
-function mkChip(txt,conf,fn){
-  const b=document.createElement('button');b.type='button';
-  b.className='conf-chip'+(conf!=null?' '+nivelConf(+conf):'');
-  b.innerHTML='<span class="val">'+esc(txt)+'</span>'+(conf!=null?'<span class="pct">'+pct(conf)+'</span><span class="meter" aria-hidden="true"><i></i><i></i><i></i></span>':'');
-  if(fn)b.addEventListener('click',()=>{fn();if(b.parentElement)b.parentElement.querySelectorAll('.conf-chip').forEach(x=>x.classList.remove('aplicado'));b.classList.add('aplicado')});
-  else b.classList.add('estatico');
-  return b;
-}
-function linhaChips(box,rotulo,chips){
-  if(!chips.length)return false;
-  const row=document.createElement('div');
-  row.style.cssText='display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px';
-  const lb=document.createElement('span');lb.className='sug-lbl';lb.textContent=rotulo;
-  row.appendChild(lb);chips.forEach(c=>row.appendChild(c));box.appendChild(row);
-  return true;
-}
-function cabecalhoSug(hint){
-  const head=document.createElement('div');head.className='sug-head';
-  head.innerHTML='<b>Sugestões automáticas</b><span class="ia-badge">motor de sugestões</span>'+(hint?'<span class="sug-hint">'+hint+'</span>':'');
-  return head;
-}
-function estadoSugestoes(tipo){
-  const box=document.getElementById('sugestoes-api');if(!box)return;
-  box.innerHTML='';box.appendChild(cabecalhoSug(''));
-  const row=document.createElement('div');row.className='sug-estado';
-  row.innerHTML=tipo==='carregando'?'<span class="spin" aria-hidden="true"></span>analisando descrição…':'Digite a descrição do item para receber sugestões';
-  box.appendChild(row);box.style.display='';
-}
-const relevante=s=>s&&(s.conf==null||+s.conf>=0.05);
-function aplica(id,v){const el=document.getElementById(id);if(el)el.value=v}
-function classePorGrupo(cod){
-  try{return Object.keys(PDM).find(k=>((PDM[k].grupo||'').split(' ')[0]===cod))||null}catch(e){return null}
-}
-function pintaSugestoes(d){
-  const box=document.getElementById('sugestoes-api');if(!box)return;
-  box.innerHTML='';let tem=false;
-  box.appendChild(cabecalhoSug('clique para aplicar no campo'));
-  const ncm=((d.ncm||{}).sugestoes||[]).filter(relevante).slice(0,3).map(s=>mkChip(s.valor_formatado||s.valor,s.conf,()=>aplica('f-ncm',s.valor_formatado||s.valor)));
-  tem=linhaChips(box,'NCM',ncm)||tem;
-  const fabInfo=d.fabricante||{};
-  const fab=(fabInfo.sugestoes||[]).filter(relevante).slice(0,3).map(s=>mkChip(s.valor,s.conf,()=>aplica('f-fab',s.valor)));
-  tem=linhaChips(box,'Fabricante',fab)||tem;
-  const ref=d.referencia||{};
-  const refChips=ref.valor?[mkChip(ref.valor,ref.conf,()=>aplica('f-ref',ref.valor))]:[];
-  tem=linhaChips(box,'Referência',refChips)||tem;
-  const grp=((d.grupo||{}).sugestoes||[]).filter(relevante).slice(0,3).map(s=>{
-    const pdmId=classePorGrupo(s.valor);
-    if(pdmId)return mkChip(s.valor+' → aplicar '+pdmId,s.conf,()=>{setClass(pdmId);toast('Classe '+pdmId+' aplicada pela sugestão de grupo '+s.valor)});
-    return mkChip(s.valor,s.conf,null);
-  });
-  tem=linhaChips(box,'Grupo',grp)||tem;
-  box.style.display=tem?'':'none';
-}
-function pintaSimilares(list){
-  const tb=document.getElementById('similar');if(!tb)return;
-  let html='<tr><th>código</th><th>descrição</th><th>grupo</th><th>status</th><th class="num">simil.</th></tr>';
-  if(!list.length){
-    html+='<tr><td colspan="5" class="muted" style="font-size:11.5px;white-space:normal">Nenhum item parecido na base. Pode seguir com o cadastro.</td></tr>';
-  }else{
-    html+=list.slice(0,5).map(s=>{
-      const sim=+s.similaridade||0,p=Math.round(sim*100),dup=sim>=0.90;
-      return `<tr${dup?' class="dup-row"':''}><td class="mono">${esc(s.codigo)}</td><td class="wrap mono muted" style="font-size:11.5px" title="${esc(s.descricao)}">${esc(trunca(s.descricao,60))}${dup?'<div class="dup-note">Possível duplicata — confira antes de criar</div>':''}</td><td class="mono" style="font-size:11px">${esc(s.grupo||'—')}</td><td><span class="st ${stCls(s.status)}">${esc(s.status||'—')}</span></td><td class="num"><div class="sim"><span class="pct"${dup?' style="color:var(--danger)"':''}>${p}%</span><div class="bar"><i style="width:${p}%${dup?';background:var(--danger)':''}"></i></div></div></td></tr>`;
-    }).join('');
-  }
-  tb.innerHTML=html;
-}
-// mantém os similares vindos da API quando render() redesenha o painel do cadastro
-const renderBase=window.render;
-window.render=function(){renderBase();if(apiSimilares)pintaSimilares(apiSimilares)};
-
-async function sugerir(txt){
-  if(ctrlSugerir)ctrlSugerir.abort();
-  ctrlSugerir=new AbortController();
-  estadoSugestoes('carregando');
-  try{
-    const r=await fetch(SUGESTAO_API+'/sugerir',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({descricao:txt,grupo:null}),signal:ctrlSugerir.signal});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const d=await r.json()||{};
-    pintaSugestoes(d);
-    apiSimilares=Array.isArray(d.similares)?d.similares:[];
-    pintaSimilares(apiSimilares);
-  }catch(e){
-    if(e&&e.name==='AbortError')return;
-    const box=document.getElementById('sugestoes-api');
-    if(box){box.style.display='none';box.innerHTML=''}
-    console.info('API de sugestões indisponível (/sugerir):',e&&e.message||e);
-  }
-}
-function limpaSugestoes(){
-  if(ctrlSugerir)ctrlSugerir.abort();
-  estadoSugestoes('vazio');
-  if(apiSimilares){apiSimilares=null;window.render()}
-}
-const ta=document.getElementById('texto-origem');
-if(ta)ta.addEventListener('input',debounce(()=>{
-  const t=ta.value.trim();
-  if(t.length<3){limpaSugestoes();return}
-  sugerir(t);
-},500));
-
-/* ----- busca: #q -> POST /similares ----- */
-const q=document.getElementById('q'),cands=document.getElementById('cands');
-const candsOriginal=cands?cands.innerHTML:'';
-let ctrlBusca=null;
-function pintaCands(list){
-  if(!cands)return;
-  if(!list.length){cands.innerHTML=candsOriginal;return}
-  cands.innerHTML=list.slice(0,5).map((s,i)=>{
-    const sim=+s.similaridade||0,p=Math.round(sim*100),dup=sim>=0.90;
-    const cor=dup?'var(--danger)':sim>=0.85?'var(--ok)':sim>=0.6?'var(--warn)':'var(--text-3)';
-    return `<div class="cand${i===0&&sim>=0.85&&!dup?' top':''}${dup?' dup':''}" data-code="${esc(s.codigo)}" onclick="pick(this)">
-      <div class="cand-h">
-        <div class="conf"><div class="n" style="color:${cor}">${p}%</div><div class="bar"><i style="width:${p}%;background:${cor}"></i></div></div>
-        <div class="radio"></div>
-        <div style="flex:1;min-width:0">
-          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="mono" style="font-weight:600;font-size:15px">${esc(s.codigo)}</span><span class="st ${stCls(s.status)}">${esc(s.status||'—')}</span><span class="badge b-gray">${esc(s.grupo||'—')}</span><span class="badge b-ia">via API</span></div>
-          <div class="desc muted" style="margin-top:3px" title="${esc(s.descricao)}">${esc(trunca(s.descricao,120))}</div>
-          ${dup?'<div class="dup-note">Possível duplicata — confira antes de criar</div>':''}
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-}
-async function buscaSimilares(txt){
-  if(ctrlBusca)ctrlBusca.abort();
-  ctrlBusca=new AbortController();
-  try{
-    const r=await fetch(SUGESTAO_API+'/similares',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({descricao:txt}),signal:ctrlBusca.signal});
-    if(!r.ok)throw new Error('HTTP '+r.status);
-    const d=await r.json()||{};
-    pintaCands(Array.isArray(d.similares)?d.similares:[]);
-  }catch(e){
-    if(e&&e.name==='AbortError')return;
-    if(cands)cands.innerHTML=candsOriginal; // restaura os cards estáticos no erro
-    console.info('API de sugestões indisponível (/similares):',e&&e.message||e);
-  }
-}
-if(q)q.addEventListener('input',debounce(()=>{
-  const t=q.value.trim();
-  if(t.length<3){if(ctrlBusca)ctrlBusca.abort();if(cands)cands.innerHTML=candsOriginal;return}
-  buscaSimilares(t);
-},500));
-})();
 </script>
+<script src="frontend/cadastro.js"></script>
 </body>
 </html>

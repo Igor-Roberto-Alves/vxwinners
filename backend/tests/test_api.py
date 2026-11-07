@@ -229,9 +229,136 @@ class ModelosFalsos:
         return [{"codigo": "90000002", "similaridade": 0.8}, {"codigo": "90000003", "similaridade": 0.3}]
 
 
-def test_mockup_do_time_e_servido_apontando_para_este_servidor(cliente):
-    r = cliente.get("/mockup")
-    assert r.status_code == 200 and "const SUGESTAO_API='/sugestao'" in r.text and "127.0.0.1:8700" not in r.text.split("const SUGESTAO_API")[1][:40]
+def test_commit_acontece_antes_da_resposta(banco, base_teste):
+    """Sem isto, o cliente ouve "criado" antes da gravação e a chamada seguinte recebe 404 (visto no navegador)."""
+    ordem = []
+    app = cria_app(verifica_migracoes=False, carrega_modelos=False)
+
+    def conexao_que_anota():
+        with banco.begin() as conn:
+            yield conn
+        ordem.append("commit")
+
+    app.dependency_overrides[deps.conexao] = conexao_que_anota
+
+    async def espia(scope, receive, send):
+        async def envia(msg):
+            if msg["type"] == "http.response.start":
+                ordem.append("resposta")
+            await send(msg)
+        await app(scope, receive, envia)
+
+    deps.limpa_contexto()
+    with TestClient(espia) as c:
+        r = c.post("/api/v1/cadastros", json={"id_pdm": "PDM020", "centro": CENTRO}, headers=ANA)
+    deps.limpa_contexto()
+    assert r.status_code == 201 and ordem == ["commit", "resposta"]
+
+
+def test_toda_rota_da_api_usa_a_conexao_que_grava_antes_de_responder():
+    from app.api import rotas
+
+    fonte = open(rotas.__file__, encoding="utf-8").read()
+    assert "Depends(conexao" not in fonte  # usar deps.Conexao: com o padrão do FastAPI, a resposta sai antes do COMMIT
+
+
+def test_frontend_do_time_e_servido_na_raiz_com_o_cadastro_real(cliente):
+    r = cliente.get("/")
+    assert r.status_code == 200 and "frontend/cadastro.js" in r.text and "frontend/cadastro.css" in r.text
+    assert "const PDM=" not in r.text and "SC-202600002" not in r.text.split('id="m-cadastro"')[0]  # nada de dado fixo nas telas reais
+    js = cliente.get("/frontend/cadastro.js")
+    assert js.status_code == 200 and "javascript" in js.headers["content-type"]
+    assert cliente.get("/frontend/cadastro.css").status_code == 200
+    antigo = cliente.get("/mockup", follow_redirects=False)
+    assert antigo.status_code == 307 and antigo.headers["location"] == "/"
+
+
+def _conta(banco):
+    with banco.connect() as c:
+        return tuple(c.execute(text(f"select count(*) from {t}")).scalar() for t in ("cadastro", "evento_auditoria"))
+
+
+def test_busca_le_o_texto_compara_e_nao_grava_nada(cliente, banco):
+    antes = _conta(banco)
+    r = cliente.post("/api/v1/busca", headers=LEO, json={"texto": "parafuso sextavado m12x50 8.8 aco carbono zincado din 933"}).json()
+    assert r["classe"]["id_pdm"] == "PDM001" and not r["classe"]["confirmada"]  # lida do texto: continua sendo proposta
+    lido = {i["atributo"]: i["valor"] for i in r["interpretacao"]}
+    assert lido["BITOLA"] == "M12" and lido["COMPRIMENTO"] == "50MM" and lido["CLASSE RESISTENCIA"] == "8.8"
+    assert {c["codigo"] for c in r["duplicidade"]["candidatos"]} & {f"9000010{i}" for i in range(5)}
+    assert _conta(banco) == antes
+
+
+def test_busca_com_classe_escolhida_e_refino_da_pessoa(cliente):
+    base = {"texto": "rolamento 6205 c3", "id_pdm": "PDM020", "nome": "ROLAMENTO RIGIDO ESFERAS"}
+    r = cliente.post("/api/v1/busca", headers=LEO, json=base).json()
+    assert r["classe"]["confirmada"] and {c["atributo"]: c["valor"] for c in r["campos"]}["FOLGA"] == "C3"
+    ref = cliente.post("/api/v1/busca", headers=LEO, json={**base, "valores": {"FOLGA": "NORMAL", "ATRIBUTO INEXISTENTE": "x"}}).json()
+    campo = {c["atributo"]: c for c in ref["campos"]}
+    assert campo["FOLGA"]["valor"] == "NORMAL" and campo["FOLGA"]["origem"] == "DIGITADO"
+    assert "FOLGA" not in {i["atributo"] for i in ref["interpretacao"]}  # o que a pessoa ajustou não é "lido do texto"
+
+
+def test_busca_sem_classe_oferece_saidas_em_vez_de_falhar(cliente):
+    fora = cliente.post("/api/v1/busca", headers=LEO, json={"texto": "cadeira giratoria"}).json()
+    assert fora["classe"] is None and fora["fora_do_pdm"] and fora["campos"] == []
+    assert fora["duplicidade"]["candidatos"] == []
+    varias = cliente.post("/api/v1/busca", headers=LEO, json={"texto": "filtro"}).json()
+    assert len({a["id_pdm"] for a in varias["alternativas"]}) >= 1 and not varias["fora_do_pdm"]
+    problema(cliente.post("/api/v1/busca", headers=LEO, json={"texto": "x", "id_pdm": "PDM999"}), 422, "classe_invalida")
+    assert cliente.post("/api/v1/busca", json={"texto": "x"}).status_code == 401
+
+
+def test_usar_codigo_que_diverge_exige_justificativa(cliente):
+    v = cliente.post("/api/v1/cadastros", json={"id_pdm": "PDM020", "centro": CENTRO}, headers=ANA).json()
+    v = cliente.patch(f"/api/v1/cadastros/{v['id']}", headers=ANA, json={"versao": v["versao"], "valores": {
+        "REFERENCIA": "6205-2RS/C3", "VEDACAO": "BORRACHA AMBOS LADOS", "FOLGA": "C3"}}).json()
+    problema(cliente.post(f"/api/v1/cadastros/{v['id']}/usar-existente", json={"codigo": "90000003"}, headers=ANA), 422, "justificativa_obrigatoria")
+    ok = cliente.post(f"/api/v1/cadastros/{v['id']}/usar-existente", headers=ANA,
+                      json={"codigo": "90000003", "justificativa": "vedacao metalica aceita, confirmado com o PCM"})
+    assert ok.status_code == 200 and ok.json()["estado"] == "JA_EXISTE" and "PCM" in ok.json()["motivo"]
+
+
+def test_cadastro_em_revisao_nao_e_duplicata_de_si_mesmo(cliente):
+    v = cliente.post("/api/v1/cadastros", json={"id_pdm": "PDM020", "centro": CENTRO}, headers=ANA).json()
+    v = cliente.patch(f"/api/v1/cadastros/{v['id']}", headers=ANA, json={"versao": v["versao"], "valores": {
+        "REFERENCIA": "6305-2RS/C3", "VEDACAO": "BORRACHA AMBOS LADOS", "FOLGA": "C3"}, "campos": {"ncm": "4016.93.00"}}).json()
+    j = {e["id"]: "NCM confirmado pelo fiscal" for e in v["excecoes_previstas"]}
+    r = cliente.post(f"/api/v1/cadastros/{v['id']}/aprovar", json={"versao": v["versao"], "justificativas": j}, headers=ANA).json()
+    assert r["estado"] == "EM_REVISAO"
+    visto = cliente.get(f"/api/v1/cadastros/{v['id']}", headers=ANA).json()
+    assert not [c for c in visto["duplicidade"]["candidatos"] if c["origem"] == "cadastro"]
+    assert "DUPLICIDADE_CADASTRO_APROVADO" not in [b["codigo"] for b in visto["bloqueios"]]
+    # mas outro rascunho com a mesma chave continua vendo o primeiro
+    w = cliente.post("/api/v1/cadastros", json={"id_pdm": "PDM020", "centro": CENTRO}, headers=ANA).json()
+    w = cliente.patch(f"/api/v1/cadastros/{w['id']}", headers=ANA, json={"versao": w["versao"], "valores": {
+        "REFERENCIA": "6305-2RS/C3", "VEDACAO": "BORRACHA AMBOS LADOS", "FOLGA": "C3"}}).json()
+    assert "DUPLICIDADE_CADASTRO_APROVADO" in [b["codigo"] for b in w["bloqueios"]]
+
+
+def test_usar_codigo_igual_nao_pede_justificativa(cliente):
+    v = cliente.post("/api/v1/cadastros", json={"id_pdm": "PDM020", "centro": CENTRO}, headers=ANA).json()
+    v = cliente.patch(f"/api/v1/cadastros/{v['id']}", headers=ANA, json={"versao": v["versao"], "valores": {
+        "REFERENCIA": "6205-2RS/C3", "VEDACAO": "BORRACHA AMBOS LADOS", "FOLGA": "C3"}}).json()
+    r = cliente.post(f"/api/v1/cadastros/{v['id']}/usar-existente", json={"codigo": "90000001"}, headers=ANA)
+    assert r.status_code == 200 and r.json()["usar_codigo"] == "90000001"
+
+
+def test_resumo_pedido_e_perguntas_para_o_frontend(cliente):
+    cliente.post("/api/v1/importacoes/pedidos", headers=ANA, json={"pedidos": [
+        {"id": "SC-T1", "texto": "rolamento 6205", "area": "PCM", "urgencia": "ALTA", "conteudo_anexo": "FICHA TECNICA", "tipo_anexo": "ficha"}]})
+    r = cliente.get("/api/v1/resumo", headers=LEO).json()
+    assert r["pedidos"]["NOVO"] == 1 and r["excecoes_pendentes"] == 0
+    d = cliente.get("/api/v1/pedidos/SC-T1", headers=LEO).json()
+    assert d["texto"] == "rolamento 6205" and d["conteudo_anexo"] == "FICHA TECNICA" and d["tem_anexo"]
+    problema(cliente.get("/api/v1/pedidos/SC-X", headers=LEO), 404, "pedido_nao_encontrado")
+    v = cliente.post("/api/v1/pedidos/SC-T1/assumir", headers=ANA).json()
+    assert v["texto_inicial"]
+    v = cliente.post(f"/api/v1/cadastros/{v['id']}/devolver", json={"pergunta": "Qual a folga?"}, headers=ANA).json()
+    p = cliente.get(f"/api/v1/cadastros/{v['id']}/perguntas", headers=LEO).json()
+    assert [x["pergunta"] for x in p] == ["Qual a folga?"] and p[0]["resposta"] is None
+    assert cliente.get("/api/v1/resumo", headers=LEO).json()["pedidos"]["DEVOLVIDO"] == 1
+    v = cliente.post(f"/api/v1/cadastros/{v['id']}/responder", json={"pergunta_id": p[0]["id"], "resposta": "C3"}, headers=ANA).json()
+    assert v["estado"] == "RASCUNHO"
 
 
 def test_sem_modelos_o_contrato_do_servico_responde_503_e_o_cadastro_segue(cliente):

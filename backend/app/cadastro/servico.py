@@ -22,7 +22,7 @@ from ..estruturacao.regras import extrai_para_classe
 from ..identidade import candidatos as cand_mod
 from ..identidade.chave import chave_identidade
 from ..identidade.referencias import fabricante_canonico
-from ..leitura.regras import le_pedido
+from ..leitura.regras import campos_do_cadastro, le_pedido
 from ..ncm import tabela as ncm_tabela
 from ..ncm.regras import formata_ncm, ncm_esperado
 from ..pdm.modelo import Pdm
@@ -41,9 +41,9 @@ def _linha(conn: Connection, cid: str, trava: bool = False) -> dict:
         r = conn.execute(text("select * from cadastro where id = cast(:i as uuid)" + (" for update" if trava else "")),
                          {"i": cid}).mappings().first()
     except Exception as e:  # uuid malformado
-        raise ErroNegocio("nao_encontrado", "cadastro nao encontrado", 404) from e
+        raise ErroNegocio("nao_encontrado", "cadastro não encontrado", 404) from e
     if not r:
-        raise ErroNegocio("nao_encontrado", "cadastro nao encontrado", 404)
+        raise ErroNegocio("nao_encontrado", "cadastro não encontrado", 404)
     d = dict(r)
     d["id"] = str(d["id"])
     d["valores"] = d["valores"] if isinstance(d["valores"], dict) else json.loads(d["valores"] or "{}")
@@ -143,7 +143,7 @@ def _busca(conn: Connection, pdm: Pdm, cad: dict, limite: int = 8) -> cand_mod.R
     if not cad["id_pdm"]:
         return None
     texto = cad.get("descricao_longa") or cad.get("texto_inicial")
-    r = cand_mod.busca(conn, pdm, cad["id_pdm"], cad["nome"] or None, _plano(cad), limite=limite, texto=texto)
+    r = cand_mod.busca(conn, pdm, cad["id_pdm"], cad["nome"] or None, _plano(cad), limite=limite, texto=texto, ignorar_cadastro=cad.get("id"))
     return cand_mod.acrescenta_vizinhos(conn, r, modelos.similares(texto or ""), limite=limite)
 
 
@@ -165,7 +165,7 @@ def analisa(conn: Connection, pdm: Pdm, cad: dict, busca: cand_mod.Resultado | N
         e = cad["valores"].get(atr.nome)
         if aplica is True and atr.obrigatorio and not (e and e.get("valor")):
             a.bloqueios.append({"codigo": "OBRIGATORIO_VAZIO", "atributo": atr.nome,
-                                "mensagem": f"{atr.nome} e obrigatorio e esta vazio"})
+                                "mensagem": f"{atr.nome} é obrigatório e está vazio"})
         if aplica is True and e and e.get("valor") and not e.get("valido", True):
             tipo = "FORA_DA_LISTA" if atr.tipo == "LISTA" else "FORMATO_FORA_DO_PDM"
             a.excecoes.append({"id": f"{tipo}|{atr.nome}", "tipo": tipo, "atributo": atr.nome, "padrao": None,
@@ -175,7 +175,7 @@ def analisa(conn: Connection, pdm: Pdm, cad: dict, busca: cand_mod.Resultado | N
     esp = _esperados(pdm, cad)
     un = cad["unidade"] or esp["unidade"]
     if un not in pdm.unidades:
-        a.bloqueios.append({"codigo": "UNIDADE_INVALIDA", "mensagem": f"unidade {un} nao existe no PDM ({', '.join(pdm.unidades)})"})
+        a.bloqueios.append({"codigo": "UNIDADE_INVALIDA", "mensagem": f"unidade {un} não existe no PDM ({', '.join(pdm.unidades)})"})
     elif un != esp["unidade"]:
         a.excecoes.append({"id": "UNIDADE_DIFERENTE_DO_PADRAO|", "tipo": "UNIDADE_DIFERENTE_DO_PADRAO", "atributo": None,
                            "padrao": esp["unidade"], "usado": un, "exige_revisor": True})
@@ -187,13 +187,13 @@ def analisa(conn: Connection, pdm: Pdm, cad: dict, busca: cand_mod.Resultado | N
     if cad["ncm"] and not ncm:
         a.bloqueios.append({"codigo": "NCM_INVALIDO", "mensagem": f"NCM {cad['ncm']} fora do formato 0000.00.00"})
     elif not ncm:
-        a.bloqueios.append({"codigo": "NCM_NAO_DETERMINADO", "mensagem": f"NCM ainda nao determinado ({esp['regra_ncm']}); informe o NCM"})
+        a.bloqueios.append({"codigo": "NCM_NAO_DETERMINADO", "mensagem": f"NCM ainda não determinado ({esp['regra_ncm']}); informe o NCM"})
     else:
         v = ncm_tabela.valida(conn, ncm)
         if not v.ok:
             msg = f"NCM {ncm}: {v.motivo}"
             if v.sucessores:
-                msg += f". Codigos vigentes proximos: {', '.join(v.sucessores)}"
+                msg += f". Códigos vigentes próximos: {', '.join(v.sucessores)}"
             a.bloqueios.append({"codigo": "NCM_INVALIDO", "mensagem": msg, "sucessores": list(v.sucessores)})
         elif esp["ncm"] and ncm != esp["ncm"]:
             a.excecoes.append({"id": "NCM_DIFERENTE_DA_REGRA|", "tipo": "NCM_DIFERENTE_DA_REGRA", "atributo": None,
@@ -204,7 +204,7 @@ def analisa(conn: Connection, pdm: Pdm, cad: dict, busca: cand_mod.Resultado | N
         for c in busca.candidatos:
             if c.nivel == "IGUAL" and c.origem == "cadastro":
                 a.bloqueios.append({"codigo": "DUPLICIDADE_CADASTRO_APROVADO",
-                                    "mensagem": "ja existe um cadastro novo aprovado com esta chave; aguarde o codigo do ERP ou cancele este rascunho"})
+                                    "mensagem": "já existe um cadastro novo aprovado com esta chave; aguarde o código do ERP ou cancele este rascunho"})
             elif c.nivel == "IGUAL" and c.status == "ATIVO":
                 a.excecoes.append({"id": "DUPLICIDADE_IGUAL|", "tipo": "DUPLICIDADE_IGUAL", "atributo": None, "padrao": c.codigo,
                                    "usado": "criar item novo", "exige_revisor": True})
@@ -222,8 +222,8 @@ def analisa(conn: Connection, pdm: Pdm, cad: dict, busca: cand_mod.Resultado | N
                 unicas.append(x)
         a.excecoes = unicas
         if busca.comparaveis < busca.total_classe:
-            a.avisos.append(f"so {busca.comparaveis} de {busca.total_classe} registros desta classe puderam ser comparados por atributos; "
-                            "o painel nao garante que o item nao exista")
+            a.avisos.append(f"só {busca.comparaveis} de {busca.total_classe} registros desta classe puderam ser comparados por atributos; "
+                            "esta lista não garante que o item não exista")
     return a
 
 
@@ -278,7 +278,7 @@ def visao(conn: Connection, pdm: Pdm, cad: dict, busca: cand_mod.Resultado | Non
         "duplicidade": None if busca is None else {
             "candidatos": [_cand_dict(c) for c in busca.candidatos],
             "comparaveis": busca.comparaveis, "total_classe": busca.total_classe},
-        "resumo_leitura": cad.get("resumo_leitura"),
+        "resumo_leitura": cad.get("resumo_leitura"), "texto_inicial": cad.get("texto_inicial"),
     }
 
 
@@ -322,7 +322,7 @@ def cria(conn: Connection, pdm: Pdm, indice: IndiceClasses, autor: str, *, id_pd
     if pedido_id:
         ped = conn.execute(text("select * from pedido where id = :i for update"), {"i": pedido_id}).mappings().first()
         if not ped:
-            raise ErroNegocio("pedido_nao_encontrado", "pedido nao encontrado", 404)
+            raise ErroNegocio("pedido_nao_encontrado", "pedido não encontrado", 404)
         ja = conn.execute(text("select id::text from cadastro where pedido_id = :p and estado <> 'CANCELADO' order by criado_em desc limit 1"),
                           {"p": pedido_id}).scalar()
         if ja:
@@ -335,7 +335,7 @@ def cria(conn: Connection, pdm: Pdm, indice: IndiceClasses, autor: str, *, id_pd
     elif id_pdm:
         classe = pdm.classes.get(id_pdm)
         if not classe:
-            raise ErroNegocio("classe_invalida", f"classe {id_pdm} nao existe no PDM", 422)
+            raise ErroNegocio("classe_invalida", f"classe {id_pdm} não existe no PDM", 422)
         cad["id_pdm"] = id_pdm
         cad["nome"] = _nome_valido(classe, nome)
         cad["classe_confirmada"] = True  # a própria pessoa escolheu
@@ -355,7 +355,7 @@ def _nome_valido(classe, nome: str | None) -> str | None:
         return None
     mapa = {n.upper(): n for n in classe.nomes}
     if nome.upper() not in mapa:
-        raise ErroNegocio("nome_invalido", f"{nome} nao e um nome da classe {classe.id_pdm}", 422, {"nomes": list(classe.nomes)})
+        raise ErroNegocio("nome_invalido", f"{nome} não é um nome da classe {classe.id_pdm}", 422, {"nomes": list(classe.nomes)})
     return mapa[nome.upper()]
 
 
@@ -384,12 +384,56 @@ def _aplica_leitura(pdm: Pdm, cad: dict, ex, campos: dict[str, str]) -> None:
     cad["resumo_leitura"] = {"metodo": ex.metodo, "avisos": ex.avisos}
 
 
+# ================================================================== busca antes do rascunho
+def busca_material(conn: Connection, pdm: Pdm, indice: IndiceClasses, texto: str, *, id_pdm: str | None = None,
+                   nome: str | None = None, valores: dict[str, str | None] | None = None, limite: int = 6) -> dict:
+    """Lê o texto, compara com a base e devolve o mesmo retrato de um rascunho, SEM gravar nada.
+    Só `id_pdm` informado conta como classe escolhida pela pessoa; a lida do texto continua sendo proposta."""
+    cad = _vazio("busca")
+    cad["pdm_versao_id"], cad["texto_inicial"] = pdm.versao_id, texto
+    if id_pdm:
+        classe = pdm.classes.get(id_pdm)
+        if not classe:
+            raise ErroNegocio("classe_invalida", f"classe {id_pdm} não existe no PDM", 422)
+        nome = _nome_valido(classe, nome)
+        ex = extrai_para_classe(pdm, id_pdm, nome, texto)
+        ex.id_pdm, ex.nome = id_pdm, nome
+        campos = campos_do_cadastro(texto)
+    else:
+        ex, _, campos = le_pedido(pdm, indice, texto)
+    _aplica_leitura(pdm, cad, ex, campos)
+    if id_pdm:
+        cad["classe_confirmada"], cad["proposta"] = True, None
+
+    classe = pdm.classes.get(cad["id_pdm"]) if cad["id_pdm"] else None
+    for atr, bruto in (valores or {}).items():
+        a = classe.atributo(atr) if classe else None
+        if a is None:
+            continue  # valor de outra classe: a pessoa trocou de classe depois de refinar
+        e = _entrada(a, bruto or "", "DIGITADO", None, cad["id_pdm"])
+        cad["valores"].pop(atr, None) if e is None else cad["valores"].__setitem__(atr, e)
+    _regrava_derivados(pdm, cad)
+
+    r = (cand_mod.busca(conn, pdm, cad["id_pdm"], cad["nome"] or None, _plano(cad), limite=limite, texto=texto)
+         if cad["id_pdm"] else cand_mod.Resultado([], 0, 0))
+    r = cand_mod.acrescenta_vizinhos(conn, r, modelos.similares(texto), limite=limite)
+    v = visao(conn, pdm, cad, r)
+    itens = indice.buscar(texto, limite=limite)
+    return {"consulta": texto, "classe": v["classe"], "campos": v["campos"], "descricao": v["descricao"], "chave": v["chave"],
+            "duplicidade": v["duplicidade"], "fabricante": v["fabricante"], "referencia_fabricante": v["referencia_fabricante"],
+            "interpretacao": [{"atributo": c["atributo"], "valor": c["valor"], "trecho": c["trecho"]}
+                              for c in v["campos"] if c["valor"] and c["origem"] != "DIGITADO"],
+            "alternativas": [{"nome": i.nome, "id_pdm": i.id_pdm, "grupo": i.grupo, "grupo_descricao": i.grupo_descricao,
+                              "pontos": i.pontos, "resto": list(i.resto)} for i in itens],
+            "ambiguo": any(i.ambiguo for i in itens), "fora_do_pdm": not cad["id_pdm"] and not itens}
+
+
 # ================================================================== edição
 def atualiza(conn: Connection, pdm: Pdm, cid: str, versao: int, autor: str, *, classe: dict | None = None,
              valores: dict | None = None, campos: dict | None = None) -> dict:
     cad = _linha(conn, cid, trava=True)
     if cad["estado"] not in M.EDITAVEIS:
-        raise ErroNegocio("nao_editavel", f"cadastro em {cad['estado']} nao pode mais ser alterado", 409)
+        raise ErroNegocio("nao_editavel", f"cadastro em {cad['estado']} não pode mais ser alterado", 409)
     if cad["versao"] != versao:
         raise ErroNegocio("versao_desatualizada", "o rascunho foi alterado por outra pessoa; recarregue", 409,
                           {"versao_atual": cad["versao"]})
@@ -399,7 +443,7 @@ def atualiza(conn: Connection, pdm: Pdm, cid: str, versao: int, autor: str, *, c
         idp = classe.get("id_pdm")
         c = pdm.classes.get(idp)
         if not c:
-            raise ErroNegocio("classe_invalida", f"classe {idp} nao existe no PDM", 422)
+            raise ErroNegocio("classe_invalida", f"classe {idp} não existe no PDM", 422)
         cad["id_pdm"], cad["nome"], cad["classe_confirmada"] = idp, _nome_valido(c, classe.get("nome")), True
         cad["valores"] = {k: v for k, v in cad["valores"].items() if c.atributo(k)}  # só o que existe na nova classe
         cad["proposta"] = None
@@ -409,12 +453,12 @@ def atualiza(conn: Connection, pdm: Pdm, cid: str, versao: int, autor: str, *, c
     for atr, bruto in (valores or {}).items():
         a = pdm.classes[cad["id_pdm"]].atributo(atr)
         if a is None:
-            raise ErroNegocio("atributo_invalido", f"{atr} nao e atributo da classe {cad['id_pdm']}", 422)
+            raise ErroNegocio("atributo_invalido", f"{atr} não é atributo da classe {cad['id_pdm']}", 422)
         origem, texto = "DIGITADO", bruto
         if isinstance(bruto, dict):
             origem, texto = bruto.get("origem", "DIGITADO"), bruto.get("valor")
             if origem not in ("DIGITADO", "OPCAO"):
-                raise ErroNegocio("origem_invalida", "origem so pode ser DIGITADO ou OPCAO", 422)
+                raise ErroNegocio("origem_invalida", "origem só pode ser DIGITADO ou OPCAO", 422)
         e = _entrada(a, texto or "", origem, None, cad["id_pdm"])
         if e is None:
             cad["valores"].pop(atr, None)
@@ -423,7 +467,7 @@ def atualiza(conn: Connection, pdm: Pdm, cid: str, versao: int, autor: str, *, c
 
     for k, v in (campos or {}).items():
         if k not in ("unidade", "grupo", "ncm", "fabricante", "referencia_fabricante", "centro"):
-            raise ErroNegocio("campo_invalido", f"campo {k} nao pode ser alterado", 422)
+            raise ErroNegocio("campo_invalido", f"campo {k} não pode ser alterado", 422)
         v = (v or "").strip() or None
         if k == "ncm" and v:
             v = formata_ncm(v) or v
@@ -463,7 +507,7 @@ def confirma_leitura_llm(conn: Connection, pdm: Pdm, cid: str, autor: str, final
     """Aplica a leitura por LLM só onde o rascunho ainda está vazio. Nunca confirma a classe."""
     cad = _linha(conn, cid, trava=True)
     if cad["estado"] != M.RASCUNHO:
-        raise ErroNegocio("nao_editavel", "so rascunhos podem receber leitura", 409)
+        raise ErroNegocio("nao_editavel", "só rascunhos podem receber leitura", 409)
     mudou = []
     if final.id_pdm and not cad["id_pdm"]:  # sem classe: vira PROPOSTA, a pessoa confirma
         cad["id_pdm"], cad["nome"], cad["classe_confirmada"] = final.id_pdm, final.nome, False
@@ -512,7 +556,7 @@ def sugestoes_modelo(conn: Connection, cid: str) -> dict:
 # ================================================================== decisões
 def _exige_estado(cad: dict, *estados: str) -> None:
     if cad["estado"] not in estados:
-        raise ErroNegocio("estado_invalido", f"operacao nao permitida em {cad['estado']}", 409)
+        raise ErroNegocio("estado_invalido", f"operação não permitida em {cad['estado']}", 409)
 
 
 def aprova(conn: Connection, pdm: Pdm, cid: str, versao: int, autor: str, justificativas: dict[str, str] | None = None) -> dict:
@@ -524,11 +568,11 @@ def aprova(conn: Connection, pdm: Pdm, cid: str, versao: int, autor: str, justif
     busca = _busca(conn, pdm, cad)
     analise = analisa(conn, pdm, cad, busca)
     if analise.bloqueios:
-        raise ErroNegocio("bloqueios", "o item nao pode ser aprovado enquanto houver bloqueios", 422, {"bloqueios": analise.bloqueios})
+        raise ErroNegocio("bloqueios", "o item não pode ser aprovado enquanto houver bloqueios", 422, {"bloqueios": analise.bloqueios})
     just = justificativas or {}
     faltam = [x["id"] for x in analise.excecoes if len((just.get(x["id"]) or "").strip()) < 10]
     if faltam:
-        raise ErroNegocio("justificativa_obrigatoria", "toda excecao exige justificativa (minimo 10 caracteres)", 422,
+        raise ErroNegocio("justificativa_obrigatoria", "toda exceção exige justificativa (mínimo 10 caracteres)", 422,
                           {"excecoes": [x for x in analise.excecoes if x["id"] in faltam]})
     esp = _esperados(pdm, cad)
     cad["unidade"] = cad["unidade"] or esp["unidade"]
@@ -576,7 +620,7 @@ def decide_revisao(conn: Connection, pdm: Pdm, cid: str, revisor: str, aprovar: 
     _exige_estado(cad, M.EM_REVISAO)
     autores = {r[0] for r in conn.execute(text("select autor from cadastro_excecao where cadastro_id = cast(:c as uuid) and decisao is null"), {"c": cid})}
     if revisor == cad["analista"] or revisor in autores:
-        raise ErroNegocio("revisor_deve_ser_outra_pessoa", "a excecao precisa ser decidida por outro analista", 403)
+        raise ErroNegocio("revisor_deve_ser_outra_pessoa", "a exceção precisa ser decidida por outro analista", 403)
     if not aprovar and not (comentario or "").strip():
         raise ErroNegocio("comentario_obrigatorio", "ao rejeitar, explique o motivo", 422)
     conn.execute(text("""update cadastro_excecao set revisor=:r, decisao=:d, decidido_em=now()
@@ -597,19 +641,29 @@ def decide_revisao(conn: Connection, pdm: Pdm, cid: str, revisor: str, aprovar: 
     return visao(conn, pdm, cad)
 
 
-def usa_existente(conn: Connection, pdm: Pdm, cid: str, autor: str, codigo: str) -> dict:
+def _diverge_do_rascunho(conn: Connection, pdm: Pdm, cad: dict, codigo: str) -> bool:
+    busca = _busca(conn, pdm, cad, limite=50)
+    achado = next((c for c in (busca.candidatos if busca else []) if c.codigo == codigo), None)
+    return bool(achado) and any(x["estado"] == "diverge" and not x.get("opcional") for x in achado.comparacao)
+
+
+def usa_existente(conn: Connection, pdm: Pdm, cid: str, autor: str, codigo: str, justificativa: str | None = None) -> dict:
     cad = _linha(conn, cid, trava=True)
     _exige_estado(cad, M.RASCUNHO)
+    just = (justificativa or "").strip()
     m = conn.execute(text("select status from material where codigo = :c"), {"c": codigo}).first()
     if not m:
-        raise ErroNegocio("codigo_inexistente", f"codigo {codigo} nao existe na base", 404)
+        raise ErroNegocio("codigo_inexistente", f"código {codigo} não existe na base", 404)
     if m[0] != "ATIVO":
-        raise ErroNegocio("codigo_inativo", f"codigo {codigo} esta {m[0]}: so pode ser usado por reativacao", 409,
+        raise ErroNegocio("codigo_inativo", f"código {codigo} está {m[0]}: só pode ser usado por reativação", 409,
                           {"use": f"/cadastros/{cid}/reativar"})
-    cad["estado"], cad["usar_codigo"] = M.JA_EXISTE, codigo
+    if len(just) < 10 and _diverge_do_rascunho(conn, pdm, cad, codigo):
+        raise ErroNegocio("justificativa_obrigatoria", "este código diverge do rascunho em atributo de identidade: justifique (mínimo 10 caracteres)", 422)
+    cad["estado"], cad["usar_codigo"], cad["motivo"] = M.JA_EXISTE, codigo, just or None
     _grava(conn, cad)
     _fecha_pedido(conn, cad, "JA_EXISTE")
-    auditoria.registra(conn, autor, "cadastro", cid, "usou_existente", {"estado": M.RASCUNHO}, {"estado": M.JA_EXISTE, "codigo": codigo})
+    auditoria.registra(conn, autor, "cadastro", cid, "usou_existente", {"estado": M.RASCUNHO},
+                       {"estado": M.JA_EXISTE, "codigo": codigo, "justificativa": just or None})
     return visao(conn, pdm, cad, com_candidatos=False)
 
 
@@ -617,12 +671,12 @@ def reativa(conn: Connection, pdm: Pdm, cid: str, autor: str, codigo: str, justi
     cad = _linha(conn, cid, trava=True)
     _exige_estado(cad, M.RASCUNHO)
     if len((justificativa or "").strip()) < 10:
-        raise ErroNegocio("justificativa_obrigatoria", "a reativacao exige justificativa (minimo 10 caracteres)", 422)
+        raise ErroNegocio("justificativa_obrigatoria", "a reativação exige justificativa (mínimo 10 caracteres)", 422)
     m = conn.execute(text("select status from material where codigo = :c"), {"c": codigo}).first()
     if not m:
-        raise ErroNegocio("codigo_inexistente", f"codigo {codigo} nao existe na base", 404)
+        raise ErroNegocio("codigo_inexistente", f"código {codigo} não existe na base", 404)
     if m[0] == "ATIVO":
-        raise ErroNegocio("codigo_ativo", "o codigo ja esta ativo: use-o diretamente", 409)
+        raise ErroNegocio("codigo_ativo", "o código já está ativo: use-o diretamente", 409)
     conn.execute(text("""insert into cadastro_excecao (cadastro_id, tipo, atributo, padrao, usado, justificativa, autor)
         values (cast(:c as uuid), 'REATIVACAO', null, :p, :u, :j, :a)"""),
                  {"c": cid, "p": f"{codigo} ({m[0]})", "u": "reativar codigo", "j": justificativa.strip(), "a": autor})
@@ -641,8 +695,8 @@ def devolve(conn: Connection, pdm: Pdm, cid: str, autor: str, pergunta: str | No
     if not pergunta:
         pend = [b for b in analisa(conn, pdm, cad, None).bloqueios if b["codigo"] == "OBRIGATORIO_VAZIO"]
         if not pend:
-            raise ErroNegocio("nada_a_perguntar", "nao ha pendencia de informacao; informe uma pergunta", 422)
-        pergunta = "Para cadastrar este item faltam as seguintes informacoes: " + ", ".join(b["atributo"] for b in pend) + "."
+            raise ErroNegocio("nada_a_perguntar", "não há pendência de informacao; informe uma pergunta", 422)
+        pergunta = "Para cadastrar este item faltam as seguintes informações: " + ", ".join(b["atributo"] for b in pend) + "."
     contato = None
     if cad["pedido_id"]:
         contato = conn.execute(text("select c.email from pedido p join area_contato c on c.area = p.area where p.id = :i"),
@@ -660,7 +714,7 @@ def devolve(conn: Connection, pdm: Pdm, cid: str, autor: str, pergunta: str | No
                        {"estado": cad["estado"], "pergunta": pergunta, "email": contato, "mensagem": enviado})
     out = visao(conn, pdm, cad, com_candidatos=False)
     out["devolucao"] = {"pergunta": pergunta, "destinatario": contato, "enviada": bool(enviado),
-                        "aviso": None if contato else "nenhum contato cadastrado para a area do pedido: a pergunta ficou registrada, mas nada foi enviado"}
+                        "aviso": None if contato else "nenhum contato cadastrado para a área do pedido: a pergunta ficou registrada, mas nada foi enviado"}
     return out
 
 
@@ -670,7 +724,7 @@ def responde(conn: Connection, pdm: Pdm, cid: str, autor: str, pergunta_id: int,
     n = conn.execute(text("""update cadastro_pergunta set resposta=:r, respondida_em=now()
         where id=:p and cadastro_id=cast(:c as uuid) and resposta is null"""), {"r": resposta, "p": pergunta_id, "c": cid}).rowcount
     if not n:
-        raise ErroNegocio("pergunta_nao_encontrada", "pergunta inexistente ou ja respondida", 404)
+        raise ErroNegocio("pergunta_nao_encontrada", "pergunta inexistente ou já respondida", 404)
     cad["estado"] = M.RASCUNHO
     _grava(conn, cad)
     if cad["pedido_id"]:

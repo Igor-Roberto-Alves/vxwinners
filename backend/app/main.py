@@ -6,7 +6,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
@@ -94,20 +95,22 @@ def cria_app(verifica_migracoes: bool = True, carrega_modelos: bool = True) -> F
         # Painel de desenvolvimento para ver o fluxo ao vivo. NÃO é o frontend do produto, que vem de outra branch.
         from pathlib import Path
 
-        from fastapi.responses import FileResponse
-
         pagina = Path(__file__).parent / "painel" / "index.html"
 
         @app.get("/painel", include_in_schema=False)
         def painel():
             return FileResponse(pagina, media_type="text/html")
 
+        # O frontend do time: casca em mockup_plataforma.html, cadastro real em frontend/
+        @app.get("/", include_in_schema=False)
+        def frontend():
+            return FileResponse(RAIZ_REPO / "mockup_plataforma.html", media_type="text/html")
+
         @app.get("/mockup", include_in_schema=False)
         def mockup():
-            # o mockup do time, sem alterar o arquivo: só aponta as chamadas para este mesmo servidor
-            html = (RAIZ_REPO / "mockup_plataforma.html").read_text(encoding="utf-8")
-            return HTMLResponse(html.replace("const SUGESTAO_API='http://127.0.0.1:8700'", "const SUGESTAO_API='/sugestao'"))
+            return RedirectResponse("/", status_code=307)
 
+        app.mount("/frontend", StaticFiles(directory=RAIZ_REPO / "frontend"), name="frontend")
         app.include_router(rotas_sugestao)
 
     app.include_router(router)

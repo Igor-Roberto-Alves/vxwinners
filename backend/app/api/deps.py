@@ -39,33 +39,38 @@ class Principal:
 
 def principal(x_usuario: str | None = Header(None), x_papel: str | None = Header(None)) -> Principal:
     if settings().auth_modo != "dev":
-        raise HTTPException(501, "autenticacao OIDC ainda nao implementada; use AUTH_MODO=dev apenas em desenvolvimento")
+        raise HTTPException(501, "autenticação OIDC ainda não implementada; use AUTH_MODO=dev apenas em desenvolvimento")
     if not x_usuario or not x_usuario.strip():
-        raise HTTPException(401, "informe o usuario no cabecalho X-Usuario")
+        raise HTTPException(401, "informe o usuário no cabeçalho X-Usuario")
     papel = (x_papel or "analista").lower()
     if papel not in PAPEIS:
-        raise HTTPException(400, f"papel invalido; use um de {', '.join(PAPEIS)}")
+        raise HTTPException(400, f"papel inválido; use um de {', '.join(PAPEIS)}")
     return Principal(x_usuario.strip(), papel)
 
 
 def exige(capacidade: str):
     def dep(p: Principal = Depends(principal)) -> Principal:
         if not p.pode(capacidade):
-            raise HTTPException(403, f"o papel {p.papel} nao pode executar esta operacao (exige {capacidade})")
+            raise HTTPException(403, f"o papel {p.papel} não pode executar esta operação (exige {capacidade})")
         return p
     return dep
 
 
 def conexao() -> Iterator[Connection]:
-    """Uma transação por requisição: confirma ao final, desfaz se a requisição falhar."""
+    """Uma transação por requisição: confirma ao final, desfaz se a rota falhar."""
     with engine().begin() as conn:
         yield conn
+
+
+# scope="function": o COMMIT acontece ANTES de a resposta sair. No padrão ("request") o cliente ouve "criado" antes de
+# o dado estar gravado, e a chamada seguinte pode não encontrar o que acabou de criar.
+Conexao = Depends(conexao, scope="function")
 
 
 _ctx: dict = {"indice": None, "versao": None, "quando": 0.0}
 
 
-def contexto(conn: Connection = Depends(conexao)) -> tuple[Pdm, IndiceClasses]:
+def contexto(conn: Connection = Conexao) -> tuple[Pdm, IndiceClasses]:
     pdm = repositorio.ativo(conn)
     if _ctx["versao"] != pdm.versao_id or time.time() - _ctx["quando"] > 600:
         freq = {(r[0], r[1]): r[2] for r in conn.execute(text(
