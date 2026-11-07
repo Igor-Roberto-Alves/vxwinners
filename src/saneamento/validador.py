@@ -17,6 +17,24 @@ from .pdm import (UNIDADE_EMBALAGEM, UNIDADE_SINONIMO, Atributo, Classe, Pdm,
 from .texto import (fmt_bar, fmt_inteiro, fmt_metro, fmt_mm, fmt_mm2, fmt_pol,
                     fmt_simples, normalizar, parse_numero, sem_acento)
 
+_ZERO_INUTIL = re.compile(r"^(\d+),(\d*?)0+(MM2|MM|BAR|A|W|M)$")
+
+
+def _sem_zero_inutil(v: str) -> str:
+    """'35,0MM' -> '35MM'; '6,40MM' -> '6,4MM'. Mesmo valor, mesma chave.
+
+    A chave de identidade compara texto. Sem isso, 'COMPR:35,0MM' e 'M8X35' nao
+    juntavam: um dava 35,0MM, o outro 35MM. Antes da correcao da virgula
+    decimal em rotulos.pares() isso passava por acidente, porque o valor era
+    cortado na virgula.
+    """
+    m = _ZERO_INUTIL.match(v)
+    if not m:
+        return v
+    inteiro, decimal, unidade = m.groups()
+    return f"{int(inteiro)}{',' + decimal if decimal else ''}{unidade}"
+
+
 RX_MM = re.compile(r"^\d+(?:,\d+)?MM$")
 RX_MM2 = re.compile(r"^\d+(?:,\d+)?MM2$")
 RX_POL = re.compile(r"^(?:\d+\.)?(?:\d+/\d+|\d+)POL$")
@@ -65,6 +83,14 @@ class Validador:
             canonico = atributo.chaves.get(normalizar(v))
             if canonico:
                 return Veredito(True, canonico)
+            # Lista de medidas em polegada (BITOLA de parafuso UNC): o PDM
+            # escreve 1.1/4POL e o cadastro escreve '1 1/4 POL', '1-1/4"'.
+            # Reformata pela regra 5 antes de desistir da lista.
+            if "POL" in v:
+                pol = fmt_pol(v.replace("POL", "").strip())
+                canonico = atributo.chaves.get(normalizar(pol)) if pol else None
+                if canonico:
+                    return Veredito(True, canonico, "reformatado para POL")
             return Veredito(False, None, f"fora da lista de valores permitidos de {atributo.nome}")
 
         f = normalizar(atributo.formato)
@@ -106,12 +132,18 @@ class Validador:
 
         for _, rx in candidatos:
             if rx.match(v):
-                return Veredito(True, v)
+                return Veredito(True, _sem_zero_inutil(v))
         if RX_FAIXA.match(v):
             return Veredito(True, v)       # FAIXA de medicao: 0-16BAR, 0-250BAR
 
-        # nenhuma casou: tenta reformatar na unidade de maior preferencia
-        return self._corrigir(v, candidatos[0][0])
+        # nenhuma casou: tenta reformatar na unidade de maior preferencia - ou na
+        # que o proprio valor traz, quando o atributo aceita as duas. COMPRIMENTO
+        # de PDM001 e 'MM (rosca metrica) ou POL (rosca em polegada)', e
+        # reformatar '1-1/4POL' para MM recusava o comprimento de todo parafuso
+        # UNC com 'valor em POL, mas o atributo exige MM'.
+        unidades = [u for u, _ in candidatos]
+        alvo = "POL" if ("POL" in v and "POL" in unidades) else unidades[0]
+        return self._corrigir(v, alvo)
 
     @staticmethod
     def _corrigir(v: str, familia: str) -> Veredito:
@@ -122,6 +154,10 @@ class Validador:
         porque isso troca a medida do item em vez de corrigir a notacao.
         """
         sufixo = re.search(r"[A-Z]+$", v)
+        # Secao de cabo escrita 'SECAO:2,5MM': num atributo de MM2 isso e mm2,
+        # a unidade so veio abreviada. Recusar deixava o cabo pendente.
+        if familia == "MM2" and sufixo and sufixo.group(0) == "MM":
+            sufixo = None
         if sufixo and sufixo.group(0) not in (familia, ""):
             return Veredito(False, None,
                             f"valor em {sufixo.group(0)}, mas o atributo exige {familia}")

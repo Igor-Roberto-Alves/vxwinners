@@ -65,10 +65,15 @@ SINONIMO_ROTULO = {
     "PRESSAO": "PRESSAO TRABALHO", "TENSAO": "TENSAO ISOLAMENTO",
 }
 
+# A virgula so delimita quando NAO esta entre digitos. Com ',' como delimitador
+# incondicional, a virgula decimal do pt-BR cortava o valor: 'DIAMETRO
+# EIXO:16,25MM' virava 16MM, 'SECAO:1,5MM2' virava 1MM2 e 'BITOLA:M12X1,5'
+# virava M12X1 - e a camada 0 aceitava o valor truncado com confianca 0,99.
+# 944 registros tem valor rotulado com virgula decimal.
 RX_PAR = re.compile(
     r"([A-Z/ ]{1,30}?)\s*:\s*"              # rotulo
     r"(.+?)"                                 # valor, o menor possivel
-    r"(?=\s*[;,]|\s+[A-Z][A-Z0-9/ ]{0,28}\s*:|\s*$)"   # ate o delimitador ou o proximo rotulo
+    r"(?=\s*;|\s*,(?!\d)|(?<!\d),|\s+[A-Z][A-Z0-9/ ]{0,28}\s*:|\s*$)"   # ate o delimitador ou o proximo rotulo
 )
 
 

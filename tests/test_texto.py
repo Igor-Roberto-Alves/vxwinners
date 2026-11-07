@@ -90,7 +90,9 @@ def test_ind_depois_de_sensor_e_indutivo():
     ("PARAF SEXT S/ACAB", "PARAFUSO SEXTAVADO SEM ACABAMENTO"),
     ("ARRUELA S/ACABAMENTO", "ARRUELA SEM ACABAMENTO"),
     ("MANG HIDR C/TERMINAIS", "MANGUEIRA HIDRAULICA COM TERMINAIS"),
-    ("CAT P/N 1R-1808", "CAT PART NUMBER 1R-1808"),
+    # P/N fica intacto: expandido, mudava a entrada do BERT e ele passava a
+    # etiquetar FABRICANTE como MATERIAL (docs/07, secao 5)
+    ("CAT P/N 1R-1808", "CAT P/N 1R-1808"),
     ("GRAXA P/ ROLAMENTO", "GRAXA PARA ROLAMENTO"),
     ("MOTOR S/N 12345", "MOTOR S/N 12345"),                       # numero de serie
 ])
@@ -198,3 +200,57 @@ def test_bitola_com_hifen_da_base():
 
 def test_passo_explicito_indica_metrica_fina():
     assert separar_rosca_metrica("M12X1,5X50")["ROSCA"] == "METRICA FINA"
+
+
+# ------------------------------------------------- rosca fina (regra 2 do PDM)
+
+@pytest.mark.parametrize("cru,bitola,comprimento,rosca", [
+    ("M12X50", "M12", "50MM", "METRICA GROSSA"),
+    ("BITOLA:M12X1,5", "M12X1,5", None, "METRICA FINA"),     # passo, nao comprimento
+    ("M10X1,25X70", "M10X1,25", "70MM", "METRICA FINA"),     # era M10 + 1,25MM
+    ("M16 X 1,5 X 100", "M16X1,5", "100MM", "METRICA FINA"),
+    ("M8X1", "M8X1", None, "METRICA FINA"),
+    ("M8X1,25X40", "M8", "40MM", "METRICA GROSSA"),          # passo grosso escrito
+    ("M3X3", "M3", "3MM", "METRICA GROSSA"),                 # parafuso miudo: comprimento
+])
+def test_regra2_distingue_passo_de_comprimento(cru, bitola, comprimento, rosca):
+    r = separar_rosca_metrica(cru)
+    assert r["BITOLA"] == bitola
+    assert r.get("COMPRIMENTO") == comprimento
+    assert r["ROSCA"] == rosca
+
+
+# ------------------------------------------- camada 0: virgula decimal
+
+@pytest.mark.parametrize("cru,esperado", [
+    ("RETENTOR; DIAMETRO EIXO:16,25MM; LARGURA: 7MM",
+     [("DIAMETRO EIXO", "16,25MM"), ("LARGURA", "7MM")]),
+    ("CABO, SECAO:1,5MM2, COR:AZUL", [("SECAO", "1,5MM2"), ("COR", "AZUL")]),
+    ("PARAFUSO, BITOLA:M12X1,5, COMPR:120MM", [("BITOLA", "M12X1,5"), ("COMPRIMENTO", "120MM")]),
+    ("PARAF, ROSCA:M12,COMP:50MM", [("ROSCA", "M12"), ("COMPRIMENTO", "50MM")]),
+])
+def test_par_rotulado_nao_corta_na_virgula_decimal(cru, esperado):
+    # 'SECAO:1,5MM2' virava 1MM2 e era aceito com confianca 0,99: item errado.
+    from saneamento.rotulos import pares
+    assert pares(cru) == esperado
+
+
+def test_regra2_comprimento_em_metro_nao_vira_mm():
+    # 'BARRA ROSCADA M16X1M' e barra de 1 metro: nem passo de rosca (bitola M16X1)
+    # nem 1MM. A bitola fica M16 e o comprimento fica para a gramatica.
+    r = separar_rosca_metrica("BARRA ROSCADA M16X1M ACO CARB ZINCADO")
+    assert r["BITOLA"] == "M16"
+    assert "COMPRIMENTO" not in r
+
+
+@pytest.mark.parametrize("cru,esperado", [
+    ('VALVULA RET 2" 300#', "VALVULA RET 2POL 300#"),
+    ('UNIAO 1/2"', "UNIAO 1/2POL"),
+    ('TUBO 1 1/4" SCH 40', "TUBO 1.1/4POL SCH 40"),         # fracao mista: regra 5
+    ('PARAF 7/8"X2 1/4POL', "PARAF 7/8POL X 2.1/4POL"),     # bitola X comprimento
+    ('COTOV GRAUS 90 1/4POL NPT', "COTOV GRAUS 90 1/4POL NPT"),  # angulo nao e inteiro
+    ('TUBO SCH 40 1/2"', "TUBO SCH 40 1/2POL"),                # schedule nao e inteiro
+])
+def test_aspas_de_polegada_viram_pol(cru, esperado):
+    # 1.273 registros escrevem polegada com aspas; normalizar() as apagava.
+    assert normalizar(cru) == esperado

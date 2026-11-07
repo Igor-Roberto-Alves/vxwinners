@@ -424,7 +424,11 @@ def test_condicional_vazio_derruba_a_completude_do_registro(pipe):
     })
     assert r.pendentes == ["CAPACIDADE INTERRUPCAO"]
     assert r.completude < 1.0
-    assert r.chave_identidade is None and r.estado == "PENDENTE"
+    # Sanear nao e completar: o texto nao informa a capacidade de interrupcao,
+    # entao o registro esta SANEADO (tudo o que o texto diz foi lido) mas
+    # INCOMPLETO, e sem chave de identidade.
+    assert r.chave_identidade is None
+    assert r.estado == "SANEADO" and not r.completo
 
 
 def test_cor_de_cabo_sobrevive_as_passadas(pdm):
@@ -1278,3 +1282,223 @@ def test_opcional_nao_copia_o_primeiro_numero(pdm):
     assert c["DIAMETRO EXTERNO"].valor == "110MM"
     assert c["ESPESSURA"].valor == "8MM"
     assert c["DIAMETRO INTERNO"].valor != c["DIAMETRO EXTERNO"].valor
+
+
+# ------------------------------------------- BERT restrito + rotulo telegrafico
+
+class _BertFalso:
+    """Devolve sempre as mesmas previsoes, para testar a mascara do pipeline."""
+
+    def __init__(self, previsoes):
+        self.previsoes = previsoes
+        self.vistos: list[list[str]] = []
+
+    def prever(self, tokens):
+        from saneamento.bert import Predicao
+        self.vistos.append(tokens)
+        return [Predicao(a, v, c, ()) for a, v, c in self.previsoes]
+
+
+def test_bert_descarta_proposta_fora_da_lista_em_caixa_textual(pdm):
+    # 'FABRICANTE' recortado como MATERIAL (caixa TEXTUAL) era a recusa mais
+    # comum da base: 3.141 registros, cada um uma caixa INVALIDO sem informacao.
+    falso = _BertFalso([("MATERIAL", "FABRICANTE", 0.9),
+                        ("REFERENCIA FABRICANTE", "519-8798", 0.9)])
+    p = Pipeline(pdm, bert=falso)
+    cand = p._bert("EIXO CAMINHAO FAB CATERPILLAR P/N 519-8798", pdm.classes["PDM110"])
+    assert "MATERIAL" not in cand
+    assert cand["REFERENCIA FABRICANTE"].valor == "519-8798"
+
+
+def test_bert_com_valor_da_lista_ainda_aponta_conflito(pdm):
+    # Valor VALIDO e diferente do da regra continua indo ao arbitro: foi assim
+    # que apareceram os 136 BITOLA M10 x M10X1,25 (rosca fina).
+    falso = _BertFalso([("BITOLA", "M10X1,25", 0.9)])
+    p = Pipeline(pdm, bert=falso)
+    cand = p._bert("PARAFUSO SEXTAVADO M10 ROSCA FINA", pdm.classes["PDM001"])
+    assert cand["BITOLA"].valor == "M10X1,25"
+
+
+def test_invalido_em_atributo_opcional_nao_trava_registro(pdm):
+    # PDM110 MATERIAL e opcional ('quando informado pelo fabricante'). Um lixo
+    # do BERT ali nao pode tirar de SANEADO um registro com a chave fechada.
+    falso = _BertFalso([("MATERIAL", "PARA", 0.9)])
+    p = Pipeline(pdm, bert=falso)
+    r = p.processar({
+        "CODIGO_MATERIAL": "T2", "GRUPO_MERCADORIA": "",
+        "DESCRICAO_LONGA": "EIXO, APLIC:CAMINHAO FORA DE ESTRADA, MODELO:793F, "
+                           "FABRICANTE:CATERPILLAR, PN:519-8798",
+    })
+    assert r.id_pdm == "PDM110"
+    assert "MATERIAL" not in r.pendentes
+
+
+def test_coluna_erp_vence_bert_no_part_number(pdm):
+    falso = _BertFalso([("REFERENCIA FABRICANTE", "18316702", 0.95)])
+    r = Pipeline(pdm, bert=falso).processar({
+        "CODIGO_MATERIAL": "T3", "GRUPO_MERCADORIA": "",
+        "DESCRICAO_LONGA": "CABECOTE PERFURATRIZ FLEXIROC T45 EPIROC 18316702",
+        "FABRICANTE": "EPIROC", "REFERENCIA_FABRICANTE": "5215 6049 61",
+    })
+    assert r.decisoes["REFERENCIA FABRICANTE"].valor == "5215 6049 61"
+
+
+def test_bert_recebe_texto_sem_expansao(pdm):
+    # O treino ve o valor cru; FAB -> FABRICANTE na inferencia criava palavra nova.
+    tokens = Pipeline(pdm)._tokens_para_bert("EIXO COM FAB CATERPILLAR P/N 519-8798")
+    assert "FAB" in tokens and "FABRICANTE" not in tokens
+    assert "P/N" in tokens and "PART" not in tokens
+
+
+@pytest.mark.parametrize("texto,esperado", [
+    ("EIXO CAMINHAO FORA DE ESTRADA FAB CATERPILLAR P/N 519-8798", "519-8798"),
+    ("VIGA PENEIRA EQUIP TS 3.6X7.3 METSO P/N N45459632 REV A", "N45459632 REV A"),
+    ("MANDIBULA FIXA CJ412 COD 458.6479-93 REV A SANDVIK", "458.6479-93 REV A"),
+    ("BUCHA REF FABRICANTE 1096757 HIDR", "1096757"),
+    ("ROLAMENTO REFERENCIA DE 22310E/C3", "22310E/C3"),
+    ("CABECOTE FLEXIROC T45 EPIROC PN 1728 9860 67", "1728 9860 67"),   # grupos
+    ("BUCHA REF 12345 50 MM", "12345"),                                  # 50 MM e medida
+])
+def test_part_number_depois_de_rotulo_telegrafico(pdm, texto, esperado):
+    from saneamento.regras import ExtratorLexico
+    c = ExtratorLexico(pdm).extrair(texto, pdm.classes["PDM110"], "EIXO")
+    assert c["REFERENCIA FABRICANTE"].valor == esperado
+    assert c["REFERENCIA FABRICANTE"].fonte == "rotulo_telegrafico"
+
+
+@pytest.mark.parametrize("texto", [
+    "FLANGE CEGO PN 16 ACO CARBONO",      # pressao nominal, nao part number
+    "BUCHA REF 25MM",                     # medida, nao codigo
+    "TAMPA REF FABRICANTE A CONFIRMAR",   # rotulo sem codigo
+])
+def test_rotulo_telegrafico_nao_inventa_codigo(pdm, texto):
+    from saneamento.regras import ExtratorLexico
+    c = ExtratorLexico(pdm).extrair(texto, pdm.classes["PDM110"], "BUCHA")
+    assert c["REFERENCIA FABRICANTE"].fonte != "rotulo_telegrafico" or \
+        c["REFERENCIA FABRICANTE"].valor is None
+
+
+@pytest.mark.parametrize("regra,bert", [
+    ("N45459632 REV A", "N45459632-REVA"),     # mesma referencia, outra pontuacao
+    ("MM1728484", "MM1728484 APLICACAO"),      # BERT engoliu a palavra seguinte
+])
+def test_part_number_compativel_e_acordo(pdm, regra, bert):
+    arb = Arbitro(Validador(pdm))
+    d = arb._decidir(pdm.classes["PDM110"], "REFERENCIA FABRICANTE",
+                     Candidato("REFERENCIA FABRICANTE", regra, "rotulo_telegrafico", 0.9, regra),
+                     Candidato("REFERENCIA FABRICANTE", bert, "bert", 0.9, bert))
+    assert d.estado == "ACEITO" and d.fonte == "acordo"
+    assert d.valor == regra                     # vale o valor ancorado no rotulo
+
+
+def test_part_number_diferente_e_conflito(pdm):
+    arb = Arbitro(Validador(pdm))
+    d = arb._decidir(pdm.classes["PDM110"], "REFERENCIA FABRICANTE",
+                     Candidato("REFERENCIA FABRICANTE", "1R-1808", "rotulo_telegrafico", 0.9, "1R-1808"),
+                     Candidato("REFERENCIA FABRICANTE", "P551808", "bert", 0.9, "P551808"))
+    assert d.estado == "CONFLITO"
+
+
+def test_coluna_erp_vence_rotulo_telegrafico(pipe):
+    # A coluna REFERENCIA_FABRICANTE e o campo proprio do cadastro: quando
+    # existe, o codigo lido do texto nao a substitui.
+    r = pipe.processar({
+        "CODIGO_MATERIAL": "T1", "GRUPO_MERCADORIA": "",
+        "DESCRICAO_LONGA": "CABECOTE PERFURATRIZ FLEXIROC T45 EPIROC COD 18316702",
+        "FABRICANTE": "EPIROC", "REFERENCIA_FABRICANTE": "5215 6049 61",
+    })
+    assert r.id_pdm == "PDM110"
+    d = r.decisoes["REFERENCIA FABRICANTE"]
+    assert d.valor == "5215 6049 61"
+    assert d.fonte == "coluna_erp"
+
+
+@pytest.mark.parametrize("cru,esperado", [
+    ("35,0MM", "35MM"), ("6,40MM", "6,4MM"), ("16,25MM", "16,25MM"), ("1,50MM2", "1,5MM2"),
+])
+def test_validador_tira_zero_decimal_inutil(pdm, cru, esperado):
+    # Mesmo valor tem de gerar a mesma chave: COMPR:35,0MM e M8X35 sao 35MM.
+    a = next(x for x in pdm.classes["PDM001"].atributos if x.nome == "COMPRIMENTO")
+    if cru.endswith("MM2"):
+        a = next(x for c in pdm.classes.values() for x in c.atributos if x.nome == "SECAO CABO")
+    assert Validador(pdm).valor(a, cru).valor == esperado
+
+
+def test_polegada_decimal_nao_vira_so_a_parte_decimal(pipe):
+    # '1,5POL' casava a partir do 5 e virava 5POL: valvula de 1.1/2" como de 5".
+    r = pipe.processar({"CODIGO_MATERIAL": "T4", "GRUPO_MERCADORIA": "VAL01",
+                        "DESCRICAO_LONGA": "VALVULA ESFERA 1,5POL 300# ACO INOX"})
+    assert r.decisoes["DIAMETRO NOMINAL"].valor == "1.1/2POL"
+
+
+def test_ultimo_par_da_longa_nao_vaza_para_a_curta(pipe):
+    r = pipe.processar({
+        "CODIGO_MATERIAL": "T5", "GRUPO_MERCADORIA": "VAL01",
+        "DESCRICAO_LONGA": "VALV GAV, ACIONAMENTO:VOLANTE, 300#, CONEXAO:FLANGEADA RF, "
+                           "DIAM NOMINAL:1,5POL",
+        "DESCRICAO_CURTA": "VALV GAV ACIONAMENTO VOLANTE 300# ACO IN",
+    })
+    d = r.decisoes["DIAMETRO NOMINAL"]
+    assert d.valor == "1.1/2POL" and d.fonte == "rotulo"
+
+
+@pytest.mark.parametrize("texto,bitola,comprimento", [
+    ('PARAFUSO SEXTAVADO UNC, BITOLA 1/2", COMPR 2 POL, SAE GRAU 8', "1/2POL", "2POL"),
+    ('PARAF HEXAGONAL; BITOLA:1 1/4 POL; ROSCA:UNC; COMP:1-1/4"; CL:SAE GRAU 8', "1.1/4POL", "1.1/4POL"),
+    ('PARAFUSO SEXTAVADO, ROSCA:UNF, BITOLA:1", COMPR:3-1/2", CL:SAE GRAU 8', "1POL", "3.1/2POL"),
+])
+def test_parafuso_polegada_bitola_e_comprimento(pipe, texto, bitola, comprimento):
+    # As duas medidas em polegada estao na lista de COMPRIMENTO. A que ja e a
+    # BITOLA nao serve para o comprimento; duas grafias do mesmo valor nao sao
+    # ambiguidade.
+    r = pipe.processar({"CODIGO_MATERIAL": "T6", "GRUPO_MERCADORIA": "FIX01",
+                        "DESCRICAO_LONGA": texto})
+    assert r.decisoes["BITOLA"].valor == bitola
+    assert r.decisoes["COMPRIMENTO"].valor == comprimento
+
+
+@pytest.mark.parametrize("texto,grupo,atributo,esperado", [
+    # fracao mista: '1 3/4POL' nao pode oferecer '3/4POL' a BITOLA
+    ('PARAFUSO SEXTAVADO, ROSCA:UNC, ROSCA:1/2", COMPRIMENTO:1 3/4POL, GRAU:SAE GRAU 5',
+     "FIX01", "BITOLA", "1/2POL"),
+    ('PARAF SEXT. UNC 7/8"X2 1/4POL SAE GRAU 8 ACO CARB', "FIX01", "COMPRIMENTO", "2.1/4POL"),
+    # 'DN 6"' e 6 polegadas, nao DN 6 (1/8")
+    ('VALVULA ESFERA DN 6" 150# INOX 316', "VAL01", "DIAMETRO NOMINAL", "6POL"),
+    ("VALVULA ESFERA DN 50 150#", "VAL01", "DIAMETRO NOMINAL", "2POL"),
+    # secao de cabo escrita em MM e mm2
+    ("CABO ELETRICO, TIPO:FLEXIVEL, SECAO:2,5MM, VIAS:1, 450/750V", "ELE01", "SECAO", "2,5MM2"),
+])
+def test_medidas_que_chegavam_erradas(pipe, texto, grupo, atributo, esperado):
+    r = pipe.processar({"CODIGO_MATERIAL": "T7", "GRUPO_MERCADORIA": grupo,
+                        "DESCRICAO_LONGA": texto})
+    assert r.decisoes[atributo].valor == esperado
+
+
+@pytest.mark.parametrize("recorte,esperado", [
+    ("PN 12560", "12560"), ("COD FABRICANTE 1498169442", "1498169442"), ("REF 22310E/C3", "22310E/C3"),
+])
+def test_bert_nao_leva_rotulo_no_part_number(pdm, recorte, esperado):
+    p = Pipeline(pdm, bert=_BertFalso([("REFERENCIA FABRICANTE", recorte, 0.9)]))
+    cand = p._bert("TAMBOR RETORNO FLEXCO PN 12560", pdm.classes["PDM110"])
+    assert cand["REFERENCIA FABRICANTE"].valor == esperado
+
+
+@pytest.mark.parametrize("recorte", ["PN", "COD", "REF"])
+def test_bert_rotulo_sozinho_nao_e_part_number(pdm, recorte):
+    p = Pipeline(pdm, bert=_BertFalso([("REFERENCIA FABRICANTE", recorte, 0.9)]))
+    assert "REFERENCIA FABRICANTE" not in p._bert("ANEL DESGASTE KSB PN", pdm.classes["PDM110"])
+
+
+def test_dado_ausente_nao_tira_de_saneado_mas_valor_nao_reconhecido_tira(pipe):
+    # Ausente do texto: saneado e incompleto.
+    ausente = pipe.processar({"CODIGO_MATERIAL": "T8", "GRUPO_MERCADORIA": "FIX01",
+                              "DESCRICAO_LONGA": "PARAFUSO SEXTAVADO M12X50 8.8 DIN 933"})
+    assert ausente.estado == "SANEADO" and not ausente.completo
+    assert ausente.pendentes                      # a lista do que falta continua la
+    # Completo: tudo cheio e a chave fecha.
+    cheio = pipe.processar({
+        "CODIGO_MATERIAL": "T9", "GRUPO_MERCADORIA": "FIX01",
+        "DESCRICAO_LONGA": "PARAFUSO SEXTAVADO; ROSCA: METRICA GROSSA; BITOLA: M12; "
+                           "COMPRIMENTO: 75MM; CLASSE RESISTENCIA: 8.8; MATERIAL: ACO CARBONO; "
+                           "ACABAMENTO: OXIDADO PRETO; NORMA: DIN 931"})
+    assert cheio.estado == "SANEADO" and cheio.completo and cheio.chave_identidade

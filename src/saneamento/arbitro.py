@@ -23,8 +23,10 @@ externa) ou devolucao ao solicitante, nao extracao.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 
+from .caixas import LIVRE, tipo_da_caixa
 from .pdm import Classe, aplica_atributo
 from .regras import PASSADAS_CONDICIONAL, Candidato
 from .validador import Validador
@@ -45,6 +47,14 @@ PESO = {
 # uma pista para o LLM, nao divergencia que uma pessoa precise arbitrar - e
 # tratar como tal jogava 49,5% da base para revisao humana sem motivo.
 ESTADOS_REVISAO = ("CONFLITO", "AMBIGUO")
+
+_NAO_ALFANUM = re.compile(r"[^A-Z0-9]")
+
+
+def _chave_livre(valor: str | None) -> str:
+    """Forma de comparacao de part number: a mesma que chave_identidade usa."""
+    return _NAO_ALFANUM.sub("", (valor or "").upper())
+
 
 LIMIAR_DISCORDANCIA = 0.30
 LIMIAR_BERT = 0.60
@@ -128,6 +138,21 @@ class Arbitro:
                            motivo=f"valores permitidos em conflito: {list(regra.alternativas)}")
 
         if v_regra and v_bert:
+            # Caixa LIVRE (part number): a mesma referencia aparece com e sem
+            # pontuacao ('N45459632 REV A' x 'N45459632-REVA'), e o BERT as vezes
+            # engole a palavra seguinte ('MM1728484 APLICACAO'). Igualdade de
+            # string marcaria conflito onde as duas camadas leram o mesmo codigo.
+            # Compara pela forma que a chave de identidade usa (so A-Z0-9); se
+            # uma contem a outra como prefixo, e acordo, e vale o valor da REGRA,
+            # que esta ancorado num rotulo e nao arrasta palavra vizinha.
+            if tipo_da_caixa(atributo) == LIVRE:
+                ka, kb = _chave_livre(v_regra.valor), _chave_livre(v_bert.valor)
+                if ka and kb and (ka.startswith(kb) or kb.startswith(ka)):
+                    return Decisao(**base, valor=v_regra.valor, fonte="acordo",
+                                   confianca=min(0.99, 0.5 * (v_regra.confianca + v_bert.confianca) + 0.3),
+                                   estado="ACEITO",
+                                   motivo="regra e BERT leram o mesmo codigo",
+                                   evidencia=v_regra.evidencia)
             if v_regra.valor == v_bert.valor:
                 return Decisao(**base, valor=v_regra.valor, fonte="acordo",
                                confianca=min(0.99, 0.5 * (v_regra.confianca + v_bert.confianca) + 0.3),

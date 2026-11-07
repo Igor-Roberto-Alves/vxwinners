@@ -17,18 +17,27 @@ from .bert import ExtratorBert
 from .llm import DesempateLlm
 from .pdm import Pdm
 from .regras import Candidato, ClassificadorLexico, ExtratorLexico
-from .texto import expandir, juntar, normalizar, normalizar_estrutura
+from .texto import juntar, normalizar, normalizar_estrutura
 from .validador import Validador
 
 # Rotulo de um par "ATRIBUTO: VALOR": o nome antes dos dois pontos. Mesma forma
 # que rotulos.RX_PAR usa para gerar o treino, para treino e inferencia verem o
 # mesmo texto.
 RX_ROTULO = re.compile(r"(?:^|[;,])\s*[A-Z][A-Z0-9/ ]{0,28}?\s*:")
+# Rotulo de part number no comeco do trecho que o BERT recortou
+RX_ROTULO_REF = re.compile(
+    r"^(?:P/N|PART NUMBER|PN|REFERENCIA FABRICANTE|REF FABRICANTE|REFERENCIA|REF"
+    r"|CODIGO FABRICANTE|COD FABRICANTE|CODIGO|COD)(?:\s+(?:DE|DO|DA))?(?:\s+|$)")
 
-# Estados finais do registro
-SANEADO = "SANEADO"            # todos os obrigatorios preenchidos e chave de identidade fechada
-PENDENTE = "PENDENTE"          # falta obrigatorio que o texto nao informa -> enriquecimento
-REVISAO = "REVISAO_HUMANA"     # conflito que nem o LLM resolveu
+# Estados finais do registro.
+#
+# Sanear nao e completar: e extrair e padronizar CORRETAMENTE tudo o que o texto
+# informa. Obrigatorio que o texto nao traz nao torna o registro "nao saneado" -
+# torna-o INCOMPLETO, que e outro eixo (campo `completo`), resolvido por
+# enriquecimento ou devolucao ao solicitante, nunca por extracao.
+SANEADO = "SANEADO"            # tudo o que o texto informa foi extraido e validado, sem duvida
+PENDENTE = "PENDENTE"          # o texto traz valor obrigatorio que o PDM nao reconheceu
+REVISAO = "REVISAO_HUMANA"     # conflito: duas leituras plausiveis do mesmo dado
 FORA_DO_PDM = "FORA_DO_PDM"    # nao existe classe para o item
 
 
@@ -54,6 +63,7 @@ class RegistroSaneado:
     ncm_motivo: str = ""
     chave_identidade: str | None = None
     completude: float = 0.0
+    completo: bool = False
     discordancia: float = 0.0
     escalado: bool = False
     motivos_escalada: list[str] = field(default_factory=list)
@@ -80,6 +90,7 @@ class RegistroSaneado:
             "NCM_MOTIVO": self.ncm_motivo,
             "CHAVE_IDENTIDADE": self.chave_identidade or "",
             "COMPLETUDE": round(self.completude, 3),
+            "COMPLETO": int(self.completo),
             "DISCORDANCIA": round(self.discordancia, 3),
             "ESCALADO_LLM": int(self.escalado),
             "MOTIVOS_ESCALADA": " | ".join(self.motivos_escalada),
@@ -105,7 +116,7 @@ class Pipeline:
         self.llm = llm
         self.arbitro = arbitro or Arbitro(self.validador)
         self.contador = {"total": 0, SANEADO: 0, PENDENTE: 0, REVISAO: 0, FORA_DO_PDM: 0,
-                         "escalados": 0, "falhas_llm": 0}
+                         "escalados": 0, "falhas_llm": 0, "completos": 0}
         self.ultimo_erro_llm = ""
 
     # ------------------------------------------------------------- bert
@@ -116,15 +127,35 @@ class Pipeline:
         tokens = self._tokens_para_bert(texto)
         if not tokens:
             return {}
-        validos = {a.nome for a in classe.atributos}
+        # Caixa TEXTUAL (lista fechada do PDM): o BERT so entra com valor DA
+        # LISTA. Medido na base inteira, ali ele nunca preencheu nada que a regra
+        # nao preenchesse (0 caixas exclusivas) e gerou 8.038 propostas fora da
+        # lista ('FABRICANTE' como MATERIAL, 'PARA', 'USO') - cada uma virava
+        # caixa INVALIDO, sem informacao nenhuma. Mas quando propoe OUTRO valor
+        # valido ele aponta erro real da regra: 136 BITOLA em que o gazetteer
+        # dizia M10 e o texto dizia M10X1,25 (rosca fina). Por isso a proposta
+        # valida continua indo ao arbitro, que a registra como CONFLITO, e a
+        # invalida e descartada aqui. Em LIVRE e NUMERICA nada muda.
+        por_nome = {a.nome: a for a in classe.atributos}
         saida: dict[str, Candidato] = {}
         for p in self.bert.prever(tokens):
-            if p.atributo not in validos:
+            atributo = por_nome.get(p.atributo)
+            if atributo is None:
                 continue                      # mascara pela classe prevista
+            if atributo.fechado and not self.validador.valor(atributo, p.valor).ok:
+                continue                      # fora da lista: ruido, nao evidencia
+            valor = p.valor
+            if p.atributo in ("REFERENCIA FABRICANTE", "REFERENCIA"):
+                # Com o texto cru o BERT ve o rotulo telegrafico e as vezes o
+                # recorta junto ('PN 12560') ou sozinho ('PN', 'COD'): 53 dos 77
+                # conflitos de part number da base eram so isso.
+                valor = RX_ROTULO_REF.sub("", valor).strip()
+                if not valor or not any(ch.isdigit() for ch in valor):
+                    continue
             atual = saida.get(p.atributo)
             if atual is None or p.confianca > atual.confianca:
                 saida[p.atributo] = Candidato(
-                    atributo=p.atributo, valor=p.valor, fonte="bert",
+                    atributo=p.atributo, valor=valor, fonte="bert",
                     confianca=p.confianca, evidencia=p.valor,
                 )
         return saida
@@ -143,6 +174,12 @@ class Pipeline:
         'ATRIBUTO: VALOR'. Texto telegrafico, que nao tem rotulo, passa intacto.
         Filtrar por lista de palavras seria cego - apagaria 'PARAFUSO' (que e o
         sujeito) e manteria 'ACABAMENTO' (que tambem e valor, em SEM ACABAMENTO).
+
+        Sem expandir(): o treino (`rotulos.py`) usa o valor como esta escrito,
+        sem expansao de abreviacao. Expandir aqui criava, na inferencia, palavras
+        que o modelo nunca viu - FAB -> FABRICANTE e a origem dos 3.141
+        'FABRICANTE' recortados como MATERIAL, e P/N -> PART NUMBER moveu mais 47
+        registros para o mesmo erro (docs/07-abreviacoes.md, secao 5).
         """
         estruturado = normalizar_estrutura(texto)
         if ":" in estruturado:
@@ -150,7 +187,7 @@ class Pipeline:
             limpo = RX_ROTULO.sub(" ", estruturado)
         else:
             limpo = estruturado
-        return expandir(limpo).split()
+        return normalizar(limpo).split()
 
     # ------------------------------------------------------------- registro
 
@@ -165,7 +202,10 @@ class Pipeline:
             for c in ("DESCRICAO_LONGA", "DESCRICAO_CURTA", "FABRICANTE", "REFERENCIA_FABRICANTE")
         ))
         original = str(registro.get("DESCRICAO_LONGA", "") or "")
-        estruturado = normalizar_estrutura(" ".join(
+        # '; ' e nao ' ': com espaco, o ultimo par da LONGA continuava dentro da
+        # CURTA ('DIAM NOMINAL:1,5POL VALV GAV ACIONAMENTO ...'), o valor era
+        # recusado e a camada 0 perdia exatamente o atributo que fecha a linha.
+        estruturado = normalizar_estrutura("; ".join(
             str(registro.get(c, "") or "")
             for c in ("DESCRICAO_LONGA", "DESCRICAO_CURTA")))
 
@@ -182,7 +222,22 @@ class Pipeline:
         # texto_estruturado preserva ':' e ';' para a camada 0 ler o rotulo
         cand_regras = self.regras.extrair(texto, classe, sujeito.substantivo,
                                           texto_estruturado=estruturado)
+        # A coluna REFERENCIA_FABRICANTE do ERP e o campo proprio do cadastro e
+        # vale mais que o rotulo telegrafico lido no texto: quando ela existe, a
+        # regra telegrafica cede e _preencher_das_colunas usa a coluna. Sem isso
+        # a regra trocava '1728 9860 67' (coluna) por um codigo lido do texto, e
+        # a chave de identidade mudava em 308 registros.
+        ref = cand_regras.get("REFERENCIA FABRICANTE")
+        if (ref is not None and ref.fonte == "rotulo_telegrafico"
+                and str(registro.get("REFERENCIA_FABRICANTE", "") or "").strip()):
+            cand_regras["REFERENCIA FABRICANTE"] = Candidato(
+                ref.atributo, None, "rotulo_telegrafico", 0.0,
+                motivo="coluna REFERENCIA_FABRICANTE do ERP tem precedencia")
         cand_bert = self._bert(texto, classe)
+        # Mesma precedencia para o BERT: com a coluna do ERP preenchida, o
+        # part number recortado do texto nao a substitui.
+        if str(registro.get("REFERENCIA_FABRICANTE", "") or "").strip():
+            cand_bert.pop("REFERENCIA FABRICANTE", None)
         res: Resultado = self.arbitro.arbitrar(classe, cand_regras, cand_bert,
                                                sujeito.confianca, sujeito.substantivo)
 
@@ -285,16 +340,25 @@ class Pipeline:
 
         pendentes = [d.atributo for d in res.em_estado("PENDENTE")]
         conflitos = [d.atributo for d in res.em_estado(*ESTADOS_REVISAO)]
-        # INVALIDO vira pendencia, nao revisao: a caixa esta vazia de todo jeito
-        invalidos = [d.atributo for d in res.em_estado("INVALIDO")]
+        # INVALIDO vira pendencia, nao revisao: a caixa esta vazia de todo jeito.
+        # Mas so pesa quando o atributo e OBRIGATORIO para este registro. Caixa
+        # opcional vazia e normal (PDM110 MATERIAL e 'quando informado pelo
+        # fabricante'); contar o INVALIDO dela prendia em PENDENTE 3.180
+        # registros com a chave fechada e todos os obrigatorios cheios, quase
+        # todos por um 'FABRICANTE' que o BERT recortou como MATERIAL.
+        exigidos = set(res.obrigatorios)
+        invalidos = [d.atributo for d in res.em_estado("INVALIDO") if d.atributo in exigidos]
 
         if conflitos:
             estado = REVISAO
-        elif pendentes or invalidos or chave is None:
-            estado = PENDENTE
+        elif invalidos:
+            estado = PENDENTE          # ha dado no texto, mas fora do padrao do PDM
         else:
-            estado = SANEADO
+            estado = SANEADO           # mesmo com obrigatorio ausente do texto
+        # Segundo eixo: todo obrigatorio cheio e a identidade provada pela chave
+        completo = not pendentes and not invalidos and chave is not None
         self.contador[estado] += 1
+        self.contador["completos"] += int(completo)
 
         return RegistroSaneado(
             codigo=codigo, estado=estado, id_pdm=classe.id_pdm,
@@ -307,7 +371,8 @@ class Pipeline:
             unidade_pdm=un.valor, unidade_motivo=un.motivo,
             ncm_original=str(registro.get("NCM", "") or ""),
             ncm_pdm=ncm.valor, ncm_motivo=ncm.motivo,
-            chave_identidade=chave, completude=res.completude, discordancia=res.discordancia,
+            chave_identidade=chave, completude=res.completude, completo=completo,
+            discordancia=res.discordancia,
             escalado=escalado, motivos_escalada=res.motivos_escalada,
             pendentes=sorted(set(pendentes) | set(invalidos)),
             conflitos=conflitos, decisoes=res.decisoes,

@@ -81,29 +81,63 @@ O que mudou:
   `S/ACAB → SEM ACABAMENTO`. Agora o valor sai do casamento literal, sem depender
   do aprendido.
 
-### Com BERT (`--sem-llm`)
+## 5. Com BERT (`--sem-llm`)
 
-_ver seção 5_
+Três execuções sobre os 23.554 registros, com o mesmo código congelado (só o
+`texto.py` muda) e o mesmo `aprendizado.json` de partida.
 
-## 5. Com BERT
+| Indicador | Antes | 1ª versão (`P/N` → `PART NUMBER`) | **Versão final** (`P/N` intacto) |
+|---|---|---|---|
+| SANEADO | 10.069 | 10.041 (−28) | **10.077 (+8)** |
+| PENDENTE | 11.008 | 11.034 | 10.998 |
+| Chaves fechadas | 15.614 | 15.623 | 15.622 (+8) |
+| Códigos redundantes | 2.111 | 2.109 | 2.111 |
 
-PREENCHER
+### A segunda regressão: `P/N`
+
+Na primeira versão, `P/N` era expandido para `PART NUMBER`. Isso não muda
+nada nas regras, mas muda a **entrada do BERT**, que foi treinado com o texto cru
+e nunca viu `PART NUMBER`. Com o contexto novo, o modelo passou a etiquetar a
+palavra `FABRICANTE` vizinha (`FAB CATERPILLAR P/N 519-8798`, expandido para
+`FABRICANTE CATERPILLAR ...`) como valor de MATERIAL: **47 registros saíram de
+SANEADO**. O `P/N` voltou a ficar intacto.
+
+O erro de fundo já existia antes desta mudança: 3.141 registros com `MATERIAL
+= "FABRICANTE"` recusado pelo validador. A correção dele está em
+`docs/10-correcoes-extracao.md`.
+
+### O que a versão final mudou com BERT
+
+- **410 part numbers deixaram de ser corrompidos:** `N81788A66 REVESTIDO A`
+  voltou a ser `N81788A66 REV A`. O `REV` de revisão de desenho virava
+  `REVESTIDO` antes de chegar ao BERT.
+- **33 válvulas de retenção** foram para PDM043, como no modo só regras.
+- **4 caixas esvaziadas** em válvulas com `CL:PN 16`/`CLASSE:PN 25`
+  (DIAMETRO NOMINAL) e numa arruela. Com `PN 16` intacto, o BERT recorta o
+  diâmetro de outro jeito. São casos isolados, registrados aqui para não se
+  perderem.
+- 16 registros entraram em SANEADO e 9 saíram (saldo de +8 com os demais).
 
 ## 6. Como reproduzir
 
+O jeito seguro é comparar duas **cópias** do código, e não usar `git stash`:
+com outras mudanças não commitadas no mesmo arquivo, o stash leva junto o que
+não é seu.
+
 ```bash
-S=/tmp/abrev; for d in antes depois; do mkdir -p $S/$d
-  ln -sf $PWD/artefatos/pdm.json $S/$d/; ln -sfn $PWD/artefatos/modelo_bert $S/$d/
-  cp artefatos/aprendizado.json $S/$d/; done
-git stash   # código antigo
-.venv/bin/python scripts/04_extrair.py --sem-bert --sem-llm --artefatos $S/antes
-git stash pop
-.venv/bin/python scripts/04_extrair.py --sem-bert --sem-llm --artefatos $S/depois
+S=/tmp/abrev
+for v in antes depois; do mkdir -p $S/cod_$v $S/$v; cp -r scripts src $S/cod_$v/
+  ln -sf $PWD/artefatos/pdm.json $S/$v/; ln -sfn $PWD/artefatos/modelo_bert $S/$v/
+  cp artefatos/aprendizado.json $S/$v/; done
+# edite $S/cod_antes/src/... para a versão antiga, depois:
+(cd $S/cod_antes  && $OLDPWD/.venv/bin/python scripts/04_extrair.py --sem-llm --artefatos $S/antes  --base $OLDPWD/dados/01_base_materiais.xlsx)
+(cd $S/cod_depois && $OLDPWD/.venv/bin/python scripts/04_extrair.py --sem-llm --artefatos $S/depois --base $OLDPWD/dados/01_base_materiais.xlsx)
 .venv/bin/python scripts/12_comparar_execucoes.py $S/antes $S/depois
 ```
 
 Cada execução precisa partir de uma **cópia** do `aprendizado.json`, porque o
-pipeline grava nele durante a execução.
+pipeline grava nele durante a execução. Duas execuções com BERT em paralelo
+estouram a memória em 30 GB: rode uma de cada vez.
 
 ## 7. Fora do escopo desta mudança
 
@@ -111,5 +145,6 @@ pipeline grava nele durante a execução.
   medidos estão certos, mas o lugar correto deles é `sinonimos.py`, com a trava
   da lista do atributo.
 - O treino do BERT (`rotulos.py`) usa o texto **sem** expansão, e a inferência
-  usa o texto **com** expansão. É um train/serve skew que já existia e não foi
-  causado por esta mudança.
+  usava o texto **com** expansão. Era um train/serve skew que já existia; foi
+  corrigido em seguida (`docs/10-correcoes-extracao.md`): o BERT agora recebe o texto
+  sem expansão.

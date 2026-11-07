@@ -116,6 +116,13 @@ print("ESTADO DOS REGISTROS".center(78))
 print("=" * 78)
 for e in (SANEADO, PENDENTE, REVISAO, FORA_DO_PDM):
     print(f"{e:22s} {estados[e]:>8,}  {100 * estados[e] / n:>5.1f}%")
+# Segundo eixo: SANEADO diz que o que o texto informa esta certo; COMPLETO diz
+# que nao falta obrigatorio nenhum (o que falta vai para enriquecimento).
+completos = sum(1 for r in resultados if r.estado == SANEADO and r.completo)
+saneados_incompletos = sum(1 for r in resultados if r.estado == SANEADO and not r.completo)
+print(f"{'  saneado completo':22s} {completos:>8,}  {100 * completos / n:>5.1f}%   (todo obrigatorio cheio e chave fechada)")
+print(f"{'  saneado incompleto':22s} {saneados_incompletos:>8,}  {100 * saneados_incompletos / n:>5.1f}%   "
+      "(falta dado que o texto nao traz -> enriquecimento)")
 print(f"{'tempo total':22s} {segundos:>8.1f}s  ({n / max(segundos, 0.001):.0f} registros/s)")
 
 print()

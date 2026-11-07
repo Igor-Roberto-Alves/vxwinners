@@ -23,6 +23,7 @@ from .pdm import Atributo, Classe, Pdm, aplica_atributo
 from .rotulos import pares
 from .sinonimos import SINONIMOS
 from .texto import (
+    PRESSAO_NOMINAL,
     com_bordas,
     expandir,
     fmt_bar,
@@ -210,13 +211,37 @@ class ClassificadorLexico:
 
 # ------------------------------------------------------------------ extracao
 
+# Part number depois de rotulo telegrafico (sem dois-pontos). Rotulos mais longos
+# primeiro, para 'REFERENCIA FABRICANTE' nao parar em 'REFERENCIA'. O codigo
+# precisa ter ao menos um digito e 3 caracteres: 'REF FABRICANTE', 'COD SAP' e
+# 'REF A' nao sao codigo.
+ATRIBUTOS_REF_TELEGRAFICA = frozenset({"REFERENCIA FABRICANTE"})
+_RX_REF_TELEGRAFICA = re.compile(
+    r"(?<![A-Z0-9/])"
+    r"(P/N|PART NUMBER|PN|REFERENCIA FABRICANTE|REF FABRICANTE|REFERENCIA|REF"
+    r"|CODIGO FABRICANTE|COD FABRICANTE|CODIGO|COD)"
+    r"(?:\s+(?:DE|DO|DA|NO|N))?\s+"
+    r"((?=[A-Z0-9./\-]*\d)[A-Z0-9][A-Z0-9./\-]{2,}"
+    # grupos so de digitos em seguida: Epiroc/Atlas Copco escrevem '1728 9860 67'
+    # ... mas nunca um numero seguido de unidade ('REF 12345 50 MM')
+    r"(?:\s+\d{2,4}(?![A-Z0-9./\-])(?!\s+(?:MM2?|POL|BAR|PSI|M|KG|V|A|W|KW)(?![A-Z0-9])))*)"
+    r"(?:\s+(REV\s+[A-Z0-9]{1,2}))?"
+    r"(?![A-Z0-9])"
+)
+# Token que e medida, nao codigo: 25MM, 1/2POL, 150#, 16BAR, 3,5M
+_RX_GRANDEZA = re.compile(r"^\d+(?:[.,/]\d+)?(?:MM2?|POL|BAR|PSI|M|KG|V|A|W|KW|#)$")
+
 # Padroes de grandeza. Mantidos simples de proposito: o que eles nao resolvem
 # e justamente o residuo que vai para o BERT e para o LLM.
 RX = {
     "MM": re.compile(r"(?<![A-Z0-9,.])(\d+(?:[.,]\d+)?)\s*MM(?![0-9A-Z])"),
     "MM2": re.compile(r"(\d+(?:[.,]\d+)?)\s*MM\s?2(?![0-9])"),
-    "POL": re.compile(r"(?<![A-Z0-9])(\d+(?:[.\s\-]\d+/\d+|/\d+)?)\s*(?:POL|\"|INCH)(?![A-Z])"),
-    "DN": re.compile(r"(?<![A-Z0-9])DN\s?(\d{1,3})(?![0-9])"),
+    # Decimal tambem ('1,5POL', '1.25"'). Sem a alternativa [.,]\d+ e sem ',' e
+    # '.' no lookbehind, '1,5POL' casava a partir do 5 e virava 5POL.
+    "POL": re.compile(r"(?<![A-Z0-9,./])(\d+(?:[.\s\-]\d+/\d+|/\d+|[.,]\d+)?)\s*(?:POL|\"|INCH)(?![A-Z])"),
+    # 'DN 6"' e 6 polegadas escritas depois do rotulo DN, nao DN 6 (= 1/8"):
+    # DN seguido de numero com POL fica para a familia POL.
+    "DN": re.compile(r"(?<![A-Z0-9])DN\s?(\d{1,3})(?![0-9./,])(?!\s?POL)"),
     "BAR": re.compile(r"(\d+(?:[.,]\d+)?)\s*(BAR|PSI|MPA|KPA|KGF/CM2|ATM)(?![A-Z0-9])"),
     "A": re.compile(r"(?<![A-Z0-9])(\d+(?:[.,]\d+)?)\s*A(?![A-Z0-9])"),
     "W": re.compile(r"(?<![A-Z0-9])(\d+(?:[.,]\d+)?)\s*W(?![A-Z0-9])"),
@@ -370,7 +395,9 @@ class ExtratorLexico:
         # ACO INOX 316 engloba INOX 316, e so o mais longo vale
         achados = [k for k in achados
                    if not any(k != o and com_bordas(k) in com_bordas(o) for o in achados)]
-        distintos = [chaves[k] for k in achados]
+        # dict.fromkeys: duas grafias do MESMO valor ('1-1/4' e '1.1/4POL') nao
+        # sao ambiguidade - davam AMBIGUO entre ['1.1/4POL', '1.1/4POL']
+        distintos = list(dict.fromkeys(chaves[k] for k in achados))
         if len(distintos) == 1:
             return Candidato(a.nome, distintos[0], "gazetteer", 0.98, distintos[0])
         return Candidato(
@@ -501,6 +528,34 @@ class ExtratorLexico:
 
     # ---------------------------------------------------------- orquestracao
 
+    def _por_rotulo_telegrafico(self, bruto: str, a: Atributo) -> Candidato:
+        """Part number depois de rotulo SEM dois-pontos: 'FAB CAT P/N 519-8798'.
+
+        A camada 0 (`_por_rotulo`) so ve 'P/N: 519-8798', porque `pares()` exige
+        os dois-pontos. O texto telegrafico escreve o mesmo rotulo sem eles, e
+        ate aqui REFERENCIA FABRICANTE nesses registros so tinha o BERT - sem
+        segunda opiniao numa caixa que fecha a chave de identidade de 37% da
+        base. Medido: 83% dos part numbers que o BERT recortava vinham logo
+        depois de REF, P/N, COD ou PART NUMBER.
+
+        Pega o primeiro token com digito depois do rotulo (DE/DO opcionais),
+        mais um 'REV A' colado, porque o BERT tambem o recorta e a revisao e
+        parte do codigo do desenho. PN seguido de pressao nominal (PN 16) nao e
+        part number.
+        """
+        for m in _RX_REF_TELEGRAFICA.finditer(bruto):
+            rotulo, codigo, rev = m.group(1), m.group(2), m.group(3)
+            if rotulo == "PN" and codigo in PRESSAO_NOMINAL:
+                continue
+            if _RX_GRANDEZA.match(codigo):
+                continue                       # 'REF 25MM' e medida, nao codigo
+            valor = f"{codigo} {rev}" if rev else codigo
+            v = self.validador.valor(a, valor)
+            if v.ok:
+                return Candidato(a.nome, v.valor, "rotulo_telegrafico", 0.90,
+                                 f"{rotulo} {valor}")
+        return Candidato(a.nome, None, "rotulo_telegrafico", 0.0)
+
     def _por_rotulo(self, rotulados: dict[str, str], a: Atributo) -> Candidato:
         """CAMADA 0: o proprio cadastro escreveu o nome da caixa ao lado do valor.
 
@@ -552,6 +607,10 @@ class ExtratorLexico:
                 c = self._por_gazetteer(bruto, a)
         else:
             c = self._por_gramatica(t, classe, a, substantivo, conhecidos)
+            if c.valor is None and a.nome in ATRIBUTOS_REF_TELEGRAFICA:
+                tele = self._por_rotulo_telegrafico(bruto, a)
+                if tele.valor is not None:
+                    c = tele
 
         # regra 2 do PDM: notacao compacta M12X50 tem prioridade sobre o resto
         if a.nome in rosca and rosca[a.nome]:
@@ -616,4 +675,40 @@ class ExtratorLexico:
             # - e por isso que COR segue aplicavel enquanto NUMERO CONDUTORES
             # nao vem, em vez de ser descartada por falta de evidencia.
             conhecidos = {n: c.valor for n, c in out.items() if c.valor}
+        return self._desambiguar_por_exclusao(out)
+
+    @staticmethod
+    def _desambiguar_por_exclusao(out: dict[str, Candidato]) -> dict[str, Candidato]:
+        """Valor do texto ja usado por outra caixa nao serve para esta.
+
+        Parafuso em polegada: 'BITOLA 1/2", COMPR 2 POL'. As duas medidas estao
+        na lista de COMPRIMENTO, e o gazetteer devolvia AMBIGUO entre 1/2POL e
+        2POL - mas 1/2POL ja e a BITOLA, decidida sem ambiguidade. Sobra uma so
+        alternativa, que e a resposta. Antes de as aspas serem lidas como
+        polegada isso nao aparecia, porque o comprimento chegava como lixo
+        ('COMP:1-1/4"' virava 1,25MM) e fechava a chave com valor errado.
+
+        So remove valor de caixa decidida SEM ambiguidade, e so aceita quando
+        resta exatamente uma alternativa; com duas ou mais, continua AMBIGUO.
+        """
+        for _ in range(2):                     # uma decisao pode destravar outra
+            usados = {c.valor for c in out.values() if c.valor and not c.ambiguo}
+            mudou = False
+            for nome, c in out.items():
+                if not (c.ambiguo and c.alternativas):
+                    continue
+                # Alternativa repetida (a gramatica achou 1.1/4POL duas vezes, na
+                # bitola e no comprimento) e um valor so - e nao se exclui: o
+                # parafuso 1-1/4" x 1-1/4" tem os dois iguais de verdade.
+                alternativas = list(dict.fromkeys(c.alternativas))
+                restantes = (alternativas if len(alternativas) == 1
+                             else [v for v in alternativas if v not in usados])
+                if len(restantes) == 1:
+                    out[nome] = Candidato(
+                        nome, restantes[0], c.fonte, 0.85, restantes[0],
+                        motivo=f"unica alternativa de {list(c.alternativas)} "
+                               f"nao usada por outra caixa")
+                    mudou = True
+            if not mudou:
+                break
         return out

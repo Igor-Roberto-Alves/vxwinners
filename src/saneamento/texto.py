@@ -49,11 +49,36 @@ def normalizar_valor(s: str) -> str:
     return _ESPACO.sub(" ", sem_acento(s).upper()).strip()
 
 
+# Aspas depois de numero sao polegada: 2" -> 2POL, 1/2" -> 1/2POL. O _RUIDO
+# apaga as aspas, e com elas a unidade: 1.273 registros escrevem polegada assim,
+# e o diametro deles chegava as camadas como um numero solto ('VALVULA RET 2
+# 300#'). A alternativa \" que regras.RX['POL'] tinha nunca podia casar.
+_POLEGADA_ASPAS = re.compile(r"(\d)\s*(?:\"|''|”|″)")
+
+
+# Fracao mista no formato da regra 5 do PDM: '1 3/4POL' e '1-3/4POL' -> 1.3/4POL.
+# Sem isso o gazetteer acha '3/4POL' DENTRO de '1 3/4POL' e a BITOLA 1/2" de um
+# parafuso de comprimento 1.3/4" fica ambigua entre 1/2POL e 3/4POL.
+# Parte inteira so de 1 a 12, e nunca depois de GRAUS/SCH: 'COTOV GRAUS 90 1/4POL'
+# virava 90.1/4POL (o angulo colado na bitola) e o cotovelo perdia a classe.
+_FRACAO_MISTA = re.compile(
+    r"(?<![0-9/.#])(?<!GRAUS )(?<!SCH )(?<!SCHEDULE )"
+    r"([1-9]|1[0-2])[\s\-](\d{1,2}/\d{1,2})\s?POL")
+# 'POLX2' -> 'POL X 2': bitola x comprimento em polegada, separados
+_POL_X = re.compile(r"POL\s?X\s?(?=\d)")
+
+
+def _polegada(s: str) -> str:
+    s = _POLEGADA_ASPAS.sub(r"\1POL ", s)
+    s = _POL_X.sub("POL X ", s)
+    return _FRACAO_MISTA.sub(r"\1.\2POL", s)
+
+
 def normalizar(s: str) -> str:
     """Forma canonica para comparacao: maiusculo, sem acento, espaco colapsado."""
     if s is None:
         return ""
-    t = _RUIDO.sub(" ", sem_acento(s).upper())
+    t = _RUIDO.sub(" ", _polegada(sem_acento(s).upper()))
     return _ESPACO.sub(" ", _PONTUACAO_SOLTA.sub(" ", t)).strip()
 
 
@@ -70,7 +95,7 @@ def normalizar_estrutura(s: str) -> str:
     """
     if s is None:
         return ""
-    return _ESPACO.sub(" ", _RUIDO_ESTRUTURAL.sub(" ", sem_acento(s).upper())).strip()
+    return _ESPACO.sub(" ", _RUIDO_ESTRUTURAL.sub(" ", _polegada(sem_acento(s).upper()))).strip()
 
 
 def com_bordas(s: str) -> str:
@@ -168,9 +193,12 @@ _SENSOR = frozenset({"SENS", "SENSOR"})
 # barra, para nunca tocar fracao (1/2) nem codigo de peca (6205-2RS/C3).
 _RX_BARRA = re.compile(r"^([CSP])/([A-Z][A-Z0-9\-]*)?$")
 _BARRA = {"C": "COM", "S": "SEM", "P": "PARA"}
-# Siglas de barra que NAO sao prefixo: S/N (numero de serie) fica como esta;
-# P/N e part number, o mesmo sentido do PN solto.
-_BARRA_SIGLA = {"S/N": "S/N", "P/N": "PART NUMBER"}
+# Siglas de barra que NAO sao prefixo e ficam como estao: S/N (numero de serie)
+# e P/N (part number). P/N chegou a ser expandido para PART NUMBER, e o BERT -
+# treinado com o texto cru, que tem 'P/N' - passou a etiquetar a palavra
+# FABRICANTE vizinha como valor de MATERIAL: 47 registros sairam de SANEADO
+# (medicao com BERT em docs/07-abreviacoes.md, secao 5).
+_BARRA_SIGLA = {"S/N": "S/N", "P/N": "P/N"}
 
 
 def _resolver_por_contexto(limpo: str, anterior: str, proximo: str | None) -> str | None:
@@ -222,7 +250,7 @@ def expandir(s: str, extra: dict[str, str] | None = None) -> str:
 
     Tres passos por token, nesta ordem:
       1. sentido pelo contexto, para os tokens ambiguos (PN, REV, RET, IND);
-      2. prefixo de barra (S/ = SEM, C/ = COM, P/ = PARA, P/N = PART NUMBER);
+      2. prefixo de barra (S/ = SEM, C/ = COM, P/ = PARA; P/N e S/N intocados);
       3. a tabela ABREVIACOES.
 
     O ponto final da abreviacao e removido antes da busca: a base escreve
@@ -432,7 +460,32 @@ def fmt_inteiro(valor: float | str) -> str | None:
 
 # ------------------------------------------------------------------ rosca
 
-_BITOLA = re.compile(r"(?<![A-Z0-9])M\s?-?(\d{1,2})(?:\s?[Xx*]\s?(\d{1,4}(?:[.,]\d+)?))?(?![0-9])")
+_BITOLA = re.compile(
+    r"(?<![A-Z0-9])M\s?-?(\d{1,2})"
+    r"(?:\s?[Xx*]\s?(\d{1,4}(?:[.,]\d+)?))?"      # passo OU comprimento
+    r"(?:\s?[Xx*]\s?(\d{1,4}(?:[.,]\d+)?))?"      # comprimento, quando houve passo
+    r"(?![0-9])"
+)
+
+
+# Passo GROSSO normal (ISO 261). 'M8X1,25' escreve o passo grosso explicitamente:
+# e a mesma bitola M8 de rosca grossa, nao uma rosca fina.
+PASSO_GROSSO = {3: 0.5, 4: 0.7, 5: 0.8, 6: 1.0, 8: 1.25, 10: 1.5, 12: 1.75,
+                14: 2.0, 16: 2.0, 18: 2.5, 20: 2.5, 22: 2.5, 24: 3.0, 27: 3.0,
+                30: 3.5, 33: 3.5, 36: 4.0}
+
+
+def _e_passo(numero: str, diametro: int) -> bool:
+    """O segundo numero de M<d>X<n> e passo de rosca fina, nao comprimento?
+
+    Passo metrico vai de 0,2 a 3 (ISO 261). Comprimento de 3 mm ou menos so
+    existe em parafuso miudo, entao: decimal ate 3 e sempre passo; inteiro ate 3
+    e passo a partir de M6 (M8X1 e rosca fina; M3X3 e comprimento).
+    """
+    v = float(numero.replace(",", "."))
+    if v > 3:
+        return False
+    return ("," in numero or "." in numero) or diametro >= 6
 
 
 def separar_rosca_metrica(texto: str) -> dict[str, str]:
@@ -440,17 +493,45 @@ def separar_rosca_metrica(texto: str) -> dict[str, str]:
 
     'M12X50' -> {'BITOLA': 'M12', 'COMPRIMENTO': '50MM', 'ROSCA': 'METRICA GROSSA'}
 
-    O passo ausente implica rosca metrica grossa. Quando o passo aparece
-    (M12X1,5X50) a rosca e fina e a decisao fica para a camada de classe.
+    O passo ausente implica rosca metrica grossa. Quando o passo aparece, ele faz
+    parte da BITOLA, como o PDM escreve: M12X1,5 e M10X1,25 sao valores proprios
+    da lista, e itens diferentes de M12 e M10.
+
+      'M12X50'       -> BITOLA M12,      COMPRIMENTO 50MM, ROSCA METRICA GROSSA
+      'M12X1,5'      -> BITOLA M12X1,5,                    ROSCA METRICA FINA
+      'M10X1,25X70'  -> BITOLA M10X1,25, COMPRIMENTO 70MM, ROSCA METRICA FINA
+
+    Antes o passo era lido como comprimento: 'M10X1,25X70' virava BITOLA M10 e
+    COMPRIMENTO 1,25MM, e 'BITOLA:M12X1,5' virava M12 - juntando parafuso de
+    rosca fina com o de rosca grossa.
     """
     t = normalizar(texto)
     m = _BITOLA.search(t)
     if not m:
         return {}
-    out = {"BITOLA": f"M{int(m.group(1))}"}
-    if m.group(2):
-        out["COMPRIMENTO"] = fmt_mm(m.group(2)) or ""
-    # passo explicito: M12X1,5X50 ou 'METRICA FINA' escrito
-    tem_passo = re.search(r"M\s?\d{1,2}\s?[Xx]\s?\d[.,]\d+\s?[Xx]", t) or "FINA" in t
-    out["ROSCA"] = "METRICA FINA" if tem_passo else "METRICA GROSSA"
+    d = int(m.group(1))
+    a, b = m.group(2), m.group(3)
+    # numero colado a unidade e comprimento, nunca passo: 'M16X1M' e barra de
+    # 1 metro, 'M6X3MM' e parafuso de 3 mm
+    com_unidade = bool(a) and t[m.end(2):m.end(2) + 1] == "M"
+    passo = comprimento = None
+    if a and b:
+        passo, comprimento = (a, b) if _e_passo(a, d) else (None, a)
+    elif a:
+        passo, comprimento = (a, None) if (_e_passo(a, d) and not com_unidade) else (None, a)
+
+    if passo and PASSO_GROSSO.get(d) == float(passo.replace(",", ".")):
+        passo = None                          # passo grosso escrito: M8X1,25 = M8
+    if passo:
+        p = passo.replace(".", ",")
+        p = p[:-2] if p.endswith(",0") else p
+        out = {"BITOLA": f"M{d}X{p}"}
+    else:
+        out = {"BITOLA": f"M{d}"}
+    # 'M16X1M' e 1 METRO: fmt_mm escreveria 1MM. Deixa o comprimento para a
+    # gramatica, que conhece a unidade, em vez de gravar mil vezes menos.
+    em_metro = com_unidade and t[m.end(2):m.end(2) + 2] != "MM" and comprimento == a and not b
+    if comprimento and not em_metro:
+        out["COMPRIMENTO"] = fmt_mm(comprimento) or ""
+    out["ROSCA"] = "METRICA FINA" if (passo or "FINA" in t) else "METRICA GROSSA"
     return out
