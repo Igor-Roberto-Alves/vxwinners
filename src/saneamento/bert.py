@@ -35,9 +35,56 @@ def _rotulos_bio(nomes_atributos: list[str]) -> list[str]:
     return out
 
 
+def agrupar_bio(tokens: list[str], por_palavra: dict[int, tuple[str, float]],
+                corte: float = 0.0) -> list["Predicao"]:
+    """Junta B-/I- consecutivos no valor do atributo.
+
+    `por_palavra` e {indice da palavra: (rotulo BIO, probabilidade)}. Fora da
+    classe de proposito: e a regra de decodificacao, e vale poder testa-la sem
+    carregar torch nem o modelo de 500 MB.
+
+    `corte` e o piso POR PALAVRA: abaixo dele a palavra e tratada como O, o que
+    FECHA o span em vez de engoli-la. O limiar que o pipeline ja tinha
+    (LIMIAR_BERT) olha a media do span, e media esconde a palavra fraca - o
+    recorte 'INOX 316 EXTREMIDADES' (0,88 / 0,99 / 0,31) da 0,73 e passa.
+    """
+    saida: list[Predicao] = []
+    atual_attr: str | None = None
+    atual_toks: list[int] = []
+    atual_probs: list[float] = []
+
+    def fechar():
+        if atual_attr and atual_toks:
+            saida.append(Predicao(
+                atributo=atual_attr,
+                valor=" ".join(tokens[i] for i in atual_toks),
+                confianca=sum(atual_probs) / len(atual_probs),
+                tokens=tuple(atual_toks),
+            ))
+
+    for w in range(len(tokens)):
+        rot, p = por_palavra.get(w, ("O", 0.0))
+        if corte and p < corte:
+            rot = "O"            # palavra fraca nao entra no span nem abre um
+        if rot == "O":
+            fechar()
+            atual_attr, atual_toks, atual_probs = None, [], []
+            continue
+        prefixo, _, nome = rot.partition("-")
+        if prefixo == "B" or nome != atual_attr:
+            fechar()
+            atual_attr, atual_toks, atual_probs = nome, [w], [p]
+        else:
+            atual_toks.append(w)
+            atual_probs.append(p)
+    fechar()
+    return saida
+
+
 class ExtratorBert:
     def __init__(self, nomes_atributos: list[str], modelo_base: str = MODELO_PADRAO,
-                 max_len: int = 96, dispositivo: str | None = None):
+                 max_len: int = 96, dispositivo: str | None = None,
+                 piso_palavra: float = 0.0):
         import torch
 
         self.torch = torch
@@ -46,6 +93,11 @@ class ExtratorBert:
         self.label2id = {v: k for k, v in self.id2label.items()}
         self.modelo_base = modelo_base
         self.max_len = max_len
+        # Piso de probabilidade POR PALAVRA (ver prever()). O limiar do pipeline
+        # (LIMIAR_BERT, 0,60) e sobre a MEDIA do span, e media dilui a palavra
+        # fraca: 'INOX 316 EXTREMIDADES' com 0,88/0,99/0,31 da 0,73 e passa.
+        # Zero = comportamento historico (argmax puro, sem piso).
+        self.piso_palavra = piso_palavra
         self.dispositivo = dispositivo or ("cuda" if torch.cuda.is_available() else "cpu")
         self.tok = None
         self.modelo = None
@@ -244,11 +296,19 @@ class ExtratorBert:
 
     # ------------------------------------------------------------- inferencia
 
-    def prever(self, tokens: list[str]) -> list[Predicao]:
-        """Roda o modelo e agrupa B-/I- consecutivos no valor do atributo."""
+    def prever(self, tokens: list[str], piso: float | None = None) -> list[Predicao]:
+        """Roda o modelo e agrupa B-/I- consecutivos no valor do atributo.
+
+        `piso` (ou self.piso_palavra) e um corte de probabilidade POR PALAVRA:
+        palavra cujo rotulo mais provavel nao alcanca o piso e tratada como O, o
+        que fecha o span em vez de engolir a palavra duvidosa. Serve ao caso em
+        que o limiar do arbitro nao chega: ele olha a MEDIA do span, e a media
+        esconde um I- fraco entre dois tokens altos.
+        """
         torch = self.torch
         if self.modelo is None:
             raise RuntimeError("modelo nao carregado: use carregar() ou treinar()")
+        corte = self.piso_palavra if piso is None else piso
         enc, _ = self._codificar([{"tokens": tokens}], com_rotulo=False)
         ids_palavra = enc.word_ids(0)
         with torch.no_grad():
@@ -266,30 +326,4 @@ class ExtratorBert:
             idx = int(probs[pos].argmax())
             por_palavra[w] = (self.id2label.get(idx, "O"), float(probs[pos][idx]))
 
-        saida: list[Predicao] = []
-        atual_attr, atual_toks, atual_probs = None, [], []
-
-        def fechar():
-            if atual_attr and atual_toks:
-                saida.append(Predicao(
-                    atributo=atual_attr,
-                    valor=" ".join(tokens[i] for i in atual_toks),
-                    confianca=sum(atual_probs) / len(atual_probs),
-                    tokens=tuple(atual_toks),
-                ))
-
-        for w in range(len(tokens)):
-            rot, p = por_palavra.get(w, ("O", 0.0))
-            if rot == "O":
-                fechar()
-                atual_attr, atual_toks, atual_probs = None, [], []
-                continue
-            prefixo, _, nome = rot.partition("-")
-            if prefixo == "B" or nome != atual_attr:
-                fechar()
-                atual_attr, atual_toks, atual_probs = nome, [w], [p]
-            else:
-                atual_toks.append(w)
-                atual_probs.append(p)
-        fechar()
-        return saida
+        return agrupar_bio(tokens, por_palavra, corte)

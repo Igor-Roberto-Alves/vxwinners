@@ -41,7 +41,12 @@ p.add_argument("--sem-bert", action="store_true")
 p.add_argument("--sem-llm", action="store_true")
 p.add_argument("--modelo-llm", default=MODELO_PADRAO)
 p.add_argument("--limiar", type=float, default=0.30, help="indice de discordancia que escala para o LLM")
-p.add_argument("--limiar-bert", type=float, default=0.60)
+p.add_argument("--limiar-bert", type=float, default=0.60,
+               help="corte sobre a MEDIA do span recortado pelo BERT")
+p.add_argument("--piso-bert", type=float, default=0.0,
+               help="corte por PALAVRA no BERT: palavra abaixo do piso vira O e fecha "
+                    "o span, em vez de entrar nele. Medido em "
+                    "avaliacao/19_efeito_piso_bert.py; 0 = desligado")
 p.add_argument("--escalar-pendentes", action="store_true", help="manda tambem os obrigatorios vazios ao LLM")
 p.add_argument("--limite", type=int, default=0, help="processa so os N primeiros registros")
 p.add_argument("--congelar-aprendizado", action="store_true",
@@ -75,7 +80,8 @@ if not a.sem_bert:
     dir_modelo = ART / "modelo_bert"
     if not dir_modelo.exists():
         sys.exit(f"modelo nao encontrado em {dir_modelo}: rode 03_treinar_bert.py ou use --sem-bert")
-    bert = ExtratorBert(pdm.nomes_atributos).carregar(dir_modelo)
+    bert = ExtratorBert(pdm.nomes_atributos,
+                        piso_palavra=a.piso_bert).carregar(dir_modelo)
 
 llm = None if a.sem_llm else DesempateLlm(modelo=a.modelo_llm, cache=ART / "cache_llm")
 
@@ -120,7 +126,8 @@ print("PIPELINE DE SANEAMENTO".center(78))
 print("=" * 78)
 print(f"Fonte ................................. {rotulo_fonte} ({len(registros):,} registros)")
 print(f"Camada 1 regras lexicas ............... ativa")
-print(f"Camada 2 BERT ......................... {'ativa' if bert else 'DESLIGADA'}")
+print(f"Camada 2 BERT ......................... {'ativa' if bert else 'DESLIGADA'}"
+      + (f" (piso por palavra {a.piso_bert:.2f})" if bert and a.piso_bert else ""))
 print(f"Camada 3 arbitro ...................... limiar de discordancia {a.limiar}")
 print(f"Camada 4 LLM .......................... {a.modelo_llm if llm else 'DESLIGADA'}")
 print(f"Classes aprendidas pelo LLM ........... {n_sujeitos} regras")

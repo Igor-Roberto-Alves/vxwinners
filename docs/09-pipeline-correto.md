@@ -169,6 +169,51 @@ canonizar sinônimo, decidir a classe do item, decidir duplicidade.
 regra alcança. Medido: as classes de referência do fabricante saíram de 55,7%
 para 94,9% de chave fechada quando o BERT entrou.
 
+**Dois cortes de probabilidade, e o que cada um alcança.** O decodificador usa
+`argmax` por palavra: a palavra recebe o rótulo mais provável, seja ele 0,99 ou
+0,31. Quem filtra depois é o `LIMIAR_BERT = 0,60` (`arbitro.py`), que olha a
+**média** do span — e média esconde a palavra fraca: o recorte real
+`INOX 316 EXTREMIDADES` (0,88 / 0,99 / 0,31) dá 0,73 e passa. O que o barrou foi
+o enum do PDM, não a confiança; em caixa `LIVRE` não há enum para barrar.
+
+Por isso existe também um piso **por palavra**
+(`ExtratorBert(piso_palavra=…)`, `--piso-bert` no `04_extrair.py`): abaixo dele
+a palavra vira `O` e **fecha** o span em vez de entrar nele. No mesmo texto:
+
+```
+piso 0,0  MATERIAL = 'INOX 316 EXTREMIDADES' (0,87) + 3 spans de lixo (0,19–0,49)
+piso 0,8  MATERIAL = 'INOX 316' (0,99), o lixo não aparece
+```
+
+**Medido, e o veredito é "não ligue por enquanto":** `avaliacao/19_efeito_piso_bert.py`
+reexecuta o pipeline nos 232 códigos do conjunto-ouro, um passe por piso. De 0,0
+a 0,7 o resultado é o mesmo (±1 rótulo). Em 0,8: precisão 98,7% → 98,8%,
+cobertura 90,4% → 90,2%, um erro a menos; nos campos sem enum, 91,7% → 94,3%,
+que é **um** caso em 36 afirmados — dentro do ruído, com o mesmo IC (98%–99%)
+nos dois lados.
+
+Mexe pouco porque as duas travas que já existiam cobrem quase tudo: quando o
+BERT acerta o rótulo, acerta com confiança alta (média 0,88 nos aceitos); quando
+não, o `LIMIAR_BERT` sobre a média já barrava; e o span sujo era barrado pelo
+enum. O piso só alcança o que escapava das duas.
+
+**Alcance, fora do gabarito** (2.000 registros aleatórios, semente 42): piso 0,5
+muda 12 decisões em 12 registros; piso 0,8 muda 42 em 41. E a mudança **não** é
+só "afirmar menos" — ao derrubar o recorte do BERT, outra camada (regra léxica,
+ordem do PDM, dicionário) assume e pode gravar um valor diferente. Nos dois
+sentidos:
+
+```
+limpa    REFERENCIA FABRICANTE  'B2987-00 LUBR' -> 'B2987-00'   (caixa LIVRE, sem enum)
+piora    FAIXA                  '0-25BAR'       -> '24,5BAR'
+piora    DIAMETRO EIXO          '165MM'         -> '10MM'
+```
+
+O piso muda **quem decide**, não só quanto se afirma — e é por isso que ele fica
+desligado por padrão (`0.0`), com a flag disponível para quem queira medir de
+novo com um gabarito maior. Números completos em
+`avaliacao/efeito_piso_bert.md`.
+
 ### Embedding — `intfloat/multilingual-e5-small`
 
 **Responsável por:** medir similaridade entre um trecho e os valores permitidos,
