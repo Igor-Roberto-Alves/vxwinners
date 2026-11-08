@@ -17,6 +17,12 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
+# lixo de editor (um .gitignore.swp ja escapou para a main uma vez)
+*.swp
+*.swo
+*~
+.DS_Store
+
 # ---- acima do limite de 100 MB por arquivo do GitHub -------------------------
 # artefatos/modelo_bert/model.safetensors tem 515 MB: o push seria recusado.
 # Regeneravel com `python scripts/06_treinar_bert.py` (ver docs/03-treinar-bert.md),
