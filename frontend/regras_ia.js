@@ -181,9 +181,12 @@
       class: "badge b-warn", title: "não é tradução de notação: é interpretação de domínio",
     }, "interpretação"));
     if (r.curado_rebaixou) s.push(el("span", {
-      class: "badge b-warn", title: "o curador (scripts/18) rebaixou esta regra para sugestão",
-    }, "curador rebaixou"));
-    if (r.revisar) s.push(el("span", { class: "badge" }, "em revisão"));
+      class: "badge b-warn", title: "o curador (scripts/18_curar_aprendizado.py) rebaixou " +
+        "esta regra de regra para sugestão",
+    }, "rebaixada"));
+    if (r.revisar) s.push(el("span", {
+      class: "badge", title: "marcada para revisão no próprio dicionário",
+    }, "revisar"));
     return s;
   }
 
@@ -195,7 +198,6 @@
     const thead = el("thead", {}, el("tr", {},
       el("th", {}, "ATRIBUTO"),
       el("th", {}, "A REGRA (o que escreveram → o que a IA gravou)"),
-      el("th", {}, "CLASSES"),
       el("th", { class: "num", title: "quantas vezes o LLM viu o termo" }, "CONF."),
       el("th", { class: "num", title: "linhas da base que esta regra decidiu" }, "LINHAS"),
       el("th", { class: "num" }, "CAPITAL"),
@@ -210,9 +212,11 @@
         onclick: () => { atual = i; pendente = null; desenha(); abreDetalhe(); },
       },
         el("td", { class: "mono faint", style: "font-size:11px" }, r.atributo),
-        el("td", { class: "wrap" }, regraTexto(r)),
-        el("td", { class: "mono faint", style: "font-size:11px" },
-          (r.classes || []).join(" ")),
+        // as classes vão embaixo da regra: como coluna própria, empurravam a de
+        // estado para fora da tela
+        el("td", { class: "wrap" }, regraTexto(r),
+          el("div", { class: "mono faint", style: "font-size:10.5px" },
+            (r.classes || []).join(" "))),
         el("td", { class: "num" }, String(r.confirmacoes)),
         el("td", { class: "num" }, inteiro(r.n_aplicacoes)),
         el("td", { class: "num" }, brl(r.capital)),
