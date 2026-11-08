@@ -1,0 +1,2209 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Conjunto-ouro de características, classe e junção — Serra Azul</title>
+<style>
+:root{color-scheme:light;
+ --surface:#fcfcfb; --surface-2:#f4f3f0; --borda:#e2e0da;
+ --ink:#0b0b0b; --ink-2:#52514e; --ink-3:#6f6e69;
+ --accent:#2a78d6; --good:#0ca30c; --warning:#fab219; --serious:#ec835a;
+ --critical:#d03b3b; --codigo:#f7f6f3;}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme=light])){
+ color-scheme:dark;
+ --surface:#1a1a19; --surface-2:#232322; --borda:#383835;
+ --ink:#f0efec; --ink-2:#c3c2b7; --ink-3:#a3a29a;
+ --accent:#3987e5; --codigo:#141413;}}
+:root[data-theme=dark]{color-scheme:dark;
+ --surface:#1a1a19; --surface-2:#232322; --borda:#383835;
+ --ink:#f0efec; --ink-2:#c3c2b7; --ink-3:#a3a29a;
+ --accent:#3987e5; --codigo:#141413;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);
+ font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ -webkit-font-smoothing:antialiased}
+.pagina{max-width:1180px;margin:0 auto;padding:0 24px 96px;
+ display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+@media(min-width:1060px){.pagina{grid-template-columns:228px minmax(0,1fr);
+ column-gap:48px;align-items:start}
+ .topo,.cartoes,.aviso{grid-column:1/-1}
+ nav.sumario{position:sticky;top:24px;max-height:calc(100vh - 48px);overflow:auto}}
+.topo{padding:48px 0 24px;border-bottom:1px solid var(--borda);margin-bottom:32px}
+h1{font-size:30px;line-height:1.25;margin:0 0 8px;letter-spacing:-.01em}
+.subtitulo{color:var(--ink-2);margin:0;max-width:72ch;font-size:17px}
+.meta{color:var(--ink-3);font-size:13px;margin-top:16px}
+.meta code{font-size:12px}
+.barra{display:flex;gap:8px;align-items:center;margin-top:20px;flex-wrap:wrap}
+button{font:inherit;font-size:13px;color:var(--ink-2);background:var(--surface-2);
+ border:1px solid var(--borda);border-radius:7px;padding:5px 11px;cursor:pointer}
+button:hover{color:var(--ink);border-color:var(--ink-3)}
+.cartoes{display:flex;flex-direction:column;gap:16px;margin:0 0 32px}
+.tiles{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(182px,1fr))}
+.hero,.tile{background:var(--surface-2);border:1px solid var(--borda);
+ border-radius:12px;padding:18px 20px}
+.hero{display:flex;flex-direction:column;gap:2px}
+.rotulo{font-size:12px;letter-spacing:.04em;text-transform:uppercase;
+ color:var(--ink-3);margin:0 0 6px}
+.valor{font-size:52px;font-weight:600;line-height:1;margin:0;letter-spacing:-.02em}
+.tile .valor{font-size:30px}
+.nota{color:var(--ink-2);font-size:13px;margin:8px 0 0}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;
+ color:var(--ink-2);margin-top:10px}
+.ponto{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.ponto.serious{background:var(--serious)} .ponto.warning{background:var(--warning)}
+.ponto.good{background:var(--good)} .ponto.neutro{background:var(--accent)}
+.aviso{border:1px solid var(--borda);border-left:3px solid var(--warning);
+ background:var(--surface-2);border-radius:8px;padding:16px 20px;margin:0 0 36px}
+.aviso p{margin:0;color:var(--ink-2);font-size:14.5px}
+.aviso strong{color:var(--ink)}
+nav.sumario{font-size:13.5px;padding-top:4px}
+nav.sumario p{font-size:12px;letter-spacing:.04em;text-transform:uppercase;
+ color:var(--ink-3);margin:0 0 8px}
+nav.sumario a{display:block;color:var(--ink-2);text-decoration:none;padding:3px 0}
+nav.sumario a:hover{color:var(--accent)}
+nav.sumario a.n3{padding-left:12px;color:var(--ink-3);font-size:12.5px}
+main{min-width:0}
+h2{font-size:23px;margin:48px 0 12px;letter-spacing:-.01em;
+ padding-top:16px;border-top:1px solid var(--borda)}
+h3{font-size:17.5px;margin:32px 0 10px}
+h4{font-size:15px;margin:24px 0 8px;color:var(--ink-2)}
+p,li{color:var(--ink-2)} li{margin:4px 0}
+strong{color:var(--ink);font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+ font-size:.88em;background:var(--codigo);border:1px solid var(--borda);
+ border-radius:4px;padding:1px 4px}
+.rolagem{overflow-x:auto;margin:16px 0;border:1px solid var(--borda);
+ border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;
+ font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--borda);
+ white-space:nowrap}
+th{background:var(--surface-2);color:var(--ink);font-weight:600;font-size:12.5px;
+ position:sticky;top:0}
+tbody tr:last-child td{border-bottom:0}
+td code{white-space:nowrap}
+pre.bloco{background:var(--codigo);border:1px solid var(--borda);border-radius:10px;
+ padding:16px 18px;overflow-x:auto;font-size:13px;line-height:1.55;margin:16px 0}
+pre.bloco code{background:none;border:0;padding:0;font-size:13px}
+details.fonte{border:1px solid var(--borda);border-radius:10px;margin:12px 0;
+ background:var(--surface-2)}
+details.fonte>summary{cursor:pointer;padding:12px 16px;font-size:14px;
+ color:var(--ink);font-weight:600;display:flex;gap:10px;align-items:baseline}
+details.fonte>summary span{color:var(--ink-3);font-weight:400;font-size:12.5px}
+details.fonte[open]>summary{border-bottom:1px solid var(--borda)}
+details.fonte pre.bloco{margin:0;border:0;border-radius:0 0 10px 10px;
+ max-height:620px}
+.copiar{float:right;margin:-2px 0 0}
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--borda);
+ color:var(--ink-3);font-size:13px}
+@media print{nav.sumario,.barra{display:none}details.fonte{break-inside:avoid}
+ details.fonte[open] pre.bloco{max-height:none}}
+</style></head><body>
+<div class="pagina">
+<header class="topo" id="topo">
+<h1>Conjunto-ouro das características técnicas, da classe e da junção</h1>
+<p class="subtitulo">A régua independente do pipeline de saneamento de cadastro:
+como foi construída, o que ela diz sobre a execução atual e o código que
+reproduz os dois.</p>
+<p class="meta">1131 rótulos de atributo ·
+240 rótulos de classe ·
+150 pares · gerado em 07/11/2026 23:38 ·
+repositório <code>/home/igor-alves/clas/hack/vxwinners</code></p>
+<div class="barra"><button id="tema">claro / escuro</button></div>
+</header>
+
+<div class="cartoes"><div class="hero"><p class="rotulo">Precisão das características</p>
+<p class="valor">97,5%</p>
+<p class="nota">IC 95% [96%–98%] · 1131
+ rótulos em 232 itens ·
+ 24 erros de valor</p>
+<span class="chip"><span class="ponto neutro"></span>acertos / (acertos + erros),
+ só onde o gold diz DEFINIDO</span></div><div class="tiles"><div class="tile"><p class="rotulo">Cobertura</p>
+<p class="valor">92,6%</p>
+<p class="nota">78 rótulos DEFINIDO deixados vazios</p>
+<span class="chip"><span class="ponto neutro"></span>medido contra o gold</span></div><div class="tile"><p class="rotulo">Taxa de invenção</p>
+<p class="valor">23%</p>
+<p class="nota">preencheu 19 dos 84 rótulos AUSENTE/INDEFINÍVEL</p>
+<span class="chip"><span class="ponto serious"></span>atenção</span></div><div class="tile"><p class="rotulo">Acerto de classe</p>
+<p class="valor">90,8%</p>
+<p class="nota">218/240 itens · 90,8% [87%–94%]</p>
+<span class="chip"><span class="ponto neutro"></span>medido contra o gold</span></div><div class="tile"><p class="rotulo">Precisão da junção</p>
+<p class="valor">98,5%</p>
+<p class="nota">precisão 98,5% [92%–100%]  (65/66) · recall 97,0% [90%–99%]  (65/67)</p>
+<span class="chip"><span class="ponto neutro"></span>medido contra o gold</span></div><div class="tile"><p class="rotulo">Kappa de Cohen A×B</p>
+<p class="valor">0,991</p>
+<p class="nota">1521 rótulos · 13 divergências adjudicadas</p>
+<span class="chip"><span class="ponto warning"></span>atenção</span></div></div></div>
+
+<div class="aviso"><p><strong>Leia junto com os números:</strong> as duas
+anotações independentes (A e B) saíram do mesmo modelo, em passadas separadas,
+com ordens diferentes e sem reabrir a saída da outra — não são anotadores
+independentes de verdade. O kappa de 0,991 mede
+consistência interna, não confiabilidade entre humanos. A planilha
+<code>revisao_humana_caracteristicas.csv</code> (198 linhas) faz parte do
+entregável por isso, e a amostra é estratificada para concentrar armadilhas:
+as taxas acima são o desempenho nos casos difíceis, não uma estimativa da base
+inteira.</p></div>
+
+<nav class="sumario"><p>Nesta página</p><a href="#topo">Resumo</a><a href="#sec-gabarito"><strong>Gabarito: método e limitações</strong></a><a class="n3" href="#gab-1-independencia-do-pipeline">1. Independência do pipeline</a><a class="n3" href="#gab-2-metodo">2. Método</a><a class="n3" href="#gab-3-tamanhos-e-estratos">3. Tamanhos e estratos</a><a class="n3" href="#gab-4-concordancia-a-b">4. Concordância A × B</a><a class="n3" href="#gab-5-primeira-execucao-sobre-os-artefatos-atuais">5. Primeira execução sobre os artefatos atuais</a><a class="n3" href="#gab-6-limitacoes">6. Limitações</a><a class="n3" href="#gab-7-conferencia-humana">7. Conferência humana</a><a class="n3" href="#gab-8-como-rodar">8. Como rodar</a><a href="#sec-resultado"><strong>Resultado da avaliação</strong></a><a class="n3" href="#res-1-resumo">1. Resumo</a><a class="n3" href="#res-2-por-atributo">2. Por atributo</a><a class="n3" href="#res-3-por-familia-de-classe">3. Por família de classe</a><a class="n3" href="#res-4-por-estilo-de-texto">4. Por estilo de texto</a><a class="n3" href="#res-5-por-armadilha">5. Por armadilha</a><a class="n3" href="#res-6-por-fonte-do-valor">6. Por fonte do valor</a><a class="n3" href="#res-7-classe-do-item">7. Classe do item</a><a class="n3" href="#res-8-juncao-de-duplicados">8. Junção de duplicados</a><a class="n3" href="#res-9-cada-erro-de-caracteristica">9. Cada erro de característica</a><a class="n3" href="#res-10-cada-invencao">10. Cada invenção</a><a class="n3" href="#res-11-atributos-preenchidos-fora-do-universo-do-gold">11. Atributos preenchidos fora do universo do gold</a><a href="#sec-reproduzir"><strong>Reproduzir</strong></a><a class="n3" href="#rep-comandos">Os cinco passos</a><a class="n3" href="#rep-fontes">Os quatro scripts, por inteiro</a></nav>
+
+<main>
+<h2 id="sec-gabarito">Gabarito: método e limitações</h2>
+<p>Este gabarito mede o que o pipeline mais produz e o que o <code>gold.csv</code> antigo não cobria: os <strong>atributos técnicos</strong> de cada item, a <strong>classe (ID_PDM)</strong> e a <strong>junção de duplicados</strong>. Ele é a régua; não é a saída do pipeline reorganizada.</p>
+<div class="rolagem"><table><thead><tr><th>arquivo</th><th>conteúdo</th></tr></thead><tbody><tr><td><code>10_candidatos_caracteristicas.py</code></td><td>seleção reproduzível (semente 20251107) dos 240 itens e dos 150 pares</td></tr><tr><td><code>candidatos_caracteristicas.csv</code></td><td>os 240 itens com linha crua + família prevista, estilo e armadilhas</td></tr><tr><td><code>pares_juncao_candidatos.csv</code></td><td>os 150 pares com <code>fonte_par</code> (só para o avaliador)</td></tr><tr><td><code>pares_juncao_cego.csv</code></td><td>os mesmos pares às cegas (só o texto cru dos dois códigos)</td></tr><tr><td><code>anotacoes_carac_A.jsonl</code> / <code>anotacoes_carac_B.jsonl</code></td><td>1 521 rótulos por anotador</td></tr><tr><td><code>11_adjudicar_caracteristicas.py</code></td><td>adjudicação, com uma decisão escrita por divergência</td></tr><tr><td><code>gold_caracteristicas.csv</code></td><td>1 131 rótulos (item × atributo obrigatório aplicável)</td></tr><tr><td><code>gold_classe.csv</code></td><td>240 rótulos de classe</td></tr><tr><td><code>gold_juncao.csv</code></td><td>150 rótulos de par</td></tr><tr><td><code>concordancia_caracteristicas.json</code></td><td>acordo bruto e kappa de Cohen por atributo e global</td></tr><tr><td><code>revisao_humana_caracteristicas.csv</code></td><td>198 linhas para a conferência de uma pessoa do time</td></tr><tr><td><code>evaluate_caracteristicas.py</code></td><td>avalia o pipeline e gera <code>resultado_caracteristicas.md</code></td></tr></tbody></table></div>
+<h3 id="gab-1-independencia-do-pipeline">1. Independência do pipeline</h3>
+<p>Na seleção e na anotação das partes A (características) e B (classe) foram usados <strong>apenas</strong> <code>dados/01_base_materiais.xlsx</code> (texto cru, mais as colunas de cadastro da própria base) e <code>dados/03_padrao_cadastro_PDM.xlsx</code> (classes, atributos, QUANDO_SE_APLICA, valores permitidos, formatos, regras gerais). Nada de <code>artefatos/</code>, nada de <code>src/saneamento/</code>, nada de <code>scripts/</code>, nada de <code>docs/07</code>–<code>docs/11</code>, nenhuma chamada de LLM externa.</p>
+<p>A única exceção autorizada é a parte C: <code>artefatos/saneado_base.csv</code> foi lido <strong>só para sortear os pares</strong> (mesma chave de identidade, diferença em um atributo, descrição parecida). O rótulo do par foi dado sobre <code>pares_juncao_cego.csv</code>, que traz apenas o texto cru dos dois códigos, em ordem sorteada, sem chave, sem cluster e sem a fonte do par.</p>
+<h3 id="gab-2-metodo">2. Método</h3>
+<ol><li><strong>Seleção</strong> (<code>10_candidatos_caracteristicas.py</code>): semente fixa, estratos aplicados em ordem (fora do PDM → classes irmãs → armadilhas → grupo de mercadoria errado → cotas por família × estilo). A coluna <code>familia_prevista</code> é só um palpite de regex usado para estratificar; a classe verdadeira de cada item é o rótulo <code>_CLASSE</code>.</li><li><strong>Anotação A</strong>: uma passada na ordem <code>ordem_A</code>.</li><li><strong>Anotação B</strong>: outra passada, na ordem <code>ordem_B</code> (permutação diferente), sem reabrir o arquivo de A.</li><li><strong>Adjudicação</strong> (<code>11_adjudicar_caracteristicas.py</code>): o script alinha por (código, campo), calcula acordo e kappa, lista as divergências e <strong>aborta</strong> se alguma não tiver decisão escrita no dicionário <code>ADJUDICACOES</code>. Ele também confere automaticamente que todo atributo anotado é obrigatório na classe que o próprio anotador deu ao item — é o que garante o respeito ao QUANDO_SE_APLICA.</li></ol>
+<h4 id="gab-unidade-de-anotacao-e-status">Unidade de anotação e status</h4>
+<p>Um rótulo por (item × atributo obrigatório que se aplica ao item, segundo o PDM), mais um rótulo de classe por item e um de junção por par.</p>
+<div class="rolagem"><table><thead><tr><th>status</th><th>quando</th><th>o que o pipeline deveria fazer</th></tr></thead><tbody><tr><td><code>DEFINIDO</code></td><td>o texto traz o valor sem ambiguidade</td><td>preencher com esse valor</td></tr><tr><td><code>AUSENTE</code></td><td>o texto não traz o valor</td><td>deixar vazio; preencher é invenção</td></tr><tr><td><code>INDEFINIVEL</code></td><td>o texto traz algo que não decide entre dois valores do PDM</td><td>não preencher; preencher é invenção</td></tr></tbody></table></div>
+<p>Valores no formato canônico do PDM: valor de lista exatamente como a lista escreve; milímetro com vírgula decimal e sem zero inútil (<code>16,25MM</code>, <code>35MM</code>); polegada em fração com inteiro separado por ponto (<code>1/2POL</code>, <code>1.1/4POL</code>); pressão sempre em BAR, com a unidade original registrada em <code>evidencia</code> e a conta em <code>justificativa</code> (<code>41 KGF/CM2 x 0,980665 = 40,2 BAR</code>); seção de cabo em <code>MM2</code>; barra roscada em metro (<code>1M</code>).</p>
+<h3 id="gab-3-tamanhos-e-estratos">3. Tamanhos e estratos</h3>
+<p><strong>240 itens</strong>, 1 131 rótulos de atributo (73 atributos distintos), 36 valores de classe (35 classes do PDM + <code>FORA_DO_PDM</code>), 150 pares.</p>
+<p>Status no gold de características: <code>DEFINIDO</code> 1 047 (92,6%), <code>AUSENTE</code> 54 (4,8%), <code>INDEFINIVEL</code> 30 (2,7%) — <strong>84 rótulos</strong> que medem invenção (mínimo pedido: 60).</p>
+<h4 id="gab-familia-prevista-estilo-de-texto-itens">Família prevista × estilo de texto (itens)</h4>
+<div class="rolagem"><table><thead><tr><th>família</th><th>estruturado</th><th>telegráfico</th></tr></thead><tbody><tr><td>fixadores</td><td>16</td><td>20</td></tr><tr><td>vedação</td><td>15</td><td>13</td></tr><tr><td>rolamentos</td><td>8</td><td>12</td></tr><tr><td>válvulas</td><td>16</td><td>12</td></tr><tr><td>conexões</td><td>19</td><td>9</td></tr><tr><td>elétricos</td><td>18</td><td>10</td></tr><tr><td>mangueiras</td><td>17</td><td>11</td></tr><tr><td>sobressalentes</td><td>15</td><td>9</td></tr><tr><td>outras</td><td>13</td><td>7</td></tr></tbody></table></div>
+<h4 id="gab-estratos-de-selecao">Estratos de seleção</h4>
+<p>13 estratos de armadilha com 9 itens cada; 16 estratos de classes irmãs com 4 itens cada (válvula esfera/gaveta/globo/retenção/borboleta, rolamento rígido/autocompensador/cônico, parafuso sextavado/sextavado interno, arruela lisa/pressão, mangueira avulsa/montada, junta espiralada/plana); 10 itens candidatos a ficar fora do PDM (8 <code>TAMPAO</code>, que não está em SUBSTANTIVOS_CONEXOES e por isso o gold rotula <code>FORA_DO_PDM</code>, e 2 <code>CAIXA MANCAL</code>, que o gold rotula <code>PDM023</code> porque o texto traz o único TIPO da classe); 10 itens com grupo de mercadoria incompatível; o resto completa as cotas por família e estilo.</p>
+<h4 id="gab-cobertura-das-armadilhas-itens-contando-sobreposicao">Cobertura das armadilhas (itens, contando sobreposição)</h4>
+<div class="rolagem"><table><thead><tr><th>armadilha</th><th>itens</th><th>armadilha</th><th>itens</th></tr></thead><tbody><tr><td>vírgula decimal em valor rotulado</td><td>26</td><td><code>PN</code> ambíguo (pressão × part number)</td><td>10</td></tr><tr><td>polegada com aspas</td><td>37</td><td>classe de pressão com <code>#</code></td><td>83</td></tr><tr><td>polegada com <code>IN</code></td><td>22</td><td>unidade que exige conversão (PSI, KGF/CM2)</td><td>11</td></tr><tr><td>fração mista (<code>1 1/4&quot;</code>, <code>1-3/4&quot;</code>)</td><td>16</td><td>abreviação ambígua (<code>VALV RET</code>, <code>RET</code>, <code>S/ACAB</code>)</td><td>16</td></tr><tr><td>rosca métrica fina (<code>M12X1,5</code>)</td><td>9</td><td>ordem de grandezas sem rótulo</td><td>9</td></tr><tr><td>bitola + comprimento (<code>M12X50</code>, <code>M16X1M</code>)</td><td>12</td><td>descrição curta truncada em 40 caracteres</td><td>151</td></tr><tr><td>valor indefinível (<code>INOX</code>, <code>ZINCADO</code>)</td><td>40</td><td>grupo de mercadoria errado na coluna</td><td>44</td></tr></tbody></table></div>
+<p><code>curta_truncada</code> e <code>classe_pressao_hash</code> são sinalizadores largos (qualquer descrição curta de 40 caracteres cujo último token continua na longa; qualquer <code>150#</code>), por isso pegam muitos itens e seus números ficam próximos da média geral. As armadilhas estreitas são as que discriminam.</p>
+<h4 id="gab-pares-de-juncao">Pares de junção</h4>
+<p>70 com a mesma <code>CHAVE_IDENTIDADE</code> do pipeline, 50 que diferem em exatamente um atributo obrigatório, 30 com descrição parecida por palavras e chaves diferentes. Rótulos do gold: <code>ITENS_DIFERENTES</code> 73, <code>MESMO_ITEM</code> 67, <code>INDETERMINADO</code> 10.</p>
+<h3 id="gab-4-concordancia-a-b">4. Concordância A × B</h3>
+<div class="rolagem"><table><thead><tr><th>recorte</th><th>n</th><th>acordo bruto</th><th>kappa de Cohen</th></tr></thead><tbody><tr><td>características</td><td>1 131</td><td>0,9903</td><td>0,9902</td></tr><tr><td>classe</td><td>240</td><td>1,0000</td><td>1,0000</td></tr><tr><td>junção</td><td>150</td><td>0,9867</td><td>0,9762</td></tr><tr><td>global</td><td>1 521</td><td>0,9915</td><td>0,9914</td></tr></tbody></table></div>
+<p>Atributos com kappa abaixo de 1: MATERIAL (0,921), FOLGA (0,865), APLICACAO (0,915), DIAMETRO INTERNO (0,955), ACABAMENTO (0,969). <strong>13 divergências</strong> foram adjudicadas uma por uma, com justificativa escrita em <code>11_adjudicar_caracteristicas.py</code> e repetida em <code>concordancia_caracteristicas.json</code>.</p>
+<p>Quase toda divergência é do mesmo tipo: um anotador deduziu o valor de outro atributo e o outro marcou <code>INDEFINIVEL</code>. Para decidir, o adjudicador fixou seis regras, que valem para todo o gold:</p>
+<div class="rolagem"><table><thead><tr><th>regra</th><th>conteúdo</th></tr></thead><tbody><tr><td>R1</td><td>material sem nenhuma palavra de material no texto → <code>AUSENTE</code> (deduzir da classe de resistência é extrapolação)</td></tr><tr><td>R2</td><td>material com palavra genérica (<code>ACO</code>, <code>ACO ESPECIAL</code>, <code>INOX</code>) → desambigua pela lista do PDM e pelos outros atributos, quando sobra um único valor possível</td></tr><tr><td>R3</td><td>no PDM050, <code>ACO INOX A403 WP316</code> e <code>ACO CARBONO A234 WPB</code> são conexões de solda de topo (usam SCHEDULE, norma B16.9); item com CLASSE PRESSAO, rosca, solda de encaixe, flange ou B16.11/B16.5 é forjado (<code>A182 F316</code>, <code>A105</code>)</td></tr><tr><td>R4</td><td>no vocabulário do PDM, <code>ZINCADO</code> é eletrolítico e <code>GALVANIZADO A FOGO</code> é imersão a quente; texto com &quot;GALVANIZADO&quot; → <code>GALVANIZADO A FOGO</code></td></tr><tr><td>R5</td><td>a folga do rolamento está no sufixo da referência; referência sem <code>/C3</code> é folga <code>NORMAL</code></td></tr><tr><td>R6</td><td>part number vale no formato do fabricante (a pontuação da coluna <code>REFERENCIA_FABRICANTE</code>); <code>REV A</code> é revisão, não part number. A comparação ignora pontuação, então <code>529-26-87581</code> e <code>5292687581</code> são o mesmo rótulo</td></tr></tbody></table></div>
+<p>Uma divergência (item 27810757, <code>REFERENCIA FABRICANTE</code>) desaparece por R6: os dois anotadores escreveram o mesmo código com pontuação diferente. O gold guarda a grafia do fabricante.</p>
+<h3 id="gab-5-primeira-execucao-sobre-os-artefatos-atuais">5. Primeira execução sobre os artefatos atuais</h3>
+<p><code>resultado_caracteristicas.md</code>, gerado de <code>artefatos/decisoes_base.jsonl</code> e <code>artefatos/saneado_base.csv</code>:</p>
+<div class="rolagem"><table><thead><tr><th>métrica</th><th>valor</th></tr></thead><tbody><tr><td>precisão das características</td><td>97,5% [96–98] (945 acertos, 24 erros)</td></tr><tr><td>cobertura</td><td>92,6% (78 rótulos DEFINIDO deixados vazios)</td></tr><tr><td>taxa de invenção</td><td>19/84 = 23%</td></tr><tr><td>acerto de classe</td><td>218/240 = 90,8% [87–94]</td></tr><tr><td>junção</td><td>precisão 98,5% (65/66), recall 97,0% (65/67)</td></tr></tbody></table></div>
+<p>Números da execução sobre os artefatos de 2026-11-07 23:25. Eles mudam a cada rodada do pipeline (uma rodada anterior na mesma noite dava 947 acertos e cobertura de 92,7%, antes da fonte <code>llm_deteccao</code> aparecer); regere o <code>.md</code> depois de reexecutar o pipeline.</p>
+<p>O recorte por fonte é o que diz qual camada erra: <code>acordo</code> (548 rótulos) tem 99,8% de precisão e zero invenção; <code>aprendido</code> (70 rótulos) tem 76,4% de precisão e <strong>as 15 invenções</strong>; <code>ordem_pdm</code> errou os 3 rótulos em que apareceu; <code>bert</code> 75% em 12 rótulos. As invenções se concentram em <code>CONEXAO</code> de válvula (<code>FLANGES</code> → o dicionário aprendido escolhe FF ou RF) e em <code>TERMINAL A/B</code> de mangueira (<code>FEMEA DKO</code> → escolhe reta ou curva).</p>
+<p>Outros achados que o gabarito isola: <code>TAMPAO</code> é mapeado para <code>CAP</code> (PDM050) nos 8 itens que o gold marca <code>FORA_DO_PDM</code>; <code>41KGF/CM2</code> sai como <code>41BAR</code> (sem a conversão, erro de 2%); a referência de rolamento perde o sufixo de vedação e folga (<code>6010-2RS/C3</code> → <code>6010</code>); <code>DN 25</code>, <code>DN 50</code> e o dash <code>-20</code> de mangueira não são convertidos para polegada.</p>
+<h3 id="gab-6-limitacoes">6. Limitações</h3>
+<ol><li><strong>As duas anotações saíram do mesmo modelo.</strong> A e B foram feitas por mim (Claude), em passadas separadas, com ordens diferentes e sem reabrir a saída da outra, mas não são anotadores independentes de verdade: o viés de interpretação é compartilhado. O kappa de 0,99 mede consistência interna, não confiabilidade entre humanos. É por isso que a conferência humana (§7) faz parte do entregável, e não é opcional.</li><li>Os primeiros 60 itens de <code>ordem_B</code> foram anotados em uma sessão anterior e são mais conservadores com <code>INDEFINIVEL</code> (foi de lá que saiu quase toda a divergência de <code>MATERIAL</code>). A adjudicação uniformizou o critério pelas regras R1–R6, mas o gold herda o fato de que o critério foi fixado <strong>depois</strong> de ver as duas anotações.</li><li><strong>A amostra não é aleatória.</strong> Ela é estratificada para concentrar armadilhas e classes irmãs, então as taxas do <code>resultado_caracteristicas.md</code> não são estimativas da base inteira: são o desempenho nos casos difíceis. Para uma taxa populacional seria preciso uma amostra aleatória simples.</li><li><strong>35 das 44 classes do PDM</strong> aparecem no gold. Ficaram de fora sobretudo classes de baixa frequência na base (EPI, consumíveis de solda, óleo em parte). Atributos com 1 a 3 rótulos têm IC inútil e estão no relatório só para rastreio.</li><li><strong>O recall da junção é otimista.</strong> Dois terços dos pares vieram de grupos que o próprio pipeline já havia juntado (<code>mesma_chave</code>), porque é a única forma de encontrar candidatos sem reimplementar a busca. Pares de duplicados que o pipeline nunca aproximou têm baixa chance de entrar na amostra. O estrato <code>texto_parecido</code> (30 pares) é o que tenta medir isso.</li><li><code>INDEFINIVEL</code> depende da leitura do PDM: R3 e R4 são defensáveis, mas são decisões de engenharia, não fatos do texto. Estão marcadas com <code>confianca=MEDIA</code> no gold e todas vão para a planilha de revisão.</li><li>O gold compara uma única execução dos artefatos. Reexecutar o pipeline muda <code>artefatos/</code> e o <code>.md</code> precisa ser regerado.</li></ol>
+<h3 id="gab-7-conferencia-humana">7. Conferência humana</h3>
+<p><code>revisao_humana_caracteristicas.csv</code> tem <strong>198 linhas</strong>:</p>
+<ul><li>51 obrigatórias: todos os rótulos <code>INDEFINIVEL</code> e todas as divergências<br>adjudicadas (características, classe e junção);</li><li>147 de amostra aleatória (10% do resto, semente 20251107).</li></ul>
+<p>Cada linha traz o texto cru (ou os dois textos, no caso de par), o rótulo do gold, a evidência, a justificativa, o que A e B anotaram, e três colunas vazias para a pessoa preencher: <code>concordo_discordo</code>, <code>valor_certo</code>, <code>status_certo</code> (mais <code>comentario</code>).</p>
+<p><strong>Tempo estimado.</strong> Cada linha exige ler o texto do item e a lista de valores do atributo no PDM: 1,5 a 3 minutos por linha para quem conhece a base, ou seja <strong>5 a 10 horas</strong> para as 198 linhas (um dia de trabalho de um especialista). Conferir os 1 521 rótulos seria outra ordem de grandeza: lendo por item (240 itens × ~5 rótulos, 4 a 6 minutos por item) mais os 150 pares (~1,5 minuto cada), dá <strong>cerca de 25 horas</strong>, três dias de trabalho.</p>
+<p>Quando a planilha voltar, salve-a como <code>revisao_humana_caracteristicas_respondida.csv</code> em <code>avaliacao/</code> e rode de novo o adjudicador: ele lê as linhas marcadas <code>DISCORDO</code>, aplica <code>valor_certo</code> e <code>status_certo</code>, marca essas linhas com <code>origem_decisao=revisao_humana</code> e regera <code>gold_caracteristicas.csv</code>, <code>gold_classe.csv</code> e <code>gold_juncao.csv</code>.</p>
+<h3 id="gab-8-como-rodar">8. Como rodar</h3>
+<p>O <code>.venv</code> do projeto não tem pandas; use <code>uv</code>:</p>
+<pre class="bloco"><code># 1) seleção (só se quiser regerar os candidatos; muda a amostra se a base mudar)
+uv run --no-project --with pandas --with openpyxl python avaliacao/10_candidatos_caracteristicas.py
+
+# 2) adjudicação: gera o gold, a concordância e a planilha de revisão
+uv run --no-project --with pandas --with openpyxl python avaliacao/11_adjudicar_caracteristicas.py
+
+# 3) avaliação do pipeline sobre os artefatos atuais
+uv run --no-project --with pandas --with openpyxl python avaliacao/evaluate_caracteristicas.py \
+    --saida avaliacao/resultado_caracteristicas.md</code></pre>
+
+<h2 id="sec-resultado">Resultado da avaliação</h2>
+<p>Gabarito: <code>gold_caracteristicas.csv</code> (1131 rótulos de atributo), <code>gold_classe.csv</code> (240 itens), <code>gold_juncao.csv</code> (150 pares).<br>Pipeline: <code>artefatos/decisoes_base.jsonl</code> + <code>artefatos/saneado_base.csv</code>.</p>
+<p>Precisão = acertos / (acertos + erros) com IC 95% de Wilson. Cobertura = preenchidos / rótulos DEFINIDO do gold. Invenção = preencheu onde o gold diz AUSENTE ou INDEFINÍVEL.</p>
+<h3 id="res-1-resumo">1. Resumo</h3>
+<div class="rolagem"><table><thead><tr><th>recorte</th><th>itens</th><th>rotulos</th><th>precisao (IC 95%)</th><th>cobertura</th><th>erros</th><th>absteve</th><th>invencao</th></tr></thead><tbody><tr><td>geral</td><td>232</td><td>1131</td><td>97.5% [96%–98%]</td><td>92.6%</td><td>24</td><td>78</td><td>19/84 (23%)</td></tr></tbody></table></div>
+<p>Vereditos: ABSTENCAO_CORRETA=65, ABSTEVE=78, ACERTO=945, ERRO=24, INVENCAO=19</p>
+<p>Atributos preenchidos fora do universo do gold (classe divergente): 189</p>
+<h3 id="res-2-por-atributo">2. Por atributo</h3>
+<div class="rolagem"><table><thead><tr><th>recorte</th><th>itens</th><th>rotulos</th><th>precisao (IC 95%)</th><th>cobertura</th><th>erros</th><th>absteve</th><th>invencao</th></tr></thead><tbody><tr><td>MATERIAL</td><td>100</td><td>100</td><td>88.9% [80%–94%]</td><td>87.1%</td><td>9</td><td>12</td><td>1/7 (14%)</td></tr><tr><td>DIAMETRO NOMINAL</td><td>87</td><td>87</td><td>97.6% [92%–99%]</td><td>98.8%</td><td>2</td><td>1</td><td>0/4 (0%)</td></tr><tr><td>CLASSE PRESSAO</td><td>79</td><td>79</td><td>100.0% [95%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/3 (0%)</td></tr><tr><td>CONEXAO</td><td>63</td><td>63</td><td>100.0% [93%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>9/15 (60%)</td></tr><tr><td>TIPO</td><td>53</td><td>53</td><td>100.0% [93%–100%]</td><td>94.1%</td><td>0</td><td>3</td><td>0/2 (0%)</td></tr><tr><td>COMPRIMENTO</td><td>49</td><td>49</td><td>100.0% [92%–100%]</td><td>93.9%</td><td>0</td><td>3</td><td>0/0</td></tr><tr><td>NORMA</td><td>44</td><td>44</td><td>100.0% [91%–100%]</td><td>92.9%</td><td>0</td><td>3</td><td>0/2 (0%)</td></tr><tr><td>ACABAMENTO</td><td>39</td><td>39</td><td>100.0% [90%–100%]</td><td>97.1%</td><td>0</td><td>1</td><td>0/4 (0%)</td></tr><tr><td>BITOLA</td><td>31</td><td>31</td><td>100.0% [89%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>CLASSE RESISTENCIA</td><td>31</td><td>31</td><td>100.0% [88%–100%]</td><td>93.1%</td><td>0</td><td>2</td><td>0/2 (0%)</td></tr><tr><td>MATERIAL CORPO</td><td>28</td><td>28</td><td>95.0% [76%–99%]</td><td>90.9%</td><td>1</td><td>2</td><td>1/6 (17%)</td></tr><tr><td>DIAMETRO INTERNO</td><td>25</td><td>25</td><td>95.0% [76%–99%]</td><td>83.3%</td><td>1</td><td>4</td><td>0/1 (0%)</td></tr><tr><td>DIAMETRO REDUZIDO</td><td>24</td><td>24</td><td>95.7% [79%–99%]</td><td>100.0%</td><td>1</td><td>0</td><td>0/1 (0%)</td></tr><tr><td>ACIONAMENTO</td><td>23</td><td>23</td><td>93.3% [70%–99%]</td><td>75.0%</td><td>1</td><td>5</td><td>1/3 (33%)</td></tr><tr><td>MATERIAL TERMINAIS</td><td>22</td><td>22</td><td>100.0% [82%–100%]</td><td>85.7%</td><td>0</td><td>3</td><td>0/1 (0%)</td></tr><tr><td>TERMINAL A</td><td>22</td><td>22</td><td>82.4% [59%–94%]</td><td>94.4%</td><td>3</td><td>1</td><td>2/4 (50%)</td></tr><tr><td>TERMINAL B</td><td>22</td><td>22</td><td>84.6% [58%–96%]</td><td>72.2%</td><td>2</td><td>5</td><td>3/4 (75%)</td></tr><tr><td>ROSCA</td><td>21</td><td>21</td><td>100.0% [85%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>REFERENCIA</td><td>20</td><td>20</td><td>82.4% [59%–94%]</td><td>94.4%</td><td>3</td><td>1</td><td>0/2 (0%)</td></tr><tr><td>FOLGA</td><td>14</td><td>14</td><td>100.0% [77%–100%]</td><td>92.9%</td><td>0</td><td>1</td><td>0/0</td></tr><tr><td>APLICACAO</td><td>14</td><td>14</td><td>100.0% [76%–100%]</td><td>92.3%</td><td>0</td><td>1</td><td>1/1 (100%)</td></tr><tr><td>ANEL INTERNO</td><td>13</td><td>13</td><td>100.0% [76%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/1 (0%)</td></tr><tr><td>ENCHIMENTO</td><td>13</td><td>13</td><td>100.0% [68%–100%]</td><td>61.5%</td><td>0</td><td>5</td><td>0/0</td></tr><tr><td>MATERIAL FITA</td><td>13</td><td>13</td><td>100.0% [72%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/3 (0%)</td></tr><tr><td>FABRICANTE</td><td>13</td><td>13</td><td>100.0% [76%–100%]</td><td>92.3%</td><td>0</td><td>1</td><td>0/0</td></tr><tr><td>REFERENCIA FABRICANTE</td><td>13</td><td>13</td><td>100.0% [74%–100%]</td><td>91.7%</td><td>0</td><td>1</td><td>0/1 (0%)</td></tr><tr><td>CORRENTE NOMINAL</td><td>13</td><td>13</td><td>100.0% [76%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/1 (0%)</td></tr><tr><td>VEDACAO SEDE</td><td>12</td><td>12</td><td>100.0% [72%–100%]</td><td>90.9%</td><td>0</td><td>1</td><td>0/1 (0%)</td></tr><tr><td>DIAMETRO EIXO</td><td>11</td><td>11</td><td>100.0% [65%–100%]</td><td>70.0%</td><td>0</td><td>3</td><td>1/1 (100%)</td></tr><tr><td>MODELO EQUIPAMENTO</td><td>10</td><td>10</td><td>100.0% [68%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/2 (0%)</td></tr><tr><td>COR</td><td>10</td><td>10</td><td>100.0% [72%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>VEDACAO</td><td>9</td><td>9</td><td>100.0% [57%–100%]</td><td>55.6%</td><td>0</td><td>4</td><td>0/0</td></tr><tr><td>DIAMETRO ALOJAMENTO</td><td>9</td><td>9</td><td>100.0% [65%–100%]</td><td>77.8%</td><td>0</td><td>2</td><td>0/0</td></tr><tr><td>LARGURA</td><td>9</td><td>9</td><td>100.0% [68%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/1 (0%)</td></tr><tr><td>PARA PARAFUSO</td><td>8</td><td>8</td><td>100.0% [61%–100%]</td><td>85.7%</td><td>0</td><td>1</td><td>0/1 (0%)</td></tr><tr><td>FURO</td><td>8</td><td>8</td><td>100.0% [51%–100%]</td><td>50.0%</td><td>0</td><td>4</td><td>0/0</td></tr><tr><td>ISOLACAO</td><td>8</td><td>8</td><td>100.0% [65%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/1 (0%)</td></tr><tr><td>NUMERO CONDUTORES</td><td>8</td><td>8</td><td>100.0% [68%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>SECAO</td><td>8</td><td>8</td><td>100.0% [65%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/1 (0%)</td></tr><tr><td>TENSAO ISOLAMENTO</td><td>8</td><td>8</td><td>100.0% [68%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>TIPO CABECA</td><td>7</td><td>7</td><td>100.0% [44%–100%]</td><td>42.9%</td><td>0</td><td>4</td><td>0/0</td></tr><tr><td>POLOS</td><td>7</td><td>7</td><td>100.0% [65%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>TAMANHO</td><td>7</td><td>7</td><td>100.0% [65%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>PASSAGEM</td><td>7</td><td>7</td><td>100.0% [57%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/2 (0%)</td></tr><tr><td>ESPESSURA</td><td>6</td><td>6</td><td>100.0% [61%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>TIPO FACE</td><td>6</td><td>6</td><td>100.0% [61%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>CAPACIDADE INTERRUPCAO</td><td>6</td><td>6</td><td>100.0% [61%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>PRESSAO TRABALHO</td><td>6</td><td>6</td><td>83.3% [44%–97%]</td><td>100.0%</td><td>1</td><td>0</td><td>0/0</td></tr><tr><td>MATERIAL DISCO</td><td>5</td><td>5</td><td>100.0% [34%–100%]</td><td>66.7%</td><td>0</td><td>1</td><td>0/2 (0%)</td></tr><tr><td>TIPO CORPO</td><td>5</td><td>5</td><td>100.0% [51%–100%]</td><td>80.0%</td><td>0</td><td>1</td><td>0/0</td></tr><tr><td>CURVA</td><td>5</td><td>5</td><td>100.0% [57%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>CASTELO</td><td>5</td><td>5</td><td>100.0% [34%–100%]</td><td>66.7%</td><td>0</td><td>1</td><td>0/2 (0%)</td></tr><tr><td>DISTANCIA SENSORA</td><td>4</td><td>4</td><td>100.0% [51%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>MONTAGEM</td><td>4</td><td>4</td><td>100.0% [51%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>ROSCA CORPO</td><td>4</td><td>4</td><td>100.0% [44%–100%]</td><td>75.0%</td><td>0</td><td>1</td><td>0/0</td></tr><tr><td>SAIDA</td><td>4</td><td>4</td><td>100.0% [51%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>FACE</td><td>4</td><td>4</td><td>100.0% [51%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>SCHEDULE</td><td>3</td><td>3</td><td>100.0% [44%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>DIAMETRO</td><td>3</td><td>3</td><td>100.0% [44%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>SECAO CABO</td><td>3</td><td>3</td><td>100.0% [44%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>DIAMETRO EXTERNO</td><td>3</td><td>3</td><td>100.0% [44%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>CONTATOS AUXILIARES</td><td>2</td><td>2</td><td>100.0% [34%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>CORRENTE AC3</td><td>2</td><td>2</td><td>100.0% [34%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>TENSAO BOBINA</td><td>2</td><td>2</td><td>100.0% [34%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>BASE</td><td>2</td><td>2</td><td>100.0% [34%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>POTENCIA</td><td>2</td><td>2</td><td>100.0% [21%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/1 (0%)</td></tr><tr><td>TEMPERATURA COR</td><td>2</td><td>2</td><td>100.0% [34%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>TENSAO</td><td>2</td><td>2</td><td>100.0% [21%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/1 (0%)</td></tr><tr><td>REFORCO</td><td>2</td><td>2</td><td>100.0% [34%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>GRAO</td><td>1</td><td>1</td><td>100.0% [21%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>FAIXA AJUSTE</td><td>1</td><td>1</td><td>100.0% [21%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>CLASSIFICACAO AWS</td><td>1</td><td>1</td><td>100.0% [21%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>HASTE</td><td>1</td><td>1</td><td>100.0% [21%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr></tbody></table></div>
+<h3 id="res-3-por-familia-de-classe">3. Por família de classe</h3>
+<div class="rolagem"><table><thead><tr><th>recorte</th><th>itens</th><th>rotulos</th><th>precisao (IC 95%)</th><th>cobertura</th><th>erros</th><th>absteve</th><th>invencao</th></tr></thead><tbody><tr><td>conexoes</td><td>40</td><td>188</td><td>94.1% [90%–97%]</td><td>96.0%</td><td>10</td><td>7</td><td>0/11 (0%)</td></tr><tr><td>eletricos</td><td>29</td><td>125</td><td>100.0% [97%–100%]</td><td>99.2%</td><td>0</td><td>1</td><td>0/6 (0%)</td></tr><tr><td>fixadores</td><td>39</td><td>228</td><td>99.0% [96%–100%]</td><td>93.1%</td><td>2</td><td>15</td><td>1/11 (9%)</td></tr><tr><td>mangueiras</td><td>28</td><td>158</td><td>94.6% [89%–97%]</td><td>88.4%</td><td>7</td><td>17</td><td>6/12 (50%)</td></tr><tr><td>outras</td><td>10</td><td>36</td><td>100.0% [90%–100%]</td><td>94.4%</td><td>0</td><td>2</td><td>0/0</td></tr><tr><td>rolamentos</td><td>20</td><td>52</td><td>91.9% [79%–97%]</td><td>74.0%</td><td>3</td><td>13</td><td>0/2 (0%)</td></tr><tr><td>sobressalentes</td><td>10</td><td>40</td><td>100.0% [90%–100%]</td><td>91.9%</td><td>0</td><td>3</td><td>0/3 (0%)</td></tr><tr><td>valvulas</td><td>28</td><td>164</td><td>98.4% [94%–100%]</td><td>91.0%</td><td>2</td><td>12</td><td>11/30 (37%)</td></tr><tr><td>vedacao</td><td>28</td><td>140</td><td>100.0% [97%–100%]</td><td>93.9%</td><td>0</td><td>8</td><td>1/9 (11%)</td></tr></tbody></table></div>
+<h3 id="res-4-por-estilo-de-texto">4. Por estilo de texto</h3>
+<div class="rolagem"><table><thead><tr><th>recorte</th><th>itens</th><th>rotulos</th><th>precisao (IC 95%)</th><th>cobertura</th><th>erros</th><th>absteve</th><th>invencao</th></tr></thead><tbody><tr><td>estruturado</td><td>130</td><td>633</td><td>97.6% [96%–99%]</td><td>92.8%</td><td>13</td><td>43</td><td>7/39 (18%)</td></tr><tr><td>telegrafico</td><td>102</td><td>498</td><td>97.4% [95%–99%]</td><td>92.3%</td><td>11</td><td>35</td><td>12/45 (27%)</td></tr></tbody></table></div>
+<h3 id="res-5-por-armadilha">5. Por armadilha</h3>
+<div class="rolagem"><table><thead><tr><th>recorte</th><th>itens</th><th>rotulos</th><th>precisao (IC 95%)</th><th>cobertura</th><th>erros</th><th>absteve</th><th>invencao</th></tr></thead><tbody><tr><td>(sem armadilha)</td><td>19</td><td>84</td><td>98.5% [92%–100%]</td><td>87.0%</td><td>1</td><td>10</td><td>0/7 (0%)</td></tr><tr><td>abrev_ambigua</td><td>16</td><td>84</td><td>100.0% [95%–100%]</td><td>94.8%</td><td>0</td><td>4</td><td>4/7 (57%)</td></tr><tr><td>classe_pressao_hash</td><td>75</td><td>382</td><td>97.0% [95%–98%]</td><td>95.4%</td><td>10</td><td>16</td><td>10/36 (28%)</td></tr><tr><td>curta_truncada</td><td>146</td><td>719</td><td>97.7% [96%–99%]</td><td>91.8%</td><td>14</td><td>55</td><td>13/51 (25%)</td></tr><tr><td>grupo_errado</td><td>44</td><td>211</td><td>93.6% [89%–96%]</td><td>85.1%</td><td>11</td><td>30</td><td>0/10 (0%)</td></tr><tr><td>ordem_sem_rotulo</td><td>9</td><td>33</td><td>92.9% [77%–98%]</td><td>87.5%</td><td>2</td><td>4</td><td>0/1 (0%)</td></tr><tr><td>pn_ambiguo</td><td>10</td><td>36</td><td>100.0% [90%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/1 (0%)</td></tr><tr><td>polegada_aspas</td><td>35</td><td>192</td><td>94.3% [90%–97%]</td><td>91.9%</td><td>9</td><td>14</td><td>2/19 (11%)</td></tr><tr><td>polegada_in</td><td>21</td><td>95</td><td>95.0% [88%–98%]</td><td>92.0%</td><td>4</td><td>7</td><td>1/8 (12%)</td></tr><tr><td>polegada_mista</td><td>16</td><td>80</td><td>98.5% [92%–100%]</td><td>91.9%</td><td>1</td><td>6</td><td>0/6 (0%)</td></tr><tr><td>rosca_bitola_comp</td><td>12</td><td>76</td><td>98.5% [92%–100%]</td><td>94.4%</td><td>1</td><td>4</td><td>1/4 (25%)</td></tr><tr><td>rosca_fina</td><td>9</td><td>61</td><td>100.0% [94%–100%]</td><td>98.3%</td><td>0</td><td>1</td><td>0/3 (0%)</td></tr><tr><td>unidade_nao_bar</td><td>11</td><td>58</td><td>96.1% [87%–99%]</td><td>98.1%</td><td>2</td><td>1</td><td>3/6 (50%)</td></tr><tr><td>valor_indefinivel</td><td>39</td><td>203</td><td>95.9% [92%–98%]</td><td>92.5%</td><td>7</td><td>14</td><td>5/17 (29%)</td></tr><tr><td>virgula_decimal</td><td>26</td><td>101</td><td>97.9% [93%–99%]</td><td>94.9%</td><td>2</td><td>5</td><td>1/2 (50%)</td></tr></tbody></table></div>
+<h3 id="res-6-por-fonte-do-valor">6. Por fonte do valor</h3>
+<div class="rolagem"><table><thead><tr><th>recorte</th><th>itens</th><th>rotulos</th><th>precisao (IC 95%)</th><th>cobertura</th><th>erros</th><th>absteve</th><th>invencao</th></tr></thead><tbody><tr><td>(sem decisao)</td><td>14</td><td>35</td><td>—</td><td>0.0%</td><td>0</td><td>32</td><td>0/3 (0%)</td></tr><tr><td>(vazio) -</td><td>50</td><td>59</td><td>—</td><td>0.0%</td><td>0</td><td>10</td><td>0/49 (0%)</td></tr><tr><td>(vazio) llm_deteccao</td><td>47</td><td>49</td><td>—</td><td>0.0%</td><td>0</td><td>36</td><td>0/13 (0%)</td></tr><tr><td>acordo</td><td>216</td><td>548</td><td>99.8% [99%–100%]</td><td>100.0%</td><td>1</td><td>0</td><td>0/0</td></tr><tr><td>aprendido</td><td>52</td><td>70</td><td>76.4% [64%–86%]</td><td>100.0%</td><td>13</td><td>0</td><td>15/15 (100%)</td></tr><tr><td>bert</td><td>12</td><td>12</td><td>75.0% [47%–91%]</td><td>100.0%</td><td>3</td><td>0</td><td>0/0</td></tr><tr><td>bert_desempata</td><td>3</td><td>3</td><td>100.0% [34%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>1/1 (100%)</td></tr><tr><td>coluna_erp</td><td>5</td><td>5</td><td>100.0% [57%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>dominio</td><td>7</td><td>8</td><td>100.0% [65%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>1/1 (100%)</td></tr><tr><td>gazetteer</td><td>54</td><td>72</td><td>95.7% [88%–99%]</td><td>100.0%</td><td>3</td><td>0</td><td>2/2 (100%)</td></tr><tr><td>gramatica</td><td>20</td><td>20</td><td>100.0% [84%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>llm</td><td>9</td><td>10</td><td>100.0% [72%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>llm_deteccao</td><td>8</td><td>8</td><td>100.0% [68%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>ordem_pdm</td><td>2</td><td>3</td><td>0.0% [0%–56%]</td><td>100.0%</td><td>3</td><td>0</td><td>0/0</td></tr><tr><td>regra_pdm_2</td><td>24</td><td>44</td><td>100.0% [92%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr><tr><td>rotulo</td><td>72</td><td>110</td><td>99.1% [95%–100%]</td><td>100.0%</td><td>1</td><td>0</td><td>0/0</td></tr><tr><td>sinonimo</td><td>70</td><td>75</td><td>100.0% [95%–100%]</td><td>100.0%</td><td>0</td><td>0</td><td>0/0</td></tr></tbody></table></div>
+<h3 id="res-7-classe-do-item">7. Classe do item</h3>
+<p>Acerto de classe: <strong>218/240</strong> (90.8% [87%–94%]).</p>
+<h4 id="res-matriz-de-confusao-arruelas-8-itens-do-gold">Matriz de confusão — arruelas (8 itens do gold)</h4>
+<div class="rolagem"><table><thead><tr><th>gold \ pipeline</th><th>PDM004</th><th>PDM005</th><th>PDM082</th></tr></thead><tbody><tr><td>PDM004</td><td>3</td><td>0</td><td>1</td></tr><tr><td>PDM005</td><td>0</td><td>4</td><td>0</td></tr></tbody></table></div>
+<h4 id="res-matriz-de-confusao-conexoes-tubo-48-itens-do-gold">Matriz de confusão — conexoes_tubo (48 itens do gold)</h4>
+<div class="rolagem"><table><thead><tr><th>gold \ pipeline</th><th>PDM050</th></tr></thead><tbody><tr><td>FORA_DO_PDM</td><td>8</td></tr><tr><td>PDM050</td><td>40</td></tr></tbody></table></div>
+<h4 id="res-matriz-de-confusao-juntas-19-itens-do-gold">Matriz de confusão — juntas (19 itens do gold)</h4>
+<div class="rolagem"><table><thead><tr><th>gold \ pipeline</th><th>PDM033</th><th>PDM034</th></tr></thead><tbody><tr><td>PDM033</td><td>13</td><td>0</td></tr><tr><td>PDM034</td><td>0</td><td>6</td></tr></tbody></table></div>
+<h4 id="res-matriz-de-confusao-mangueiras-28-itens-do-gold">Matriz de confusão — mangueiras (28 itens do gold)</h4>
+<div class="rolagem"><table><thead><tr><th>gold \ pipeline</th><th>PDM011</th><th>PDM012</th><th>PDM013</th><th>PDM014</th><th>PDM090</th><th>PDM110</th></tr></thead><tbody><tr><td>PDM011</td><td>20</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>PDM012</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>PDM013</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td>0</td></tr><tr><td>PDM014</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr></tbody></table></div>
+<h4 id="res-matriz-de-confusao-parafusos-24-itens-do-gold">Matriz de confusão — parafusos (24 itens do gold)</h4>
+<div class="rolagem"><table><thead><tr><th>gold \ pipeline</th><th>PDM001</th><th>PDM002</th></tr></thead><tbody><tr><td>PDM001</td><td>17</td><td>0</td></tr><tr><td>PDM002</td><td>4</td><td>3</td></tr></tbody></table></div>
+<h4 id="res-matriz-de-confusao-rolamentos-20-itens-do-gold">Matriz de confusão — rolamentos (20 itens do gold)</h4>
+<div class="rolagem"><table><thead><tr><th>gold \ pipeline</th><th>PDM020</th><th>PDM021</th><th>PDM022</th></tr></thead><tbody><tr><td>PDM020</td><td>9</td><td>0</td><td>0</td></tr><tr><td>PDM021</td><td>1</td><td>4</td><td>0</td></tr><tr><td>PDM022</td><td>0</td><td>0</td><td>4</td></tr><tr><td>PDM023</td><td>2</td><td>0</td><td>0</td></tr></tbody></table></div>
+<h4 id="res-matriz-de-confusao-valvulas-28-itens-do-gold">Matriz de confusão — valvulas (28 itens do gold)</h4>
+<div class="rolagem"><table><thead><tr><th>gold \ pipeline</th><th>PDM040</th><th>PDM041</th><th>PDM042</th><th>PDM043</th><th>PDM044</th><th>PDM082</th></tr></thead><tbody><tr><td>PDM040</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>PDM041</td><td>2</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>PDM042</td><td>0</td><td>0</td><td>6</td><td>0</td><td>0</td><td>0</td></tr><tr><td>PDM043</td><td>0</td><td>0</td><td>0</td><td>5</td><td>0</td><td>0</td></tr><tr><td>PDM044</td><td>0</td><td>0</td><td>0</td><td>0</td><td>4</td><td>1</td></tr></tbody></table></div>
+<h4 id="res-erros-de-classe">Erros de classe</h4>
+<div class="rolagem"><table><thead><tr><th>código</th><th>gold</th><th>pipeline</th><th>estado</th><th>texto cru</th></tr></thead><tbody><tr><td>10072893</td><td>FORA_DO_PDM</td><td>PDM050</td><td>SANEADO</td><td>TAMPAO 6000# ROSCA NPT ASME B16.11</td></tr><tr><td>10858863</td><td>PDM002</td><td>PDM001</td><td>PENDENTE</td><td>PARAFUSO  SEXTAVADO ALLEN CILINDRICA M14X70 12.9 ACO ESPECIAL ZINC BRANCO</td></tr><tr><td>11889917</td><td>PDM002</td><td>PDM001</td><td>PENDENTE</td><td>PARAF. SEXTAVADO ALLEN ESCAREADA M 16X70 12.9 ACO ESPECIAL OXIDADO</td></tr><tr><td>13687511</td><td>PDM023</td><td>PDM020</td><td>SANEADO</td><td>CAIXA MANCAL COM TIPO PEDESTAL COM ROLAMENTO, FURO 75MM, COM MATERIAL CAIXA FERRO FUNDIDO</td></tr><tr><td>14407539</td><td>FORA_DO_PDM</td><td>PDM050</td><td>SANEADO</td><td>TAMPAO, PADRAO:ASME B16.11, CLASSE:6000#, A182 F316, TIPO CONEXAO:SW, DN:1/4POL</td></tr><tr><td>14848482</td><td>FORA_DO_PDM</td><td>PDM050</td><td>SANEADO</td><td>TAMPAO, BITOLA:1POL, CL:6000#, MATERIAL:A105, EXTREMIDADES:RSC NPT, NORMA CONSTRUCAO:ASME</td></tr><tr><td>15409091</td><td>PDM011</td><td>PDM110</td><td>SANEADO</td><td>MANGUEIRA HIDRAULICA MONTADA; NORMA: SAE 100R2AT; DIAMETRO INTERNO: 3/8POL; PRESSAO TRABAL</td></tr><tr><td>15642667</td><td>PDM011</td><td>PDM090</td><td>SANEADO</td><td>MANG. HIDRAULICA MONTADA; PADRAO: EN 853 2SN; DIAM INT: 1.1/4&quot;; PRESSAO MAX: 1815PSI; C: 5</td></tr><tr><td>18081854</td><td>PDM023</td><td>PDM020</td><td>SANEADO</td><td>CAIXA MANCAL PEDESTAL COM ROLAMENTO 45 MM</td></tr><tr><td>18612778</td><td>PDM044</td><td>PDM082</td><td>SANEADO</td><td>VALV. BORB, DIAM NOMINAL:4 IN, TIPO CORPO:LUG, CORPO:ACO CARBONO FUNDIDO A216 WCB, MATERIA</td></tr><tr><td>19182839</td><td>PDM021</td><td>PDM020</td><td>SANEADO</td><td>ROLAMENTO AUTOCOMPENSADOR ROL 22206E DIAMETRO 30MM 62,0MM ESPESSURA DE 20 MM COM FURO CILI</td></tr><tr><td>19396126</td><td>FORA_DO_PDM</td><td>PDM050</td><td>SANEADO</td><td>TAMPAO, DN:DN8, RATING:150#, MAT:FERRO MALEAVEL GALVANIZADO, CONEXAO:ROSCA BSP, CONF:NBR 6</td></tr><tr><td>19675722</td><td>FORA_DO_PDM</td><td>PDM050</td><td>PENDENTE</td><td>TAMPAO, MAT:INOX 316, CL:6000#, CONEXAO:ROSCA</td></tr><tr><td>20014703</td><td>PDM110</td><td>PDM090</td><td>PENDENTE</td><td>PISTAO; FAB:SANDVIK; APLICACAO:PERFURATRIZ; REF FABRICANTE:785.340790; MATERIAL:ACO CARBON</td></tr><tr><td>21643278</td><td>PDM002</td><td>PDM001</td><td>SANEADO</td><td>PARAFUSO CAB SEXTAVADA INTERNO, TIPO CABECA:CILINDRICA, DIAMETRO:M-10, COMPR:140MM, RESIST</td></tr><tr><td>22145251</td><td>FORA_DO_PDM</td><td>PDM050</td><td>SANEADO</td><td>TAMPAO, CL:6000#, DIAM:3/4&quot;, MATERIAL:A182 F316, CONEXAO:ROSCADA NPT, CONF:ASME B16.11</td></tr><tr><td>26369766</td><td>FORA_DO_PDM</td><td>PDM050</td><td>PENDENTE</td><td>TAMPAO, DIAM:1 IN, CLASSE:3000#, INOX, EXTREMIDADE:ENCAIXE SOLDA, CONF:ASME B16.11</td></tr><tr><td>27089652</td><td>FORA_DO_PDM</td><td>PDM050</td><td>PENDENTE</td><td>TAMPAO, DIAM NOMINAL:1/2&quot;, PRESSAO NOMINAL:3000#, MATERIAL:ACO CARBONO, LIGACAO:SW</td></tr><tr><td>27147155</td><td>PDM002</td><td>PDM001</td><td>SANEADO</td><td>PARAFUSO CAB SEXTAVADA INTERNO, CLASSE RESISTENCIA:A2-70, BITOLA:M-20, COMPRIMENTO:110 MM,</td></tr><tr><td>27542120</td><td>PDM041</td><td>PDM040</td><td>PENDENTE</td><td>VALV. GAV, DIAMETRO:3/4 IN, CLASSE PRESSAO:150#, MAT CORPO:ACO INOX, TIPO CONEXAO:PONTAS C</td></tr><tr><td>28638567</td><td>PDM041</td><td>PDM040</td><td>SANEADO</td><td>VALVULA GAV DN200 300# FLANGES ROSCADO REDUTOR MANUAL</td></tr><tr><td>28897955</td><td>PDM004</td><td>PDM082</td><td>REVISAO_HUMANA</td><td>ARRUELA LISA; PARA PARAFUSO: M12; DIAMETRO INTERNO: 13MM; DIAMETRO EXTERNO: 37MM; ESPESSUR</td></tr></tbody></table></div>
+<h3 id="res-8-juncao-de-duplicados">8. Junção de duplicados</h3>
+<p>Pares decidíveis: 140 (MESMO_ITEM=67, ITENS_DIFERENTES=73); INDETERMINADO no gold: 10 (o pipeline juntou 4 deles).</p>
+<div class="rolagem"><table><thead><tr><th>métrica</th><th>valor</th></tr></thead><tbody><tr><td>precisão</td><td>98.5% [92%–100%]  (65/66)</td></tr><tr><td>recall</td><td>97.0% [90%–99%]  (65/67)</td></tr><tr><td>verdadeiros positivos</td><td>65</td></tr><tr><td>falsos positivos</td><td>1</td></tr><tr><td>falsos negativos</td><td>2</td></tr><tr><td>verdadeiros negativos</td><td>72</td></tr></tbody></table></div>
+<h4 id="res-por-fonte-do-par">Por fonte do par</h4>
+<div class="rolagem"><table><thead><tr><th>fonte do par</th><th>pares</th><th>decidíveis</th><th>acerto (IC 95%)</th><th>juntou errado</th><th>deixou passar</th></tr></thead><tbody><tr><td>mesma_chave</td><td>70</td><td>66</td><td>98.5% [92%–100%]</td><td>1</td><td>0</td></tr><tr><td>texto_parecido</td><td>30</td><td>28</td><td>96.4% [82%–99%]</td><td>0</td><td>1</td></tr><tr><td>um_atributo</td><td>50</td><td>46</td><td>97.8% [89%–100%]</td><td>0</td><td>1</td></tr></tbody></table></div>
+<h4 id="res-pares-errados">Pares errados</h4>
+<ul><li><strong>P033</strong> (um_atributo): gold <code>MESMO_ITEM</code>, pipeline separou<br><code>25637537</code>: PARAFUSO SEXTAVADO METRICA M12X130 A2-70 NATURAL DIN 931<br><code>26722816</code>: PARAFUSO SEXTAVADO; ROSCA: METRICA GROSSA; BITOLA: M12; COMPRIMENTO: 130MM; CLASSE RESISTENCIA: A2-70; MATERIAL: ACO INOX 304; ACABAMENTO: NATURAL; NO<br>gold: A2-70 implica inox 304 nas opcoes do PDM001</li><li><strong>P081</strong> (texto_parecido): gold <code>MESMO_ITEM</code>, pipeline separou<br><code>26560744</code>: CORREIA TRAPEZOIDAL, SPZ, MODELO: SPZ 2725, COMPRIMENTO: 2738MM<br><code>27354718</code>: CORREIA TRAPEZOIDAL, MODELO:SPZ 2725, COMPRIMENTO:2738MM<br>gold: a referencia SPZ 2725 ja carrega o perfil SPZ</li><li><strong>P105</strong> (mesma_chave): gold <code>ITENS_DIFERENTES</code>, pipeline juntou<br><code>26438272</code>: PARAFUSO SEXTAVADO, ROSCA:METRICA GROSSA, BITOLA:M24, C:110MM, DIN 931, MATERIAL:AC CARBONO, REVESTIMENTO:GEOMET, GRAU:8.8<br><code>27811753</code>: PARAFUSO SEXTAVADO; ROSCA: METRICA GROSSA; BITOLA: M24; COMPRIMENTO: 110MM; CLASSE RESISTENCIA: 8.8; MATERIAL: ACO CARBONO; ACABAMENTO: ZINCADO AMAREL<br>gold: geomet = organometalico, acabamento diferente</li></ul>
+<h3 id="res-9-cada-erro-de-caracteristica">9. Cada erro de característica</h3>
+<ul><li><strong>27542120 ACIONAMENTO</strong>: gold <code>VOLANTE</code>, pipeline <code>ALAVANCA</code> (fonte aprendido, confiança 0.8)<br>texto: VALV. GAV, DIAMETRO:3/4 IN, CLASSE PRESSAO:150#, MAT CORPO:ACO INOX, TIPO CONEXAO:PONTAS CHANFRADAS, ACIONAMENTO:VOLANTE<br>gold: ACIONAMENTO:VOLANTE |</li><li><strong>16249002 DIAMETRO INTERNO</strong>: gold <code>1.1/4POL</code>, pipeline <code>20POL</code> (fonte rotulo, confiança 0.99)<br>texto: MANGUEIRA MONTADA HIDR, SAE 100R2AT, DIAM INT:-20, MATERIAL TERMINAIS:ACO ZINCADO, COMPRIMENTO:800MM, JIC FEMEA, TERM B:FEMEA RETA DKOL, PT:112KGF/CM2<br>gold: DIAM INT:-20 | dash -20 = 20/16 pol = 1.1/4POL</li><li><strong>23167204 DIAMETRO NOMINAL</strong>: gold <code>1POL</code>, pipeline <code>25.3/4POL</code> (fonte ordem_pdm, confiança 0.65)<br>texto: BUCHA REDUCAO BITOLA DE DN 25 3/4&quot; COM CL 6000# MATERIAL DE INOX 316 TIPO CONEXAO ROSCA ASME B16.11<br>gold: BITOLA DE DN 25 | DN 25 = 1POL</li><li><strong>28759306 DIAMETRO NOMINAL</strong>: gold <code>2POL</code>, pipeline <code>1.1/4POL</code> (fonte ordem_pdm, confiança 0.65)<br>texto: BUCHA REDUCAO, DN:DN 50, DIAMETRO REDUZIDO:1,25POL, CLASSE PRESSAO:3000#, MAT:F316, EXTREMIDADES:RSC NPT<br>gold: DN:DN 50 | DN 50 = 2POL</li><li><strong>23167204 DIAMETRO REDUZIDO</strong>: gold <code>3/4POL</code>, pipeline <code>1POL</code> (fonte ordem_pdm, confiança 0.5)<br>texto: BUCHA REDUCAO BITOLA DE DN 25 3/4&quot; COM CL 6000# MATERIAL DE INOX 316 TIPO CONEXAO ROSCA ASME B16.11<br>gold: DN 25 3/4&quot; | segunda medida = diametro reduzido</li><li><strong>10858863 MATERIAL</strong>: gold <code>ACO LIGA</code>, pipeline <code>ACO CARBONO</code> (fonte aprendido, confiança 0.8)<br>texto: PARAFUSO  SEXTAVADO ALLEN CILINDRICA M14X70 12.9 ACO ESPECIAL ZINC BRANCO<br>gold: ACO ESPECIAL | 12.9 | decisao do adjudicador (R2): o texto traz material (ACO ESPECIAL) e a classe 12.9 do PDM002 so existe fora do inox (as opcoes inox sao A2-70 e A4-70), logo ACO LIGA e o unico valor possivel da lista</li><li><strong>11109434 MATERIAL</strong>: gold <code>ACO INOX FORJADO A182 F316</code>, pipeline <code>ACO INOX A403 WP316</code> (fonte aprendido, confiança 0.8)<br>texto: BUCHA REDUCAO, BITOLA:1POL, DIAMETRO REDUZIDO:3/4 IN, CLASSE:3000#, MAT:INOX 316, EXTREMIDADE:SOCKET WELD, NORMA CONSTRUCAO:ASME B16.11<br>gold: MAT:INOX 316 ... ASME B16.11 | inox 316 forjado 3000# B16.11 = A182 F316</li><li><strong>11889917 MATERIAL</strong>: gold <code>ACO LIGA</code>, pipeline <code>ACO CARBONO</code> (fonte aprendido, confiança 0.8)<br>texto: PARAF. SEXTAVADO ALLEN ESCAREADA M 16X70 12.9 ACO ESPECIAL OXIDADO<br>gold: ACO ESPECIAL | 12.9 | classe 12.9 so existe em aco liga; as outras opcoes do PDM002 sao inox</li><li><strong>20043393 MATERIAL</strong>: gold <code>ACO INOX FORJADO A182 F316</code>, pipeline <code>ACO INOX A403 WP316</code> (fonte aprendido, confiança 0.8)<br>texto: BUCHA REDUCAO 1.1/2&quot; 1 1/4POL 3000# INOX 316 SOLDA ENCAIXE SW ASME B16.11<br>gold: INOX 316 SOLDA ENCAIXE SW ASME B16.11 | inox 316 com CLASSE 3000# e SW = forjado A182 F316</li><li><strong>20084323 MATERIAL</strong>: gold <code>ACO INOX FORJADO A182 F316</code>, pipeline <code>ACO INOX A403 WP316</code> (fonte aprendido, confiança 0.8)<br>texto: BUCHA REDUCAO, BITOLA:1 POL, DIAMETRO REDUZIDO:3/8&quot;, MAT:INOX 316, LIGACAO:SOLDA ENCAIXE<br>gold: MAT:INOX 316, LIGACAO:SOLDA ENCAIXE | as duas opcoes inox do PDM050 sao 316; solda de encaixe define a forjada A182 F316</li><li><strong>20121043 MATERIAL</strong>: gold <code>ACO INOX FORJADO A182 F316</code>, pipeline <code>ACO INOX A403 WP316</code> (fonte aprendido, confiança 0.8)<br>texto: CAP 3/4 IN 6000# INOX 316 ENCAIXE SOLDA ASME B16.11<br>gold: INOX 316 ENCAIXE SOLDA ASME B16.11 | inox 316 com CLASSE 6000# e encaixe solda = forjado A182 F316</li><li><strong>22181613 MATERIAL</strong>: gold <code>ACO INOX FORJADO A182 F316</code>, pipeline <code>ACO INOX A403 WP316</code> (fonte aprendido, confiança 0.8)<br>texto: BUCHA REDUCAO 1/2&quot; 3/8&quot; 3000# INOX 316 SOLDA ENCAIXE SW ASME B16.11<br>gold: INOX 316 SOLDA ENCAIXE SW ASME B16.11 | decisao do adjudicador (R3): classe 3000# com solda de encaixe e norma ASME B16.11 e conexao forjada; A403 WP316 e de solda de topo</li><li><strong>23167204 MATERIAL</strong>: gold <code>ACO INOX FORJADO A182 F316</code>, pipeline <code>ACO INOX A403 WP316</code> (fonte aprendido, confiança 0.8)<br>texto: BUCHA REDUCAO BITOLA DE DN 25 3/4&quot; COM CL 6000# MATERIAL DE INOX 316 TIPO CONEXAO ROSCA ASME B16.11<br>gold: MATERIAL DE INOX 316 TIPO CONEXAO ROSCA ASME B16.11 | decisao do adjudicador (R3): classe 6000# com rosca e ASME B16.11 e conexao forjada A182 F316</li><li><strong>25169236 MATERIAL</strong>: gold <code>ACO INOX FORJADO A182 F316</code>, pipeline <code>ACO INOX A403 WP316</code> (fonte aprendido, confiança 0.8)<br>texto: BUCHA REDUCAO, DIAMETRO NOMINAL: DN8, CLASSE: 3000#, MATERIAL: INOX 316, TIPO CONEXAO: ENCAIXE SOLDA, ASME B16.11<br>gold: MATERIAL: INOX 316 ... ASME B16.11 | inox 316 em conexao forjada 3000# ASME B16.11 = A182 F316 (A403 WP316 e para solda de topo)</li><li><strong>10046540 MATERIAL CORPO</strong>: gold <code>FERRO FUNDIDO NODULAR</code>, pipeline <code>ACO INOX FUNDIDO A351 CF8M</code> (fonte gazetteer, confiança 0.98)<br>texto: VALVULA  BORBOLETA, DIAM: 6POL, TIPO CORPO: WAFER, FERRO FUNDIDO, MATERIAL DISCO: ACO INOX FUNDIDO A351 CF8M, NITRILICA, ACIONAMENTO: ATUADOR ELETRICO<br>gold: FERRO FUNDIDO | unico ferro fundido da lista do PDM044</li><li><strong>26544330 PRESSAO TRABALHO</strong>: gold <code>40,2BAR</code>, pipeline <code>41BAR</code> (fonte acordo, confiança 0.975)<br>texto: MANG. INDUSTRIAL, APLICACAO:AR COMPRIMIDO, MAT:EPDM, DIAMETRO:2POL, PRESSAO TRABALHO:41KGF/CM2, REFORCO:LONAS TEXTEIS<br>gold: PRESSAO TRABALHO:41KGF/CM2 | 41 KGF/CM2 x 0,980665 = 40,2 BAR</li><li><strong>12970453 REFERENCIA</strong>: gold <code>6008ZZ</code>, pipeline <code>6008</code> (fonte bert, confiança 0.729)<br>texto: ROLAMENTO  RIGIDO ESFERAS;CODIGO:6008 ZZ;DIAM INTERNO:40,0MM;DIAMETRO EXTERNO:68MM;L:15 MM;2 PLACAS METALICAS;FOLGA INTERNA:NORMAL<br>gold: CODIGO:6008 ZZ | formato do PDM liga o sufixo por hifen</li><li><strong>14548232 REFERENCIA</strong>: gold <code>60102RSC3</code>, pipeline <code>6010</code> (fonte bert, confiança 0.925)<br>texto: ROLAMENTO RIGIDO ESFERAS 6010 2RS/C3 50MM 80MM 16 MM 2RS C3<br>gold: 6010 2RS/C3 | formato do PDM: 6010-2RS/C3</li><li><strong>20344522 REFERENCIA</strong>: gold <code>63152RSC3</code>, pipeline <code>6315</code> (fonte bert, confiança 0.944)<br>texto: ROLAMENTO RIGIDO ESFERAS 6315 2RS/C3 75MM 160MM 37MM VEDADO C3<br>gold: 6315 2RS/C3 |</li><li><strong>10017018 TERMINAL A</strong>: gold <code>FEMEA CURVA 45 GRAUS JIC</code>, pipeline <code>FEMEA RETA ORFS</code> (fonte gazetteer, confiança 0.98)<br>texto: MANGUEIRA HID MONTADA SAE 100R2AT 1/4 POL 5005PSI 2200 MM JIC FEMEA 45 FEMEA RETA ORFS ACO ZINCADO<br>gold: JIC FEMEA 45 | 45 = curva de 45 graus</li><li><strong>27430680 TERMINAL A</strong>: gold <code>FEMEA RETA BSP</code>, pipeline <code>FEMEA CURVA 90 GRAUS JIC</code> (fonte aprendido, confiança 0.8)<br>texto: MANG. HIDRAULICA MONTADA, NORMA:EN 856 4SP, DI:3/8 IN, PRESS TRAB:6455PSI, COMPRIMENTO:5000MM, TERM A:FEMEA BSP, TERMINAL B:FEM CURVA 90 JIC, MATERIAL<br>gold: TERM A:FEMEA BSP | a lista tem so FEMEA RETA BSP</li><li><strong>29700768 TERMINAL A</strong>: gold <code>FEMEA RETA BSP</code>, pipeline <code>FEMEA CURVA 90 GRAUS JIC</code> (fonte aprendido, confiança 0.8)<br>texto: MANGUEIRA HID MONT, EN 856 4SP, DIAM INTERNO:1/2&quot;, COMP:6000MM, TERMINAL A:FEMEA BSP, LADO B:JIC FEMEA 90, MATERIAL TERMINAIS:ACO CARBONO<br>gold: TERMINAL A:FEMEA BSP | a lista tem so FEMEA RETA BSP</li><li><strong>23376554 TERMINAL B</strong>: gold <code>FEMEA RETA DKO</code>, pipeline <code>FEMEA RETA JIC</code> (fonte gazetteer, confiança 0.98)<br>texto: MANGUEIRA HIDRAULICA MONTADA - CONF:EN 856 4SH - DIAM INT:2&quot; - PRESS TRAB:250BAR - C:900 MM - TERM A:FEMEA RETA JIC 37 GRAUS - TERMINAL B:FEMEA RETA D<br>gold: TERMINAL B:FEMEA RETA DKOL | DKOL = serie leve do DKO</li><li><strong>29700768 TERMINAL B</strong>: gold <code>FEMEA CURVA 90 GRAUS JIC</code>, pipeline <code>FEMEA RETA BSP</code> (fonte aprendido, confiança 0.93)<br>texto: MANGUEIRA HID MONT, EN 856 4SP, DIAM INTERNO:1/2&quot;, COMP:6000MM, TERMINAL A:FEMEA BSP, LADO B:JIC FEMEA 90, MATERIAL TERMINAIS:ACO CARBONO<br>gold: LADO B:JIC FEMEA 90 |</li></ul>
+<h3 id="res-10-cada-invencao">10. Cada invenção</h3>
+<ul><li><strong>18266130 ACIONAMENTO</strong> (gold INDEFINIVEL): pipeline <code>ALAVANCA</code> (fonte aprendido, confiança 0.8)<br>texto: VALV. ESFERA, METAL-METAL, CLASSE:150#, A216 WCB, EXTREMIDADE:FLANGEADA, PASSAGEM:PASSAGEM PLENA, DIAM NOMINAL:3/4POL, ACIONAMENTO:MANUAL<br>gold: manual nao decide entre ALAVANCA e REDUTOR, ambos manuais</li><li><strong>29452826 APLICACAO</strong> (gold INDEFINIVEL): pipeline <code>AR COMPRIMIDO</code> (fonte bert_desempata, confiança 0.88)<br>texto: MANGUEIRA MULTIUSO AR COMPRIMIDO EPDM 3/4POL 290 PSI LONAS TEXTEIS<br>gold: decisao do adjudicador: MULTIUSO e AR COMPRIMIDO sao dois valores da lista do PDM012 e o texto traz os dois sem hierarquia; escolher um e sorteio, logo o atributo e indefinivel</li><li><strong>13203081 CONEXAO</strong> (gold INDEFINIVEL): pipeline <code>FLANGE RF</code> (fonte aprendido, confiança 0.8)<br>texto: VALVULA ESFERA 6POL 150# ACO CARBONO FUNDIDO A216 WCB FLANGES TEFLON REFORCADO MANOPLA<br>gold: FLANGES nao decide entre FLANGE FF e FLANGE RF</li><li><strong>14624421 CONEXAO</strong> (gold INDEFINIVEL): pipeline <code>FLANGE RF</code> (fonte aprendido, confiança 0.8)<br>texto: VALVULA RETENCAO DN150 600# ACO INOX FUNDIDO A351 CF8M FLANGES PORTINHOLA<br>gold: FLANGES nao decide entre FLANGE FF e FLANGE RF</li><li><strong>15099478 CONEXAO</strong> (gold INDEFINIVEL): pipeline <code>FLANGE FF</code> (fonte aprendido, confiança 0.93)<br>texto: VALVULA GLOBO 300# WCB FLANGEADA VOLANTE<br>gold: flangeada nao decide entre FLANGE FF e FLANGE RF</li><li><strong>18266130 CONEXAO</strong> (gold INDEFINIVEL): pipeline <code>FLANGE FF</code> (fonte aprendido, confiança 0.93)<br>texto: VALV. ESFERA, METAL-METAL, CLASSE:150#, A216 WCB, EXTREMIDADE:FLANGEADA, PASSAGEM:PASSAGEM PLENA, DIAM NOMINAL:3/4POL, ACIONAMENTO:MANUAL<br>gold: flangeada nao decide entre FLANGE FF e FLANGE RF</li><li><strong>19421041 CONEXAO</strong> (gold INDEFINIVEL): pipeline <code>FLANGE FF</code> (fonte aprendido, confiança 0.93)<br>texto: VALV. RETENCAO, DN:DN 32, CLASSE:300#, MATERIAL:CF8M, TIPO CONEXAO:FLANGEADA, PORTINHOLA<br>gold: flangeada nao decide entre FLANGE FF e FLANGE RF</li><li><strong>23044290 CONEXAO</strong> (gold INDEFINIVEL): pipeline <code>FLANGE RF</code> (fonte aprendido, confiança 0.8)<br>texto: VALVULA  ESFERA, DIAMETRO:3&quot;, FULL BORE, CORPO:ACO INOX FUNDIDO A351 CF8M, TIPO CONEXAO:FLANGES, PRESSAO NOMINAL:300#, VEDACAO SEDE:METAL-METAL, ACION<br>gold: FLANGES nao decide entre FLANGE FF e FLANGE RF</li><li><strong>23816864 CONEXAO</strong> (gold INDEFINIVEL): pipeline <code>FLANGE RF</code> (fonte aprendido, confiança 0.8)<br>texto: VALVULA GLOBO; DIAMETRO NOMINAL:1,5POL; PRESSAO NOMINAL:300#; CORPO:A216 WCB; EXTREMIDADES:FLANGES<br>gold: FLANGES nao decide entre FLANGE FF e FLANGE RF</li><li><strong>28478391 CONEXAO</strong> (gold INDEFINIVEL): pipeline <code>FLANGE RF</code> (fonte aprendido, confiança 0.8)<br>texto: VALVULA ESFERA, ACIONAMENTO:ATUADOR PNEUM, MATERIAL:A216 WCB, CONEXAO:FLANGES, DIAMETRO NOMINAL:3&quot;<br>gold: FLANGES nao decide entre FLANGE FF e FLANGE RF</li><li><strong>28638567 CONEXAO</strong> (gold INDEFINIVEL): pipeline <code>FLANGE RF</code> (fonte aprendido, confiança 0.8)<br>texto: VALVULA GAV DN200 300# FLANGES ROSCADO REDUTOR MANUAL<br>gold: FLANGES nao decide entre FLANGE FF e FLANGE RF</li><li><strong>24496679 DIAMETRO EIXO</strong> (gold AUSENTE): pipeline <code>135MM</code> (fonte dominio, confiança 0.85)<br>texto: RET. DIAMETRO ALOJAMENTO 135MM COM TIPO BA MAT DE FLUORELASTOMERO<br>gold: so o alojamento esta no texto</li><li><strong>20504737 MATERIAL</strong> (gold AUSENTE): pipeline <code>ACO CARBONO</code> (fonte aprendido, confiança 0.8)<br>texto: PARAFUSO HEXAGONAL MA M20X80 8.8 S/ACAB DIN 933<br>gold: decisao do adjudicador (R1): PARAFUSO HEXAGONAL MA M20X80 8.8 S/ACAB DIN 933 nao tem nenhuma palavra de material; deduzir ACO CARBONO da classe 8.8 e extrapolacao, e preencher conta como invencao</li><li><strong>14692586 MATERIAL CORPO</strong> (gold INDEFINIVEL): pipeline <code>ACO INOX FORJADO A182 F316</code> (fonte aprendido, confiança 0.8)<br>texto: VALVULA  ESFERA, DIAMETRO NOMINAL:1POL, 150#, MATERIAL:INOX 316, EXTREMIDADES:FLANGE RF, PASSAGEM:FULL BORE, ACIONAMENTO:MANOPLA, METAL-METAL<br>gold: inox 316 nao decide entre A351 CF8M (fundido) e A182 F316 (forjado)</li><li><strong>15202078 TERMINAL A</strong> (gold INDEFINIVEL): pipeline <code>FEMEA CURVA 90 GRAUS DKO</code> (fonte gazetteer, confiança 0.98)<br>texto: MANGUEIRA HIDR MONTADA EN 853 1SN, COM DIAM INT 1/2 IN, PT 2320 PSI, COMP DE 750MM, JIC FEMEA, FEMEA CURVA 90 GRAUS DKO, TERMINAIS DE ACO CARBONO ZINC<br>gold: JIC femea nao decide entre reta e curva 45/90</li><li><strong>28718449 TERMINAL A</strong> (gold INDEFINIVEL): pipeline <code>MACHO RETO NPT</code> (fonte aprendido, confiança 0.8)<br>texto: MANG HIDRAULICA MONT SAE 100R1AT 1.1/4POL 4500MM FEMEA DKO NPT MACHO ACO CARBONO ZINCADO<br>gold: femea DKO nao decide entre reta e curva 90</li><li><strong>11848855 TERMINAL B</strong> (gold INDEFINIVEL): pipeline <code>MACHO RETO NPT</code> (fonte gazetteer, confiança 0.98)<br>texto: MANGUEIRA HIDRAULICA MONT COM CONF EN 856 4SP, D.I. 1/2POL (-8), PT 6020PSI, COM COMP 750 MM, TERM A DE MACHO RETO NPT, LADO B DE FEMEA ORFS, MAT TERM<br>gold: femea ORFS nao decide entre reta e curva 90</li><li><strong>25059059 TERMINAL B</strong> (gold INDEFINIVEL): pipeline <code>FEMEA RETA JIC</code> (fonte aprendido, confiança 0.8)<br>texto: MANGUEIRA HID MONTADA, NORMA CONSTRUCAO EN 856 4SP, DIAM INT -8, PRESSAO 6020PSI, COMPR 2000 MM, FEM RETA JIC, TERM B JIC FEMEA, TERMINAIS ACO CARBONO<br>gold: JIC femea nao decide entre reta e curva 45/90</li><li><strong>27846113 TERMINAL B</strong> (gold AUSENTE): pipeline <code>FEMEA CURVA 90 GRAUS JIC</code> (fonte aprendido, confiança 0.8)<br>texto: MANGUEIRA HID MONTADA EN 853 2SN 1815 PSI 1800MM FEMEA 90G JIC ACO CARBONO<br>gold: so um terminal citado</li></ul>
+<h3 id="res-11-atributos-preenchidos-fora-do-universo-do-gold">11. Atributos preenchidos fora do universo do gold</h3>
+<p>Atributo que o pipeline preencheu porque escolheu outra classe; não entra na precisão, mas é consequência do erro de classe.</p>
+<div class="rolagem"><table><thead><tr><th>código</th><th>atributo</th><th>valor</th><th>fonte</th><th>classe gold</th><th>classe pipeline</th></tr></thead><tbody><tr><td>10017018</td><td>PRESSAO TRABALHO</td><td>345,1BAR</td><td>gramatica</td><td>PDM011</td><td>PDM011</td></tr><tr><td>10072893</td><td>CLASSE PRESSAO</td><td>6000#</td><td>acordo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>10072893</td><td>CONEXAO</td><td>ROSCA NPT</td><td>acordo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>10072893</td><td>NORMA</td><td>ASME B16.11</td><td>acordo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>10185788</td><td>DIAMETRO EXTERNO</td><td>140MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>10185788</td><td>DIAMETRO INTERNO</td><td>65MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>10185788</td><td>LARGURA</td><td>33MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>10242631</td><td>NORMA</td><td>ASME B16.20</td><td>gazetteer</td><td>PDM033</td><td>PDM033</td></tr><tr><td>10254470</td><td>DIAMETRO EXTERNO</td><td>100MM</td><td>acordo</td><td>PDM022</td><td>PDM022</td></tr><tr><td>10254470</td><td>DIAMETRO INTERNO</td><td>55MM</td><td>acordo</td><td>PDM022</td><td>PDM022</td></tr><tr><td>10254470</td><td>LARGURA</td><td>22,75MM</td><td>rotulo</td><td>PDM022</td><td>PDM022</td></tr><tr><td>10257232</td><td>NORMA</td><td>ASME B16.11</td><td>acordo</td><td>PDM050</td><td>PDM050</td></tr><tr><td>10272554</td><td>NORMA</td><td>ASME B16.9</td><td>acordo</td><td>PDM050</td><td>PDM050</td></tr><tr><td>10361413</td><td>NORMA</td><td>NBR 6943</td><td>acordo</td><td>PDM050</td><td>PDM050</td></tr><tr><td>10565956</td><td>NORMA</td><td>DIN 985</td><td>acordo</td><td>PDM003</td><td>PDM003</td></tr><tr><td>10858863</td><td>ROSCA</td><td>METRICA GROSSA</td><td>regra_pdm_2</td><td>PDM002</td><td>PDM001</td></tr><tr><td>10897046</td><td>DIAMETRO EXTERNO</td><td>62MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>10897046</td><td>DIAMETRO INTERNO</td><td>30MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>11109434</td><td>NORMA</td><td>ASME B16.11</td><td>acordo</td><td>PDM050</td><td>PDM050</td></tr><tr><td>11166052</td><td>NORMA</td><td>ASME B16.11</td><td>acordo</td><td>PDM050</td><td>PDM050</td></tr><tr><td>11247496</td><td>CLASSE</td><td>GL/GG</td><td>gazetteer</td><td>PDM064</td><td>PDM064</td></tr><tr><td>11731863</td><td>NORMA</td><td>ASME B16.9</td><td>acordo</td><td>PDM050</td><td>PDM050</td></tr><tr><td>11848855</td><td>PRESSAO TRABALHO</td><td>415,1BAR</td><td>gramatica</td><td>PDM011</td><td>PDM011</td></tr><tr><td>11889917</td><td>ROSCA</td><td>METRICA GROSSA</td><td>regra_pdm_2</td><td>PDM002</td><td>PDM001</td></tr><tr><td>12970453</td><td>DIAMETRO EXTERNO</td><td>68MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>12970453</td><td>DIAMETRO INTERNO</td><td>40MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>12970453</td><td>LARGURA</td><td>15MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>13065631</td><td>DIAMETRO INTERNO</td><td>10MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>13210510</td><td>DIAMETRO EXTERNO</td><td>72MM</td><td>acordo</td><td>PDM004</td><td>PDM004</td></tr><tr><td>13210510</td><td>DIAMETRO INTERNO</td><td>26MM</td><td>rotulo</td><td>PDM004</td><td>PDM004</td></tr><tr><td>13210510</td><td>ESPESSURA</td><td>5MM</td><td>acordo</td><td>PDM004</td><td>PDM004</td></tr><tr><td>13300117</td><td>PRESSAO TRABALHO</td><td>290BAR</td><td>acordo</td><td>PDM011</td><td>PDM011</td></tr><tr><td>13420501</td><td>NORMA</td><td>ASME B16.11</td><td>acordo</td><td>PDM050</td><td>PDM050</td></tr><tr><td>13614795</td><td>CLASSE</td><td>GL/GG</td><td>gazetteer</td><td>PDM064</td><td>PDM064</td></tr><tr><td>13687511</td><td>DIAMETRO INTERNO</td><td>75MM</td><td>dominio</td><td>PDM023</td><td>PDM020</td></tr><tr><td>14105974</td><td>NORMA</td><td>ASME B16.11</td><td>gazetteer</td><td>PDM050</td><td>PDM050</td></tr><tr><td>14205546</td><td>NORMA</td><td>DIN 934</td><td>acordo</td><td>PDM003</td><td>PDM003</td></tr><tr><td>14297259</td><td>DIAMETRO EXTERNO</td><td>62MM</td><td>acordo</td><td>PDM022</td><td>PDM022</td></tr><tr><td>14297259</td><td>DIAMETRO INTERNO</td><td>30MM</td><td>rotulo</td><td>PDM022</td><td>PDM022</td></tr><tr><td>14297259</td><td>LARGURA</td><td>17,25MM</td><td>acordo</td><td>PDM022</td><td>PDM022</td></tr><tr><td>14312408</td><td>PRESSAO TRABALHO</td><td>250BAR</td><td>acordo</td><td>PDM011</td><td>PDM011</td></tr><tr><td>14407539</td><td>CLASSE PRESSAO</td><td>6000#</td><td>acordo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>14407539</td><td>CONEXAO</td><td>SOLDA ENCAIXE SW</td><td>sinonimo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>14407539</td><td>DIAMETRO NOMINAL</td><td>1/4POL</td><td>rotulo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>14407539</td><td>MATERIAL</td><td>ACO INOX FORJADO A182 F316</td><td>sinonimo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>14407539</td><td>NORMA</td><td>ASME B16.11</td><td>rotulo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>14458915</td><td>DIAMETRO EXTERNO</td><td>130MM</td><td>acordo</td><td>PDM021</td><td>PDM021</td></tr><tr><td>14458915</td><td>DIAMETRO INTERNO</td><td>31MM</td><td>dominio</td><td>PDM021</td><td>PDM021</td></tr><tr><td>14458915</td><td>LARGURA</td><td>31MM</td><td>acordo</td><td>PDM021</td><td>PDM021</td></tr><tr><td>14548232</td><td>DIAMETRO EXTERNO</td><td>80MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>14548232</td><td>DIAMETRO INTERNO</td><td>50MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>14548232</td><td>LARGURA</td><td>16MM</td><td>acordo</td><td>PDM020</td><td>PDM020</td></tr><tr><td>14571652</td><td>FURO</td><td>22,23MM</td><td>acordo</td><td>PDM081</td><td>PDM081</td></tr><tr><td>14589488</td><td>DIAMETRO EXTERNO</td><td>56MM</td><td>rotulo</td><td>PDM004</td><td>PDM004</td></tr><tr><td>14589488</td><td>DIAMETRO INTERNO</td><td>20MM</td><td>rotulo</td><td>PDM004</td><td>PDM004</td></tr><tr><td>14848482</td><td>CLASSE PRESSAO</td><td>6000#</td><td>acordo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>14848482</td><td>CONEXAO</td><td>ROSCA NPT</td><td>sinonimo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>14848482</td><td>DIAMETRO NOMINAL</td><td>1POL</td><td>acordo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>14848482</td><td>MATERIAL</td><td>ACO CARBONO FORJADO A105</td><td>sinonimo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr><tr><td>14848482</td><td>NORMA</td><td>ASME B16.11</td><td>rotulo</td><td>FORA_DO_PDM</td><td>PDM050</td></tr></tbody></table></div>
+<p>(+129 linhas)</p>
+
+<h2 id="sec-reproduzir">Reproduzir</h2>
+<h3 id="rep-comandos">Os cinco passos</h3>
+<p>Copie e rode na raiz do repositório. O <code>.venv</code> do projeto não tem
+pandas, por isso tudo passa por <code>uv</code>.</p>
+<pre class="bloco" id="cmd"><button class="copiar" data-copiar="cmd">copiar</button>
+<code># 0) o .venv do projeto nao tem pandas; tudo roda via uv
+cd /home/igor-alves/clas/hack/vxwinners
+
+# 1) selecao reproduzivel dos 240 itens e dos 150 pares (semente 20251107)
+#    so e preciso rodar de novo se a base mudar: regerar muda a amostra
+uv run --no-project --with pandas --with openpyxl python \
+    avaliacao/10_candidatos_caracteristicas.py
+
+# 2) anotacao: duas passadas independentes (ordem_A e ordem_B do candidatos .csv)
+#    produzem avaliacao/anotacoes_carac_A.jsonl e anotacoes_carac_B.jsonl
+#    uma linha por rotulo:
+#    {&quot;CODIGO_MATERIAL&quot;,&quot;id_pdm&quot;,&quot;campo&quot;,&quot;y_gold&quot;,&quot;status&quot;,&quot;evidencia&quot;,&quot;justificativa&quot;}
+#    campo = _CLASSE (item), _JUNCAO (par) ou o nome do atributo do PDM
+
+# 3) adjudicacao: acordo, kappa, gold, planilha de revisao humana
+#    aborta se alguma divergencia nao tiver decisao escrita em ADJUDICACOES
+uv run --no-project --with pandas --with openpyxl python \
+    avaliacao/11_adjudicar_caracteristicas.py
+
+# 4) avaliacao do pipeline sobre os artefatos atuais
+uv run --no-project --with pandas --with openpyxl python \
+    avaliacao/evaluate_caracteristicas.py \
+    --saida avaliacao/resultado_caracteristicas.md
+
+# 5) este relatorio
+uv run --no-project --with pandas --with openpyxl python \
+    avaliacao/12_relatorio_html.py \
+    --saida avaliacao/relatorio_caracteristicas.html
+
+# opcional) quando a planilha conferida voltar, salve como
+#   avaliacao/revisao_humana_caracteristicas_respondida.csv
+# com concordo_discordo=DISCORDO + valor_certo/status_certo nas linhas corrigidas
+# e rode o passo 3 outra vez: o gold e regerado com origem_decisao=revisao_humana
+</code></pre>
+<h3 id="rep-fontes">Os quatro scripts, por inteiro</h3>
+<p>Cada bloco abre com o arquivo completo, como está em <code>avaliacao/</code>.
+Juntos, mais os dois <code>.xlsx</code> de <code>dados/</code> e as duas anotações
+<code>.jsonl</code>, reproduzem todos os números desta página.</p><details class="fonte"><summary>10_candidatos_caracteristicas.py
+ <span>seleção dos 240 itens e dos 150 pares · 422 linhas</span></summary>
+<pre class="bloco" id="src-10-candidatos-caracteristicas-py"><button class="copiar" data-copiar="src-10-candidatos-caracteristicas-py">copiar</button>
+<code># -*- coding: utf-8 -*-
+&quot;&quot;&quot;Seleciona os candidatos do conjunto-ouro de CARACTERISTICAS TECNICAS, CLASSE
+e JUNCAO. Reproduzivel: semente fixa, regras explicitas, nenhuma escolha manual.
+
+Independencia do pipeline
+-------------------------
+As partes A (caracteristicas) e B (classe) leem SO dados/01_base_materiais.xlsx
+(texto cru) e dados/03_padrao_cadastro_PDM.xlsx (o padrao). Nada de artefatos/.
+
+A parte C (juncao) e a unica excecao autorizada pelo protocolo: le
+artefatos/saneado_base.csv APENAS para SORTEAR os pares (chave de identidade,
+descricao padronizada, similaridade). O rotulo do par nao usa nada disso: a
+anotacao e feita sobre pares_juncao_cego.csv, que traz so o texto cru dos dois
+codigos, em ordem sorteada, sem chave, sem cluster e sem a fonte do par.
+
+A coluna familia_prevista e um PALPITE de selecao (regex sobre o substantivo do
+texto), usado so para estratificar. A classe verdadeira de cada item e o rotulo
+ID_PDM da parte B, anotado a partir do texto contra o PDM; ela pode divergir
+da familia_prevista e da coluna GRUPO_MERCADORIA, que erra nesta base.
+
+Estratos de selecao (ordem de aplicacao; um item fica no primeiro que o pegou)
+-----------------------------------------------------------------------------
+  fora_pdm      substantivo que nenhuma classe do PDM cobre (TAMPAO nao esta em
+                SUBSTANTIVOS_CONEXOES) e o quase-acerto CAIXA MANCAL
+  irma:&lt;x&gt;      classes irmas que se confundem, 4 itens por irma
+  armadilha:&lt;x&gt; as armadilhas conhecidas de extracao, 9 itens por armadilha
+  grupo_errado  familia do texto != GRUPO_MERCADORIA da coluna
+  estilo:&lt;e&gt;    preenchimento das cotas por familia, metade estruturado,
+                metade telegrafico
+
+Saidas
+------
+  candidatos_caracteristicas.csv  240 itens, linha crua + familia/estilo/armadilhas
+  pares_juncao_candidatos.csv     150 pares, com fonte_par (so para o avaliador)
+  pares_juncao_cego.csv           os mesmos 150 pares as cegas, para anotar
+&quot;&quot;&quot;
+import csv
+import re
+import sys
+import unicodedata
+from collections import Counter, defaultdict
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+RAIZ = Path(__file__).resolve().parent
+REPO = RAIZ.parent
+SEED = 20251107
+N_ITENS = 240
+N_POR_IRMA = 4
+N_POR_ARMADILHA = 9
+
+rng = np.random.RandomState(SEED)
+
+
+def sem_acento(s):
+    return &quot;&quot;.join(c for c in unicodedata.normalize(&quot;NFKD&quot;, str(s))
+                   if not unicodedata.combining(c))
+
+
+# ---------------------------------------------------------------- base crua ---
+base = pd.read_excel(REPO / &quot;dados/01_base_materiais.xlsx&quot;,
+                     sheet_name=&quot;BASE_MATERIAIS&quot;, dtype=str).fillna(&quot;&quot;)
+COLS_BASE = list(base.columns)
+base[&quot;_curta&quot;] = base[&quot;DESCRICAO_CURTA&quot;].map(lambda s: sem_acento(s).upper())
+base[&quot;_longa&quot;] = base[&quot;DESCRICAO_LONGA&quot;].map(lambda s: sem_acento(s).upper())
+base[&quot;_txt&quot;] = base[&quot;_curta&quot;] + &quot; || &quot; + base[&quot;_longa&quot;]
+# nucleo: sem o prefixo de bloqueio, para o substantivo cair na primeira palavra
+base[&quot;_nuc&quot;] = base[&quot;_longa&quot;].str.replace(
+    r&quot;^\s*NAO UTILIZAR\s*[-,]?\s*(USAR COD\.?\s*\d+)?\s*[-,]?\s*&quot;, &quot;&quot;, regex=True)
+
+# ------------------------------------------------------------------- estilo ---
+# estruturado = tem pelo menos dois pares &quot;ATRIBUTO: VALOR&quot;; o resto e telegrafico
+base[&quot;estilo&quot;] = np.where(base[&quot;_longa&quot;].str.count(r&quot;:&quot;) &gt;= 2,
+                          &quot;estruturado&quot;, &quot;telegrafico&quot;)
+
+# -------------------------------------------------- familia prevista (regex) ---
+# ordem importa: o primeiro padrao que casar define a familia.
+SOBRESSALENTE = (
+    r&quot;ADAPTADOR|ADDAPTADOR|AMORTECEDOR|AMORTEEDOR|ANEL DESGASTE|ANEL EXPULSOR&quot;
+    r&quot;|ANEL LABIRINTO|ANEL VEDACAO|DESGASTE|EXPULSOR|LABIRINTO|BARRA TENSORA&quot;
+    r&quot;|VERGALHAO TENSORA|BRACO SUSPENSAO|BUCHA|BUHCA|BCUHA|BUCA|CABECOTE&quot;
+    r&quot;|CARCACA|CHAPA LATERAL|CHAAP|CILINDRO|CIINDRO|CONCAVO|CONCAOV|CONTRAEIXO&quot;
+    r&quot;|CUBO RODA|CUNHA|CUNNHA|DENTE CACAMBA|DENET|DISCO FREIO|EIXO|ENGRENAGEM&quot;
+    r&quot;|ENGRNEAGEM|ENGREENAGEM|GRELHA|LAMINA RASPADOR|LEVANTADOR|LEVANTAOR&quot;
+    r&quot;|LUVA EIXO|MANDIBULA|MANTO|MATO|PALHETA|PASTILHA|PASTILLHA|PINHAO|PINO&quot;
+    r&quot;|PITAO|PISTAO|PLACA|PLCA|RASPADOR|REVESTIMENTO|RODA GUIA|ROLETE|ROLEETE&quot;
+    r&quot;|ROTOR|SAPATA|SEGMENTO|SEMGENTO|TAMBOR|TABOR|TAMPA|TAAMPA|TAPMA|TAMPPA&quot;
+    r&quot;|TAMA|TELA|VEDACAO EIXO|VEADCAO|VIGA&quot;
+)
+FAMILIA_REGRAS = [
+    # EPI antes de LUVA (LUVA SEGURANCA) e de CALCADO/BOTINA
+    (&quot;outras&quot;, r&quot;^(LUVA SEG|LUVA DE SEG|CALCADO|CAL\b|BOTINA|BOTA |OCULOS)&quot;),
+    # sobressalentes antes de tudo: muitos substantivos colidem (BUCHA, LUVA, TAMPA)
+    (&quot;sobressalentes&quot;, r&quot;^(&quot; + SOBRESSALENTE + r&quot;)\b&quot;),
+    (&quot;outras&quot;, r&quot;^(FILTRO|FILT|FLTRO|FITRO|FILRTO|FILTRRO|ELEMENTO FILTRANTE)&quot;),
+    (&quot;fixadores&quot;, r&quot;^(PARAF|PARAAF|PRAFUSO|PARAUSO|PARAUFSO|PAARAFUSO|PARAFSO&quot;
+                  r&quot;|PARAFUOS|PARAFSUO|PARFAUSO|PARAAFUSO|PARRAFUSO|PARAFUO&quot;
+                  r&quot;|PAAFUSO|PORCA|PCA\b|ARRUELA|ARRUELLA|ARREULA|ARURELA|ARR\b&quot;
+                  r&quot;|BARRA ROSCADA|BARRRA|VERGALHAO ROSCAD|VERGALHAO\b)&quot;),
+    (&quot;vedacao&quot;, r&quot;^(ANEL O|O.?RING|ORING|ANEL RETENTOR|RETENTOR|RET\b|RET\.&quot;
+                r&quot;|JUNTA|JTA)&quot;),
+    (&quot;rolamentos&quot;, r&quot;^(ROLAMENTO|ROLAMEENTO|ROLAAMENTO|ROLAMENOT|ROL\b|ROL\.&quot;
+                   r&quot;|MANCAL|CAIXA MANCAL)&quot;),
+    (&quot;valvulas&quot;, r&quot;^(VALVULA|VALV|VALUVLA|V.?LVULA)&quot;),
+    (&quot;mangueiras&quot;, r&quot;^(MANGUEIRA|MANGUERA|MANGUEIAR|MANGGUEIRA|MAGUEIRA|MANG\b&quot;
+                   r&quot;|MANG\.|MANGOTE)&quot;),
+    (&quot;conexoes&quot;, r&quot;^(TUBO|BUCHA REDUCAO|CAP\b|COTOVELO|COTOV|COTOVEELO|COTOVEOL&quot;
+                 r&quot;|CURVA|JOELHO|FLANGE|FLG|LUVA REDUCAO|LUVA\b|NIPLE|NIPPLE&quot;
+                 r&quot;|TE\b|TE REDUCAO|T REDUCAO|T\b|UNIAO|UNNIAO|TAMPAO)&quot;),
+    (&quot;eletricos&quot;, r&quot;^(CABO|CONDUTOR|CNDUTOR|TERMINAL ELET|TERM ELET|TERM\b&quot;
+                  r&quot;|DISJUNTOR|DIJSUNTOR|DISJ|CONTATOR|CONTACTOR|CONT\b&quot;
+                  r&quot;|FUSIVEL|FUS\b|LAMPADA|LAMP)&quot;),
+    (&quot;outras&quot;, r&quot;^(SENSOR|MANOMETRO|MANOM|ELETRODO|ELETR\b|DISCO|DSCO|BROCA&quot;
+               r&quot;|BRROCA|OLEO|LEO\b|CORREIA|COORREIA|CORREIIA|COR\b)&quot;),
+]
+
+
+def familia(nuc):
+    for fam, pat in FAMILIA_REGRAS:
+        if re.match(pat, nuc):
+            return fam
+    return &quot;outras&quot;
+
+
+base[&quot;familia_prevista&quot;] = base[&quot;_nuc&quot;].map(familia)
+
+GRUPO_DA_FAMILIA = {
+    &quot;fixadores&quot;: {&quot;FIX01&quot;}, &quot;vedacao&quot;: {&quot;VED01&quot;}, &quot;rolamentos&quot;: {&quot;ROL01&quot;},
+    &quot;valvulas&quot;: {&quot;VAL01&quot;}, &quot;conexoes&quot;: {&quot;TUB01&quot;}, &quot;eletricos&quot;: {&quot;ELE01&quot;},
+    &quot;mangueiras&quot;: {&quot;MAN01&quot;}, &quot;sobressalentes&quot;: {&quot;SOB01&quot;},
+    &quot;outras&quot;: {&quot;FIL01&quot;, &quot;EPI01&quot;, &quot;INS01&quot;, &quot;SOL01&quot;, &quot;FER01&quot;, &quot;LUB01&quot;, &quot;TRA01&quot;},
+}
+
+# --------------------------------------------------------------- armadilhas ---
+RE_ARMADILHAS = {
+    # vírgula decimal dentro de valor rotulado: SECAO:1,5MM2, DIAMETRO:16,25MM
+    &quot;virgula_decimal&quot;: r&quot;\d,\d+\s*(MM2|MM|POL|BAR|KV|V\b|A\b|KA)&quot;,
+    # polegada escrita com aspas: 2&quot;
+    &quot;polegada_aspas&quot;: r&quot;\d\s*\&quot;&quot;,
+    # polegada escrita com IN: 1 IN, 3/4 IN
+    &quot;polegada_in&quot;: r&quot;\d\s*IN\b&quot;,
+    # fração mista: 1 1/4&quot;, 1-3/4&quot;
+    &quot;polegada_mista&quot;: r&quot;\b\d[\s-]\d\s*/\s*\d&quot;,
+    # rosca métrica fina: M12X1,5 / M10X1,25X70
+    &quot;rosca_fina&quot;: r&quot;\bM-?\d+\s*X\s*\d+[,.]\d&quot;,
+    # bitola + comprimento colados: M12X50 / M16X1M (barra de 1 metro)
+    &quot;rosca_bitola_comp&quot;: r&quot;\bM-?\d+\s*X\s*\d+(?![,.]\d)&quot;,
+    # PN 16 (pressão nominal) contra PN 123456 (part number)
+    &quot;pn_ambiguo&quot;: r&quot;\bP[/.]?N[:.\s]*\d&quot;,
+    # CL 150# e 150# (classe de pressão)
+    &quot;classe_pressao_hash&quot;: r&quot;\d\s*#&quot;,
+    # unidade que não converte sem perda / exige conversão
+    &quot;unidade_nao_bar&quot;: r&quot;KGF\s*/?\s*CM|\bPSI\b|\bMPA\b|\bKPA\b|\bLBF&quot;,
+    # abreviação ambígua
+    &quot;abrev_ambigua&quot;: (r&quot;\bVALV\.?\s*RET|^RET[\s.,]|\bSENSOR\s+IND\b&quot;
+                      r&quot;|\bMANG\.?\s+IND\b|S\s*/\s*AC&quot;),
+    # ordem de grandezas sem rótulo: RETENTOR 90MM 112MM 8MM
+    &quot;ordem_sem_rotulo&quot;: (r&quot;\b\d+(?:,\d+)?\s*MM\b[^0-9:]{0,8}\d+(?:,\d+)?\s*MM\b&quot;
+                         r&quot;[^0-9:]{0,8}\d+(?:,\d+)?\s*MM\b&quot;),
+    # valor que o texto não decide: INOX sem 304/316, ZINCADO sem cor
+    &quot;valor_indefinivel&quot;: (r&quot;\b(INOX|SS)\b(?!\s*[-]?\s*(304|316))&quot;
+                          r&quot;|\bZINC(?:ADO)?\b(?!\s*(BRANCO|AMARELO))&quot;
+                          r&quot;|\bNITRILICA\b|\bBUNA|\bBORRACHA\b(?!\s*(SINTETICA|COM))&quot;),
+}
+
+
+def armadilhas(r):
+    achadas = [k for k, p in RE_ARMADILHAS.items()
+               if re.search(p, r[&quot;_txt&quot;]) or re.search(p, r[&quot;_nuc&quot;])]
+    # descricao curta truncada em 40 caracteres que cortou o ultimo valor
+    curta = r[&quot;_curta&quot;].rstrip()
+    if len(r[&quot;DESCRICAO_CURTA&quot;]) == 40 and curta:
+        ult = curta.split()[-1]
+        if re.search(r&quot;\b&quot; + re.escape(ult) + r&quot;[A-Z0-9]&quot;, r[&quot;_longa&quot;]):
+            achadas.append(&quot;curta_truncada&quot;)
+    # grupo de mercadoria incompativel com a familia do texto
+    if r[&quot;GRUPO_MERCADORIA&quot;] not in GRUPO_DA_FAMILIA[r[&quot;familia_prevista&quot;]]:
+        achadas.append(&quot;grupo_errado&quot;)
+    return &quot;|&quot;.join(sorted(achadas))
+
+
+base[&quot;armadilhas&quot;] = base.apply(armadilhas, axis=1)
+
+# ------------------------------------------------------------- classes irmas ---
+IRMAS = {
+    &quot;valv_esfera&quot;: r&quot;^VALV(ULA)?\.?\s*(ESF\b|ESFERA)&quot;,
+    &quot;valv_gaveta&quot;: r&quot;^VALV(ULA)?\.?\s*(GAV\b|GAVETA)&quot;,
+    &quot;valv_globo&quot;: r&quot;^VALV(ULA)?\.?\s*GLOBO&quot;,
+    &quot;valv_retencao&quot;: r&quot;^VALV(ULA)?\.?\s*(RET\b|RETENCAO)&quot;,
+    &quot;valv_borboleta&quot;: r&quot;^VALV(ULA)?\.?\s*(BORB\b|BORBOLETA)&quot;,
+    &quot;rol_rigido&quot;: r&quot;^ROL(AMENTO)?\.?\s*(ESF|RIGIDO)&quot;,
+    &quot;rol_autocomp&quot;: r&quot;^ROL(AMENTO)?\.?\s*AUTOCOMP&quot;,
+    &quot;rol_conico&quot;: r&quot;^ROL(AMENTO)?\.?\s*(ROLOS\s*CONICOS|CONICO)&quot;,
+    # o interno vem antes para nao ser engolido pelo sextavado comum
+    &quot;paraf_sext_int&quot;: (r&quot;^PARAF\w*[\s.,-]*(CAB\w*[\s.,-]*)?&quot;
+                       r&quot;(SEXT\w*[\s.,-]*(INTERNO|ALLEN)|ALLEN|CILINDRICA&quot;
+                       r&quot;|ESCAREADA|ABAULADA)&quot;),
+    &quot;paraf_sext&quot;: r&quot;^PARAF\w*[\s.,-]*(SEXT|HEXAG)&quot;,
+    &quot;arruela_lisa&quot;: r&quot;^(ARRUELA|ARR)\.?\s*(LISA|PLANA)&quot;,
+    &quot;arruela_pressao&quot;: r&quot;^(ARRUELA|ARR)\.?\s*PRESSAO&quot;,
+    &quot;mang_montada&quot;: r&quot;^MANG\w*\.?\s*(HID\w*)?\s*(MONT|C/\s*TERMINA)&quot;,
+    &quot;mang_avulsa&quot;: r&quot;^MANG\w*\.?\s*(HIDR?A?U?L?I?C?A?)\s*(?!MONT|C/\s*TERMINA)&quot;,
+    &quot;junta_espiralada&quot;: r&quot;^(JUNTA|JTA)\s*ESPIRAL&quot;,
+    &quot;junta_plana&quot;: r&quot;^(JUNTA|JTA)\s*(PLANA|VEDACAO)&quot;,
+}
+
+# ------------------------------------------------------------------- selecao ---
+QUOTAS = {&quot;fixadores&quot;: 36, &quot;vedacao&quot;: 28, &quot;rolamentos&quot;: 20, &quot;valvulas&quot;: 28,
+          &quot;conexoes&quot;: 28, &quot;eletricos&quot;: 28, &quot;mangueiras&quot;: 28,
+          &quot;sobressalentes&quot;: 24, &quot;outras&quot;: 20}
+assert sum(QUOTAS.values()) == N_ITENS
+
+usados = {}          # codigo -&gt; estrato
+por_familia = Counter()
+
+
+def amostra(df, n):
+    df = df[~df[&quot;CODIGO_MATERIAL&quot;].isin(usados)]
+    if len(df) == 0:
+        return df
+    return df.sample(min(n, len(df)), random_state=rng)
+
+
+def pega(df, estrato, n, respeita_cota=True):
+    &quot;&quot;&quot;Adiciona ate n itens de df no estrato, diversificando familia.&quot;&quot;&quot;
+    df = df[~df[&quot;CODIGO_MATERIAL&quot;].isin(usados)]
+    if respeita_cota:
+        df = df[df[&quot;familia_prevista&quot;].map(
+            lambda f: por_familia[f] &lt; QUOTAS[f])]
+    if len(df) == 0:
+        return 0
+    # ordena aleatoriamente, depois prioriza familias menos representadas
+    df = df.sample(len(df), random_state=rng)
+    df = df.assign(_pri=df[&quot;familia_prevista&quot;].map(lambda f: por_familia[f]))
+    df = df.sort_values(&quot;_pri&quot;, kind=&quot;stable&quot;)
+    tomados = 0
+    for _, r in df.iterrows():
+        if tomados &gt;= n:
+            break
+        f = r[&quot;familia_prevista&quot;]
+        if respeita_cota and por_familia[f] &gt;= QUOTAS[f]:
+            continue
+        usados[r[&quot;CODIGO_MATERIAL&quot;]] = estrato
+        por_familia[f] += 1
+        tomados += 1
+    return tomados
+
+
+# 1) fora do PDM: TAMPAO nao esta em SUBSTANTIVOS_CONEXOES; CAIXA MANCAL e quase-acerto
+pega(base[base[&quot;_nuc&quot;].str.match(r&quot;^TAMPAO&quot;)], &quot;fora_pdm&quot;, 8)
+pega(base[base[&quot;_nuc&quot;].str.match(r&quot;^CAIXA MANCAL&quot;)], &quot;fora_pdm&quot;, 2)
+
+# 2) classes irmas
+for irma, pat in IRMAS.items():
+    pega(base[base[&quot;_nuc&quot;].str.match(pat)], f&quot;irma:{irma}&quot;, N_POR_IRMA)
+
+# 3) armadilhas
+tem = {k: base[&quot;armadilhas&quot;].str.contains(rf&quot;(?:^|\|){re.escape(k)}(?:\||$)&quot;,
+                                          regex=True)
+       for k in list(RE_ARMADILHAS) + [&quot;curta_truncada&quot;, &quot;grupo_errado&quot;]}
+for k in tem:
+    if k == &quot;grupo_errado&quot;:
+        continue
+    pega(base[tem[k]], f&quot;armadilha:{k}&quot;, N_POR_ARMADILHA)
+
+# 4) grupo de mercadoria errado na coluna
+pega(base[tem[&quot;grupo_errado&quot;]], &quot;grupo_errado&quot;, 10)
+
+# 5) completa as cotas por familia, metade estruturado / metade telegrafico
+for fam, cota in QUOTAS.items():
+    falta = cota - por_familia[fam]
+    if falta &lt;= 0:
+        continue
+    pool = base[base[&quot;familia_prevista&quot;] == fam]
+    meio = falta // 2
+    pega(pool[pool[&quot;estilo&quot;] == &quot;estruturado&quot;], &quot;estilo:estruturado&quot;, meio)
+    pega(pool[pool[&quot;estilo&quot;] == &quot;telegrafico&quot;], &quot;estilo:telegrafico&quot;,
+         cota - por_familia[fam])
+    pega(pool, &quot;estilo:completa&quot;, cota - por_familia[fam])
+
+if len(usados) != N_ITENS:  # ultimo recurso: completa ignorando cota
+    pega(base, &quot;estilo:completa&quot;, N_ITENS - len(usados), respeita_cota=False)
+
+sel = base[base[&quot;CODIGO_MATERIAL&quot;].isin(usados)].copy()
+sel[&quot;estrato&quot;] = sel[&quot;CODIGO_MATERIAL&quot;].map(usados)
+sel = sel.sample(len(sel), random_state=rng)          # ordem de anotacao de A
+sel.insert(0, &quot;ordem_A&quot;, range(1, len(sel) + 1))
+sel[&quot;ordem_B&quot;] = rng.permutation(len(sel)) + 1        # ordem de anotacao de B
+
+cols = [&quot;ordem_A&quot;, &quot;ordem_B&quot;, &quot;estrato&quot;, &quot;familia_prevista&quot;, &quot;estilo&quot;,
+        &quot;armadilhas&quot;] + COLS_BASE
+sel[cols].to_csv(RAIZ / &quot;candidatos_caracteristicas.csv&quot;, index=False)
+
+print(f&quot;itens selecionados: {len(sel)}&quot;)
+print(&quot;\n--- por familia_prevista x estilo ---&quot;)
+print(pd.crosstab(sel[&quot;familia_prevista&quot;], sel[&quot;estilo&quot;]).to_string())
+print(&quot;\n--- por estrato ---&quot;)
+print(sel[&quot;estrato&quot;].value_counts().sort_index().to_string())
+print(&quot;\n--- cobertura de armadilhas (itens selecionados) ---&quot;)
+cnt = Counter(a for s in sel[&quot;armadilhas&quot;] for a in s.split(&quot;|&quot;) if a)
+for k in sorted(set(list(RE_ARMADILHAS) + [&quot;curta_truncada&quot;, &quot;grupo_errado&quot;])):
+    flag = &quot;OK &quot; if cnt[k] &gt;= 8 else &quot;BAIXO&quot;
+    print(f&quot;  {flag} {k:22} {cnt[k]:&gt;3}&quot;)
+if any(cnt[k] &lt; 8 for k in list(RE_ARMADILHAS) + [&quot;curta_truncada&quot;, &quot;grupo_errado&quot;]):
+    print(&quot;ATENCAO: armadilha com menos de 8 itens&quot;, file=sys.stderr)
+
+# =========================================================== parte C: pares ===
+SAN = REPO / &quot;artefatos/saneado_base.csv&quot;
+if not SAN.exists():
+    print(&quot;\nartefatos/saneado_base.csv ausente: pares nao gerados&quot;, file=sys.stderr)
+    sys.exit(0)
+
+san = pd.read_csv(SAN, dtype=str).fillna(&quot;&quot;)
+texto = dict(zip(base[&quot;CODIGO_MATERIAL&quot;], base[&quot;DESCRICAO_LONGA&quot;]))
+curta = dict(zip(base[&quot;CODIGO_MATERIAL&quot;], base[&quot;DESCRICAO_CURTA&quot;]))
+pares = []
+vistos = set()
+
+
+def junta(a, b, fonte):
+    k = tuple(sorted((a, b)))
+    if a == b or k in vistos or a not in texto or b not in texto:
+        return False
+    vistos.add(k)
+    pares.append({&quot;codigo_1&quot;: k[0], &quot;codigo_2&quot;: k[1], &quot;fonte_par&quot;: fonte})
+    return True
+
+
+# C1) 70 pares com a MESMA chave de identidade
+grupos = [g for _, g in san[san[&quot;CHAVE_IDENTIDADE&quot;] != &quot;&quot;]
+          .groupby(&quot;CHAVE_IDENTIDADE&quot;)[&quot;CODIGO_MATERIAL&quot;] if len(g) &gt;= 2]
+rng.shuffle(grupos)
+for g in grupos:
+    if sum(p[&quot;fonte_par&quot;] == &quot;mesma_chave&quot; for p in pares) &gt;= 70:
+        break
+    cods = list(g)
+    i, j = rng.choice(len(cods), 2, replace=False)
+    junta(cods[i], cods[j], &quot;mesma_chave&quot;)
+
+
+def atrs(desc):
+    &quot;&quot;&quot;ATRIBUTO: VALOR; ... -&gt; dict. Ignora o substantivo (1o segmento).&quot;&quot;&quot;
+    d = {}
+    for seg in desc.split(&quot;;&quot;)[1:]:
+        if &quot;:&quot; in seg:
+            k, v = seg.split(&quot;:&quot;, 1)
+            d[k.strip()] = v.strip()
+    return d
+
+
+# C2) 50 pares da mesma classe que diferem em EXATAMENTE um atributo
+san[&quot;_atrs&quot;] = san[&quot;DESCRICAO_PDM&quot;].map(atrs)
+alvo = 50
+for pdm, g in san[san[&quot;ID_PDM&quot;] != &quot;&quot;].groupby(&quot;ID_PDM&quot;):
+    if sum(p[&quot;fonte_par&quot;] == &quot;um_atributo&quot; for p in pares) &gt;= alvo:
+        break
+    g = g.sample(min(len(g), 400), random_state=rng)
+    recs = list(zip(g[&quot;CODIGO_MATERIAL&quot;], g[&quot;_atrs&quot;]))
+    for i in range(len(recs)):
+        if sum(p[&quot;fonte_par&quot;] == &quot;um_atributo&quot; for p in pares) &gt;= alvo:
+            break
+        ca, da = recs[i]
+        for cb, db in recs[i + 1:]:
+            if set(da) != set(db):
+                continue
+            dif = [k for k in da if da[k] != db[k]]
+            if len(dif) == 1 and da[dif[0]] and db[dif[0]]:
+                if junta(ca, cb, &quot;um_atributo&quot;):
+                    break
+
+# C3) 30 pares de descricao parecida por palavras, mas chaves diferentes
+PARA = re.compile(r&quot;[^A-Z0-9]+&quot;)
+
+
+def toks(s):
+    return {t for t in PARA.split(sem_acento(s).upper()) if len(t) &gt; 1}
+
+
+bloco = defaultdict(list)
+for _, r in san.iterrows():
+    cod, ch = r[&quot;CODIGO_MATERIAL&quot;], r[&quot;CHAVE_IDENTIDADE&quot;]
+    if cod not in texto:
+        continue
+    t = toks(texto[cod])
+    chave_bloco = &quot; &quot;.join(sorted(t)[:1]) + &quot;|&quot; + (r[&quot;ID_PDM&quot;] or &quot;?&quot;)
+    bloco[chave_bloco].append((cod, ch, t))
+
+chaves_bloco = list(bloco)
+rng.shuffle(chaves_bloco)
+for cb_ in chaves_bloco:
+    if sum(p[&quot;fonte_par&quot;] == &quot;texto_parecido&quot; for p in pares) &gt;= 30:
+        break
+    itens = bloco[cb_][:120]
+    for i in range(len(itens)):
+        ca, cha, ta = itens[i]
+        for cbb, chb, tb in itens[i + 1:]:
+            if cha == chb or not cha or not chb:
+                continue
+            jac = len(ta &amp; tb) / max(1, len(ta | tb))
+            if jac &gt;= 0.7:
+                if junta(ca, cbb, &quot;texto_parecido&quot;):
+                    break
+        if sum(p[&quot;fonte_par&quot;] == &quot;texto_parecido&quot; for p in pares) &gt;= 30:
+            break
+
+dfp = pd.DataFrame(pares)
+dfp = dfp.sample(len(dfp), random_state=rng).reset_index(drop=True)
+dfp.insert(0, &quot;par_id&quot;, [f&quot;P{i:03d}&quot; for i in range(1, len(dfp) + 1)])
+dfp.to_csv(RAIZ / &quot;pares_juncao_candidatos.csv&quot;, index=False)
+
+# versao CEGA usada na anotacao: so o texto cru, sem chave/cluster/fonte
+cego = dfp[[&quot;par_id&quot;, &quot;codigo_1&quot;, &quot;codigo_2&quot;]].copy()
+for n in (&quot;1&quot;, &quot;2&quot;):
+    cego[f&quot;curta_{n}&quot;] = cego[f&quot;codigo_{n}&quot;].map(curta)
+    cego[f&quot;longa_{n}&quot;] = cego[f&quot;codigo_{n}&quot;].map(texto)
+cego = cego.sample(len(cego), random_state=rng)
+cego.to_csv(RAIZ / &quot;pares_juncao_cego.csv&quot;, index=False)
+
+print(f&quot;\npares de juncao: {len(dfp)}&quot;)
+print(dfp[&quot;fonte_par&quot;].value_counts().to_string())
+</code></pre></details><details class="fonte"><summary>11_adjudicar_caracteristicas.py
+ <span>adjudicação A×B, kappa e gold · 483 linhas</span></summary>
+<pre class="bloco" id="src-11-adjudicar-caracteristicas-py"><button class="copiar" data-copiar="src-11-adjudicar-caracteristicas-py">copiar</button>
+<code># -*- coding: utf-8 -*-
+&quot;&quot;&quot;Adjudica as anotacoes independentes A e B das CARACTERISTICAS, da CLASSE e da
+JUNCAO, e produz o conjunto-ouro. Mesmo metodo do 01_adjudicar.py.
+
+Entradas
+--------
+  avaliacao/candidatos_caracteristicas.csv  universo de itens (240)
+  avaliacao/pares_juncao_candidatos.csv     universo de pares (150) + fonte_par
+  avaliacao/anotacoes_carac_A.jsonl         persona A (uma passada, ordem_A)
+  avaliacao/anotacoes_carac_B.jsonl         persona B (outra passada, ordem_B)
+  dados/03_padrao_cadastro_PDM.xlsx         para conferir atributo x classe
+  avaliacao/revisao_humana_caracteristicas_respondida.csv   (opcional)
+
+Alinhamento por (CODIGO_MATERIAL, campo), onde campo e:
+  _CLASSE   um rotulo por item: ID_PDM ou FORA_DO_PDM
+  _JUNCAO   um rotulo por par (CODIGO_MATERIAL = par_id): MESMO_ITEM |
+            ITENS_DIFERENTES | INDETERMINADO
+  &lt;nome&gt;    um rotulo por atributo obrigatorio que se aplica ao item
+
+Comparacao do rotulo:
+  atributos -&gt; status + valor normalizado (maiusculo sem acento, espacos
+               colapsados; part number e referencia so [A-Z0-9]; numero com
+               virgula decimal e zero final irrelevante normalizados)
+  _CLASSE e _JUNCAO -&gt; so o valor, porque o proprio valor ja carrega o caso
+               indecidivel (FORA_DO_PDM, INDETERMINADO)
+
+Divergencia = rotulo diferente. Cada uma exige uma entrada em ADJUDICACOES,
+escrita a mao pelo adjudicador depois de reexaminar o texto cru e o PDM; se
+faltar alguma, o script ABORTA. Ele nunca decide sozinho.
+
+Saidas
+------
+  avaliacao/gold_caracteristicas.csv          (item x atributo)
+  avaliacao/gold_classe.csv                   (item)
+  avaliacao/gold_juncao.csv                   (par)
+  avaliacao/concordancia_caracteristicas.json acordo bruto e kappa de Cohen
+  avaliacao/revisao_humana_caracteristicas.csv planilha para a conferencia humana
+&quot;&quot;&quot;
+import csv
+import json
+import random
+import re
+import sys
+import unicodedata
+from collections import Counter, defaultdict
+from pathlib import Path
+
+import pandas as pd
+
+RAIZ = Path(__file__).resolve().parent
+REPO = RAIZ.parent
+SEED_REVISAO = 20251107
+FRACAO_REVISAO = 0.10
+
+STATUS_VALIDOS = {&quot;DEFINIDO&quot;, &quot;AUSENTE&quot;, &quot;INDEFINIVEL&quot;}
+JUNCAO_VALIDOS = {&quot;MESMO_ITEM&quot;, &quot;ITENS_DIFERENTES&quot;, &quot;INDETERMINADO&quot;}
+# atributos cujo valor e codigo de catalogo: compara so [A-Z0-9]
+CAMPOS_CODIGO = {&quot;REFERENCIA&quot;, &quot;REFERENCIA FABRICANTE&quot;, &quot;MODELO EQUIPAMENTO&quot;}
+
+# ---------------------------------------------------------------------------
+# Decisao do ADJUDICADOR para cada divergencia entre A e B.
+# Escrita a mao, uma por uma, relendo o texto cru do item em
+# candidatos_caracteristicas.csv (ou os dois textos do par em
+# pares_juncao_cego.csv) contra dados/03_padrao_cadastro_PDM.xlsx.
+#
+# Regras que o adjudicador fixou ao decidir, e que valem para todo o gold:
+#  R1. Material sem nenhuma palavra de material no texto -&gt; AUSENTE. Preencher
+#      a partir da classe de resistencia e extrapolacao.
+#  R2. Material com palavra generica no texto (ACO, ACO ESPECIAL, INOX) -&gt;
+#      usa-se a lista do PDM e os outros atributos para desambiguar, quando a
+#      combinacao deixa um unico valor possivel.
+#  R3. No PDM050, ACO INOX A403 WP316 e ACO CARBONO A234 WPB sao conexoes de
+#      solda de topo (atributo SCHEDULE, norma ASME B16.9). Item com CLASSE
+#      PRESSAO, rosca, solda de encaixe, flange ou norma ASME B16.11/B16.5 e
+#      forjado: A182 F316 ou A105.
+#  R4. No vocabulario do PDM, ZINCADO e o eletrolitico e GALVANIZADO A FOGO e a
+#      imersao a quente. Texto com &quot;GALVANIZADO&quot; -&gt; GALVANIZADO A FOGO.
+#  R5. A folga de rolamento esta no sufixo da referencia (o PDM diz isso no
+#      formato de REFERENCIA): referencia sem /C3 = folga NORMAL.
+#  R6. Part number: vale o formato do fabricante, inclusive a pontuacao que o
+#      cadastro registra na coluna REFERENCIA_FABRICANTE; sufixo de revisao
+#      (REV A) nao faz parte do part number. A comparacao entre anotadores e no
+#      avaliador ignora pontuacao, entao 529-26-87581 e 5292687581 (item
+#      27810757) contam como o mesmo rotulo e nao viram divergencia; o gold
+#      guarda a grafia do fabricante, que e a que A anotou.
+# ---------------------------------------------------------------------------
+ADJUDICACOES = {
+    (&quot;10858863&quot;, &quot;MATERIAL&quot;): {
+        &quot;y_gold&quot;: &quot;ACO LIGA&quot;, &quot;status&quot;: &quot;DEFINIDO&quot;, &quot;evidencia&quot;: &quot;ACO ESPECIAL | 12.9&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador (R2): o texto traz material (ACO ESPECIAL) e &quot;
+                         &quot;a classe 12.9 do PDM002 so existe fora do inox (as opcoes inox sao &quot;
+                         &quot;A2-70 e A4-70), logo ACO LIGA e o unico valor possivel da lista&quot;,
+        &quot;confianca&quot;: &quot;MEDIA&quot;,
+    },
+    (&quot;19469152&quot;, &quot;MATERIAL&quot;): {
+        &quot;y_gold&quot;: &quot;ACO LIGA&quot;, &quot;status&quot;: &quot;DEFINIDO&quot;, &quot;evidencia&quot;: &quot;ACO ESPECIAL | CL 12.9&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador (R2): mesmo caso de 10858863 - ACO ESPECIAL &quot;
+                         &quot;com classe 12.9 no PDM002 so pode ser ACO LIGA&quot;,
+        &quot;confianca&quot;: &quot;MEDIA&quot;,
+    },
+    (&quot;20504737&quot;, &quot;MATERIAL&quot;): {
+        &quot;y_gold&quot;: &quot;&quot;, &quot;status&quot;: &quot;AUSENTE&quot;, &quot;evidencia&quot;: &quot;&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador (R1): PARAFUSO HEXAGONAL MA M20X80 8.8 S/ACAB &quot;
+                         &quot;DIN 933 nao tem nenhuma palavra de material; deduzir ACO CARBONO da &quot;
+                         &quot;classe 8.8 e extrapolacao, e preencher conta como invencao&quot;,
+        &quot;confianca&quot;: &quot;MEDIA&quot;,
+    },
+    (&quot;16613005&quot;, &quot;MATERIAL&quot;): {
+        &quot;y_gold&quot;: &quot;ACO INOX FORJADO A182 F316&quot;, &quot;status&quot;: &quot;DEFINIDO&quot;,
+        &quot;evidencia&quot;: &quot;FLANGE; TIPO:SOBREPOSTO SO; MAT:INOX; NORMA CONSTRUCAO:ASME B16.5&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador (R3): flange ASME B16.5 e peca forjada; &quot;
+                         &quot;A403 WP316 e conexao de solda de topo (B16.9). Como as duas opcoes &quot;
+                         &quot;inox do PDM050 sao 316, resta ACO INOX FORJADO A182 F316&quot;,
+        &quot;confianca&quot;: &quot;ALTA&quot;,
+    },
+    (&quot;22181613&quot;, &quot;MATERIAL&quot;): {
+        &quot;y_gold&quot;: &quot;ACO INOX FORJADO A182 F316&quot;, &quot;status&quot;: &quot;DEFINIDO&quot;,
+        &quot;evidencia&quot;: &quot;INOX 316 SOLDA ENCAIXE SW ASME B16.11&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador (R3): classe 3000# com solda de encaixe e &quot;
+                         &quot;norma ASME B16.11 e conexao forjada; A403 WP316 e de solda de topo&quot;,
+        &quot;confianca&quot;: &quot;ALTA&quot;,
+    },
+    (&quot;23167204&quot;, &quot;MATERIAL&quot;): {
+        &quot;y_gold&quot;: &quot;ACO INOX FORJADO A182 F316&quot;, &quot;status&quot;: &quot;DEFINIDO&quot;,
+        &quot;evidencia&quot;: &quot;MATERIAL DE INOX 316 TIPO CONEXAO ROSCA ASME B16.11&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador (R3): classe 6000# com rosca e ASME B16.11 e &quot;
+                         &quot;conexao forjada A182 F316&quot;,
+        &quot;confianca&quot;: &quot;ALTA&quot;,
+    },
+    (&quot;23460268&quot;, &quot;MATERIAL&quot;): {
+        &quot;y_gold&quot;: &quot;ACO INOX FORJADO A182 F316&quot;, &quot;status&quot;: &quot;DEFINIDO&quot;,
+        &quot;evidencia&quot;: &quot;INOX SW ASME B16.11&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador (R3): as duas opcoes inox do PDM050 sao 316 e &quot;
+                         &quot;SW com B16.11 define a forjada A182 F316; o 304/316 nao esta em jogo&quot;,
+        &quot;confianca&quot;: &quot;MEDIA&quot;,
+    },
+    (&quot;26334178&quot;, &quot;ACABAMENTO&quot;): {
+        &quot;y_gold&quot;: &quot;GALVANIZADO A FOGO&quot;, &quot;status&quot;: &quot;DEFINIDO&quot;, &quot;evidencia&quot;: &quot;GALVANIZADO&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador (R4): no vocabulario do PDM o eletrolitico se &quot;
+                         &quot;escreve ZINCADO (branco/amarelo) e a imersao a quente GALVANIZADO A &quot;
+                         &quot;FOGO, que e o unico &#x27;galvanizado&#x27; da lista do PDM003&quot;,
+        &quot;confianca&quot;: &quot;MEDIA&quot;,
+    },
+    (&quot;13065631&quot;, &quot;FOLGA&quot;): {
+        &quot;y_gold&quot;: &quot;NORMAL&quot;, &quot;status&quot;: &quot;DEFINIDO&quot;, &quot;evidencia&quot;: &quot;CODIGO:6000 ZZ&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador (R5): o PDM020 diz que a referencia traz o &quot;
+                         &quot;sufixo de folga (/C3); referencia 6000-ZZ sem sufixo e folga normal &quot;
+                         &quot;(CN), que e o padrao da designacao ISO&quot;,
+        &quot;confianca&quot;: &quot;MEDIA&quot;,
+    },
+    (&quot;21446483&quot;, &quot;DIAMETRO INTERNO&quot;): {
+        &quot;y_gold&quot;: &quot;1.1/4POL&quot;, &quot;status&quot;: &quot;DEFINIDO&quot;, &quot;evidencia&quot;: &quot;DI:DN31&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador: DN31 (DN31,5) e um diametro da serie de &quot;
+                         &quot;mangueiras hidraulicas e corresponde a 1.1/4POL; nao e erro de &quot;
+                         &quot;digitacao&quot;,
+        &quot;confianca&quot;: &quot;MEDIA&quot;,
+    },
+    (&quot;29452826&quot;, &quot;APLICACAO&quot;): {
+        &quot;y_gold&quot;: &quot;&quot;, &quot;status&quot;: &quot;INDEFINIVEL&quot;, &quot;evidencia&quot;: &quot;MANGUEIRA MULTIUSO AR COMPRIMIDO&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador: MULTIUSO e AR COMPRIMIDO sao dois valores da &quot;
+                         &quot;lista do PDM012 e o texto traz os dois sem hierarquia; escolher um e &quot;
+                         &quot;sorteio, logo o atributo e indefinivel&quot;,
+        &quot;confianca&quot;: &quot;MEDIA&quot;,
+    },
+    (&quot;P067&quot;, &quot;_JUNCAO&quot;): {
+        &quot;y_gold&quot;: &quot;MESMO_ITEM&quot;, &quot;status&quot;: &quot;DEFINIDO&quot;,
+        &quot;evidencia&quot;: &quot;UNF 1 IN/1\&quot; x 1 POL SAE GRAU 5 carbono GALV FOGO x GALVANIZADO ASME B18.2.1&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador (R4): GALVANIZADO no vocabulario do PDM e &quot;
+                         &quot;GALVANIZADO A FOGO, logo os dois registros tem os mesmos obrigatorios&quot;,
+        &quot;confianca&quot;: &quot;MEDIA&quot;,
+    },
+    (&quot;P149&quot;, &quot;_JUNCAO&quot;): {
+        &quot;y_gold&quot;: &quot;INDETERMINADO&quot;, &quot;status&quot;: &quot;INDEFINIVEL&quot;,
+        &quot;evidencia&quot;: &quot;SANDVIK REF:6903113-73 x SANDVIK REF 690.3113-73-00&quot;,
+        &quot;justificativa&quot;: &quot;decisao do adjudicador: mesmo fabricante e mesma raiz de codigo, mas o &quot;
+                         &quot;sufixo -00 da numeracao Sandvik pode designar outra versao da peca; so &quot;
+                         &quot;com o texto cru nao se decide&quot;,
+        &quot;confianca&quot;: &quot;MEDIA&quot;,
+    },
+}
+
+
+# ------------------------------------------------------------- normalizacao ---
+def sem_acento(s):
+    return &quot;&quot;.join(c for c in unicodedata.normalize(&quot;NFKD&quot;, str(s))
+                   if not unicodedata.combining(c))
+
+
+def norm_valor(v):
+    &quot;&quot;&quot;Normalizacao leve, usada no que o gold guarda: maiusculo, sem acento,
+    espacos colapsados. Preserva a grafia do fabricante (pontos e hifens).&quot;&quot;&quot;
+    return re.sub(r&quot;\s+&quot;, &quot; &quot;, sem_acento(v or &quot;&quot;).upper().strip())
+
+
+def norm_cmp(campo, v):
+    &quot;&quot;&quot;Normalizacao de comparacao: part number sem pontuacao e numero sem zero
+    decimal inutil (35,0MM = 35MM).&quot;&quot;&quot;
+    v = norm_valor(v)
+    if campo in CAMPOS_CODIGO:
+        return re.sub(r&quot;[^A-Z0-9]&quot;, &quot;&quot;, v)
+    m = re.fullmatch(r&quot;(\d+)(?:,(\d*?)0*)?\s*([A-Z0-9/#]*)&quot;, v)
+    if m:
+        inteiro, dec, unid = m.group(1), m.group(2) or &quot;&quot;, m.group(3)
+        return inteiro + (&quot;,&quot; + dec if dec else &quot;&quot;) + unid
+    return v
+
+
+def rotulo(campo, anot):
+    if campo in (&quot;_CLASSE&quot;, &quot;_JUNCAO&quot;):
+        return norm_cmp(campo, anot[&quot;y_gold&quot;])
+    return anot[&quot;status&quot;] + &quot;|&quot; + norm_cmp(campo, anot[&quot;y_gold&quot;])
+
+
+def resumo(campo, anot):
+    return anot[&quot;status&quot;] + &quot;:&quot; + norm_cmp(campo, anot[&quot;y_gold&quot;])
+
+
+def kappa_cohen(pares):
+    n = len(pares)
+    if n == 0:
+        return None
+    po = sum(a == b for a, b in pares) / n
+    ca, cb = Counter(a for a, _ in pares), Counter(b for _, b in pares)
+    pe = sum(ca[c] * cb.get(c, 0) for c in ca) / (n * n)
+    if pe &gt;= 1.0:
+        return 1.0 if po == 1.0 else 0.0
+    return (po - pe) / (1 - pe)
+
+
+# ------------------------------------------------------------------- cargas ---
+def carrega(nome):
+    arq = RAIZ / f&quot;anotacoes_carac_{nome}.jsonl&quot;
+    d = {}
+    for i, linha in enumerate(arq.read_text(encoding=&quot;utf-8&quot;).splitlines(), 1):
+        linha = linha.strip()
+        if not linha:
+            continue
+        r = json.loads(linha)
+        if r[&quot;status&quot;] not in STATUS_VALIDOS:
+            sys.exit(f&quot;{arq.name}:{i}: status invalido {r[&#x27;status&#x27;]!r}&quot;)
+        campo = r[&quot;campo&quot;].strip()
+        if campo == &quot;_JUNCAO&quot; and r[&quot;y_gold&quot;] not in JUNCAO_VALIDOS:
+            sys.exit(f&quot;{arq.name}:{i}: rotulo de juncao invalido {r[&#x27;y_gold&#x27;]!r}&quot;)
+        k = (str(r[&quot;CODIGO_MATERIAL&quot;]).strip(), campo)
+        if k in d:
+            sys.exit(f&quot;{arq.name}:{i}: par duplicado {k}&quot;)
+        d[k] = r
+    return d
+
+
+def atributos_obrigatorios():
+    &quot;&quot;&quot;ID_PDM -&gt; conjunto de atributos com OBRIGATORIO=S.&quot;&quot;&quot;
+    atr = pd.read_excel(REPO / &quot;dados/03_padrao_cadastro_PDM.xlsx&quot;,
+                        sheet_name=&quot;ATRIBUTOS&quot;, dtype=str).fillna(&quot;&quot;)
+    obrig = defaultdict(set)
+    for _, r in atr.iterrows():
+        if r[&quot;OBRIGATORIO&quot;].strip().upper() == &quot;S&quot;:
+            obrig[r[&quot;ID_PDM&quot;].strip()].add(r[&quot;ATRIBUTO&quot;].strip())
+    return obrig
+
+
+def main():
+    # --- universo ----------------------------------------------------------
+    with open(RAIZ / &quot;candidatos_caracteristicas.csv&quot;, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+        cand = list(csv.DictReader(f))
+    estrato = {r[&quot;CODIGO_MATERIAL&quot;].strip(): r[&quot;estrato&quot;] for r in cand}
+    with open(RAIZ / &quot;pares_juncao_candidatos.csv&quot;, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+        pares = list(csv.DictReader(f))
+    fonte_par = {r[&quot;par_id&quot;]: r[&quot;fonte_par&quot;] for r in pares}
+
+    A, B = carrega(&quot;A&quot;), carrega(&quot;B&quot;)
+    if set(A) != set(B):
+        falta, sobra = set(A) - set(B), set(B) - set(A)
+        sys.exit(f&quot;universos de A e B diferentes: so em A {sorted(falta)[:5]} &quot;
+                 f&quot;({len(falta)}) / so em B {sorted(sobra)[:5]} ({len(sobra)})&quot;)
+
+    # cobertura: uma classe por item, uma juncao por par
+    for nome, d in ((&quot;A&quot;, A), (&quot;B&quot;, B)):
+        itens = {c for (c, campo) in d if campo == &quot;_CLASSE&quot;}
+        if itens != set(estrato):
+            sys.exit(f&quot;anotador {nome}: _CLASSE nao cobre os 240 itens &quot;
+                     f&quot;(faltam {len(set(estrato) - itens)})&quot;)
+        pp = {c for (c, campo) in d if campo == &quot;_JUNCAO&quot;}
+        if pp != set(fonte_par):
+            sys.exit(f&quot;anotador {nome}: _JUNCAO nao cobre os {len(fonte_par)} pares &quot;
+                     f&quot;(faltam {len(set(fonte_par) - pp)})&quot;)
+
+    # cada atributo anotado tem de ser obrigatorio na classe que o anotador deu
+    obrig = atributos_obrigatorios()
+    problemas = []
+    for nome, d in ((&quot;A&quot;, A), (&quot;B&quot;, B)):
+        classe = {c: d[(c, &quot;_CLASSE&quot;)][&quot;y_gold&quot;] for c in estrato}
+        for (cod, campo) in d:
+            if campo.startswith(&quot;_&quot;):
+                continue
+            pdm = classe[cod]
+            if pdm == &quot;FORA_DO_PDM&quot; or campo not in obrig.get(pdm, set()):
+                problemas.append(f&quot;{nome}: {cod} {campo!r} nao e obrigatorio em {pdm}&quot;)
+    if problemas:
+        sys.exit(&quot;atributo fora da classe anotada:\n  &quot; + &quot;\n  &quot;.join(problemas[:20]))
+
+    # --- acordo e kappa ----------------------------------------------------
+    chaves = sorted(A)
+    por_campo = defaultdict(list)
+    divergencias = []
+    for k in chaves:
+        cod, campo = k
+        ra, rb = rotulo(campo, A[k]), rotulo(campo, B[k])
+        por_campo[campo].append((ra, rb))
+        if ra != rb:
+            divergencias.append(k)
+
+    metricas = {}
+    for campo in sorted(por_campo):
+        ps = por_campo[campo]
+        metricas[campo] = {&quot;n&quot;: len(ps),
+                           &quot;acordo&quot;: round(sum(a == b for a, b in ps) / len(ps), 4),
+                           &quot;kappa&quot;: round(kappa_cohen(ps), 4)}
+
+    def bloco(filtro):
+        ps = [p for campo, lst in por_campo.items() if filtro(campo) for p in lst]
+        return {&quot;n&quot;: len(ps),
+                &quot;acordo&quot;: round(sum(a == b for a, b in ps) / len(ps), 4),
+                &quot;kappa&quot;: round(kappa_cohen(ps), 4)}
+
+    glob_carac = bloco(lambda c: not c.startswith(&quot;_&quot;))
+    glob_classe = bloco(lambda c: c == &quot;_CLASSE&quot;)
+    glob_juncao = bloco(lambda c: c == &quot;_JUNCAO&quot;)
+    glob_tudo = bloco(lambda c: True)
+
+    print(&quot;=== acordo A x B por atributo ===&quot;)
+    for campo, m in metricas.items():
+        if campo.startswith(&quot;_&quot;):
+            continue
+        print(f&quot;  {campo:&lt;24} n={m[&#x27;n&#x27;]:&gt;4}  acordo={m[&#x27;acordo&#x27;]:.4f}  kappa={m[&#x27;kappa&#x27;]:.4f}&quot;)
+    for nome, m in ((&quot;CARACTERISTICAS&quot;, glob_carac), (&quot;CLASSE&quot;, glob_classe),
+                    (&quot;JUNCAO&quot;, glob_juncao), (&quot;GLOBAL&quot;, glob_tudo)):
+        print(f&quot;  {nome:&lt;24} n={m[&#x27;n&#x27;]:&gt;4}  acordo={m[&#x27;acordo&#x27;]:.4f}  kappa={m[&#x27;kappa&#x27;]:.4f}&quot;)
+
+    print(f&quot;\ndivergencias: {len(divergencias)}&quot;)
+    for k in divergencias:
+        print(f&quot;  {k[0]} {k[1]}: A={resumo(k[1], A[k])}  B={resumo(k[1], B[k])}&quot;)
+
+    pendentes = [k for k in divergencias if k not in ADJUDICACOES]
+    if pendentes:
+        sys.exit(f&quot;\n{len(pendentes)} divergencia(s) sem decisao em ADJUDICACOES - &quot;
+                 &quot;releia o texto cru e o PDM e escreva a decisao:\n&quot;
+                 + &quot;\n&quot;.join(f&quot;  {k}&quot; for k in pendentes))
+    for k in ADJUDICACOES:
+        if k not in divergencias:
+            sys.exit(f&quot;ADJUDICACOES tem par sem divergencia: {k}&quot;)
+
+    # --- correcoes humanas (opcional) --------------------------------------
+    corr = {}
+    resp = RAIZ / &quot;revisao_humana_caracteristicas_respondida.csv&quot;
+    if resp.exists():
+        with open(resp, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+            for r in csv.DictReader(f):
+                if r.get(&quot;concordo_discordo&quot;, &quot;&quot;).strip().upper() != &quot;DISCORDO&quot;:
+                    continue
+                k = (r[&quot;CODIGO_MATERIAL&quot;].strip(), r[&quot;campo&quot;].strip())
+                corr[k] = {&quot;y_gold&quot;: r.get(&quot;valor_certo&quot;, &quot;&quot;).strip(),
+                           &quot;status&quot;: (r.get(&quot;status_certo&quot;, &quot;&quot;).strip().upper()
+                                      or &quot;DEFINIDO&quot;),
+                           &quot;comentario&quot;: r.get(&quot;comentario&quot;, &quot;&quot;).strip()}
+        print(f&quot;\nrevisao humana: {len(corr)} correcao(oes) incorporada(s)&quot;)
+
+    # --- gold --------------------------------------------------------------
+    linhas = []
+    for k in chaves:
+        cod, campo = k
+        base = {&quot;CODIGO_MATERIAL&quot;: cod,
+                &quot;estrato&quot;: estrato.get(cod) or fonte_par.get(cod, &quot;&quot;),
+                &quot;campo&quot;: campo,
+                &quot;anot_A&quot;: resumo(campo, A[k]), &quot;anot_B&quot;: resumo(campo, B[k])}
+        if k in corr:
+            c = corr[k]
+            linhas.append({**base, &quot;y_gold&quot;: norm_valor(c[&quot;y_gold&quot;]), &quot;status&quot;: c[&quot;status&quot;],
+                           &quot;evidencia&quot;: A[k][&quot;evidencia&quot;],
+                           &quot;justificativa&quot;: &quot;revisao humana: &quot; + (c[&quot;comentario&quot;] or &quot;valor corrigido&quot;),
+                           &quot;origem_decisao&quot;: &quot;revisao_humana&quot;, &quot;confianca&quot;: &quot;ALTA&quot;})
+        elif k in ADJUDICACOES:
+            d = ADJUDICACOES[k]
+            linhas.append({**base, &quot;y_gold&quot;: norm_valor(d[&quot;y_gold&quot;]), &quot;status&quot;: d[&quot;status&quot;],
+                           &quot;evidencia&quot;: d[&quot;evidencia&quot;], &quot;justificativa&quot;: d[&quot;justificativa&quot;],
+                           &quot;origem_decisao&quot;: &quot;adjudicado&quot;,
+                           &quot;confianca&quot;: d.get(&quot;confianca&quot;, &quot;MEDIA&quot;)})
+        else:
+            a = A[k]
+            linhas.append({**base, &quot;y_gold&quot;: norm_valor(a[&quot;y_gold&quot;]), &quot;status&quot;: a[&quot;status&quot;],
+                           &quot;evidencia&quot;: a[&quot;evidencia&quot;] or B[k][&quot;evidencia&quot;],
+                           &quot;justificativa&quot;: a[&quot;justificativa&quot;] or B[k][&quot;justificativa&quot;],
+                           &quot;origem_decisao&quot;: &quot;acordo&quot;, &quot;confianca&quot;: &quot;ALTA&quot;})
+
+    COLS = [&quot;CODIGO_MATERIAL&quot;, &quot;estrato&quot;, &quot;campo&quot;, &quot;y_gold&quot;, &quot;status&quot;, &quot;evidencia&quot;,
+            &quot;justificativa&quot;, &quot;anot_A&quot;, &quot;anot_B&quot;, &quot;origem_decisao&quot;, &quot;confianca&quot;]
+
+    def grava(nome, filtro):
+        sel = [l for l in linhas if filtro(l[&quot;campo&quot;])]
+        with open(RAIZ / nome, &quot;w&quot;, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+            w = csv.DictWriter(f, fieldnames=COLS)
+            w.writeheader()
+            w.writerows(sel)
+        return sel
+
+    carac = grava(&quot;gold_caracteristicas.csv&quot;, lambda c: not c.startswith(&quot;_&quot;))
+    classe = grava(&quot;gold_classe.csv&quot;, lambda c: c == &quot;_CLASSE&quot;)
+    juncao = grava(&quot;gold_juncao.csv&quot;, lambda c: c == &quot;_JUNCAO&quot;)
+
+    # --- sanidade ----------------------------------------------------------
+    for l in carac:
+        coerente = (l[&quot;status&quot;] == &quot;DEFINIDO&quot;) == (l[&quot;y_gold&quot;] != &quot;&quot;)
+        assert l[&quot;status&quot;] == &quot;INDEFINIVEL&quot; or coerente, f&quot;status x y_gold incoerente: {l}&quot;
+    assert len(classe) == len(estrato), &quot;gold_classe.csv nao cobre os itens&quot;
+    assert len(juncao) == len(fonte_par), &quot;gold_juncao.csv nao cobre os pares&quot;
+    nao_def = sum(1 for l in carac if l[&quot;status&quot;] in (&quot;AUSENTE&quot;, &quot;INDEFINIVEL&quot;))
+    assert nao_def &gt;= 60, f&quot;so {nao_def} rotulos AUSENTE/INDEFINIVEL (minimo 60)&quot;
+
+    # --- concordancia ------------------------------------------------------
+    exemplos = [{&quot;codigo&quot;: k[0], &quot;campo&quot;: k[1], &quot;A&quot;: resumo(k[1], A[k]),
+                 &quot;B&quot;: resumo(k[1], B[k]),
+                 &quot;decisao_final&quot;: ADJUDICACOES[k][&quot;status&quot;] + &quot;:&quot;
+                                  + norm_cmp(k[1], ADJUDICACOES[k][&quot;y_gold&quot;]),
+                 &quot;justificativa&quot;: ADJUDICACOES[k][&quot;justificativa&quot;]}
+                for k in divergencias]
+    conc = {&quot;por_atributo&quot;: {c: m for c, m in metricas.items() if not c.startswith(&quot;_&quot;)},
+            &quot;classe&quot;: glob_classe, &quot;juncao&quot;: glob_juncao,
+            &quot;caracteristicas&quot;: glob_carac, &quot;global&quot;: glob_tudo,
+            &quot;divergencias_adjudicadas&quot;: len(divergencias),
+            &quot;exemplos_divergencia&quot;: exemplos}
+    (RAIZ / &quot;concordancia_caracteristicas.json&quot;).write_text(
+        json.dumps(conc, ensure_ascii=False, indent=2) + &quot;\n&quot;, encoding=&quot;utf-8&quot;)
+
+    # --- planilha da conferencia humana ------------------------------------
+    rng = random.Random(SEED_REVISAO)
+    obrigatorias, resto = [], []
+    for l in linhas:
+        if l[&quot;status&quot;] == &quot;INDEFINIVEL&quot; or l[&quot;origem_decisao&quot;] in (&quot;adjudicado&quot;,
+                                                                   &quot;revisao_humana&quot;):
+            obrigatorias.append((&quot;indefinivel_ou_divergencia&quot;, l))
+        else:
+            resto.append(l)
+    amostra = rng.sample(resto, round(FRACAO_REVISAO * len(resto)))
+    revisao = obrigatorias + [(&quot;amostra_10pct&quot;, l) for l in amostra]
+    textos = {r[&quot;CODIGO_MATERIAL&quot;]: (r[&quot;DESCRICAO_CURTA&quot;], r[&quot;DESCRICAO_LONGA&quot;])
+              for r in cand}
+    with open(RAIZ / &quot;pares_juncao_cego.csv&quot;, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+        for r in csv.DictReader(f):
+            textos[r[&quot;par_id&quot;]] = (r[&quot;longa_1&quot;], r[&quot;longa_2&quot;])
+    COLS_REV = [&quot;motivo&quot;, &quot;CODIGO_MATERIAL&quot;, &quot;campo&quot;, &quot;texto_1&quot;, &quot;texto_2&quot;,
+                &quot;y_gold&quot;, &quot;status&quot;, &quot;evidencia&quot;, &quot;justificativa&quot;, &quot;anot_A&quot;, &quot;anot_B&quot;,
+                &quot;origem_decisao&quot;, &quot;concordo_discordo&quot;, &quot;valor_certo&quot;, &quot;status_certo&quot;,
+                &quot;comentario&quot;]
+    with open(RAIZ / &quot;revisao_humana_caracteristicas.csv&quot;, &quot;w&quot;, newline=&quot;&quot;,
+              encoding=&quot;utf-8&quot;) as f:
+        w = csv.DictWriter(f, fieldnames=COLS_REV)
+        w.writeheader()
+        for motivo, l in sorted(revisao, key=lambda t: (t[0], t[1][&quot;CODIGO_MATERIAL&quot;],
+                                                        t[1][&quot;campo&quot;])):
+            t1, t2 = textos.get(l[&quot;CODIGO_MATERIAL&quot;], (&quot;&quot;, &quot;&quot;))
+            w.writerow({&quot;motivo&quot;: motivo, **{c: l[c] for c in
+                        (&quot;CODIGO_MATERIAL&quot;, &quot;campo&quot;, &quot;y_gold&quot;, &quot;status&quot;, &quot;evidencia&quot;,
+                         &quot;justificativa&quot;, &quot;anot_A&quot;, &quot;anot_B&quot;, &quot;origem_decisao&quot;)},
+                        &quot;texto_1&quot;: t1, &quot;texto_2&quot;: t2,
+                        &quot;concordo_discordo&quot;: &quot;&quot;, &quot;valor_certo&quot;: &quot;&quot;, &quot;status_certo&quot;: &quot;&quot;,
+                        &quot;comentario&quot;: &quot;&quot;})
+
+    # --- resumo ------------------------------------------------------------
+    print(&quot;\n=== distribuicao de status (gold de caracteristicas) ===&quot;)
+    dist = Counter(l[&quot;status&quot;] for l in carac)
+    for s in (&quot;DEFINIDO&quot;, &quot;AUSENTE&quot;, &quot;INDEFINIVEL&quot;):
+        print(f&quot;  {s:&lt;12} {dist[s]:&gt;4} ({dist[s] / len(carac):.1%})&quot;)
+    print(f&quot;\n=== classe ===\n  {Counter(l[&#x27;y_gold&#x27;] for l in classe).most_common(6)}&quot;)
+    print(f&quot;=== juncao ===\n  {Counter(l[&#x27;y_gold&#x27;] for l in juncao).most_common()}&quot;)
+    print(f&quot;\ngold_caracteristicas.csv: {len(carac)} rotulos | &quot;
+          f&quot;gold_classe.csv: {len(classe)} | gold_juncao.csv: {len(juncao)}&quot;)
+    print(f&quot;revisao_humana_caracteristicas.csv: {len(revisao)} linhas &quot;
+          f&quot;({len(obrigatorias)} obrigatorias + {len(amostra)} da amostra de 10%)&quot;)
+    print(&quot;concordancia_caracteristicas.json gravado&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre></details><details class="fonte"><summary>evaluate_caracteristicas.py
+ <span>avaliação do pipeline e geração do .md · 471 linhas</span></summary>
+<pre class="bloco" id="src-evaluate-caracteristicas-py"><button class="copiar" data-copiar="src-evaluate-caracteristicas-py">copiar</button>
+<code># -*- coding: utf-8 -*-
+&quot;&quot;&quot;Avalia o pipeline contra o conjunto-ouro de caracteristicas, classe e juncao.
+
+Uso:
+  uv run --no-project --with pandas --with openpyxl python \
+      avaliacao/evaluate_caracteristicas.py [--saida avaliacao/resultado_caracteristicas.md]
+
+Entradas (o que o pipeline produziu):
+  artefatos/decisoes_base.jsonl   uma linha por item, com uma decisao por atributo
+                                  (atributo, valor, fonte, estado, confianca)
+  artefatos/saneado_base.csv      ID_PDM (classe escolhida) e CHAVE_IDENTIDADE (juncao)
+
+Gabarito:
+  avaliacao/gold_caracteristicas.csv, gold_classe.csv, gold_juncao.csv
+  avaliacao/candidatos_caracteristicas.csv  (familia prevista, estilo, armadilhas)
+  avaliacao/pares_juncao_candidatos.csv     (fonte do par)
+
+Veredito de cada rotulo de caracteristica:
+  ACERTO             gold DEFINIDO e o pipeline preencheu o mesmo valor
+  ERRO               gold DEFINIDO e o pipeline preencheu outro valor
+  ABSTEVE            gold DEFINIDO e o pipeline deixou vazio (perda de cobertura)
+  ABSTENCAO_CORRETA  gold AUSENTE/INDEFINIVEL e o pipeline deixou vazio
+  INVENCAO           gold AUSENTE/INDEFINIVEL e o pipeline preencheu
+
+Metricas por atributo, familia de classe, estilo de texto, armadilha e fonte:
+  precisao = ACERTO / (ACERTO + ERRO)          IC 95% de Wilson
+  cobertura = (ACERTO + ERRO) / rotulos DEFINIDO do gold
+  invencao = INVENCAO / rotulos AUSENTE+INDEFINIVEL do gold
+
+Comparacao de valores: grandezas sao comparadas numericamente (35,0MM = 35MM;
+1 1/4POL = 1.1/4POL), pressao e convertida para BAR com tolerancia de 1%,
+part number compara so [A-Z0-9] e valor de lista compara em maiuscula sem acento.
+&quot;&quot;&quot;
+import argparse
+import csv
+import json
+import math
+import re
+import unicodedata
+from collections import Counter, defaultdict
+from pathlib import Path
+
+RAIZ = Path(__file__).resolve().parent
+REPO = RAIZ.parent
+
+VAZIOS = {&quot;&quot;, &quot;PENDENTE&quot;, &quot;&lt;PENDENTE&gt;&quot;, &quot;NA&quot;, &quot;N/A&quot;, &quot;NONE&quot;, &quot;NULL&quot;, &quot;-&quot;, &quot;NAN&quot;,
+          &quot;AUSENTE&quot;, &quot;?&quot;}
+CAMPOS_CODIGO = {&quot;REFERENCIA&quot;, &quot;REFERENCIA FABRICANTE&quot;, &quot;MODELO EQUIPAMENTO&quot;}
+TOLERANCIA_PRESSAO = 0.01
+
+FAMILIA_DA_CLASSE = {
+    **{f&quot;PDM{n:03d}&quot;: &quot;fixadores&quot; for n in (1, 2, 3, 4, 5, 6)},
+    **{f&quot;PDM{n:03d}&quot;: &quot;mangueiras&quot; for n in (10, 11, 12, 13, 14)},
+    **{f&quot;PDM{n:03d}&quot;: &quot;rolamentos&quot; for n in (20, 21, 22, 23)},
+    **{f&quot;PDM{n:03d}&quot;: &quot;vedacao&quot; for n in (31, 32, 33, 34)},
+    **{f&quot;PDM{n:03d}&quot;: &quot;valvulas&quot; for n in (40, 41, 42, 43, 44)},
+    **{f&quot;PDM{n:03d}&quot;: &quot;conexoes&quot; for n in (50, 51)},
+    **{f&quot;PDM{n:03d}&quot;: &quot;eletricos&quot; for n in (60, 61, 62, 63, 64, 65)},
+    **{f&quot;PDM{n:03d}&quot;: &quot;outras&quot; for n in (30, 66, 67, 70, 71, 72, 80, 81, 82, 90, 100)},
+    &quot;PDM110&quot;: &quot;sobressalentes&quot;,
+    &quot;FORA_DO_PDM&quot;: &quot;fora_pdm&quot;,
+}
+
+# classes irmas que se confundem: a matriz de confusao sai por grupo
+GRUPOS_IRMAS = {
+    &quot;valvulas&quot;: [&quot;PDM040&quot;, &quot;PDM041&quot;, &quot;PDM042&quot;, &quot;PDM043&quot;, &quot;PDM044&quot;],
+    &quot;rolamentos&quot;: [&quot;PDM020&quot;, &quot;PDM021&quot;, &quot;PDM022&quot;, &quot;PDM023&quot;],
+    &quot;parafusos&quot;: [&quot;PDM001&quot;, &quot;PDM002&quot;],
+    &quot;arruelas&quot;: [&quot;PDM004&quot;, &quot;PDM005&quot;],
+    &quot;mangueiras&quot;: [&quot;PDM010&quot;, &quot;PDM011&quot;, &quot;PDM012&quot;, &quot;PDM013&quot;, &quot;PDM014&quot;],
+    &quot;juntas&quot;: [&quot;PDM033&quot;, &quot;PDM034&quot;],
+    &quot;conexoes_tubo&quot;: [&quot;PDM050&quot;, &quot;PDM051&quot;, &quot;FORA_DO_PDM&quot;],
+}
+
+
+# --------------------------------------------------------------- utilitarios --
+def sem_acento(s):
+    return &quot;&quot;.join(c for c in unicodedata.normalize(&quot;NFKD&quot;, str(s))
+                   if not unicodedata.combining(c))
+
+
+def norm(campo, v):
+    v = re.sub(r&quot;\s+&quot;, &quot; &quot;, sem_acento(v or &quot;&quot;).upper().strip())
+    if v in VAZIOS:
+        return &quot;&quot;
+    if campo in CAMPOS_CODIGO:
+        return re.sub(r&quot;[^A-Z0-9]&quot;, &quot;&quot;, v)
+    return v
+
+
+FATOR_BAR = {&quot;BAR&quot;: 1.0, &quot;PSI&quot;: 1 / 14.5038, &quot;KGF/CM2&quot;: 0.980665,
+             &quot;KGFCM2&quot;: 0.980665, &quot;KG/CM2&quot;: 0.980665, &quot;MPA&quot;: 10.0, &quot;KPA&quot;: 0.01}
+UNIDADES = (&quot;MM2&quot;, &quot;MM&quot;, &quot;POL&quot;, &quot;BAR&quot;, &quot;PSI&quot;, &quot;KGF/CM2&quot;, &quot;KGFCM2&quot;, &quot;KG/CM2&quot;,
+            &quot;MPA&quot;, &quot;KPA&quot;, &quot;KA&quot;, &quot;KV&quot;, &quot;KW&quot;, &quot;A&quot;, &quot;V&quot;, &quot;W&quot;, &quot;M&quot;)
+
+
+def parse_grandeza(v):
+    &quot;&quot;&quot;&#x27;35,0MM&#x27;-&gt;(35.0,&#x27;MM&#x27;); &#x27;1 1/4POL&#x27;-&gt;(1.25,&#x27;POL&#x27;); &#x27;145PSI&#x27;-&gt;(10.0,&#x27;BAR&#x27;).
+
+    Devolve None quando o valor nao e um numero com unidade (valor de lista,
+    codigo, faixa como 13-18A, tensao como 0,6/1KV).
+    &quot;&quot;&quot;
+    v = v.replace(&#x27;&quot;&#x27;, &quot;POL&quot;).replace(&quot; IN&quot;, &quot;POL&quot;).strip()
+    m = re.fullmatch(r&quot;(\d+)[.\s](\d+)\s*/\s*(\d+)\s*POL&quot;, v)        # 1.1/4POL
+    if m:
+        a, b, c = (float(x) for x in m.groups())
+        return a + b / c, &quot;POL&quot;
+    m = re.fullmatch(r&quot;(\d+)\s*/\s*(\d+)\s*POL&quot;, v)                  # 3/4POL
+    if m:
+        a, b = (float(x) for x in m.groups())
+        return a / b, &quot;POL&quot;
+    m = re.fullmatch(r&quot;(\d+(?:[.,]\d+)?)\s*(&quot; + &quot;|&quot;.join(
+        re.escape(u) for u in UNIDADES) + r&quot;)&quot;, v)
+    if m:
+        num = float(m.group(1).replace(&quot;,&quot;, &quot;.&quot;))
+        unid = m.group(2)
+        if unid in FATOR_BAR:
+            return num * FATOR_BAR[unid], &quot;BAR&quot;
+        return num, unid
+    return None
+
+
+def valor_igual(campo, gold, modelo):
+    if gold == modelo:
+        return True
+    g, m = parse_grandeza(gold), parse_grandeza(modelo)
+    if g and m and g[1] == m[1]:
+        if g[1] == &quot;BAR&quot;:
+            return abs(g[0] - m[0]) &lt;= TOLERANCIA_PRESSAO * max(abs(g[0]), abs(m[0]), 1e-9)
+        return abs(g[0] - m[0]) &lt; 1e-9
+    return False
+
+
+def wilson(k, n, z=1.96):
+    if n == 0:
+        return 0.0, 0.0, 0.0
+    p = k / n
+    den = 1 + z * z / n
+    centro = (p + z * z / (2 * n)) / den
+    meia = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / den
+    return p, max(0.0, centro - meia), min(1.0, centro + meia)
+
+
+def pct_ic(k, n):
+    if n == 0:
+        return &quot;—&quot;
+    p, lo, hi = wilson(k, n)
+    return f&quot;{p:.1%} [{lo:.0%}–{hi:.0%}]&quot;
+
+
+def pct(k, n):
+    return &quot;—&quot; if n == 0 else f&quot;{k / n:.1%}&quot;
+
+
+def le_csv(caminho):
+    with open(caminho, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+        return list(csv.DictReader(f))
+
+
+# ------------------------------------------------------------------ entradas --
+def carrega_decisoes(codigos):
+    &quot;&quot;&quot;codigo -&gt; {atributo: decisao} e codigo -&gt; id_pdm das decisoes.&quot;&quot;&quot;
+    dec, pdm_dec = {}, {}
+    with open(REPO / &quot;artefatos/decisoes_base.jsonl&quot;, encoding=&quot;utf-8&quot;) as f:
+        for linha in f:
+            if not linha.strip():
+                continue
+            r = json.loads(linha)
+            cod = str(r.get(&quot;codigo&quot;, &quot;&quot;)).strip()
+            if cod not in codigos:
+                continue
+            dec[cod] = {d[&quot;atributo&quot;].strip(): d for d in r.get(&quot;decisoes&quot;, [])}
+            pdm_dec[cod] = (r.get(&quot;id_pdm&quot;) or &quot;&quot;).strip()
+    return dec, pdm_dec
+
+
+def carrega_saneado(codigos):
+    san = {}
+    with open(REPO / &quot;artefatos/saneado_base.csv&quot;, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+        for r in csv.DictReader(f):
+            if r[&quot;CODIGO_MATERIAL&quot;].strip() in codigos:
+                san[r[&quot;CODIGO_MATERIAL&quot;].strip()] = r
+    return san
+
+
+# ------------------------------------------------------------------ metricas --
+class Agregado:
+    def __init__(self):
+        self.c = Counter()
+        self.itens = set()
+
+    def soma(self, veredito, codigo):
+        self.c[veredito] += 1
+        self.itens.add(codigo)
+
+    @property
+    def definido(self):
+        return self.c[&quot;ACERTO&quot;] + self.c[&quot;ERRO&quot;] + self.c[&quot;ABSTEVE&quot;]
+
+    @property
+    def preenchido(self):
+        return self.c[&quot;ACERTO&quot;] + self.c[&quot;ERRO&quot;]
+
+    @property
+    def nao_definido(self):
+        return self.c[&quot;INVENCAO&quot;] + self.c[&quot;ABSTENCAO_CORRETA&quot;]
+
+    def linha(self, nome):
+        return [nome, str(len(self.itens)), str(self.definido + self.nao_definido),
+                pct_ic(self.c[&quot;ACERTO&quot;], self.preenchido),
+                pct(self.preenchido, self.definido),
+                str(self.c[&quot;ERRO&quot;]), str(self.c[&quot;ABSTEVE&quot;]),
+                f&quot;{self.c[&#x27;INVENCAO&#x27;]}/{self.nao_definido}&quot;
+                + (f&quot; ({self.c[&#x27;INVENCAO&#x27;] / self.nao_definido:.0%})&quot;
+                   if self.nao_definido else &quot;&quot;)]
+
+
+CAB = [&quot;recorte&quot;, &quot;itens&quot;, &quot;rotulos&quot;, &quot;precisao (IC 95%)&quot;, &quot;cobertura&quot;, &quot;erros&quot;,
+       &quot;absteve&quot;, &quot;invencao&quot;]
+
+
+def tabela_md(cabecalho, linhas):
+    out = [&quot;| &quot; + &quot; | &quot;.join(cabecalho) + &quot; |&quot;,
+           &quot;|&quot; + &quot;|&quot;.join(&quot;---&quot; for _ in cabecalho) + &quot;|&quot;]
+    out += [&quot;| &quot; + &quot; | &quot;.join(l) + &quot; |&quot; for l in linhas]
+    return &quot;\n&quot;.join(out)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument(&quot;--saida&quot;, default=str(RAIZ / &quot;resultado_caracteristicas.md&quot;))
+    args = ap.parse_args()
+
+    gold = le_csv(RAIZ / &quot;gold_caracteristicas.csv&quot;)
+    gold_classe = le_csv(RAIZ / &quot;gold_classe.csv&quot;)
+    gold_juncao = le_csv(RAIZ / &quot;gold_juncao.csv&quot;)
+    cand = {r[&quot;CODIGO_MATERIAL&quot;]: r for r in le_csv(RAIZ / &quot;candidatos_caracteristicas.csv&quot;)}
+    pares = {r[&quot;par_id&quot;]: r for r in le_csv(RAIZ / &quot;pares_juncao_candidatos.csv&quot;)}
+    cego = {r[&quot;par_id&quot;]: r for r in le_csv(RAIZ / &quot;pares_juncao_cego.csv&quot;)}
+
+    codigos = {r[&quot;CODIGO_MATERIAL&quot;] for r in gold_classe}
+    cods_pares = {p[c] for p in pares.values() for c in (&quot;codigo_1&quot;, &quot;codigo_2&quot;)}
+    dec, pdm_dec = carrega_decisoes(codigos)
+    san = carrega_saneado(codigos | cods_pares)
+
+    classe_gold = {r[&quot;CODIGO_MATERIAL&quot;]: r[&quot;y_gold&quot;] for r in gold_classe}
+    classe_pipe = {c: (san.get(c, {}).get(&quot;ID_PDM&quot;) or &quot;&quot;).strip() or &quot;FORA_DO_PDM&quot;
+                   for c in codigos}
+
+    # --- rotulos de caracteristica -----------------------------------------
+    regs = []
+    for g in gold:
+        cod, campo = g[&quot;CODIGO_MATERIAL&quot;], g[&quot;campo&quot;]
+        d = dec.get(cod, {}).get(campo)
+        valor = norm(campo, (d or {}).get(&quot;valor&quot;) or &quot;&quot;)
+        fonte = ((d or {}).get(&quot;fonte&quot;) or &quot;&quot;).strip() or &quot;(sem decisao)&quot;
+        if valor == &quot;&quot;:
+            fonte = &quot;(vazio) &quot; + fonte if d else &quot;(sem decisao)&quot;
+        alvo = norm(campo, g[&quot;y_gold&quot;])
+        if g[&quot;status&quot;] == &quot;DEFINIDO&quot;:
+            veredito = (&quot;ABSTEVE&quot; if valor == &quot;&quot; else
+                        &quot;ACERTO&quot; if valor_igual(campo, alvo, valor) else &quot;ERRO&quot;)
+        else:
+            veredito = &quot;ABSTENCAO_CORRETA&quot; if valor == &quot;&quot; else &quot;INVENCAO&quot;
+        c = cand[cod]
+        regs.append({&quot;codigo&quot;: cod, &quot;campo&quot;: campo, &quot;status&quot;: g[&quot;status&quot;],
+                     &quot;y_gold&quot;: alvo, &quot;valor&quot;: valor, &quot;veredito&quot;: veredito,
+                     &quot;fonte&quot;: fonte, &quot;estado_dec&quot;: (d or {}).get(&quot;estado&quot;, &quot;&quot;),
+                     &quot;confianca&quot;: (d or {}).get(&quot;confianca&quot;, &quot;&quot;),
+                     &quot;familia&quot;: FAMILIA_DA_CLASSE.get(classe_gold[cod], &quot;outras&quot;),
+                     &quot;estilo&quot;: c[&quot;estilo&quot;], &quot;estrato&quot;: g[&quot;estrato&quot;],
+                     &quot;armadilhas&quot;: [a for a in c[&quot;armadilhas&quot;].split(&quot;|&quot;) if a],
+                     &quot;texto&quot;: c[&quot;DESCRICAO_LONGA&quot;],
+                     &quot;evidencia&quot;: g[&quot;evidencia&quot;], &quot;justificativa&quot;: g[&quot;justificativa&quot;],
+                     &quot;origem&quot;: g[&quot;origem_decisao&quot;]})
+
+    def agrega(chave_fn):
+        ag = defaultdict(Agregado)
+        for r in regs:
+            k = chave_fn(r)
+            for kk in (k if isinstance(k, list) else [k]):
+                ag[kk].soma(r[&quot;veredito&quot;], r[&quot;codigo&quot;])
+        return ag
+
+    geral = Agregado()
+    for r in regs:
+        geral.soma(r[&quot;veredito&quot;], r[&quot;codigo&quot;])
+    por_atributo = agrega(lambda r: r[&quot;campo&quot;])
+    por_familia = agrega(lambda r: r[&quot;familia&quot;])
+    por_estilo = agrega(lambda r: r[&quot;estilo&quot;])
+    por_armadilha = agrega(lambda r: r[&quot;armadilhas&quot;] or [&quot;(sem armadilha)&quot;])
+    por_fonte = agrega(lambda r: r[&quot;fonte&quot;])
+    por_status = Counter(r[&quot;veredito&quot;] for r in regs)
+
+    # atributos que o pipeline preencheu fora do universo do gold (classe errada)
+    universo = {(r[&quot;CODIGO_MATERIAL&quot;], r[&quot;campo&quot;]) for r in gold}
+    fora_escopo = []
+    for cod in codigos:
+        for atributo, d in dec.get(cod, {}).items():
+            if (cod, atributo) in universo:
+                continue
+            if norm(atributo, d.get(&quot;valor&quot;) or &quot;&quot;):
+                fora_escopo.append((cod, atributo, norm(atributo, d.get(&quot;valor&quot;)),
+                                    d.get(&quot;fonte&quot;, &quot;&quot;), classe_gold[cod],
+                                    classe_pipe[cod]))
+
+    # --- classe -------------------------------------------------------------
+    acertos_classe = sum(1 for c in codigos if classe_pipe[c] == classe_gold[c])
+    erros_classe = [(c, classe_gold[c], classe_pipe[c], cand[c][&quot;DESCRICAO_LONGA&quot;],
+                     san.get(c, {}).get(&quot;ESTADO&quot;, &quot;&quot;))
+                    for c in sorted(codigos) if classe_pipe[c] != classe_gold[c]]
+    confusao = {}
+    for grupo, classes in GRUPOS_IRMAS.items():
+        cods = [c for c in codigos if classe_gold[c] in classes]
+        if not cods:
+            continue
+        m = Counter((classe_gold[c], classe_pipe[c]) for c in cods)
+        linhas_m = sorted({g for g, _ in m})
+        colunas_m = sorted({p for _, p in m})
+        confusao[grupo] = (linhas_m, colunas_m, m, len(cods))
+
+    # --- juncao -------------------------------------------------------------
+    jun = []
+    for g in gold_juncao:
+        pid = g[&quot;CODIGO_MATERIAL&quot;]
+        c1, c2 = pares[pid][&quot;codigo_1&quot;], pares[pid][&quot;codigo_2&quot;]
+        k1 = (san.get(c1, {}).get(&quot;CHAVE_IDENTIDADE&quot;) or &quot;&quot;).strip()
+        k2 = (san.get(c2, {}).get(&quot;CHAVE_IDENTIDADE&quot;) or &quot;&quot;).strip()
+        juntou = bool(k1) and k1 == k2
+        jun.append({&quot;par&quot;: pid, &quot;gold&quot;: g[&quot;y_gold&quot;], &quot;juntou&quot;: juntou,
+                    &quot;fonte_par&quot;: pares[pid][&quot;fonte_par&quot;],
+                    &quot;codigo_1&quot;: c1, &quot;codigo_2&quot;: c2,
+                    &quot;texto_1&quot;: cego[pid][&quot;longa_1&quot;], &quot;texto_2&quot;: cego[pid][&quot;longa_2&quot;],
+                    &quot;chave_1&quot;: k1, &quot;chave_2&quot;: k2,
+                    &quot;justificativa&quot;: g[&quot;justificativa&quot;]})
+    decidiveis = [j for j in jun if j[&quot;gold&quot;] != &quot;INDETERMINADO&quot;]
+    vp = sum(1 for j in decidiveis if j[&quot;juntou&quot;] and j[&quot;gold&quot;] == &quot;MESMO_ITEM&quot;)
+    fp = sum(1 for j in decidiveis if j[&quot;juntou&quot;] and j[&quot;gold&quot;] == &quot;ITENS_DIFERENTES&quot;)
+    fn = sum(1 for j in decidiveis if not j[&quot;juntou&quot;] and j[&quot;gold&quot;] == &quot;MESMO_ITEM&quot;)
+    vn = sum(1 for j in decidiveis if not j[&quot;juntou&quot;] and j[&quot;gold&quot;] == &quot;ITENS_DIFERENTES&quot;)
+    indet_juntou = sum(1 for j in jun if j[&quot;gold&quot;] == &quot;INDETERMINADO&quot; and j[&quot;juntou&quot;])
+
+    # --- markdown -----------------------------------------------------------
+    L = []
+    L.append(&quot;# Avaliação do pipeline contra o conjunto-ouro de características\n&quot;)
+    L.append(f&quot;Gabarito: `gold_caracteristicas.csv` ({len(gold)} rótulos de atributo), &quot;
+             f&quot;`gold_classe.csv` ({len(gold_classe)} itens), &quot;
+             f&quot;`gold_juncao.csv` ({len(gold_juncao)} pares).  &quot;)
+    L.append(&quot;Pipeline: `artefatos/decisoes_base.jsonl` + `artefatos/saneado_base.csv`.\n&quot;)
+    L.append(&quot;Precisão = acertos / (acertos + erros) com IC 95% de Wilson. &quot;
+             &quot;Cobertura = preenchidos / rótulos DEFINIDO do gold. &quot;
+             &quot;Invenção = preencheu onde o gold diz AUSENTE ou INDEFINÍVEL.\n&quot;)
+
+    L.append(&quot;## 1. Resumo\n&quot;)
+    L.append(tabela_md(CAB, [geral.linha(&quot;geral&quot;)]))
+    L.append(&quot;\nVereditos: &quot; + &quot;, &quot;.join(f&quot;{k}={v}&quot; for k, v in sorted(por_status.items())))
+    L.append(f&quot;\nAtributos preenchidos fora do universo do gold (classe divergente): &quot;
+             f&quot;{len(fora_escopo)}\n&quot;)
+
+    for titulo, ag, ordem in (
+            (&quot;2. Por atributo&quot;, por_atributo, lambda kv: -kv[1].definido - kv[1].nao_definido),
+            (&quot;3. Por família de classe&quot;, por_familia, lambda kv: kv[0]),
+            (&quot;4. Por estilo de texto&quot;, por_estilo, lambda kv: kv[0]),
+            (&quot;5. Por armadilha&quot;, por_armadilha, lambda kv: kv[0]),
+            (&quot;6. Por fonte do valor&quot;, por_fonte, lambda kv: kv[0])):
+        L.append(f&quot;## {titulo}\n&quot;)
+        L.append(tabela_md(CAB, [a.linha(k) for k, a in sorted(ag.items(), key=ordem)]))
+        L.append(&quot;&quot;)
+
+    L.append(&quot;## 7. Classe do item\n&quot;)
+    L.append(f&quot;Acerto de classe: **{acertos_classe}/{len(codigos)}** &quot;
+             f&quot;({pct_ic(acertos_classe, len(codigos))}).\n&quot;)
+    for grupo, (linhas_m, colunas_m, m, n) in sorted(confusao.items()):
+        L.append(f&quot;### Matriz de confusão — {grupo} ({n} itens do gold)\n&quot;)
+        L.append(tabela_md([&quot;gold \\ pipeline&quot;] + colunas_m,
+                           [[g] + [str(m.get((g, p), 0)) for p in colunas_m]
+                            for g in linhas_m]))
+        L.append(&quot;&quot;)
+    if erros_classe:
+        L.append(&quot;### Erros de classe\n&quot;)
+        L.append(tabela_md([&quot;código&quot;, &quot;gold&quot;, &quot;pipeline&quot;, &quot;estado&quot;, &quot;texto cru&quot;],
+                           [[c, g, p, e, t[:90]] for c, g, p, t, e in erros_classe]))
+        L.append(&quot;&quot;)
+
+    L.append(&quot;## 8. Junção de duplicados\n&quot;)
+    L.append(f&quot;Pares decidíveis: {len(decidiveis)} (MESMO_ITEM={vp + fn}, &quot;
+             f&quot;ITENS_DIFERENTES={fp + vn}); INDETERMINADO no gold: &quot;
+             f&quot;{len(jun) - len(decidiveis)} (o pipeline juntou {indet_juntou} deles).\n&quot;)
+    L.append(tabela_md([&quot;métrica&quot;, &quot;valor&quot;], [
+        [&quot;precisão&quot;, pct_ic(vp, vp + fp) + f&quot;  ({vp}/{vp + fp})&quot;],
+        [&quot;recall&quot;, pct_ic(vp, vp + fn) + f&quot;  ({vp}/{vp + fn})&quot;],
+        [&quot;verdadeiros positivos&quot;, str(vp)], [&quot;falsos positivos&quot;, str(fp)],
+        [&quot;falsos negativos&quot;, str(fn)], [&quot;verdadeiros negativos&quot;, str(vn)]]))
+    L.append(&quot;&quot;)
+    L.append(&quot;### Por fonte do par\n&quot;)
+    linhas_fp = []
+    for fonte in sorted({j[&quot;fonte_par&quot;] for j in jun}):
+        sub = [j for j in jun if j[&quot;fonte_par&quot;] == fonte]
+        subd = [j for j in sub if j[&quot;gold&quot;] != &quot;INDETERMINADO&quot;]
+        a = sum(1 for j in subd if j[&quot;juntou&quot;] == (j[&quot;gold&quot;] == &quot;MESMO_ITEM&quot;))
+        linhas_fp.append([fonte, str(len(sub)), str(len(subd)), pct_ic(a, len(subd)),
+                          str(sum(1 for j in subd if j[&quot;juntou&quot;] and j[&quot;gold&quot;] == &quot;ITENS_DIFERENTES&quot;)),
+                          str(sum(1 for j in subd if not j[&quot;juntou&quot;] and j[&quot;gold&quot;] == &quot;MESMO_ITEM&quot;))])
+    L.append(tabela_md([&quot;fonte do par&quot;, &quot;pares&quot;, &quot;decidíveis&quot;, &quot;acerto (IC 95%)&quot;,
+                        &quot;juntou errado&quot;, &quot;deixou passar&quot;], linhas_fp))
+    L.append(&quot;&quot;)
+    erros_jun = [j for j in decidiveis if j[&quot;juntou&quot;] != (j[&quot;gold&quot;] == &quot;MESMO_ITEM&quot;)]
+    if erros_jun:
+        L.append(&quot;### Pares errados\n&quot;)
+        for j in erros_jun:
+            L.append(f&quot;- **{j[&#x27;par&#x27;]}** ({j[&#x27;fonte_par&#x27;]}): gold `{j[&#x27;gold&#x27;]}`, &quot;
+                     f&quot;pipeline {&#x27;juntou&#x27; if j[&#x27;juntou&#x27;] else &#x27;separou&#x27;}  \n&quot;
+                     f&quot;  `{j[&#x27;codigo_1&#x27;]}`: {j[&#x27;texto_1&#x27;][:150]}  \n&quot;
+                     f&quot;  `{j[&#x27;codigo_2&#x27;]}`: {j[&#x27;texto_2&#x27;][:150]}  \n&quot;
+                     f&quot;  gold: {j[&#x27;justificativa&#x27;]}&quot;)
+        L.append(&quot;&quot;)
+
+    L.append(&quot;## 9. Cada erro de característica\n&quot;)
+    erros = [r for r in regs if r[&quot;veredito&quot;] == &quot;ERRO&quot;]
+    if erros:
+        for r in sorted(erros, key=lambda r: (r[&quot;campo&quot;], r[&quot;codigo&quot;])):
+            L.append(f&quot;- **{r[&#x27;codigo&#x27;]} {r[&#x27;campo&#x27;]}**: gold `{r[&#x27;y_gold&#x27;]}`, &quot;
+                     f&quot;pipeline `{r[&#x27;valor&#x27;]}` (fonte {r[&#x27;fonte&#x27;]}, &quot;
+                     f&quot;confiança {r[&#x27;confianca&#x27;]})  \n&quot;
+                     f&quot;  texto: {r[&#x27;texto&#x27;][:150]}  \n&quot;
+                     f&quot;  gold: {r[&#x27;evidencia&#x27;]} | {r[&#x27;justificativa&#x27;]}&quot;)
+    else:
+        L.append(&quot;Nenhum erro de valor.&quot;)
+    L.append(&quot;&quot;)
+
+    L.append(&quot;## 10. Cada invenção\n&quot;)
+    inv = [r for r in regs if r[&quot;veredito&quot;] == &quot;INVENCAO&quot;]
+    if inv:
+        for r in sorted(inv, key=lambda r: (r[&quot;campo&quot;], r[&quot;codigo&quot;])):
+            L.append(f&quot;- **{r[&#x27;codigo&#x27;]} {r[&#x27;campo&#x27;]}** (gold {r[&#x27;status&#x27;]}): &quot;
+                     f&quot;pipeline `{r[&#x27;valor&#x27;]}` (fonte {r[&#x27;fonte&#x27;]}, &quot;
+                     f&quot;confiança {r[&#x27;confianca&#x27;]})  \n&quot;
+                     f&quot;  texto: {r[&#x27;texto&#x27;][:150]}  \n&quot;
+                     f&quot;  gold: {r[&#x27;justificativa&#x27;]}&quot;)
+    else:
+        L.append(&quot;Nenhuma invenção.&quot;)
+    L.append(&quot;&quot;)
+
+    if fora_escopo:
+        L.append(&quot;## 11. Atributos preenchidos fora do universo do gold\n&quot;)
+        L.append(&quot;Atributo que o pipeline preencheu porque escolheu outra classe; &quot;
+                 &quot;não entra na precisão, mas é consequência do erro de classe.\n&quot;)
+        L.append(tabela_md([&quot;código&quot;, &quot;atributo&quot;, &quot;valor&quot;, &quot;fonte&quot;, &quot;classe gold&quot;,
+                            &quot;classe pipeline&quot;],
+                           [[c, a, v, f, cg, cp] for c, a, v, f, cg, cp
+                            in sorted(fora_escopo)[:60]]))
+        if len(fora_escopo) &gt; 60:
+            L.append(f&quot;\n(+{len(fora_escopo) - 60} linhas)&quot;)
+        L.append(&quot;&quot;)
+
+    Path(args.saida).write_text(&quot;\n&quot;.join(L) + &quot;\n&quot;, encoding=&quot;utf-8&quot;)
+
+    # --- console ------------------------------------------------------------
+    print(&quot;=== caracteristicas ===&quot;)
+    print(&quot;  &quot; + &quot; | &quot;.join(CAB))
+    print(&quot;  &quot; + &quot; | &quot;.join(geral.linha(&quot;geral&quot;)))
+    print(f&quot;=== classe === acerto {acertos_classe}/{len(codigos)} &quot;
+          f&quot;({acertos_classe / len(codigos):.1%})&quot;)
+    print(f&quot;=== juncao === precisao {pct(vp, vp + fp)} ({vp}/{vp + fp})  &quot;
+          f&quot;recall {pct(vp, vp + fn)} ({vp}/{vp + fn})&quot;)
+    print(f&quot;\n{args.saida} gravado ({len(regs)} rotulos avaliados, &quot;
+          f&quot;{len(erros)} erros, {len(inv)} invencoes)&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre></details><details class="fonte"><summary>12_relatorio_html.py
+ <span>este relatório · 493 linhas</span></summary>
+<pre class="bloco" id="src-12-relatorio-html-py"><button class="copiar" data-copiar="src-12-relatorio-html-py">copiar</button>
+<code># -*- coding: utf-8 -*-
+&quot;&quot;&quot;Monta um HTML autocontido com o gabarito, o resultado da avaliacao e o codigo
+que reproduz tudo.
+
+Uso:
+  uv run --no-project --with pandas --with openpyxl python avaliacao/12_relatorio_html.py \
+      [--saida avaliacao/relatorio_caracteristicas.html]
+
+Entradas (todas em avaliacao/):
+  GABARITO_CARACTERISTICAS.md      metodo, estratos, kappa, limitacoes
+  resultado_caracteristicas.md     saida de evaluate_caracteristicas.py
+  concordancia_caracteristicas.json
+  gold_caracteristicas.csv, gold_classe.csv, gold_juncao.csv
+  10_candidatos_caracteristicas.py, 11_adjudicar_caracteristicas.py,
+  evaluate_caracteristicas.py, 12_relatorio_html.py   (embutidos no HTML)
+
+Os numeros dos cartoes do topo sao LIDOS do resultado_caracteristicas.md e do
+concordancia_caracteristicas.json - nada e digitado a mao aqui. Se o formato
+mudar, o script falha em vez de inventar numero.
+
+Sem dependencia externa: so biblioteca padrao, e o HTML nao carrega nada da rede.
+&quot;&quot;&quot;
+import argparse
+import csv
+import html
+import json
+import re
+import sys
+import unicodedata
+from datetime import datetime
+from pathlib import Path
+
+RAIZ = Path(__file__).resolve().parent
+
+FONTES = [&quot;10_candidatos_caracteristicas.py&quot;, &quot;11_adjudicar_caracteristicas.py&quot;,
+          &quot;evaluate_caracteristicas.py&quot;, &quot;12_relatorio_html.py&quot;]
+
+COMANDOS = &quot;&quot;&quot;# 0) o .venv do projeto nao tem pandas; tudo roda via uv
+cd /home/igor-alves/clas/hack/vxwinners
+
+# 1) selecao reproduzivel dos 240 itens e dos 150 pares (semente 20251107)
+#    so e preciso rodar de novo se a base mudar: regerar muda a amostra
+uv run --no-project --with pandas --with openpyxl python \\
+    avaliacao/10_candidatos_caracteristicas.py
+
+# 2) anotacao: duas passadas independentes (ordem_A e ordem_B do candidatos .csv)
+#    produzem avaliacao/anotacoes_carac_A.jsonl e anotacoes_carac_B.jsonl
+#    uma linha por rotulo:
+#    {&quot;CODIGO_MATERIAL&quot;,&quot;id_pdm&quot;,&quot;campo&quot;,&quot;y_gold&quot;,&quot;status&quot;,&quot;evidencia&quot;,&quot;justificativa&quot;}
+#    campo = _CLASSE (item), _JUNCAO (par) ou o nome do atributo do PDM
+
+# 3) adjudicacao: acordo, kappa, gold, planilha de revisao humana
+#    aborta se alguma divergencia nao tiver decisao escrita em ADJUDICACOES
+uv run --no-project --with pandas --with openpyxl python \\
+    avaliacao/11_adjudicar_caracteristicas.py
+
+# 4) avaliacao do pipeline sobre os artefatos atuais
+uv run --no-project --with pandas --with openpyxl python \\
+    avaliacao/evaluate_caracteristicas.py \\
+    --saida avaliacao/resultado_caracteristicas.md
+
+# 5) este relatorio
+uv run --no-project --with pandas --with openpyxl python \\
+    avaliacao/12_relatorio_html.py \\
+    --saida avaliacao/relatorio_caracteristicas.html
+
+# opcional) quando a planilha conferida voltar, salve como
+#   avaliacao/revisao_humana_caracteristicas_respondida.csv
+# com concordo_discordo=DISCORDO + valor_certo/status_certo nas linhas corrigidas
+# e rode o passo 3 outra vez: o gold e regerado com origem_decisao=revisao_humana
+&quot;&quot;&quot;
+
+
+# ------------------------------------------------- markdown (subconjunto) -----
+def slug(texto, prefixo):
+    t = &quot;&quot;.join(c for c in unicodedata.normalize(&quot;NFKD&quot;, texto)
+                if not unicodedata.combining(c)).lower()
+    return prefixo + &quot;-&quot; + re.sub(r&quot;[^a-z0-9]+&quot;, &quot;-&quot;, t).strip(&quot;-&quot;)
+
+
+def inline(txt):
+    t = html.escape(txt)
+    t = re.sub(r&quot;`([^`]+)`&quot;, r&quot;&lt;code&gt;\1&lt;/code&gt;&quot;, t)
+    t = re.sub(r&quot;\*\*([^*]+)\*\*&quot;, r&quot;&lt;strong&gt;\1&lt;/strong&gt;&quot;, t)
+    return t
+
+
+def md_para_html(md, prefixo):
+    &quot;&quot;&quot;Converte titulos, paragrafos, listas, tabelas e blocos de codigo.
+
+    Os titulos descem um nivel (# -&gt; h2) para caber sob o &lt;h1&gt; da pagina.
+    Devolve (html, [(nivel, id, texto)]) para o sumario.
+    &quot;&quot;&quot;
+    linhas = md.splitlines()
+    out, toc = [], []
+    i, n = 0, len(linhas)
+    while i &lt; n:
+        linha = linhas[i]
+
+        if linha.startswith(&quot;```&quot;):                              # codigo cercado
+            i += 1
+            buf = []
+            while i &lt; n and not linhas[i].startswith(&quot;```&quot;):
+                buf.append(html.escape(linhas[i]))
+                i += 1
+            i += 1
+            out.append(&quot;&lt;pre class=\&quot;bloco\&quot;&gt;&lt;code&gt;&quot; + &quot;\n&quot;.join(buf) + &quot;&lt;/code&gt;&lt;/pre&gt;&quot;)
+            continue
+
+        m = re.match(r&quot;^(#{1,4})\s+(.*)$&quot;, linha)                # titulo
+        if m:
+            nivel = min(len(m.group(1)) + 1, 5)
+            texto = m.group(2).strip()
+            ident = slug(texto, prefixo)
+            toc.append((nivel, ident, texto))
+            out.append(f&quot;&lt;h{nivel} id=\&quot;{ident}\&quot;&gt;{inline(texto)}&lt;/h{nivel}&gt;&quot;)
+            i += 1
+            continue
+
+        if linha.startswith(&quot;|&quot;):                                # tabela
+            bloco = []
+            while i &lt; n and linhas[i].startswith(&quot;|&quot;):
+                bloco.append(linhas[i])
+                i += 1
+            celulas = [[c.strip() for c in l.strip().strip(&quot;|&quot;).split(&quot;|&quot;)]
+                       for l in bloco]
+            cab = celulas[0]
+            corpo = celulas[2:] if len(celulas) &gt; 1 and set(
+                &quot;&quot;.join(celulas[1]).replace(&quot;|&quot;, &quot;&quot;)) &lt;= set(&quot;-: &quot;) else celulas[1:]
+            t = [&quot;&lt;div class=\&quot;rolagem\&quot;&gt;&lt;table&gt;&quot;, &quot;&lt;thead&gt;&lt;tr&gt;&quot;]
+            t += [f&quot;&lt;th&gt;{inline(c)}&lt;/th&gt;&quot; for c in cab]
+            t.append(&quot;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&quot;)
+            for linha_t in corpo:
+                t.append(&quot;&lt;tr&gt;&quot; + &quot;&quot;.join(f&quot;&lt;td&gt;{inline(c)}&lt;/td&gt;&quot; for c in linha_t)
+                         + &quot;&lt;/tr&gt;&quot;)
+            t.append(&quot;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&quot;)
+            out.append(&quot;&quot;.join(t))
+            continue
+
+        if re.match(r&quot;^- &quot;, linha):                              # lista
+            itens = []
+            while i &lt; n and (re.match(r&quot;^- &quot;, linhas[i])
+                             or (itens and linhas[i].startswith(&quot;  &quot;)
+                                 and linhas[i].strip())):
+                if re.match(r&quot;^- &quot;, linhas[i]):
+                    itens.append([linhas[i][2:].rstrip()])
+                else:
+                    itens[-1].append(linhas[i].strip())
+                i += 1
+            out.append(&quot;&lt;ul&gt;&quot; + &quot;&quot;.join(
+                &quot;&lt;li&gt;&quot; + &quot;&lt;br&gt;&quot;.join(inline(p.rstrip()) for p in it) + &quot;&lt;/li&gt;&quot;
+                for it in itens) + &quot;&lt;/ul&gt;&quot;)
+            continue
+
+        if re.match(r&quot;^\d+\.\s&quot;, linha):                         # lista numerada
+            itens = []
+            while i &lt; n and (re.match(r&quot;^\d+\.\s&quot;, linhas[i])
+                             or (itens and linhas[i].startswith(&quot;   &quot;)
+                                 and linhas[i].strip())):
+                if re.match(r&quot;^\d+\.\s&quot;, linhas[i]):
+                    itens.append([re.sub(r&quot;^\d+\.\s+&quot;, &quot;&quot;, linhas[i]).rstrip()])
+                else:
+                    itens[-1].append(linhas[i].strip())
+                i += 1
+            out.append(&quot;&lt;ol&gt;&quot; + &quot;&quot;.join(
+                &quot;&lt;li&gt;&quot; + &quot; &quot;.join(inline(p.rstrip()) for p in it) + &quot;&lt;/li&gt;&quot;
+                for it in itens) + &quot;&lt;/ol&gt;&quot;)
+            continue
+
+        if not linha.strip():                                    # linha vazia
+            i += 1
+            continue
+
+        par = []                                                 # paragrafo
+        while i &lt; n and linhas[i].strip() and not linhas[i].startswith(
+                (&quot;|&quot;, &quot;#&quot;, &quot;- &quot;, &quot;```&quot;)) and not re.match(r&quot;^\d+\.\s&quot;, linhas[i]):
+            par.append(linhas[i])
+            i += 1
+        texto = &quot;&quot;
+        for p in par:
+            texto += inline(p.strip()) + (&quot;&lt;br&gt;&quot; if p.endswith(&quot;  &quot;) else &quot; &quot;)
+        out.append(&quot;&lt;p&gt;&quot; + texto.strip() + &quot;&lt;/p&gt;&quot;)
+
+    return &quot;\n&quot;.join(out), toc
+
+
+# -------------------------------------------------------------- numeros -------
+def exige(padrao, texto, oque, flags=re.M):
+    m = re.search(padrao, texto, flags)
+    if not m:
+        sys.exit(f&quot;nao encontrei {oque} em resultado_caracteristicas.md - &quot;
+                 &quot;o formato mudou; ajuste 12_relatorio_html.py&quot;)
+    return m
+
+
+def pt(txt):
+    &quot;&quot;&quot;97.5% -&gt; 97,5% (a pagina e em pt-BR; o .md sai com ponto decimal).&quot;&quot;&quot;
+    return re.sub(r&quot;(\d)\.(\d)&quot;, r&quot;\1,\2&quot;, txt)
+
+
+def cartoes(md_res, conc):
+    g = exige(r&quot;^\|\s*geral\s*\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|&quot;
+              r&quot;([^|]+)\|([^|]+)\|&quot;, md_res, &quot;a linha de resumo&quot;)
+    itens, rotulos, precisao, cobertura, erros, absteve, invencao = (
+        x.strip() for x in g.groups())
+    c = exige(r&quot;Acerto de classe: \*\*(\d+)/(\d+)\*\*\s*\(([^)]*)\)&quot;, md_res,
+              &quot;o acerto de classe&quot;)
+    p = exige(r&quot;^\|\s*precisão\s*\|([^|]+)\|&quot;, md_res, &quot;a precisao da juncao&quot;)
+    r = exige(r&quot;^\|\s*recall\s*\|([^|]+)\|&quot;, md_res, &quot;o recall da juncao&quot;)
+    kap = conc[&quot;global&quot;][&quot;kappa&quot;]
+    return {
+        &quot;hero&quot;: {&quot;valor&quot;: pt(precisao.split(&quot;[&quot;)[0].strip()),
+                 &quot;ic&quot;: &quot;IC 95% &quot; + (&quot;[&quot; + pt(precisao.split(&quot;[&quot;)[1])
+                                    if &quot;[&quot; in precisao else &quot;—&quot;),
+                 &quot;rotulos&quot;: rotulos, &quot;itens&quot;: itens, &quot;erros&quot;: erros},
+        &quot;tiles&quot;: [
+            (&quot;Cobertura&quot;, pt(cobertura),
+             f&quot;{absteve} rótulos DEFINIDO deixados vazios&quot;, &quot;neutro&quot;),
+            (&quot;Taxa de invenção&quot;, invencao.split(&quot;(&quot;)[-1].rstrip(&quot;)&quot;) or invencao,
+             f&quot;preencheu {invencao.split(&#x27;/&#x27;)[0]} dos &quot;
+             f&quot;{invencao.split(&#x27;/&#x27;)[1].split()[0]} rótulos AUSENTE/INDEFINÍVEL&quot;,
+             &quot;serious&quot;),
+            (&quot;Acerto de classe&quot;, pt(f&quot;{int(c.group(1)) / int(c.group(2)):.1%}&quot;),
+             pt(f&quot;{c.group(1)}/{c.group(2)} itens · {c.group(3)}&quot;), &quot;neutro&quot;),
+            (&quot;Precisão da junção&quot;, pt(p.group(1).split(&quot;[&quot;)[0].strip()),
+             pt(f&quot;precisão {p.group(1).strip()} · recall {r.group(1).strip()}&quot;),
+             &quot;neutro&quot;),
+            (&quot;Kappa de Cohen A×B&quot;, pt(f&quot;{kap:.3f}&quot;),
+             f&quot;{conc[&#x27;global&#x27;][&#x27;n&#x27;]} rótulos · &quot;
+             f&quot;{conc[&#x27;divergencias_adjudicadas&#x27;]} divergências adjudicadas&quot;,
+             &quot;warning&quot;),
+        ],
+    }
+
+
+# ----------------------------------------------------------------- pagina -----
+CSS = &quot;&quot;&quot;
+:root{color-scheme:light;
+ --surface:#fcfcfb; --surface-2:#f4f3f0; --borda:#e2e0da;
+ --ink:#0b0b0b; --ink-2:#52514e; --ink-3:#6f6e69;
+ --accent:#2a78d6; --good:#0ca30c; --warning:#fab219; --serious:#ec835a;
+ --critical:#d03b3b; --codigo:#f7f6f3;}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme=light])){
+ color-scheme:dark;
+ --surface:#1a1a19; --surface-2:#232322; --borda:#383835;
+ --ink:#f0efec; --ink-2:#c3c2b7; --ink-3:#a3a29a;
+ --accent:#3987e5; --codigo:#141413;}}
+:root[data-theme=dark]{color-scheme:dark;
+ --surface:#1a1a19; --surface-2:#232322; --borda:#383835;
+ --ink:#f0efec; --ink-2:#c3c2b7; --ink-3:#a3a29a;
+ --accent:#3987e5; --codigo:#141413;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);
+ font:16px/1.65 -apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Roboto,Helvetica,Arial,sans-serif;
+ -webkit-font-smoothing:antialiased}
+.pagina{max-width:1180px;margin:0 auto;padding:0 24px 96px;
+ display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+@media(min-width:1060px){.pagina{grid-template-columns:228px minmax(0,1fr);
+ column-gap:48px;align-items:start}
+ .topo,.cartoes,.aviso{grid-column:1/-1}
+ nav.sumario{position:sticky;top:24px;max-height:calc(100vh - 48px);overflow:auto}}
+.topo{padding:48px 0 24px;border-bottom:1px solid var(--borda);margin-bottom:32px}
+h1{font-size:30px;line-height:1.25;margin:0 0 8px;letter-spacing:-.01em}
+.subtitulo{color:var(--ink-2);margin:0;max-width:72ch;font-size:17px}
+.meta{color:var(--ink-3);font-size:13px;margin-top:16px}
+.meta code{font-size:12px}
+.barra{display:flex;gap:8px;align-items:center;margin-top:20px;flex-wrap:wrap}
+button{font:inherit;font-size:13px;color:var(--ink-2);background:var(--surface-2);
+ border:1px solid var(--borda);border-radius:7px;padding:5px 11px;cursor:pointer}
+button:hover{color:var(--ink);border-color:var(--ink-3)}
+.cartoes{display:flex;flex-direction:column;gap:16px;margin:0 0 32px}
+.tiles{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(182px,1fr))}
+.hero,.tile{background:var(--surface-2);border:1px solid var(--borda);
+ border-radius:12px;padding:18px 20px}
+.hero{display:flex;flex-direction:column;gap:2px}
+.rotulo{font-size:12px;letter-spacing:.04em;text-transform:uppercase;
+ color:var(--ink-3);margin:0 0 6px}
+.valor{font-size:52px;font-weight:600;line-height:1;margin:0;letter-spacing:-.02em}
+.tile .valor{font-size:30px}
+.nota{color:var(--ink-2);font-size:13px;margin:8px 0 0}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;
+ color:var(--ink-2);margin-top:10px}
+.ponto{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.ponto.serious{background:var(--serious)} .ponto.warning{background:var(--warning)}
+.ponto.good{background:var(--good)} .ponto.neutro{background:var(--accent)}
+.aviso{border:1px solid var(--borda);border-left:3px solid var(--warning);
+ background:var(--surface-2);border-radius:8px;padding:16px 20px;margin:0 0 36px}
+.aviso p{margin:0;color:var(--ink-2);font-size:14.5px}
+.aviso strong{color:var(--ink)}
+nav.sumario{font-size:13.5px;padding-top:4px}
+nav.sumario p{font-size:12px;letter-spacing:.04em;text-transform:uppercase;
+ color:var(--ink-3);margin:0 0 8px}
+nav.sumario a{display:block;color:var(--ink-2);text-decoration:none;padding:3px 0}
+nav.sumario a:hover{color:var(--accent)}
+nav.sumario a.n3{padding-left:12px;color:var(--ink-3);font-size:12.5px}
+main{min-width:0}
+h2{font-size:23px;margin:48px 0 12px;letter-spacing:-.01em;
+ padding-top:16px;border-top:1px solid var(--borda)}
+h3{font-size:17.5px;margin:32px 0 10px}
+h4{font-size:15px;margin:24px 0 8px;color:var(--ink-2)}
+p,li{color:var(--ink-2)} li{margin:4px 0}
+strong{color:var(--ink);font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+ font-size:.88em;background:var(--codigo);border:1px solid var(--borda);
+ border-radius:4px;padding:1px 4px}
+.rolagem{overflow-x:auto;margin:16px 0;border:1px solid var(--borda);
+ border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;
+ font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--borda);
+ white-space:nowrap}
+th{background:var(--surface-2);color:var(--ink);font-weight:600;font-size:12.5px;
+ position:sticky;top:0}
+tbody tr:last-child td{border-bottom:0}
+td code{white-space:nowrap}
+pre.bloco{background:var(--codigo);border:1px solid var(--borda);border-radius:10px;
+ padding:16px 18px;overflow-x:auto;font-size:13px;line-height:1.55;margin:16px 0}
+pre.bloco code{background:none;border:0;padding:0;font-size:13px}
+details.fonte{border:1px solid var(--borda);border-radius:10px;margin:12px 0;
+ background:var(--surface-2)}
+details.fonte&gt;summary{cursor:pointer;padding:12px 16px;font-size:14px;
+ color:var(--ink);font-weight:600;display:flex;gap:10px;align-items:baseline}
+details.fonte&gt;summary span{color:var(--ink-3);font-weight:400;font-size:12.5px}
+details.fonte[open]&gt;summary{border-bottom:1px solid var(--borda)}
+details.fonte pre.bloco{margin:0;border:0;border-radius:0 0 10px 10px;
+ max-height:620px}
+.copiar{float:right;margin:-2px 0 0}
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--borda);
+ color:var(--ink-3);font-size:13px}
+@media print{nav.sumario,.barra{display:none}details.fonte{break-inside:avoid}
+ details.fonte[open] pre.bloco{max-height:none}}
+&quot;&quot;&quot;
+
+JS = &quot;&quot;&quot;
+const alvo=document.documentElement;
+const salvo=localStorage.getItem(&#x27;tema&#x27;);
+if(salvo){alvo.dataset.theme=salvo;}
+document.getElementById(&#x27;tema&#x27;).addEventListener(&#x27;click&#x27;,()=&gt;{
+  const escuro=getComputedStyle(document.body).backgroundColor===&#x27;rgb(26, 26, 25)&#x27;;
+  const novo=escuro?&#x27;light&#x27;:&#x27;dark&#x27;;
+  alvo.dataset.theme=novo;localStorage.setItem(&#x27;tema&#x27;,novo);
+});
+document.querySelectorAll(&#x27;[data-copiar]&#x27;).forEach(b=&gt;{
+  b.addEventListener(&#x27;click&#x27;,async()=&gt;{
+    const pre=document.getElementById(b.dataset.copiar);
+    try{await navigator.clipboard.writeText(pre.innerText);
+        const t=b.textContent;b.textContent=&#x27;copiado&#x27;;
+        setTimeout(()=&gt;b.textContent=t,1400);}
+    catch(e){const r=document.createRange();r.selectNodeContents(pre);
+        const s=getSelection();s.removeAllRanges();s.addRange(r);}
+  });
+});
+&quot;&quot;&quot;
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument(&quot;--saida&quot;, default=str(RAIZ / &quot;relatorio_caracteristicas.html&quot;))
+    args = ap.parse_args()
+
+    md_gab = (RAIZ / &quot;GABARITO_CARACTERISTICAS.md&quot;).read_text(encoding=&quot;utf-8&quot;)
+    md_res = (RAIZ / &quot;resultado_caracteristicas.md&quot;).read_text(encoding=&quot;utf-8&quot;)
+    conc = json.loads((RAIZ / &quot;concordancia_caracteristicas.json&quot;).read_text(&quot;utf-8&quot;))
+
+    # o h1 de cada .md vira titulo de secao da pagina
+    md_gab = re.sub(r&quot;^# .*\n&quot;, &quot;&quot;, md_gab, count=1)
+    md_res = re.sub(r&quot;^# .*\n&quot;, &quot;&quot;, md_res, count=1)
+    html_gab, toc_gab = md_para_html(md_gab, &quot;gab&quot;)
+    html_res, toc_res = md_para_html(md_res, &quot;res&quot;)
+
+    k = cartoes(md_res, conc)
+    tamanhos = {nome: len((RAIZ / nome).read_text(encoding=&quot;utf-8&quot;).splitlines())
+                for nome in FONTES}
+    n_revisao = sum(1 for _ in csv.reader(
+        (RAIZ / &quot;revisao_humana_caracteristicas.csv&quot;).open(encoding=&quot;utf-8&quot;))) - 1
+    n_gold = {nome: sum(1 for _ in csv.reader(
+        (RAIZ / nome).open(encoding=&quot;utf-8&quot;))) - 1
+        for nome in (&quot;gold_caracteristicas.csv&quot;, &quot;gold_classe.csv&quot;, &quot;gold_juncao.csv&quot;)}
+
+    # --- sumario ---
+    sec = [(&quot;sec-gabarito&quot;, &quot;Gabarito: método e limitações&quot;, toc_gab),
+           (&quot;sec-resultado&quot;, &quot;Resultado da avaliação&quot;, toc_res),
+           (&quot;sec-reproduzir&quot;, &quot;Reproduzir&quot;,
+            [(3, &quot;rep-comandos&quot;, &quot;Os cinco passos&quot;),
+             (3, &quot;rep-fontes&quot;, &quot;Os quatro scripts, por inteiro&quot;)])]
+    nav = [&quot;&lt;nav class=\&quot;sumario\&quot;&gt;&lt;p&gt;Nesta página&lt;/p&gt;&quot;,
+           &quot;&lt;a href=\&quot;#topo\&quot;&gt;Resumo&lt;/a&gt;&quot;]
+    for ident, titulo, toc in sec:
+        nav.append(f&quot;&lt;a href=\&quot;#{ident}\&quot;&gt;&lt;strong&gt;{html.escape(titulo)}&lt;/strong&gt;&lt;/a&gt;&quot;)
+        for nivel, i2, texto in toc:
+            if nivel == 3:
+                nav.append(f&quot;&lt;a class=\&quot;n3\&quot; href=\&quot;#{i2}\&quot;&gt;{html.escape(texto)}&lt;/a&gt;&quot;)
+    nav.append(&quot;&lt;/nav&gt;&quot;)
+
+    # --- cartoes ---
+    cards = [f&quot;&quot;&quot;&lt;div class=&quot;hero&quot;&gt;&lt;p class=&quot;rotulo&quot;&gt;Precisão das características&lt;/p&gt;
+&lt;p class=&quot;valor&quot;&gt;{html.escape(k[&#x27;hero&#x27;][&#x27;valor&#x27;])}&lt;/p&gt;
+&lt;p class=&quot;nota&quot;&gt;{html.escape(k[&#x27;hero&#x27;][&#x27;ic&#x27;])} · {html.escape(k[&#x27;hero&#x27;][&#x27;rotulos&#x27;])}
+ rótulos em {html.escape(k[&#x27;hero&#x27;][&#x27;itens&#x27;])} itens ·
+ {html.escape(k[&#x27;hero&#x27;][&#x27;erros&#x27;])} erros de valor&lt;/p&gt;
+&lt;span class=&quot;chip&quot;&gt;&lt;span class=&quot;ponto neutro&quot;&gt;&lt;/span&gt;acertos / (acertos + erros),
+ só onde o gold diz DEFINIDO&lt;/span&gt;&lt;/div&gt;&quot;&quot;&quot;]
+    for rotulo, valor, nota, cor in k[&quot;tiles&quot;]:
+        cards.append(f&quot;&quot;&quot;&lt;div class=&quot;tile&quot;&gt;&lt;p class=&quot;rotulo&quot;&gt;{html.escape(rotulo)}&lt;/p&gt;
+&lt;p class=&quot;valor&quot;&gt;{html.escape(valor)}&lt;/p&gt;
+&lt;p class=&quot;nota&quot;&gt;{html.escape(nota)}&lt;/p&gt;
+&lt;span class=&quot;chip&quot;&gt;&lt;span class=&quot;ponto {cor}&quot;&gt;&lt;/span&gt;{
+ &#x27;atenção&#x27; if cor in (&#x27;serious&#x27;, &#x27;warning&#x27;) else &#x27;medido contra o gold&#x27;}&lt;/span&gt;&lt;/div&gt;&quot;&quot;&quot;)
+
+    # --- codigo embutido ---
+    blocos = [f&quot;&quot;&quot;&lt;h3 id=&quot;rep-comandos&quot;&gt;Os cinco passos&lt;/h3&gt;
+&lt;p&gt;Copie e rode na raiz do repositório. O &lt;code&gt;.venv&lt;/code&gt; do projeto não tem
+pandas, por isso tudo passa por &lt;code&gt;uv&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&quot;bloco&quot; id=&quot;cmd&quot;&gt;&lt;button class=&quot;copiar&quot; data-copiar=&quot;cmd&quot;&gt;copiar&lt;/button&gt;
+&lt;code&gt;{html.escape(COMANDOS)}&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;rep-fontes&quot;&gt;Os quatro scripts, por inteiro&lt;/h3&gt;
+&lt;p&gt;Cada bloco abre com o arquivo completo, como está em &lt;code&gt;avaliacao/&lt;/code&gt;.
+Juntos, mais os dois &lt;code&gt;.xlsx&lt;/code&gt; de &lt;code&gt;dados/&lt;/code&gt; e as duas anotações
+&lt;code&gt;.jsonl&lt;/code&gt;, reproduzem todos os números desta página.&lt;/p&gt;&quot;&quot;&quot;]
+    for nome in FONTES:
+        fonte = (RAIZ / nome).read_text(encoding=&quot;utf-8&quot;)
+        ident = &quot;src-&quot; + re.sub(r&quot;[^a-z0-9]+&quot;, &quot;-&quot;, nome.lower()).strip(&quot;-&quot;)
+        papel = {
+            &quot;10_candidatos_caracteristicas.py&quot;: &quot;seleção dos 240 itens e dos 150 pares&quot;,
+            &quot;11_adjudicar_caracteristicas.py&quot;: &quot;adjudicação A×B, kappa e gold&quot;,
+            &quot;evaluate_caracteristicas.py&quot;: &quot;avaliação do pipeline e geração do .md&quot;,
+            &quot;12_relatorio_html.py&quot;: &quot;este relatório&quot;,
+        }[nome]
+        blocos.append(f&quot;&quot;&quot;&lt;details class=&quot;fonte&quot;&gt;&lt;summary&gt;{html.escape(nome)}
+ &lt;span&gt;{papel} · {tamanhos[nome]} linhas&lt;/span&gt;&lt;/summary&gt;
+&lt;pre class=&quot;bloco&quot; id=&quot;{ident}&quot;&gt;&lt;button class=&quot;copiar&quot; data-copiar=&quot;{ident}&quot;&gt;copiar&lt;/button&gt;
+&lt;code&gt;{html.escape(fonte)}&lt;/code&gt;&lt;/pre&gt;&lt;/details&gt;&quot;&quot;&quot;)
+
+    agora = datetime.now().strftime(&quot;%d/%m/%Y %H:%M&quot;)
+    pagina = f&quot;&quot;&quot;&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;pt-BR&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+&lt;title&gt;Conjunto-ouro de características, classe e junção — Serra Azul&lt;/title&gt;
+&lt;style&gt;{CSS}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;div class=&quot;pagina&quot;&gt;
+&lt;header class=&quot;topo&quot; id=&quot;topo&quot;&gt;
+&lt;h1&gt;Conjunto-ouro das características técnicas, da classe e da junção&lt;/h1&gt;
+&lt;p class=&quot;subtitulo&quot;&gt;A régua independente do pipeline de saneamento de cadastro:
+como foi construída, o que ela diz sobre a execução atual e o código que
+reproduz os dois.&lt;/p&gt;
+&lt;p class=&quot;meta&quot;&gt;{n_gold[&#x27;gold_caracteristicas.csv&#x27;]} rótulos de atributo ·
+{n_gold[&#x27;gold_classe.csv&#x27;]} rótulos de classe ·
+{n_gold[&#x27;gold_juncao.csv&#x27;]} pares · gerado em {agora} ·
+repositório &lt;code&gt;/home/igor-alves/clas/hack/vxwinners&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;barra&quot;&gt;&lt;button id=&quot;tema&quot;&gt;claro / escuro&lt;/button&gt;&lt;/div&gt;
+&lt;/header&gt;
+
+&lt;div class=&quot;cartoes&quot;&gt;{cards[0]}&lt;div class=&quot;tiles&quot;&gt;{&#x27;&#x27;.join(cards[1:])}&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;aviso&quot;&gt;&lt;p&gt;&lt;strong&gt;Leia junto com os números:&lt;/strong&gt; as duas
+anotações independentes (A e B) saíram do mesmo modelo, em passadas separadas,
+com ordens diferentes e sem reabrir a saída da outra — não são anotadores
+independentes de verdade. O kappa de {pt(f&quot;{conc[&#x27;global&#x27;][&#x27;kappa&#x27;]:.3f}&quot;)} mede
+consistência interna, não confiabilidade entre humanos. A planilha
+&lt;code&gt;revisao_humana_caracteristicas.csv&lt;/code&gt; ({n_revisao} linhas) faz parte do
+entregável por isso, e a amostra é estratificada para concentrar armadilhas:
+as taxas acima são o desempenho nos casos difíceis, não uma estimativa da base
+inteira.&lt;/p&gt;&lt;/div&gt;
+
+{&#x27;&#x27;.join(nav)}
+
+&lt;main&gt;
+&lt;h2 id=&quot;sec-gabarito&quot;&gt;Gabarito: método e limitações&lt;/h2&gt;
+{html_gab}
+
+&lt;h2 id=&quot;sec-resultado&quot;&gt;Resultado da avaliação&lt;/h2&gt;
+{html_res}
+
+&lt;h2 id=&quot;sec-reproduzir&quot;&gt;Reproduzir&lt;/h2&gt;
+{&#x27;&#x27;.join(blocos)}
+
+&lt;footer&gt;Gerado por &lt;code&gt;avaliacao/12_relatorio_html.py&lt;/code&gt; a partir de
+&lt;code&gt;GABARITO_CARACTERISTICAS.md&lt;/code&gt;,
+&lt;code&gt;resultado_caracteristicas.md&lt;/code&gt; e
+&lt;code&gt;concordancia_caracteristicas.json&lt;/code&gt;. Os números dos cartões são lidos
+desses arquivos; nenhum valor é digitado no gerador.&lt;/footer&gt;
+&lt;/main&gt;
+&lt;/div&gt;
+&lt;script&gt;{JS}&lt;/script&gt;
+&lt;/body&gt;&lt;/html&gt;
+&quot;&quot;&quot;
+    Path(args.saida).write_text(pagina, encoding=&quot;utf-8&quot;)
+    print(f&quot;{args.saida} gravado ({len(pagina) / 1024:.0f} KB, &quot;
+          f&quot;{sum(tamanhos.values())} linhas de codigo embutidas)&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre></details>
+
+<footer>Gerado por <code>avaliacao/12_relatorio_html.py</code> a partir de
+<code>GABARITO_CARACTERISTICAS.md</code>,
+<code>resultado_caracteristicas.md</code> e
+<code>concordancia_caracteristicas.json</code>. Os números dos cartões são lidos
+desses arquivos; nenhum valor é digitado no gerador.</footer>
+</main>
+</div>
+<script>
+const alvo=document.documentElement;
+const salvo=localStorage.getItem('tema');
+if(salvo){alvo.dataset.theme=salvo;}
+document.getElementById('tema').addEventListener('click',()=>{
+  const escuro=getComputedStyle(document.body).backgroundColor==='rgb(26, 26, 25)';
+  const novo=escuro?'light':'dark';
+  alvo.dataset.theme=novo;localStorage.setItem('tema',novo);
+});
+document.querySelectorAll('[data-copiar]').forEach(b=>{
+  b.addEventListener('click',async()=>{
+    const pre=document.getElementById(b.dataset.copiar);
+    try{await navigator.clipboard.writeText(pre.innerText);
+        const t=b.textContent;b.textContent='copiado';
+        setTimeout(()=>b.textContent=t,1400);}
+    catch(e){const r=document.createRange();r.selectNodeContents(pre);
+        const s=getSelection();s.removeAllRanges();s.addRange(r);}
+  });
+});
+</script>
+</body></html>

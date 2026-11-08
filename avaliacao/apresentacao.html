@@ -1,0 +1,270 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Saneamento de cadastro de materiais — estrutura e métricas</title>
+<style>
+:root{color-scheme:light;
+ --surface:#fcfcfb; --surface-2:#f4f3f0; --borda:#e2e0da;
+ --ink:#0b0b0b; --ink-2:#52514e; --ink-3:#6f6e69;
+ --accent:#2a78d6; --good:#0ca30c; --warning:#fab219; --serious:#ec835a;
+ --critical:#d03b3b; --codigo:#f7f6f3; --trilha:#cde2fb;}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme=light])){
+ color-scheme:dark; --surface:#1a1a19; --surface-2:#232322; --borda:#383835;
+ --ink:#f0efec; --ink-2:#c3c2b7; --ink-3:#a3a29a; --accent:#3987e5;
+ --codigo:#141413; --trilha:#184f95;}}
+:root[data-theme=dark]{color-scheme:dark; --surface:#1a1a19; --surface-2:#232322;
+ --borda:#383835; --ink:#f0efec; --ink-2:#c3c2b7; --ink-3:#a3a29a;
+ --accent:#3987e5; --codigo:#141413; --trilha:#184f95;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--surface);color:var(--ink);
+ font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ -webkit-font-smoothing:antialiased}
+.pagina{max-width:1240px;margin:0 auto;padding:0 28px 100px}
+.topo{padding:52px 0 28px;border-bottom:1px solid var(--borda);margin-bottom:36px}
+.etiqueta{font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+ color:var(--accent);font-weight:600;margin:0 0 10px}
+h1{font-size:34px;line-height:1.2;margin:0 0 12px;letter-spacing:-.015em}
+.subtitulo{color:var(--ink-2);margin:0;max-width:76ch;font-size:17.5px}
+.meta{color:var(--ink-3);font-size:13px;margin-top:18px}
+.barra{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+button{font:inherit;font-size:13px;color:var(--ink-2);background:var(--surface-2);
+ border:1px solid var(--borda);border-radius:7px;padding:5px 11px;cursor:pointer}
+button:hover{color:var(--ink);border-color:var(--ink-3)}
+.cartoes{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));
+ margin:0 0 20px}
+.hero,.tile{background:var(--surface-2);border:1px solid var(--borda);
+ border-radius:12px;padding:18px 20px}
+.hero{grid-column:1/-1}
+.rotulo{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;
+ color:var(--ink-3);margin:0 0 6px}
+.valor{font-size:30px;font-weight:600;line-height:1.05;margin:0;letter-spacing:-.02em}
+.hero .valor{font-size:50px}
+.nota{color:var(--ink-2);font-size:13px;margin:8px 0 0}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;
+ color:var(--ink-2);margin-top:10px}
+.ponto{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.ponto.good{background:var(--good)} .ponto.warning{background:var(--warning)}
+.ponto.serious{background:var(--serious)} .ponto.critical{background:var(--critical)}
+.ponto.neutro{background:var(--accent)}
+section{margin:56px 0 0}
+h2{font-size:25px;margin:0 0 6px;letter-spacing:-.01em;padding-top:20px;
+ border-top:1px solid var(--borda)}
+h2 .n{color:var(--ink-3);font-weight:500;margin-right:10px}
+.lede{color:var(--ink-2);margin:0 0 20px;max-width:80ch}
+h3{font-size:16.5px;margin:30px 0 8px}
+p,li{color:var(--ink-2)} li{margin:5px 0}
+strong{color:var(--ink);font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+ font-size:.88em;background:var(--codigo);border:1px solid var(--borda);
+ border-radius:4px;padding:1px 4px}
+.grade{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+.rolagem{overflow-x:auto;margin:14px 0;border:1px solid var(--borda);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;
+ font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--borda);
+ white-space:nowrap}
+th{background:var(--surface-2);color:var(--ink);font-weight:600;font-size:12.5px}
+td.n,th.n{text-align:right}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--surface-2)}
+.faixa{display:flex;gap:2px;height:28px;margin:16px 0 10px;width:100%}
+.faixa div{border-radius:4px;display:flex;align-items:center;padding:0 10px;
+ font-size:12px;font-weight:600;color:#fff;overflow:hidden;white-space:nowrap}
+.legenda{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
+.legenda span{display:inline-flex;align-items:center;gap:7px}
+.medidor{height:8px;background:var(--trilha);border-radius:4px;overflow:hidden;
+ margin-top:8px}
+.medidor div{height:100%;border-radius:4px;background:var(--accent)}
+.aviso{border:1px solid var(--borda);border-left:3px solid var(--warning);
+ background:var(--surface-2);border-radius:8px;padding:14px 18px;margin:18px 0}
+.aviso p{margin:0;font-size:14.5px}
+pre.bloco{background:var(--codigo);border:1px solid var(--borda);border-radius:10px;
+ padding:15px 17px;overflow-x:auto;font-size:12.5px;line-height:1.55;margin:14px 0}
+pre.bloco code{background:none;border:0;padding:0}
+footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--borda);
+ color:var(--ink-3);font-size:13px}
+a{color:var(--accent)}
+@media print{.barra{display:none} section{break-inside:avoid}}
+</style></head><body><div class="pagina">
+<header class="topo">
+<p class="etiqueta">Serra Azul Mineração e Energia · saneamento de cadastro</p>
+<h1>De 23.554 descrições livres a um catálogo no padrão PDM</h1>
+<p class="subtitulo">O produto lê o cadastro como ele está — abreviado, com erro de
+digitação, com unidade trocada — e devolve descrição padronizada, classe, unidade,
+NCM e plano de junção de duplicados. Cada valor preenchido sabe de onde veio, e a
+qualidade é medida contra dois conjuntos-ouro feitos sem olhar a saída do pipeline.</p>
+<p class="meta">Gerado em 08/11/2026 00:31 ·
+129.525 decisões de atributo em 23.554 itens ·
+453 testes passando · repositório <code>/home/igor-alves/clas/hack/vxwinners</code></p>
+<div class="barra"><button id="tema">claro / escuro</button></div>
+</header>
+
+<div class="cartoes"><div class="tile"><p class="rotulo">Itens no catálogo</p><p class="valor">23.554</p><p class="nota">44 das 44 classes do PDM em uso</p><span class="chip"><span class="ponto neutro"></span>estado da base</span></div><div class="tile"><p class="rotulo">Saneados</p><p class="valor">85,1%</p><p class="nota">20.055 itens com descrição no padrão</p><span class="chip"><span class="ponto good"></span>medido contra o gabarito</span></div><div class="tile"><p class="rotulo">Cadastro completo</p><p class="valor">65,9%</p><p class="nota">15.524 sem nenhum atributo pendente</p><span class="chip"><span class="ponto warning"></span>estado da base</span></div><div class="tile"><p class="rotulo">Duplicados colapsados</p><p class="valor">2.676</p><p class="nota">1.991 grupos, 11,4% da base</p><span class="chip"><span class="ponto neutro"></span>estado da base</span></div><div class="tile"><p class="rotulo">Precisão medida</p><p class="valor">97,5% </p><p class="nota">contra 1.131 rótulos de gabarito</p><span class="chip"><span class="ponto good"></span>medido contra o gabarito</span></div></div>
+
+<div class="faixa"><div style="flex:20055 1 0;background:var(--good)" title="SANEADO: 20.055">Saneado 85%</div><div style="flex:3362 1 0;background:var(--warning)" title="PENDENTE: 3.362">Pendente 14%</div><div style="flex:100 1 0;background:var(--serious)" title="REVISAO_HUMANA: 100"></div><div style="flex:37 1 0;background:var(--critical)" title="FORA_DO_PDM: 37"></div></div>
+<div class="legenda"><span><span class="ponto good"></span>Saneado — 20.055 (85,1%)</span> <span><span class="ponto warning"></span>Pendente — 3.362 (14,3%)</span> <span><span class="ponto serious"></span>Revisão humana — 100 (0,4%)</span> <span><span class="ponto critical"></span>Fora do PDM — 37 (0,2%)</span></div>
+
+<section><h2><span class="n">1</span>Como o produto decide</h2>
+<p class="lede">O pipeline é uma pilha de camadas baratas antes das caras. Cada
+atributo é resolvido pela primeira camada que consegue respondê-lo com evidência;
+o que sobra sobe para o BERT, para o LLM e, por último, para revisão humana. A
+coluna <em>valores na base</em> conta quantos atributos cada camada decidiu de
+fato; a precisão vem do gabarito, onde ele mede aquela camada.</p>
+<div class="rolagem"><table><thead><tr><th>camada</th><th class="n">fonte</th><th class="n">valores na base</th><th class="n">% do preenchido</th><th class="n">precisão (gabarito)</th><th class="n">rótulos medidos</th><th class="n">invenção</th></tr></thead><tbody><tr><td><strong>Rótulo na própria linha</strong><br><span class="nota">o texto já traz <code>ATRIBUTO: VALOR</code></span></td><td class="n"><code>rotulo</code></td><td class="n">15.412</td><td class="n">14,5%</td><td class="n">99,1% [95%–100%]</td><td class="n">110</td><td class="n">0/0</td></tr><tr><td><strong>Valor literal do PDM</strong><br><span class="nota">o valor permitido aparece escrito</span></td><td class="n"><code>gazetteer</code></td><td class="n">8.448</td><td class="n">7,9%</td><td class="n">95,7% [88%–99%]</td><td class="n">72</td><td class="n">2/2 (100%)</td></tr><tr><td><strong>Sinônimo curado</strong><br><span class="nota"><code>sinonimos.py</code>, versionado e revisado por pessoa</span></td><td class="n"><code>sinonimo</code></td><td class="n">5.012</td><td class="n">4,7%</td><td class="n">100,0% [95%–100%]</td><td class="n">75</td><td class="n">0/0</td></tr><tr><td><strong>Regra 2 do PDM</strong><br><span class="nota">notação compacta <code>M12X50</code> separada em bitola e comprimento</span></td><td class="n"><code>regra_pdm_2</code></td><td class="n">4.117</td><td class="n">3,9%</td><td class="n">100,0% [92%–100%]</td><td class="n">44</td><td class="n">0/0</td></tr><tr><td><strong>Dicionário aprendido</strong><br><span class="nota">resposta antiga do LLM reaplicada como regra, hoje com travas</span></td><td class="n"><code>aprendido</code></td><td class="n">4.898</td><td class="n">4,6%</td><td class="n">76,4% [64%–86%]</td><td class="n">70</td><td class="n">15/15 (100%)</td></tr><tr><td><strong>Gramática de grandezas</strong><br><span class="nota">ordem e unidade decidem qual número é qual atributo</span></td><td class="n"><code>gramatica</code></td><td class="n">1.862</td><td class="n">1,7%</td><td class="n">100,0% [84%–100%]</td><td class="n">20</td><td class="n">0/0</td></tr><tr><td><strong>BERT de recorte</strong><br><span class="nota">modelo treinado na própria base marca o trecho</span></td><td class="n"><code>bert</code></td><td class="n">1.141</td><td class="n">1,1%</td><td class="n">75,0% [47%–91%]</td><td class="n">12</td><td class="n">0/0</td></tr><tr><td><strong>Acordo regra × BERT</strong><br><span class="nota">as duas camadas independentes concordam</span></td><td class="n"><code>acordo</code></td><td class="n">59.813</td><td class="n">56,2%</td><td class="n">99,8% [99%–100%]</td><td class="n">548</td><td class="n">0/0</td></tr><tr><td><strong>BERT como árbitro</strong><br><span class="nota">desempata quando regra e texto divergem</span></td><td class="n"><code>bert_desempata</code></td><td class="n">193</td><td class="n">0,2%</td><td class="n">100,0% [34%–100%]</td><td class="n">3</td><td class="n">1/1 (100%)</td></tr><tr><td><strong>Heurística de domínio</strong><br><span class="nota">regra escrita à mão para um caso conhecido</span></td><td class="n"><code>dominio</code></td><td class="n">819</td><td class="n">0,8%</td><td class="n">100,0% [65%–100%]</td><td class="n">8</td><td class="n">1/1 (100%)</td></tr><tr><td><strong>Coluna do ERP</strong><br><span class="nota">o valor vem de campo estruturado do cadastro</span></td><td class="n"><code>coluna_erp</code></td><td class="n">2.673</td><td class="n">2,5%</td><td class="n">100,0% [57%–100%]</td><td class="n">5</td><td class="n">0/0</td></tr><tr><td><strong>LLM (Bedrock)</strong><br><span class="nota">só no que sobrou, e a resposta alimenta o dicionário</span></td><td class="n"><code>llm</code></td><td class="n">1.155</td><td class="n">1,1%</td><td class="n">100,0% [72%–100%]</td><td class="n">10</td><td class="n">0/0</td></tr><tr><td><strong>LLM de detecção</strong><br><span class="nota">decide se o dado está ausente ou perdido no texto</span></td><td class="n"><code>llm_deteccao</code></td><td class="n">350</td><td class="n">0,3%</td><td class="n">100,0% [68%–100%]</td><td class="n">8</td><td class="n">0/0</td></tr><tr><td><strong>Ordem do PDM</strong><br><span class="nota">último recurso posicional</span></td><td class="n"><code>ordem_pdm</code></td><td class="n">543</td><td class="n">0,5%</td><td class="n">0,0% [0%–56%]</td><td class="n">3</td><td class="n">0/0</td></tr><tr><td><em>outras fontes</em></td><td class="n">—</td><td class="n">4</td><td class="n">0,0%</td><td class="n">—</td><td class="n">—</td><td class="n">—</td></tr></tbody></table></div>
+<p class="nota">O LLM é responsável por 1,1%
+dos valores preenchidos e foi acionado em 1.063 itens
+(4,5% da base): ele existe para o
+que as camadas determinísticas não resolvem, e sua resposta é reaproveitada pelo
+dicionário aprendido em vez de ser repetida.</p>
+</section>
+
+<section><h2><span class="n">2</span>Estado da base</h2>
+<p class="lede">O que o pipeline entregou sobre os 23.554 itens.</p>
+<div class="grade">
+<div><h3>Completude</h3>
+<div class="rolagem"><table><thead><tr><th>indicador</th><th class="n">valor</th></tr></thead><tbody><tr><td>itens com descrição no padrão (SANEADO)</td><td class="n">20,055 (85,1%)</td></tr><tr><td>cadastro completo (zero pendência)</td><td class="n">15,524 (65,9%)</td></tr><tr><td>completude média dos atributos</td><td class="n">0,897</td></tr><tr><td>itens com alguma pendência</td><td class="n">7,970 (33,8%)</td></tr><tr><td>atributos pendentes no total</td><td class="n">11.033</td></tr><tr><td>itens escalados ao LLM</td><td class="n">1,063 (4,5%)</td></tr><tr><td>itens com conflito registrado</td><td class="n">100</td></tr></tbody></table></div></div>
+<div><h3>Junção de duplicados</h3>
+<div class="rolagem"><table><thead><tr><th>indicador</th><th class="n">valor</th></tr></thead><tbody><tr><td>itens com chave de identidade</td><td class="n">16,938 (71,9%)</td></tr><tr><td>chaves distintas</td><td class="n">14.262</td></tr><tr><td>grupos com mais de um item</td><td class="n">1.991</td></tr><tr><td>itens dentro desses grupos</td><td class="n">4.667</td></tr><tr><td>registros a menos se colapsar</td><td class="n">2,676 (11,4%)</td></tr><tr><td>maior grupo</td><td class="n">12 itens</td></tr><tr><td>sem chave (fora da junção)</td><td class="n">6,616 (28,1%)</td></tr></tbody></table></div></div>
+<div><h3>Correções de cadastro</h3>
+<div class="rolagem"><table><thead><tr><th>indicador</th><th class="n">valor</th></tr></thead><tbody><tr><td>unidade de medida corrigida</td><td class="n">1.516</td></tr><tr><td>NCM corrigido</td><td class="n">1.104</td></tr><tr><td>NCM vazio na origem</td><td class="n">1.208</td></tr><tr><td>grupo de mercadoria corrigido</td><td class="n">616</td></tr><tr><td>classes do PDM em uso</td><td class="n">44 de 44</td></tr><tr><td>atributos do PDM (obrigatórios)</td><td class="n">229 (195)</td></tr></tbody></table></div></div>
+<div><h3>Onde a pendência se concentra</h3>
+<div class="rolagem"><table><thead><tr><th>atributo</th><th class="n">pendências</th></tr></thead><tbody><tr><td>MATERIAL</td><td class="n">1.485</td></tr><tr><td>APLICACAO</td><td class="n">931</td></tr><tr><td>MODELO EQUIPAMENTO</td><td class="n">878</td></tr><tr><td>NORMA</td><td class="n">699</td></tr><tr><td>ACABAMENTO</td><td class="n">685</td></tr><tr><td>CLASSE RESISTENCIA</td><td class="n">461</td></tr><tr><td>MATERIAL CORPO</td><td class="n">367</td></tr><tr><td>TIPO</td><td class="n">330</td></tr><tr><td>BITOLA</td><td class="n">286</td></tr><tr><td>CONEXAO</td><td class="n">280</td></tr></tbody></table></div>
+</div>
+</div></section>
+
+<section><h2><span class="n">3</span>Como a qualidade é medida</h2>
+<p class="lede">Dois conjuntos-ouro independentes do pipeline: anotados só a partir
+do texto cru e do padrão PDM, com duas passadas independentes (A e B) e adjudicação
+escrita de cada divergência.</p>
+<div class="grade">
+<div><h3>Gabarito de características, classe e junção</h3>
+<div class="rolagem"><table><thead><tr><th>o que mede</th><th class="n">rótulos</th></tr></thead><tbody><tr><td>atributo técnico (item × atributo obrigatório)</td><td class="n">1.131</td></tr><tr><td>classe do item (ID_PDM ou FORA_DO_PDM)</td><td class="n">240</td></tr><tr><td>par de códigos (junção)</td><td class="n">150</td></tr><tr><td>itens anotados</td><td class="n">240</td></tr><tr><td>atributos distintos cobertos</td><td class="n">73</td></tr><tr><td>classes distintas cobertas</td><td class="n">36 (inclui FORA_DO_PDM)</td></tr><tr><td>rótulos AUSENTE + INDEFINÍVEL (medem invenção)</td><td class="n">84</td></tr><tr><td>kappa de Cohen A×B (global)</td><td class="n">0,991</td></tr><tr><td>divergências adjudicadas</td><td class="n">13</td></tr><tr><td>linhas na planilha de conferência humana</td><td class="n">198</td></tr></tbody></table></div></div>
+<div><h3>Gabarito dos campos de cadastro (anterior)</h3>
+<div class="rolagem"><table><thead><tr><th>o que mede</th><th class="n">rótulos</th></tr></thead><tbody><tr><td>GRUPO_MERCADORIA, NCM, FABRICANTE, REFERENCIA_FABRICANTE</td><td class="n">456</td></tr><tr><td>itens anotados</td><td class="n">177</td></tr><tr><td>kappa de Cohen A×B</td><td class="n">1,000</td></tr><tr><td>rótulos AUSENTE</td><td class="n">109</td></tr></tbody></table></div>
+<h3>Amostra do gabarito novo</h3>
+<div class="rolagem"><table><thead><tr><th>estrato</th><th class="n">itens</th></tr></thead><tbody><tr><td>armadilha</td><td class="n">117</td></tr><tr><td>irma</td><td class="n">64</td></tr><tr><td>estilo</td><td class="n">39</td></tr><tr><td>fora_pdm</td><td class="n">10</td></tr><tr><td>grupo_errado</td><td class="n">10</td></tr></tbody></table></div>
+</div>
+</div>
+<div class="aviso"><p><strong>O que o gabarito não é:</strong> as duas anotações
+saíram do mesmo modelo em passadas separadas, então o kappa mede consistência, não
+confiabilidade entre humanos; e a amostra é estratificada para concentrar
+armadilhas, então as taxas são o desempenho nos casos difíceis, não uma estimativa
+da base inteira. A planilha de conferência humana existe por isso.</p></div>
+</section>
+
+<section><h2><span class="n">4</span>Métricas de qualidade</h2>
+<p class="lede">Precisão = acertos ÷ (acertos + erros), só onde o gabarito diz que
+o texto traz o valor. Cobertura = quanto desses valores o pipeline preencheu.
+Invenção = preencheu onde o gabarito diz AUSENTE ou INDEFINÍVEL.</p>
+<div class="cartoes">
+<div class="tile"><p class="rotulo">Precisão das características</p>
+<p class="valor">97,5% </p>
+<p class="nota">IC 95% [96%–98%]</p>
+<div class="medidor"><div style="width:97.5%"></div></div></div>
+<div class="tile"><p class="rotulo">Cobertura</p><p class="valor">92,6%</p>
+<p class="nota">dos valores que o texto traz</p>
+<div class="medidor"><div style="width:92.6%"></div></div></div>
+<div class="tile"><p class="rotulo">Taxa de invenção</p>
+<p class="valor">23%</p>
+<p class="nota">19/84 rótulos</p>
+<div class="medidor"><div style="width:23%;background:var(--serious)"></div></div></div>
+<div class="tile"><p class="rotulo">Acerto de classe</p>
+<p class="valor">90,8%</p>
+<p class="nota">218/240 itens</p>
+<div class="medidor"><div style="width:91%"></div></div></div>
+<div class="tile"><p class="rotulo">Junção</p>
+<p class="valor">98,5%</p>
+<p class="nota">precisão · recall 97,0%</p>
+<div class="medidor"><div style="width:98.5%"></div></div></div>
+</div>
+<h3>Por família de classe</h3><div class="rolagem"><table><thead><tr><th>recorte</th><th class="n">itens</th><th class="n">rotulos</th><th class="n">precisão (IC 95%)</th><th class="n">cobertura</th><th class="n">erros</th><th class="n">absteve</th><th class="n">invencao</th></tr></thead><tbody><tr><td>conexoes</td><td class="n">40</td><td class="n">188</td><td class="n">94,1% [90%–97%]</td><td class="n">96,0%</td><td class="n">10</td><td class="n">7</td><td class="n">0/11 (0%)</td></tr><tr><td>eletricos</td><td class="n">29</td><td class="n">125</td><td class="n">100,0% [97%–100%]</td><td class="n">99,2%</td><td class="n">0</td><td class="n">1</td><td class="n">0/6 (0%)</td></tr><tr><td>fixadores</td><td class="n">39</td><td class="n">228</td><td class="n">99,0% [96%–100%]</td><td class="n">93,1%</td><td class="n">2</td><td class="n">15</td><td class="n">1/11 (9%)</td></tr><tr><td>mangueiras</td><td class="n">28</td><td class="n">158</td><td class="n">94,6% [89%–97%]</td><td class="n">88,4%</td><td class="n">7</td><td class="n">17</td><td class="n">6/12 (50%)</td></tr><tr><td>outras</td><td class="n">10</td><td class="n">36</td><td class="n">100,0% [90%–100%]</td><td class="n">94,4%</td><td class="n">0</td><td class="n">2</td><td class="n">0/0</td></tr><tr><td>rolamentos</td><td class="n">20</td><td class="n">52</td><td class="n">91,9% [79%–97%]</td><td class="n">74,0%</td><td class="n">3</td><td class="n">13</td><td class="n">0/2 (0%)</td></tr><tr><td>sobressalentes</td><td class="n">10</td><td class="n">40</td><td class="n">100,0% [90%–100%]</td><td class="n">91,9%</td><td class="n">0</td><td class="n">3</td><td class="n">0/3 (0%)</td></tr><tr><td>valvulas</td><td class="n">28</td><td class="n">164</td><td class="n">98,4% [94%–100%]</td><td class="n">91,0%</td><td class="n">2</td><td class="n">12</td><td class="n">11/30 (37%)</td></tr><tr><td>vedacao</td><td class="n">28</td><td class="n">140</td><td class="n">100,0% [97%–100%]</td><td class="n">93,9%</td><td class="n">0</td><td class="n">8</td><td class="n">1/9 (11%)</td></tr></tbody></table></div>
+<h3>Por estilo de texto</h3><div class="rolagem"><table><thead><tr><th>recorte</th><th class="n">itens</th><th class="n">rotulos</th><th class="n">precisão (IC 95%)</th><th class="n">cobertura</th><th class="n">erros</th><th class="n">absteve</th><th class="n">invencao</th></tr></thead><tbody><tr><td>estruturado</td><td class="n">130</td><td class="n">633</td><td class="n">97,6% [96%–99%]</td><td class="n">92,8%</td><td class="n">13</td><td class="n">43</td><td class="n">7/39 (18%)</td></tr><tr><td>telegrafico</td><td class="n">102</td><td class="n">498</td><td class="n">97,4% [95%–99%]</td><td class="n">92,3%</td><td class="n">11</td><td class="n">35</td><td class="n">12/45 (27%)</td></tr></tbody></table></div>
+<h3>Por armadilha conhecida de extração</h3><div class="rolagem"><table><thead><tr><th>recorte</th><th class="n">itens</th><th class="n">rotulos</th><th class="n">precisão (IC 95%)</th><th class="n">cobertura</th><th class="n">erros</th><th class="n">absteve</th><th class="n">invencao</th></tr></thead><tbody><tr><td>(sem armadilha)</td><td class="n">19</td><td class="n">84</td><td class="n">98,5% [92%–100%]</td><td class="n">87,0%</td><td class="n">1</td><td class="n">10</td><td class="n">0/7 (0%)</td></tr><tr><td>abrev_ambigua</td><td class="n">16</td><td class="n">84</td><td class="n">100,0% [95%–100%]</td><td class="n">94,8%</td><td class="n">0</td><td class="n">4</td><td class="n">4/7 (57%)</td></tr><tr><td>classe_pressao_hash</td><td class="n">75</td><td class="n">382</td><td class="n">97,0% [95%–98%]</td><td class="n">95,4%</td><td class="n">10</td><td class="n">16</td><td class="n">10/36 (28%)</td></tr><tr><td>curta_truncada</td><td class="n">146</td><td class="n">719</td><td class="n">97,7% [96%–99%]</td><td class="n">91,8%</td><td class="n">14</td><td class="n">55</td><td class="n">13/51 (25%)</td></tr><tr><td>grupo_errado</td><td class="n">44</td><td class="n">211</td><td class="n">93,6% [89%–96%]</td><td class="n">85,1%</td><td class="n">11</td><td class="n">30</td><td class="n">0/10 (0%)</td></tr><tr><td>ordem_sem_rotulo</td><td class="n">9</td><td class="n">33</td><td class="n">92,9% [77%–98%]</td><td class="n">87,5%</td><td class="n">2</td><td class="n">4</td><td class="n">0/1 (0%)</td></tr><tr><td>pn_ambiguo</td><td class="n">10</td><td class="n">36</td><td class="n">100,0% [90%–100%]</td><td class="n">100,0%</td><td class="n">0</td><td class="n">0</td><td class="n">0/1 (0%)</td></tr><tr><td>polegada_aspas</td><td class="n">35</td><td class="n">192</td><td class="n">94,3% [90%–97%]</td><td class="n">91,9%</td><td class="n">9</td><td class="n">14</td><td class="n">2/19 (11%)</td></tr><tr><td>polegada_in</td><td class="n">21</td><td class="n">95</td><td class="n">95,0% [88%–98%]</td><td class="n">92,0%</td><td class="n">4</td><td class="n">7</td><td class="n">1/8 (12%)</td></tr><tr><td>polegada_mista</td><td class="n">16</td><td class="n">80</td><td class="n">98,5% [92%–100%]</td><td class="n">91,9%</td><td class="n">1</td><td class="n">6</td><td class="n">0/6 (0%)</td></tr><tr><td>rosca_bitola_comp</td><td class="n">12</td><td class="n">76</td><td class="n">98,5% [92%–100%]</td><td class="n">94,4%</td><td class="n">1</td><td class="n">4</td><td class="n">1/4 (25%)</td></tr><tr><td>rosca_fina</td><td class="n">9</td><td class="n">61</td><td class="n">100,0% [94%–100%]</td><td class="n">98,3%</td><td class="n">0</td><td class="n">1</td><td class="n">0/3 (0%)</td></tr><tr><td>unidade_nao_bar</td><td class="n">11</td><td class="n">58</td><td class="n">96,1% [87%–99%]</td><td class="n">98,1%</td><td class="n">2</td><td class="n">1</td><td class="n">3/6 (50%)</td></tr><tr><td>valor_indefinivel</td><td class="n">39</td><td class="n">203</td><td class="n">95,9% [92%–98%]</td><td class="n">92,5%</td><td class="n">7</td><td class="n">14</td><td class="n">5/17 (29%)</td></tr><tr><td>virgula_decimal</td><td class="n">26</td><td class="n">101</td><td class="n">97,9% [93%–99%]</td><td class="n">94,9%</td><td class="n">2</td><td class="n">5</td><td class="n">1/2 (50%)</td></tr></tbody></table></div>
+<h3>Status dos rótulos do gabarito</h3>
+<div class="rolagem"><table><thead><tr><th>status</th><th class="n">rótulos</th><th class="n">o que o pipeline deveria fazer</th></tr></thead><tbody><tr><td>DEFINIDO</td><td class="n">1.047</td><td class="n">preencher com o valor</td></tr><tr><td>AUSENTE</td><td class="n">54</td><td class="n">deixar vazio — preencher é invenção</td></tr><tr><td>INDEFINIVEL</td><td class="n">30</td><td class="n">deixar vazio — o texto não decide</td></tr></tbody></table></div>
+<h3>Junção: rótulos do gabarito</h3>
+<div class="rolagem"><table><thead><tr><th>rótulo</th><th class="n">pares</th></tr></thead><tbody><tr><td>ITENS_DIFERENTES</td><td class="n">73</td></tr><tr><td>MESMO_ITEM</td><td class="n">67</td></tr><tr><td>INDETERMINADO</td><td class="n">10</td></tr></tbody></table></div>
+</section>
+
+<section><h2><span class="n">5</span>A camada que inventava, e o conserto</h2>
+<p class="lede">O gabarito localizou a origem da invenção: o dicionário aprendido
+— respostas antigas do LLM reaplicadas como regra. Ele decidia
+70 rótulos do gabarito e errava 28 deles. A correção
+não foi desligar o LLM, foi exigir que o termo <em>aponte um único valor do enum</em>
+na hora de aplicar, e abster-se quando o texto alcança dois valores do mesmo atributo.</p>
+<div class="rolagem"><table><thead><tr><th>métrica</th><th class="n">antes</th><th class="n">depois</th></tr></thead><tbody><tr><td>precisão</td><td class="n">97,5% [96%–98%]</td><td class="n"><strong>98,7% [98%–99%]</strong></td></tr><tr><td>cobertura</td><td class="n">92,6%</td><td class="n">90,4%</td></tr><tr><td>taxa de invenção</td><td class="n">19/84 (23%)</td><td class="n"><strong>6/84 (7%)</strong></td></tr><tr><td>acertos</td><td class="n">945</td><td class="n">935</td></tr><tr><td>erros</td><td class="n">24</td><td class="n">12</td></tr></tbody></table></div>
+<p class="nota">Erros e invenções removidos: <strong>25</strong>.
+Acertos perdidos: <strong>10</strong> — seis deles são
+abreviações que pertencem a <code>sinonimos.py</code> e já estão no arquivo de
+candidatos à curadoria. Resistem 3 rótulos, todos de
+TERMINAL A/B, onde a camada recebe o texto inteiro em vez da caixa do atributo.</p>
+<h3>O dicionário antes e depois da curadoria</h3>
+<div class="rolagem"><table><thead><tr><th>indicador</th><th class="n">em uso</th><th class="n">curado</th></tr></thead><tbody><tr><td>entradas</td><td class="n">487</td><td class="n">487</td></tr><tr><td>aplicáveis como regra</td><td class="n">261</td><td class="n">166</td></tr><tr><td>sugestões para curadoria</td><td class="n">226</td><td class="n">321</td></tr><tr><td>marcadas como interpretação</td><td class="n">0</td><td class="n">137</td></tr><tr><td>com uma única confirmação</td><td class="n">225</td><td class="n">225</td></tr></tbody></table></div>
+</section>
+<section><h2><span class="n">6</span>Testes, determinismo e reprodutibilidade</h2>
+<div class="grade">
+<div><div class="rolagem"><table><thead><tr><th>verificação</th><th class="n">resultado</th></tr></thead><tbody><tr><td>suíte de testes (pytest)</td><td class="n">453 testes passando</td></tr><tr><td>testes das travas do dicionário</td><td class="n">25 casos, um por armadilha real</td></tr><tr><td>determinismo (duas execuções iguais)</td><td class="n">não executado</td></tr><tr><td>seleção dos 240 itens do gabarito</td><td class="n">bit-idêntica ao reexecutar (semente 20251107)</td></tr><tr><td>pares de junção</td><td class="n">congelados: resortear exige <code>--refazer-pares</code></td></tr></tbody></table></div>
+<div class="aviso"><p><strong>Achado da reexecução:</strong> os pares de junção eram
+sorteados a partir da saída do pipeline, então reexecutar o passo 1 depois de uma
+nova rodada trocava os 150 pares <em>sob</em> as anotações, que são indexadas por
+<code>par_id</code> — mudança silenciosa. O script agora preserva os pares por
+padrão.</p></div></div>
+<div><h3>Rodar tudo, na ordem</h3>
+<pre class="bloco"><code># 1) suite de testes
+.venv/bin/python -m pytest tests/ -q
+
+# 2) determinismo: duas extracoes em pastas temporarias, comparadas registro a registro
+bash scripts/17_testar_determinismo.sh
+
+# 3) gabarito: selecao (pares preservados), adjudicacao, avaliacao
+uv run --no-project --with pandas --with openpyxl python avaliacao/10_candidatos_caracteristicas.py
+uv run --no-project --with pandas --with openpyxl python avaliacao/11_adjudicar_caracteristicas.py
+uv run --no-project --with pandas --with openpyxl python avaliacao/evaluate_caracteristicas.py
+
+# 4) curadoria do dicionario aprendido e efeito das travas
+uv run --no-project --with pandas --with openpyxl python scripts/18_curar_aprendizado.py
+uv run --no-project --with pandas --with openpyxl python avaliacao/13_efeito_travas.py
+
+# 5) esta pagina e o relatorio detalhado
+uv run --no-project --with pandas --with openpyxl python avaliacao/14_apresentacao_html.py
+uv run --no-project --with pandas --with openpyxl python avaliacao/12_relatorio_html.py
+
+# pipeline completo (reescreve artefatos/; sem --com-llm nao chama o Bedrock)
+./scripts/rodar_completo.sh</code></pre></div>
+</div></section>
+
+<section><h2><span class="n">7</span>O que ainda não está resolvido</h2>
+<ol>
+<li><strong>Classe.</strong> 218 de
+240 itens na classe certa. Dois erros são
+sistemáticos: <code>TAMPAO</code> entra como <code>CAP</code> (não existe no PDM, e
+aí a descrição inteira é preenchida na classe errada) e parafuso sextavado interno
+cai em sextavado.</li>
+<li><strong>Conversões que faltam.</strong> <code>41KGF/CM2</code> sai como
+<code>41BAR</code> (deveria ser 40,2), <code>DN 25</code>/<code>DN 50</code> e o dash
+<code>-20</code> de mangueira não viram polegada, e a referência de rolamento perde o
+sufixo (<code>6010-2RS/C3</code> → <code>6010</code>). São regras de tabela.</li>
+<li><strong>Caixa por atributo.</strong> A camada léxica recebe o texto inteiro, então
+o terminal B decide o terminal A. É a origem dos rótulos que as travas não
+consertam.</li>
+<li><strong>Cobertura da junção.</strong>
+28,1% da base não tem
+chave de identidade e portanto nunca é comparada; e o recall de junção foi medido em
+pares sorteados a partir de grupos que o próprio pipeline formou, o que o torna
+otimista.</li>
+<li><strong>Conferência humana pendente.</strong> 198 linhas
+esperando revisão de uma pessoa do time; até lá o gabarito tem viés de LLM.</li>
+</ol></section>
+
+<footer>Gerado por <code>avaliacao/14_apresentacao_html.py</code>, que calcula cada
+número a partir de <code>artefatos/</code> e <code>avaliacao/</code> — nenhum valor é
+digitado no gerador. Detalhamento rótulo a rótulo, com erros e invenções nomeados:
+<code>avaliacao/relatorio_caracteristicas.html</code> e
+<code>avaliacao/resultado_caracteristicas.md</code>.</footer>
+</div><script>
+const alvo=document.documentElement;
+const salvo=localStorage.getItem('tema'); if(salvo){alvo.dataset.theme=salvo;}
+document.getElementById('tema').addEventListener('click',()=>{
+  const escuro=getComputedStyle(document.body).backgroundColor==='rgb(26, 26, 25)';
+  const novo=escuro?'light':'dark';
+  alvo.dataset.theme=novo;localStorage.setItem('tema',novo);});
+</script></body></html>
