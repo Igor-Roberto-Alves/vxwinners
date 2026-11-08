@@ -50,6 +50,10 @@ p.add_argument("--saida", default=None)
 p.add_argument("--aplicar-desempates", nargs="?", const="", default=None, metavar="JSONL",
                help="aplica as respostas que scripts/10_desempatar_llm.py gravou "
                     "(padrao: artefatos/desempate_llm.jsonl), sem chamar o LLM")
+p.add_argument("--aplicar-deteccao", nargs="?", const="", default=None, metavar="JSONL",
+               help="aplica scripts/12_detectar_ausentes.py (padrao: "
+                    "artefatos/deteccao_ausentes.jsonl): dado GENERICO vira PENDENTE, "
+                    "PERDIDO volta como valor")
 a = p.parse_args()
 
 ART = Path(a.artefatos)
@@ -81,8 +85,14 @@ if a.aplicar_desempates is not None:
     arq = Path(a.aplicar_desempates or ART / "desempate_llm.jsonl")
     desempates = carregar_desempates(arq)
     print(f"Desempates do LLM a aplicar ........... {len(desempates):,} registros ({arq})")
+deteccoes = {}
+if a.aplicar_deteccao is not None:
+    from saneamento.pipeline import carregar_deteccoes
+    arq = Path(a.aplicar_deteccao or ART / "deteccao_ausentes.jsonl")
+    deteccoes = carregar_deteccoes(arq)
+    print(f"Deteccoes a aplicar ................... {len(deteccoes):,} registros ({arq})")
 pipe = Pipeline(pdm, bert=bert, llm=llm, arbitro=arbitro, aprendizado=aprendizado,
-                desempates=desempates)
+                desempates=desempates, deteccoes=deteccoes)
 
 if a.pedidos:
     registros = ler_pedidos(a.pedidos_arquivo)
@@ -174,6 +184,9 @@ print(f"Chaves distintas ...................... {len(chaves):>8,}")
 print(f"Chaves com mais de um codigo .......... {len(dups):>8,}")
 print(f"Codigos redundantes (duplicidade) ..... {sum(v - 1 for v in dups.values()):>8,}")
 
+if deteccoes:
+    print(f"Dados GENERICOS marcados (-> PENDENTE)  {pipe.contador['genericos_marcados']:>8,}")
+    print(f"Dados PERDIDOS recuperados ............ {pipe.contador['perdidos_recuperados']:>8,}")
 if desempates:
     print(f"Desempates do LLM aplicados ........... {pipe.contador['desempates_aplicados']:>8,}"
           f"  de {len(desempates):,} gravados (o resto ja nao estava em duvida)")

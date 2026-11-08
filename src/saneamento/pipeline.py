@@ -57,6 +57,27 @@ def carregar_desempates(caminho) -> dict[str, tuple[dict, dict]]:
     return out
 
 
+def carregar_deteccoes(caminho) -> dict[str, dict[str, tuple[str, str]]]:
+    """Le artefatos/deteccao_ausentes.jsonl -> {codigo: {atributo: (veredito, trecho)}}.
+
+    So os vereditos que mudam alguma coisa (PERDIDO, PRESENTE_FORA_DO_PADRAO);
+    AUSENTE confirma o que o pipeline ja faz.
+    """
+    import json
+    from pathlib import Path
+
+    out: dict[str, dict[str, tuple[str, str]]] = {}
+    caminho = Path(caminho)
+    if not caminho.exists():
+        return out
+    with caminho.open(encoding="utf-8") as fh:
+        for linha in fh:
+            r = json.loads(linha)
+            if r.get("veredito") in ("PERDIDO", "PRESENTE_FORA_DO_PADRAO") and r.get("trecho"):
+                out.setdefault(str(r["codigo"]), {})[r["atributo"]] = (r["veredito"], r["trecho"])
+    return out
+
+
 RX_ROTULO_REF = re.compile(
     r"^(?:P/N|PART NUMBER|PN|REFERENCIA FABRICANTE|REF FABRICANTE|REFERENCIA|REF"
     r"|CODIGO FABRICANTE|COD FABRICANTE|CODIGO|COD)(?:\s+(?:DE|DO|DA))?(?:\s+|$)")
@@ -138,7 +159,8 @@ class Pipeline:
     def __init__(self, pdm: Pdm, bert: ExtratorBert | None = None,
                  llm: DesempateLlm | None = None, arbitro: Arbitro | None = None,
                  aprendizado=None,
-                 desempates: dict[str, tuple[dict, dict]] | None = None):
+                 desempates: dict[str, tuple[dict, dict]] | None = None,
+                 deteccoes: dict[str, dict[str, tuple[str, str]]] | None = None):
         self.pdm = pdm
         self.validador = Validador(pdm)
         self.clf = ClassificadorLexico(pdm)
@@ -151,10 +173,13 @@ class Pipeline:
         # codigo -> (valores, evidencias) ja decididos pelo LLM em execucao
         # anterior (scripts/10_desempatar_llm.py). Ver carregar_desempates().
         self.desempates = desempates or {}
+        # codigo -> {atributo: (veredito, trecho)} de scripts/12_detectar_ausentes.py
+        self.deteccoes = deteccoes or {}
         self._bert_fora_da_lista: dict[str, str] = {}
         self.contador = {"total": 0, SANEADO: 0, PENDENTE: 0, REVISAO: 0, FORA_DO_PDM: 0,
                          "escalados": 0, "falhas_llm": 0, "completos": 0,
-                         "desempates_aplicados": 0}
+                         "desempates_aplicados": 0, "genericos_marcados": 0,
+                         "perdidos_recuperados": 0}
         self.ultimo_erro_llm = ""
 
     # ------------------------------------------------------------- bert
@@ -304,6 +329,32 @@ class Pipeline:
                     classe, res, valores, evidencias=evidencias, aprendizado=self.aprendizado)
                 escalado = True
                 self.contador["desempates_aplicados"] += 1
+        # Deteccao de ausente x perdido (scripts/12_detectar_ausentes.py). So
+        # atua em caixa que continua VAZIA na extracao atual.
+        #   PERDIDO: o LLM apontou um trecho que existe no texto e e valor valido
+        #            do PDM -> entra como valor, pelo validador, como o desempate.
+        #   GENERICO: o texto informa o atributo de forma que nao decide um valor
+        #            da lista ('ZINCADO' sem a cor, 'INOX' sem o grau). A caixa
+        #            continua vazia, mas o registro nao esta saneado: o dado
+        #            existe e nao foi padronizado. Vai para PENDENTE, com o trecho.
+        if self.deteccoes and codigo in self.deteccoes:
+            perdidos = {}
+            for nome, (veredito, trecho) in self.deteccoes[codigo].items():
+                d = res.decisoes.get(nome)
+                if d is None or d.valor or not trecho:
+                    continue
+                if veredito == "PERDIDO":
+                    perdidos[nome] = trecho
+                elif veredito == "PRESENTE_FORA_DO_PADRAO":
+                    d.estado = "GENERICO"
+                    d.evidencia = trecho
+                    d.motivo = (f"{d.motivo}; o texto informa {trecho!r}, que nao decide "
+                                f"um valor da lista do PDM")
+                    self.contador["genericos_marcados"] += 1
+            if perdidos:
+                res = self.arbitro.incorporar_llm(
+                    classe, res, perdidos, evidencias=dict(perdidos), aprendizado=None)
+                self.contador["perdidos_recuperados"] += len(perdidos)
         if not escalado and res.escalar and self.llm is not None:
             foco = [d.atributo for d in res.em_estado("CONFLITO", "AMBIGUO", "INCERTO", "INVALIDO")]
             resposta = self.llm.desempatar(classe, texto, foco, res.motivos_escalada)
@@ -410,6 +461,9 @@ class Pipeline:
         # todos por um 'FABRICANTE' que o BERT recortou como MATERIAL.
         exigidos = set(res.obrigatorios)
         invalidos = [d.atributo for d in res.em_estado("INVALIDO") if d.atributo in exigidos]
+        # GENERICO conta como INVALIDO para o estado: o dado esta no texto e nao
+        # foi padronizado (ver o bloco de deteccoes em processar)
+        invalidos += [d.atributo for d in res.em_estado("GENERICO") if d.atributo in exigidos]
 
         if conflitos:
             estado = REVISAO

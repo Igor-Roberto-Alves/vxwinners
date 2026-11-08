@@ -24,3 +24,8 @@ artefatos/treino.log
 
 # versionados de proposito: pdm.json, treino.jsonl e validacao.jsonl
 # tornam o treino em outra maquina um 'git clone' (ver docs/03-treinar-bert.md)
+
+# cache das chamadas do scripts/12_detectar_ausentes.py (regeneravel)
+artefatos/cache_deteccao/
+# estado local das sessoes do Claude Code
+.claude/worktrees/

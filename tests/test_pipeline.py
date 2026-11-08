@@ -1543,3 +1543,25 @@ def test_carregar_desempates_le_so_os_aceitos(tmp_path):
         encoding="utf-8")
     d = carregar_desempates(arq)
     assert d == {"1": ({"MATERIAL": "ACO CARBONO"}, {"MATERIAL": "ACO CARB"})}
+
+
+def test_deteccao_generico_vira_pendente_e_perdido_vira_valor(pdm):
+    # 'ZINCADO' nao decide entre ZINCADO BRANCO e AMARELO: o registro nao esta
+    # saneado. 'M12' estava no texto e a extracao perdeu: volta como valor.
+    texto = "PARAFUSO SEXTAVADO M12X50 8.8 ACO CARBONO ZINCADO DIN 933"
+    sem = Pipeline(pdm).processar({"CODIGO_MATERIAL": "T12", "GRUPO_MERCADORIA": "FIX01",
+                                   "DESCRICAO_LONGA": texto})
+    assert sem.decisoes["ACABAMENTO"].valor is None
+    p = Pipeline(pdm, deteccoes={"T12": {"ACABAMENTO": ("PRESENTE_FORA_DO_PADRAO", "ZINCADO")}})
+    r = p.processar({"CODIGO_MATERIAL": "T12", "GRUPO_MERCADORIA": "FIX01",
+                     "DESCRICAO_LONGA": texto})
+    d = r.decisoes["ACABAMENTO"]
+    assert d.estado == "GENERICO" and d.valor is None and d.evidencia == "ZINCADO"
+    assert r.estado == "PENDENTE" and "ACABAMENTO" in r.pendentes
+
+
+def test_deteccao_nao_sobrescreve_caixa_ja_preenchida(pdm):
+    p = Pipeline(pdm, deteccoes={"T13": {"NORMA": ("PERDIDO", "DIN 931")}})
+    r = p.processar({"CODIGO_MATERIAL": "T13", "GRUPO_MERCADORIA": "FIX01",
+                     "DESCRICAO_LONGA": "PARAFUSO SEXTAVADO M12X50 8.8 DIN 933"})
+    assert r.decisoes["NORMA"].valor == "DIN 933"

@@ -1,0 +1,357 @@
+{"CODIGO_MATERIAL":"25349029","id_pdm":"PDM063","campo":"_CLASSE","y_gold":"PDM063","status":"DEFINIDO","evidencia":"CONT 80 A 220VCA 1NF","justificativa":"corrente AC3, tensao de bobina e contatos auxiliares: contator"}
+{"CODIGO_MATERIAL":"25349029","id_pdm":"PDM063","campo":"CORRENTE AC3","y_gold":"80A","status":"DEFINIDO","evidencia":"80 A","justificativa":""}
+{"CODIGO_MATERIAL":"25349029","id_pdm":"PDM063","campo":"TENSAO BOBINA","y_gold":"220VCA","status":"DEFINIDO","evidencia":"220VCA","justificativa":""}
+{"CODIGO_MATERIAL":"25349029","id_pdm":"PDM063","campo":"CONTATOS AUXILIARES","y_gold":"1NF","status":"DEFINIDO","evidencia":"1NF","justificativa":""}
+{"CODIGO_MATERIAL":"23031279","id_pdm":"PDM050","campo":"_CLASSE","y_gold":"PDM050","status":"DEFINIDO","evidencia":"BUCHA  REDUCAO","justificativa":""}
+{"CODIGO_MATERIAL":"23031279","id_pdm":"PDM050","campo":"DIAMETRO NOMINAL","y_gold":"3/4POL","status":"DEFINIDO","evidencia":"DIAMETRO NOMINAL: 3/4POL","justificativa":""}
+{"CODIGO_MATERIAL":"23031279","id_pdm":"PDM050","campo":"DIAMETRO REDUZIDO","y_gold":"1/4POL","status":"DEFINIDO","evidencia":"DIAMETRO REDUZIDO: 1/4POL","justificativa":""}
+{"CODIGO_MATERIAL":"23031279","id_pdm":"PDM050","campo":"CLASSE PRESSAO","y_gold":"3000#","status":"DEFINIDO","evidencia":"CLASSE PRESSAO: 3000#","justificativa":""}
+{"CODIGO_MATERIAL":"23031279","id_pdm":"PDM050","campo":"MATERIAL","y_gold":"ACO INOX FORJADO A182 F316","status":"DEFINIDO","evidencia":"MATERIAL: ACO INOX FORJADO A182 F316","justificativa":""}
+{"CODIGO_MATERIAL":"23031279","id_pdm":"PDM050","campo":"CONEXAO","y_gold":"ROSCA NPT","status":"DEFINIDO","evidencia":"CONEXAO: ROSCA NPT","justificativa":""}
+{"CODIGO_MATERIAL":"27985717","id_pdm":"PDM021","campo":"_CLASSE","y_gold":"PDM021","status":"DEFINIDO","evidencia":"ROLAMENTO  AUTOCOMPENSADOR ROLOS","justificativa":""}
+{"CODIGO_MATERIAL":"27985717","id_pdm":"PDM021","campo":"REFERENCIA","y_gold":"22214EK","status":"DEFINIDO","evidencia":"REF.:22214EK","justificativa":"folga normal: sem sufixo"}
+{"CODIGO_MATERIAL":"27985717","id_pdm":"PDM021","campo":"FURO","y_gold":"CONICO","status":"DEFINIDO","evidencia":"CONICO","justificativa":""}
+{"CODIGO_MATERIAL":"27985717","id_pdm":"PDM021","campo":"FOLGA","y_gold":"NORMAL","status":"DEFINIDO","evidencia":"FOLGA INTERNA:NORMAL","justificativa":""}
+{"CODIGO_MATERIAL":"12092143","id_pdm":"PDM033","campo":"_CLASSE","y_gold":"PDM033","status":"DEFINIDO","evidencia":"JUNTA ESPIRALADA","justificativa":""}
+{"CODIGO_MATERIAL":"12092143","id_pdm":"PDM033","campo":"DIAMETRO NOMINAL","y_gold":"1.1/2POL","status":"DEFINIDO","evidencia":"DIAM NOMINAL:1 1/2POL","justificativa":"1 1/2 = 1.1/2POL"}
+{"CODIGO_MATERIAL":"12092143","id_pdm":"PDM033","campo":"CLASSE PRESSAO","y_gold":"150#","status":"DEFINIDO","evidencia":"150#","justificativa":""}
+{"CODIGO_MATERIAL":"12092143","id_pdm":"PDM033","campo":"MATERIAL FITA","y_gold":"ACO INOX 316","status":"DEFINIDO","evidencia":"AISI 316","justificativa":""}
+{"CODIGO_MATERIAL":"12092143","id_pdm":"PDM033","campo":"ENCHIMENTO","y_gold":"PTFE","status":"DEFINIDO","evidencia":"TEFLON","justificativa":"teflon = PTFE"}
+{"CODIGO_MATERIAL":"12092143","id_pdm":"PDM033","campo":"ANEL INTERNO","y_gold":"SEM ANEL INTERNO","status":"DEFINIDO","evidencia":"SEM ANEL INTERNO","justificativa":""}
+{"CODIGO_MATERIAL":"15409091","id_pdm":"PDM011","campo":"_CLASSE","y_gold":"PDM011","status":"DEFINIDO","evidencia":"MANGUEIRA HIDRAULICA MONTADA","justificativa":"tem terminais: classe montada"}
+{"CODIGO_MATERIAL":"15409091","id_pdm":"PDM011","campo":"NORMA","y_gold":"SAE 100R2AT","status":"DEFINIDO","evidencia":"NORMA: SAE 100R2AT","justificativa":""}
+{"CODIGO_MATERIAL":"15409091","id_pdm":"PDM011","campo":"DIAMETRO INTERNO","y_gold":"3/8POL","status":"DEFINIDO","evidencia":"DIAMETRO INTERNO: 3/8POL","justificativa":""}
+{"CODIGO_MATERIAL":"15409091","id_pdm":"PDM011","campo":"COMPRIMENTO","y_gold":"700MM","status":"DEFINIDO","evidencia":"COMPRIMENTO: 700MM","justificativa":""}
+{"CODIGO_MATERIAL":"15409091","id_pdm":"PDM011","campo":"TERMINAL A","y_gold":"FEMEA CURVA 90 GRAUS JIC","status":"DEFINIDO","evidencia":"TERMINAL A: FEMEA CURVA 90 GRAUS JIC","justificativa":""}
+{"CODIGO_MATERIAL":"15409091","id_pdm":"PDM011","campo":"TERMINAL B","y_gold":"FEMEA CURVA 90 GRAUS JIC","status":"DEFINIDO","evidencia":"TERMINAL B: FEMEA CURVA 90 GRAUS JIC","justificativa":""}
+{"CODIGO_MATERIAL":"15409091","id_pdm":"PDM011","campo":"MATERIAL TERMINAIS","y_gold":"ACO INOX 316","status":"DEFINIDO","evidencia":"MATERIAL TERMINAIS: ACO INOX 316","justificativa":""}
+{"CODIGO_MATERIAL":"16146186","id_pdm":"PDM064","campo":"_CLASSE","y_gold":"PDM064","status":"DEFINIDO","evidencia":"FUSIVEL, TIPO:NH","justificativa":""}
+{"CODIGO_MATERIAL":"16146186","id_pdm":"PDM064","campo":"TIPO","y_gold":"NH","status":"DEFINIDO","evidencia":"TIPO:NH","justificativa":""}
+{"CODIGO_MATERIAL":"16146186","id_pdm":"PDM064","campo":"TAMANHO","y_gold":"NH00","status":"DEFINIDO","evidencia":"TAMANHO:NH00","justificativa":""}
+{"CODIGO_MATERIAL":"16146186","id_pdm":"PDM064","campo":"CORRENTE NOMINAL","y_gold":"25A","status":"DEFINIDO","evidencia":"IN:25AMP","justificativa":"IN = corrente nominal"}
+{"CODIGO_MATERIAL":"23735482","id_pdm":"PDM033","campo":"_CLASSE","y_gold":"PDM033","status":"DEFINIDO","evidencia":"JUNTA ESPIRAL ... MATERIAL FITA","justificativa":""}
+{"CODIGO_MATERIAL":"23735482","id_pdm":"PDM033","campo":"DIAMETRO NOMINAL","y_gold":"","status":"AUSENTE","evidencia":"","justificativa":"o texto nao traz diametro"}
+{"CODIGO_MATERIAL":"23735482","id_pdm":"PDM033","campo":"CLASSE PRESSAO","y_gold":"1500#","status":"DEFINIDO","evidencia":"PRESSAO NOMINAL:1500#","justificativa":""}
+{"CODIGO_MATERIAL":"23735482","id_pdm":"PDM033","campo":"MATERIAL FITA","y_gold":"ACO INOX 304","status":"DEFINIDO","evidencia":"MATERIAL FITA:INOX 304","justificativa":""}
+{"CODIGO_MATERIAL":"23735482","id_pdm":"PDM033","campo":"ENCHIMENTO","y_gold":"GRAFITE FLEXIVEL","status":"DEFINIDO","evidencia":"ENCHIMENTO:GRAFITE","justificativa":"unico grafite da lista"}
+{"CODIGO_MATERIAL":"23735482","id_pdm":"PDM033","campo":"ANEL INTERNO","y_gold":"SEM ANEL INTERNO","status":"DEFINIDO","evidencia":"SEM ANEL INTERNO","justificativa":""}
+{"CODIGO_MATERIAL":"18151203","id_pdm":"PDM001","campo":"_CLASSE","y_gold":"PDM001","status":"DEFINIDO","evidencia":"PARAFUSO SEXT","justificativa":""}
+{"CODIGO_MATERIAL":"18151203","id_pdm":"PDM001","campo":"ROSCA","y_gold":"METRICA FINA","status":"DEFINIDO","evidencia":"M-16X1,5X130","justificativa":"M16X1,5 esta na lista de bitolas finas do PDM001"}
+{"CODIGO_MATERIAL":"18151203","id_pdm":"PDM001","campo":"BITOLA","y_gold":"M16X1,5","status":"DEFINIDO","evidencia":"M-16X1,5X130","justificativa":""}
+{"CODIGO_MATERIAL":"18151203","id_pdm":"PDM001","campo":"COMPRIMENTO","y_gold":"130MM","status":"DEFINIDO","evidencia":"M-16X1,5X130","justificativa":"terceiro numero = comprimento"}
+{"CODIGO_MATERIAL":"18151203","id_pdm":"PDM001","campo":"CLASSE RESISTENCIA","y_gold":"8.8","status":"DEFINIDO","evidencia":"8.8","justificativa":""}
+{"CODIGO_MATERIAL":"18151203","id_pdm":"PDM001","campo":"MATERIAL","y_gold":"ACO CARBONO","status":"DEFINIDO","evidencia":"ACO CARB","justificativa":""}
+{"CODIGO_MATERIAL":"18151203","id_pdm":"PDM001","campo":"ACABAMENTO","y_gold":"ZINCADO BRANCO","status":"DEFINIDO","evidencia":"ZINCADO BRANCO","justificativa":""}
+{"CODIGO_MATERIAL":"18151203","id_pdm":"PDM001","campo":"NORMA","y_gold":"DIN 933","status":"DEFINIDO","evidencia":"DIN 933","justificativa":""}
+{"CODIGO_MATERIAL":"14624421","id_pdm":"PDM043","campo":"_CLASSE","y_gold":"PDM043","status":"DEFINIDO","evidencia":"VALVULA RETENCAO ... PORTINHOLA","justificativa":""}
+{"CODIGO_MATERIAL":"14624421","id_pdm":"PDM043","campo":"DIAMETRO NOMINAL","y_gold":"6POL","status":"DEFINIDO","evidencia":"DN150","justificativa":"DN150 = 6POL"}
+{"CODIGO_MATERIAL":"14624421","id_pdm":"PDM043","campo":"CLASSE PRESSAO","y_gold":"600#","status":"DEFINIDO","evidencia":"600#","justificativa":""}
+{"CODIGO_MATERIAL":"14624421","id_pdm":"PDM043","campo":"MATERIAL CORPO","y_gold":"ACO INOX FUNDIDO A351 CF8M","status":"DEFINIDO","evidencia":"ACO INOX FUNDIDO A351 CF8M","justificativa":""}
+{"CODIGO_MATERIAL":"14624421","id_pdm":"PDM043","campo":"CONEXAO","y_gold":"","status":"INDEFINIVEL","evidencia":"FLANGES","justificativa":"nao decide entre FLANGE FF e FLANGE RF"}
+{"CODIGO_MATERIAL":"14624421","id_pdm":"PDM043","campo":"TIPO","y_gold":"PORTINHOLA","status":"DEFINIDO","evidencia":"PORTINHOLA","justificativa":""}
+{"CODIGO_MATERIAL":"18081854","id_pdm":"PDM023","campo":"_CLASSE","y_gold":"PDM023","status":"DEFINIDO","evidencia":"CAIXA MANCAL PEDESTAL COM ROLAMENTO","justificativa":"PEDESTAL COM ROLAMENTO e o unico TIPO do PDM023"}
+{"CODIGO_MATERIAL":"18081854","id_pdm":"PDM023","campo":"TIPO","y_gold":"PEDESTAL COM ROLAMENTO","status":"DEFINIDO","evidencia":"PEDESTAL COM ROLAMENTO","justificativa":""}
+{"CODIGO_MATERIAL":"18081854","id_pdm":"PDM023","campo":"REFERENCIA","y_gold":"","status":"AUSENTE","evidencia":"","justificativa":"sem designacao UCP"}
+{"CODIGO_MATERIAL":"18081854","id_pdm":"PDM023","campo":"DIAMETRO EIXO","y_gold":"45MM","status":"DEFINIDO","evidencia":"45 MM","justificativa":""}
+{"CODIGO_MATERIAL":"22791998","id_pdm":"PDM034","campo":"_CLASSE","y_gold":"PDM034","status":"DEFINIDO","evidencia":"JUNTA PLANA","justificativa":""}
+{"CODIGO_MATERIAL":"22791998","id_pdm":"PDM034","campo":"DIAMETRO NOMINAL","y_gold":"8POL","status":"DEFINIDO","evidencia":"DIAMETRO NOMINAL: 8POL","justificativa":""}
+{"CODIGO_MATERIAL":"22791998","id_pdm":"PDM034","campo":"CLASSE PRESSAO","y_gold":"150#","status":"DEFINIDO","evidencia":"CLASSE PRESSAO: 150#","justificativa":""}
+{"CODIGO_MATERIAL":"22791998","id_pdm":"PDM034","campo":"MATERIAL","y_gold":"EPDM","status":"DEFINIDO","evidencia":"MATERIAL: EPDM","justificativa":""}
+{"CODIGO_MATERIAL":"22791998","id_pdm":"PDM034","campo":"ESPESSURA","y_gold":"1,6MM","status":"DEFINIDO","evidencia":"ESPESSURA: 1,6MM","justificativa":""}
+{"CODIGO_MATERIAL":"22791998","id_pdm":"PDM034","campo":"TIPO FACE","y_gold":"RF","status":"DEFINIDO","evidencia":"TIPO FACE: RF","justificativa":""}
+{"CODIGO_MATERIAL":"10565956","id_pdm":"PDM003","campo":"_CLASSE","y_gold":"PDM003","status":"DEFINIDO","evidencia":"PORCA; TIPO: AUTOTRAVANTE","justificativa":""}
+{"CODIGO_MATERIAL":"10565956","id_pdm":"PDM003","campo":"TIPO","y_gold":"AUTOTRAVANTE","status":"DEFINIDO","evidencia":"TIPO: AUTOTRAVANTE","justificativa":""}
+{"CODIGO_MATERIAL":"10565956","id_pdm":"PDM003","campo":"ROSCA","y_gold":"METRICA FINA","status":"DEFINIDO","evidencia":"ROSCA: METRICA FINA","justificativa":""}
+{"CODIGO_MATERIAL":"10565956","id_pdm":"PDM003","campo":"BITOLA","y_gold":"M16X1,5","status":"DEFINIDO","evidencia":"BITOLA: M16X1,5","justificativa":""}
+{"CODIGO_MATERIAL":"10565956","id_pdm":"PDM003","campo":"CLASSE RESISTENCIA","y_gold":"10","status":"DEFINIDO","evidencia":"CLASSE RESISTENCIA: 10","justificativa":""}
+{"CODIGO_MATERIAL":"10565956","id_pdm":"PDM003","campo":"MATERIAL","y_gold":"ACO CARBONO","status":"DEFINIDO","evidencia":"MATERIAL: ACO CARBONO","justificativa":""}
+{"CODIGO_MATERIAL":"10565956","id_pdm":"PDM003","campo":"ACABAMENTO","y_gold":"ZINCADO BRANCO","status":"DEFINIDO","evidencia":"ACABAMENTO: ZINCADO BRANCO","justificativa":""}
+{"CODIGO_MATERIAL":"14692586","id_pdm":"PDM040","campo":"_CLASSE","y_gold":"PDM040","status":"DEFINIDO","evidencia":"VALVULA  ESFERA","justificativa":""}
+{"CODIGO_MATERIAL":"14692586","id_pdm":"PDM040","campo":"DIAMETRO NOMINAL","y_gold":"1POL","status":"DEFINIDO","evidencia":"DIAMETRO NOMINAL:1POL","justificativa":""}
+{"CODIGO_MATERIAL":"14692586","id_pdm":"PDM040","campo":"CLASSE PRESSAO","y_gold":"150#","status":"DEFINIDO","evidencia":"150#","justificativa":""}
+{"CODIGO_MATERIAL":"14692586","id_pdm":"PDM040","campo":"MATERIAL CORPO","y_gold":"","status":"INDEFINIVEL","evidencia":"MATERIAL:INOX 316","justificativa":"nao decide entre A351 CF8M e A182 F316"}
+{"CODIGO_MATERIAL":"14692586","id_pdm":"PDM040","campo":"CONEXAO","y_gold":"FLANGE RF","status":"DEFINIDO","evidencia":"EXTREMIDADES:FLANGE RF","justificativa":""}
+{"CODIGO_MATERIAL":"14692586","id_pdm":"PDM040","campo":"PASSAGEM","y_gold":"PLENA","status":"DEFINIDO","evidencia":"PASSAGEM:FULL BORE","justificativa":"full bore = plena"}
+{"CODIGO_MATERIAL":"14692586","id_pdm":"PDM040","campo":"VEDACAO SEDE","y_gold":"METAL-METAL","status":"DEFINIDO","evidencia":"METAL-METAL","justificativa":""}
+{"CODIGO_MATERIAL":"14692586","id_pdm":"PDM040","campo":"ACIONAMENTO","y_gold":"ALAVANCA","status":"DEFINIDO","evidencia":"ACIONAMENTO:MANOPLA","justificativa":"manopla = alavanca"}
+{"CODIGO_MATERIAL":"15202078","id_pdm":"PDM011","campo":"_CLASSE","y_gold":"PDM011","status":"DEFINIDO","evidencia":"MANGUEIRA HIDR MONTADA","justificativa":""}
+{"CODIGO_MATERIAL":"15202078","id_pdm":"PDM011","campo":"NORMA","y_gold":"EN 853 1SN","status":"DEFINIDO","evidencia":"EN 853 1SN","justificativa":""}
+{"CODIGO_MATERIAL":"15202078","id_pdm":"PDM011","campo":"DIAMETRO INTERNO","y_gold":"1/2POL","status":"DEFINIDO","evidencia":"DIAM INT 1/2 IN","justificativa":"IN = polegada"}
+{"CODIGO_MATERIAL":"15202078","id_pdm":"PDM011","campo":"COMPRIMENTO","y_gold":"750MM","status":"DEFINIDO","evidencia":"COMP DE 750MM","justificativa":""}
+{"CODIGO_MATERIAL":"15202078","id_pdm":"PDM011","campo":"TERMINAL A","y_gold":"","status":"INDEFINIVEL","evidencia":"JIC FEMEA","justificativa":"nao decide reta ou curva"}
+{"CODIGO_MATERIAL":"15202078","id_pdm":"PDM011","campo":"TERMINAL B","y_gold":"FEMEA CURVA 90 GRAUS DKO","status":"DEFINIDO","evidencia":"FEMEA CURVA 90 GRAUS DKO","justificativa":""}
+{"CODIGO_MATERIAL":"15202078","id_pdm":"PDM011","campo":"MATERIAL TERMINAIS","y_gold":"ACO CARBONO ZINCADO","status":"DEFINIDO","evidencia":"TERMINAIS DE ACO CARBONO ZINCADO","justificativa":""}
+{"CODIGO_MATERIAL":"20344522","id_pdm":"PDM020","campo":"_CLASSE","y_gold":"PDM020","status":"DEFINIDO","evidencia":"ROLAMENTO RIGIDO ESFERAS","justificativa":""}
+{"CODIGO_MATERIAL":"20344522","id_pdm":"PDM020","campo":"REFERENCIA","y_gold":"6315-2RS/C3","status":"DEFINIDO","evidencia":"6315 2RS/C3","justificativa":""}
+{"CODIGO_MATERIAL":"20344522","id_pdm":"PDM020","campo":"VEDACAO","y_gold":"BORRACHA AMBOS LADOS","status":"DEFINIDO","evidencia":"2RS | VEDADO","justificativa":"2RS = borracha nos dois lados"}
+{"CODIGO_MATERIAL":"20344522","id_pdm":"PDM020","campo":"FOLGA","y_gold":"C3","status":"DEFINIDO","evidencia":"C3","justificativa":""}
+{"CODIGO_MATERIAL":"23460268","id_pdm":"PDM050","campo":"_CLASSE","y_gold":"PDM050","status":"DEFINIDO","evidencia":"BUCHA REDUCAO","justificativa":""}
+{"CODIGO_MATERIAL":"23460268","id_pdm":"PDM050","campo":"DIAMETRO NOMINAL","y_gold":"1.1/2POL","status":"DEFINIDO","evidencia":"1.1/2POL","justificativa":""}
+{"CODIGO_MATERIAL":"23460268","id_pdm":"PDM050","campo":"DIAMETRO REDUZIDO","y_gold":"3/4POL","status":"DEFINIDO","evidencia":"3/4\"","justificativa":"segunda medida"}
+{"CODIGO_MATERIAL":"23460268","id_pdm":"PDM050","campo":"CLASSE PRESSAO","y_gold":"3000#","status":"DEFINIDO","evidencia":"3000#","justificativa":""}
+{"CODIGO_MATERIAL":"23460268","id_pdm":"PDM050","campo":"MATERIAL","y_gold":"","status":"INDEFINIVEL","evidencia":"INOX","justificativa":"INOX sozinho nao escolhe entre ACO INOX A403 WP316 e ACO INOX FORJADO A182 F316"}
+{"CODIGO_MATERIAL":"23460268","id_pdm":"PDM050","campo":"CONEXAO","y_gold":"SOLDA ENCAIXE SW","status":"DEFINIDO","evidencia":"SW","justificativa":""}
+{"CODIGO_MATERIAL":"19933210","id_pdm":"PDM080","campo":"_CLASSE","y_gold":"PDM080","status":"DEFINIDO","evidencia":"ELETRODO  REVESTIDO; AWS:E6013","justificativa":""}
+{"CODIGO_MATERIAL":"19933210","id_pdm":"PDM080","campo":"CLASSIFICACAO AWS","y_gold":"E6013","status":"DEFINIDO","evidencia":"AWS:E6013","justificativa":""}
+{"CODIGO_MATERIAL":"19933210","id_pdm":"PDM080","campo":"DIAMETRO","y_gold":"3,25MM","status":"DEFINIDO","evidencia":"DIAMETRO:3,25 MM","justificativa":""}
+{"CODIGO_MATERIAL":"15972783","id_pdm":"PDM042","campo":"_CLASSE","y_gold":"PDM042","status":"DEFINIDO","evidencia":"VALVULA GLOBO","justificativa":""}
+{"CODIGO_MATERIAL":"15972783","id_pdm":"PDM042","campo":"DIAMETRO NOMINAL","y_gold":"3POL","status":"DEFINIDO","evidencia":"DIAMETRO NOMINAL 3POL","justificativa":""}
+{"CODIGO_MATERIAL":"15972783","id_pdm":"PDM042","campo":"CLASSE PRESSAO","y_gold":"300#","status":"DEFINIDO","evidencia":"CLASSE 300#","justificativa":""}
+{"CODIGO_MATERIAL":"15972783","id_pdm":"PDM042","campo":"MATERIAL CORPO","y_gold":"ACO INOX FUNDIDO A351 CF8M","status":"DEFINIDO","evidencia":"ACO INOX FUNDIDO A351 CF8M","justificativa":""}
+{"CODIGO_MATERIAL":"15972783","id_pdm":"PDM042","campo":"CONEXAO","y_gold":"FLANGE RF","status":"DEFINIDO","evidencia":"FLG RF","justificativa":"FLG = flange"}
+{"CODIGO_MATERIAL":"15972783","id_pdm":"PDM042","campo":"ACIONAMENTO","y_gold":"VOLANTE","status":"DEFINIDO","evidencia":"MANUAL","justificativa":"VOLANTE e o unico acionamento do PDM042"}
+{"CODIGO_MATERIAL":"13300117","id_pdm":"PDM011","campo":"_CLASSE","y_gold":"PDM011","status":"DEFINIDO","evidencia":"MANGUEIRA HIDRAULICA MONTADA","justificativa":""}
+{"CODIGO_MATERIAL":"13300117","id_pdm":"PDM011","campo":"NORMA","y_gold":"EN 856 4SH","status":"DEFINIDO","evidencia":"NORMA: EN 856 4SH","justificativa":""}
+{"CODIGO_MATERIAL":"13300117","id_pdm":"PDM011","campo":"DIAMETRO INTERNO","y_gold":"1.1/2POL","status":"DEFINIDO","evidencia":"DIAMETRO INTERNO: 1.1/2POL","justificativa":""}
+{"CODIGO_MATERIAL":"13300117","id_pdm":"PDM011","campo":"COMPRIMENTO","y_gold":"1000MM","status":"DEFINIDO","evidencia":"COMPRIMENTO: 1000MM","justificativa":""}
+{"CODIGO_MATERIAL":"13300117","id_pdm":"PDM011","campo":"TERMINAL A","y_gold":"MACHO RETO NPT","status":"DEFINIDO","evidencia":"TERMINAL A: MACHO RETO NPT","justificativa":""}
+{"CODIGO_MATERIAL":"13300117","id_pdm":"PDM011","campo":"TERMINAL B","y_gold":"FEMEA RETA JIC","status":"DEFINIDO","evidencia":"TERMINAL B: FEMEA RETA JIC","justificativa":""}
+{"CODIGO_MATERIAL":"13300117","id_pdm":"PDM011","campo":"MATERIAL TERMINAIS","y_gold":"ACO INOX 316","status":"DEFINIDO","evidencia":"MATERIAL TERMINAIS: ACO INOX 316","justificativa":""}
+{"CODIGO_MATERIAL":"28945983","id_pdm":"PDM033","campo":"_CLASSE","y_gold":"PDM033","status":"DEFINIDO","evidencia":"JUNTA ESPIRALADA 24 IN","justificativa":""}
+{"CODIGO_MATERIAL":"28945983","id_pdm":"PDM033","campo":"DIAMETRO NOMINAL","y_gold":"24POL","status":"DEFINIDO","evidencia":"24 IN","justificativa":"IN = polegada"}
+{"CODIGO_MATERIAL":"28945983","id_pdm":"PDM033","campo":"CLASSE PRESSAO","y_gold":"150#","status":"DEFINIDO","evidencia":"150#","justificativa":""}
+{"CODIGO_MATERIAL":"28945983","id_pdm":"PDM033","campo":"MATERIAL FITA","y_gold":"ACO INOX 316","status":"DEFINIDO","evidencia":"INOX 316","justificativa":""}
+{"CODIGO_MATERIAL":"28945983","id_pdm":"PDM033","campo":"ENCHIMENTO","y_gold":"GRAFITE FLEXIVEL","status":"DEFINIDO","evidencia":"GRAFITE","justificativa":"unico grafite da lista"}
+{"CODIGO_MATERIAL":"28945983","id_pdm":"PDM033","campo":"ANEL INTERNO","y_gold":"","status":"AUSENTE","evidencia":"","justificativa":"o texto nao fala de anel interno"}
+{"CODIGO_MATERIAL":"21446483","id_pdm":"PDM011","campo":"_CLASSE","y_gold":"PDM011","status":"DEFINIDO","evidencia":"MANG HIDRAULICA MONTADA","justificativa":""}
+{"CODIGO_MATERIAL":"21446483","id_pdm":"PDM011","campo":"NORMA","y_gold":"","status":"AUSENTE","evidencia":"","justificativa":"sem norma de construcao"}
+{"CODIGO_MATERIAL":"21446483","id_pdm":"PDM011","campo":"DIAMETRO INTERNO","y_gold":"","status":"INDEFINIVEL","evidencia":"DI:DN31","justificativa":"DN31 nao e bitola nominal de mangueira; pode ser DN31,5 (1.1/4POL) ou erro de digitacao"}
+{"CODIGO_MATERIAL":"21446483","id_pdm":"PDM011","campo":"COMPRIMENTO","y_gold":"300MM","status":"DEFINIDO","evidencia":"COMPRIMENTO:300MM","justificativa":""}
+{"CODIGO_MATERIAL":"21446483","id_pdm":"PDM011","campo":"TERMINAL A","y_gold":"MACHO RETO NPT","status":"DEFINIDO","evidencia":"TERM A:MACHO FIXO NPT","justificativa":"macho fixo = macho reto"}
+{"CODIGO_MATERIAL":"21446483","id_pdm":"PDM011","campo":"TERMINAL B","y_gold":"MACHO RETO BSP","status":"DEFINIDO","evidencia":"TERMINAL 2:MACHO BSP","justificativa":"a lista tem so MACHO RETO BSP"}
+{"CODIGO_MATERIAL":"21446483","id_pdm":"PDM011","campo":"MATERIAL TERMINAIS","y_gold":"ACO INOX 316","status":"DEFINIDO","evidencia":"TERMINAIS:AISI 316","justificativa":""}
+{"CODIGO_MATERIAL":"18791600","id_pdm":"PDM005","campo":"_CLASSE","y_gold":"PDM005","status":"DEFINIDO","evidencia":"ARR PRESSAO ... DIN 127","justificativa":""}
+{"CODIGO_MATERIAL":"18791600","id_pdm":"PDM005","campo":"PARA PARAFUSO","y_gold":"M16","status":"DEFINIDO","evidencia":"M 16","justificativa":""}
+{"CODIGO_MATERIAL":"18791600","id_pdm":"PDM005","campo":"MATERIAL","y_gold":"ACO INOX 316","status":"DEFINIDO","evidencia":"INOX 316","justificativa":""}
+{"CODIGO_MATERIAL":"18791600","id_pdm":"PDM005","campo":"ACABAMENTO","y_gold":"NATURAL","status":"DEFINIDO","evidencia":"NATURAL","justificativa":""}
+{"CODIGO_MATERIAL":"19469152","id_pdm":"PDM002","campo":"_CLASSE","y_gold":"PDM002","status":"DEFINIDO","evidencia":"PARAF SEXT. INTERNO ... TIPO CABECA ABAULADA","justificativa":""}
+{"CODIGO_MATERIAL":"19469152","id_pdm":"PDM002","campo":"TIPO CABECA","y_gold":"ABAULADA","status":"DEFINIDO","evidencia":"TIPO CABECA ABAULADA","justificativa":""}
+{"CODIGO_MATERIAL":"19469152","id_pdm":"PDM002","campo":"BITOLA","y_gold":"M10","status":"DEFINIDO","evidencia":"ROSCA M-10","justificativa":""}
+{"CODIGO_MATERIAL":"19469152","id_pdm":"PDM002","campo":"COMPRIMENTO","y_gold":"50MM","status":"DEFINIDO","evidencia":"C DE 50MM","justificativa":""}
+{"CODIGO_MATERIAL":"19469152","id_pdm":"PDM002","campo":"CLASSE RESISTENCIA","y_gold":"12.9","status":"DEFINIDO","evidencia":"CL 12.9","justificativa":""}
+{"CODIGO_MATERIAL":"19469152","id_pdm":"PDM002","campo":"MATERIAL","y_gold":"","status":"INDEFINIVEL","evidencia":"ACO ESPECIAL","justificativa":"ACO ESPECIAL nao e valor da lista (ACO INOX 304 | ACO INOX 316 | ACO LIGA)"}
+{"CODIGO_MATERIAL":"19469152","id_pdm":"PDM002","campo":"ACABAMENTO","y_gold":"OXIDADO PRETO","status":"DEFINIDO","evidencia":"TRATAMENTO PRETO","justificativa":"unico preto da lista"}
+{"CODIGO_MATERIAL":"15731430","id_pdm":"PDM060","campo":"_CLASSE","y_gold":"PDM060","status":"DEFINIDO","evidencia":"CABO  ELETRICO","justificativa":""}
+{"CODIGO_MATERIAL":"15731430","id_pdm":"PDM060","campo":"TIPO","y_gold":"FLEXIVEL","status":"DEFINIDO","evidencia":"TIPO: FLEXIVEL","justificativa":""}
+{"CODIGO_MATERIAL":"15731430","id_pdm":"PDM060","campo":"SECAO","y_gold":"6MM2","status":"DEFINIDO","evidencia":"SECAO: 6MM2","justificativa":""}
+{"CODIGO_MATERIAL":"15731430","id_pdm":"PDM060","campo":"NUMERO CONDUTORES","y_gold":"1","status":"DEFINIDO","evidencia":"NUMERO CONDUTORES: 1","justificativa":""}
+{"CODIGO_MATERIAL":"15731430","id_pdm":"PDM060","campo":"TENSAO ISOLAMENTO","y_gold":"450/750V","status":"DEFINIDO","evidencia":"TENSAO ISOLAMENTO: 450/750V","justificativa":""}
+{"CODIGO_MATERIAL":"15731430","id_pdm":"PDM060","campo":"ISOLACAO","y_gold":"PVC","status":"DEFINIDO","evidencia":"ISOLACAO: PVC","justificativa":""}
+{"CODIGO_MATERIAL":"15731430","id_pdm":"PDM060","campo":"COR","y_gold":"VERMELHO","status":"DEFINIDO","evidencia":"COR: VERMELHO","justificativa":"1 condutor: o atributo se aplica"}
+{"CODIGO_MATERIAL":"29550034","id_pdm":"PDM043","campo":"_CLASSE","y_gold":"PDM043","status":"DEFINIDO","evidencia":"VALVULA RETENCAO ... PORTINHOLA","justificativa":""}
+{"CODIGO_MATERIAL":"29550034","id_pdm":"PDM043","campo":"DIAMETRO NOMINAL","y_gold":"1.1/4POL","status":"DEFINIDO","evidencia":"DIAMETRO NOMINAL:1.1/4\"","justificativa":""}
+{"CODIGO_MATERIAL":"29550034","id_pdm":"PDM043","campo":"CLASSE PRESSAO","y_gold":"800#","status":"DEFINIDO","evidencia":"PRESSAO NOMINAL:800#","justificativa":""}
+{"CODIGO_MATERIAL":"29550034","id_pdm":"PDM043","campo":"MATERIAL CORPO","y_gold":"ACO INOX FORJADO A182 F316","status":"DEFINIDO","evidencia":"MATERIAL:F316","justificativa":"F316 e a designacao do A182 F316"}
+{"CODIGO_MATERIAL":"29550034","id_pdm":"PDM043","campo":"CONEXAO","y_gold":"ROSCA NPT","status":"DEFINIDO","evidencia":"EXTREMIDADES:ROSCA NPT","justificativa":""}
+{"CODIGO_MATERIAL":"29550034","id_pdm":"PDM043","campo":"TIPO","y_gold":"PORTINHOLA","status":"DEFINIDO","evidencia":"TIPO:PORTINHOLA","justificativa":""}
+{"CODIGO_MATERIAL":"27822080","id_pdm":"PDM050","campo":"_CLASSE","y_gold":"PDM050","status":"DEFINIDO","evidencia":"FLANGE, MODELO: PESCOCO WN","justificativa":""}
+{"CODIGO_MATERIAL":"27822080","id_pdm":"PDM050","campo":"TIPO","y_gold":"PESCOCO WN","status":"DEFINIDO","evidencia":"MODELO: PESCOCO WN","justificativa":"flange: o atributo se aplica"}
+{"CODIGO_MATERIAL":"27822080","id_pdm":"PDM050","campo":"DIAMETRO NOMINAL","y_gold":"12POL","status":"DEFINIDO","evidencia":"DN: 12 POL","justificativa":""}
+{"CODIGO_MATERIAL":"27822080","id_pdm":"PDM050","campo":"CLASSE PRESSAO","y_gold":"150#","status":"DEFINIDO","evidencia":"CLASSE PRESSAO: 150#","justificativa":""}
+{"CODIGO_MATERIAL":"27822080","id_pdm":"PDM050","campo":"FACE","y_gold":"RF","status":"DEFINIDO","evidencia":"FACE: RF","justificativa":"flange: o atributo se aplica"}
+{"CODIGO_MATERIAL":"27822080","id_pdm":"PDM050","campo":"MATERIAL","y_gold":"ACO CARBONO FORJADO A105","status":"DEFINIDO","evidencia":"MAT: ACO CARBONO FORJADO A105","justificativa":""}
+{"CODIGO_MATERIAL":"25412362","id_pdm":"PDM064","campo":"_CLASSE","y_gold":"PDM064","status":"DEFINIDO","evidencia":"FUSIVEL, TIPO:NH","justificativa":""}
+{"CODIGO_MATERIAL":"25412362","id_pdm":"PDM064","campo":"TIPO","y_gold":"NH","status":"DEFINIDO","evidencia":"TIPO:NH","justificativa":""}
+{"CODIGO_MATERIAL":"25412362","id_pdm":"PDM064","campo":"TAMANHO","y_gold":"NH00","status":"DEFINIDO","evidencia":"TAMANHO:NH00","justificativa":""}
+{"CODIGO_MATERIAL":"25412362","id_pdm":"PDM064","campo":"CORRENTE NOMINAL","y_gold":"16A","status":"DEFINIDO","evidencia":"IN:16 A","justificativa":""}
+{"CODIGO_MATERIAL":"29108966","id_pdm":"PDM034","campo":"_CLASSE","y_gold":"PDM034","status":"DEFINIDO","evidencia":"JUNTA PLANA","justificativa":""}
+{"CODIGO_MATERIAL":"29108966","id_pdm":"PDM034","campo":"DIAMETRO NOMINAL","y_gold":"1.1/2POL","status":"DEFINIDO","evidencia":"DIAMETRO NOMINAL 1 1/2 POL","justificativa":""}
+{"CODIGO_MATERIAL":"29108966","id_pdm":"PDM034","campo":"CLASSE PRESSAO","y_gold":"300#","status":"DEFINIDO","evidencia":"CLASSE 300#","justificativa":""}
+{"CODIGO_MATERIAL":"29108966","id_pdm":"PDM034","campo":"MATERIAL","y_gold":"PTFE EXPANDIDO","status":"DEFINIDO","evidencia":"MAT DE PTFE EXPANDIDO","justificativa":""}
+{"CODIGO_MATERIAL":"29108966","id_pdm":"PDM034","campo":"ESPESSURA","y_gold":"3MM","status":"DEFINIDO","evidencia":"ESPESSURA DE 3MM","justificativa":""}
+{"CODIGO_MATERIAL":"29108966","id_pdm":"PDM034","campo":"TIPO FACE","y_gold":"RF","status":"DEFINIDO","evidencia":"TIPO FACE DE RF","justificativa":""}
+{"CODIGO_MATERIAL":"16111454","id_pdm":"PDM065","campo":"_CLASSE","y_gold":"PDM065","status":"DEFINIDO","evidencia":"LAMPADA LED","justificativa":""}
+{"CODIGO_MATERIAL":"16111454","id_pdm":"PDM065","campo":"TIPO","y_gold":"TUBULAR T8","status":"DEFINIDO","evidencia":"TIPO:TUBULAR T8","justificativa":""}
+{"CODIGO_MATERIAL":"16111454","id_pdm":"PDM065","campo":"POTENCIA","y_gold":"10W","status":"DEFINIDO","evidencia":"POTENCIA:10W","justificativa":""}
+{"CODIGO_MATERIAL":"16111454","id_pdm":"PDM065","campo":"TENSAO","y_gold":"220V","status":"DEFINIDO","evidencia":"TENSAO:220V","justificativa":""}
+{"CODIGO_MATERIAL":"16111454","id_pdm":"PDM065","campo":"BASE","y_gold":"G13","status":"DEFINIDO","evidencia":"BASE:G13","justificativa":""}
+{"CODIGO_MATERIAL":"16111454","id_pdm":"PDM065","campo":"TEMPERATURA COR","y_gold":"5000K","status":"DEFINIDO","evidencia":"TEMPERATURA COR:5000K","justificativa":""}
+{"CODIGO_MATERIAL":"28897955","id_pdm":"PDM004","campo":"_CLASSE","y_gold":"PDM004","status":"DEFINIDO","evidencia":"ARRUELA LISA ... DIN 9021","justificativa":""}
+{"CODIGO_MATERIAL":"28897955","id_pdm":"PDM004","campo":"PARA PARAFUSO","y_gold":"M12","status":"DEFINIDO","evidencia":"PARA PARAFUSO: M12","justificativa":""}
+{"CODIGO_MATERIAL":"28897955","id_pdm":"PDM004","campo":"MATERIAL","y_gold":"ACO INOX 304","status":"DEFINIDO","evidencia":"MATERIAL: ACO INOX 304","justificativa":""}
+{"CODIGO_MATERIAL":"28897955","id_pdm":"PDM004","campo":"ACABAMENTO","y_gold":"NATURAL","status":"DEFINIDO","evidencia":"ACABAMENTO: NATURAL","justificativa":""}
+{"CODIGO_MATERIAL":"28897955","id_pdm":"PDM004","campo":"NORMA","y_gold":"DIN 9021","status":"DEFINIDO","evidencia":"NORMA: DIN 9021","justificativa":""}
+{"CODIGO_MATERIAL":"21659160","id_pdm":"PDM021","campo":"_CLASSE","y_gold":"PDM021","status":"DEFINIDO","evidencia":"ROL AUTOCOMPENSADOR ROLOS","justificativa":""}
+{"CODIGO_MATERIAL":"21659160","id_pdm":"PDM021","campo":"REFERENCIA","y_gold":"22209EK","status":"DEFINIDO","evidencia":"22209EK","justificativa":""}
+{"CODIGO_MATERIAL":"21659160","id_pdm":"PDM021","campo":"FURO","y_gold":"CONICO","status":"DEFINIDO","evidencia":"CONIICO","justificativa":"CONIICO e erro de digitacao de CONICO; coerente com o sufixo K"}
+{"CODIGO_MATERIAL":"21659160","id_pdm":"PDM021","campo":"FOLGA","y_gold":"NORMAL","status":"DEFINIDO","evidencia":"NORMAL","justificativa":""}
+{"CODIGO_MATERIAL":"25994634","id_pdm":"PDM050","campo":"_CLASSE","y_gold":"PDM050","status":"DEFINIDO","evidencia":"BUCHA REDUCAO","justificativa":""}
+{"CODIGO_MATERIAL":"25994634","id_pdm":"PDM050","campo":"DIAMETRO NOMINAL","y_gold":"1POL","status":"DEFINIDO","evidencia":"DIAMETRO NOMINAL: 1POL","justificativa":""}
+{"CODIGO_MATERIAL":"25994634","id_pdm":"PDM050","campo":"DIAMETRO REDUZIDO","y_gold":"3/8POL","status":"DEFINIDO","evidencia":"DIAMETRO REDUZIDO: 3/8POL","justificativa":""}
+{"CODIGO_MATERIAL":"25994634","id_pdm":"PDM050","campo":"CLASSE PRESSAO","y_gold":"6000#","status":"DEFINIDO","evidencia":"CLASSE PRESSAO: 6000#","justificativa":""}
+{"CODIGO_MATERIAL":"25994634","id_pdm":"PDM050","campo":"MATERIAL","y_gold":"ACO CARBONO FORJADO A105","status":"DEFINIDO","evidencia":"MATERIAL: ACO CARBONO FORJADO A105","justificativa":""}
+{"CODIGO_MATERIAL":"25994634","id_pdm":"PDM050","campo":"CONEXAO","y_gold":"ROSCA NPT","status":"DEFINIDO","evidencia":"CONEXAO: ROSCA NPT","justificativa":""}
+{"CODIGO_MATERIAL":"22042050","id_pdm":"PDM050","campo":"_CLASSE","y_gold":"PDM050","status":"DEFINIDO","evidencia":"BUCHA REDUCAO","justificativa":""}
+{"CODIGO_MATERIAL":"22042050","id_pdm":"PDM050","campo":"DIAMETRO NOMINAL","y_gold":"3/8POL","status":"DEFINIDO","evidencia":"DN:3/8POL","justificativa":""}
+{"CODIGO_MATERIAL":"22042050","id_pdm":"PDM050","campo":"DIAMETRO REDUZIDO","y_gold":"1/4POL","status":"DEFINIDO","evidencia":"DIAMETRO REDUZIDO:1/4\"","justificativa":""}
+{"CODIGO_MATERIAL":"22042050","id_pdm":"PDM050","campo":"CLASSE PRESSAO","y_gold":"6000#","status":"DEFINIDO","evidencia":"PRESSAO NOMINAL:6000#","justificativa":""}
+{"CODIGO_MATERIAL":"22042050","id_pdm":"PDM050","campo":"MATERIAL","y_gold":"ACO INOX FORJADO A182 F316","status":"DEFINIDO","evidencia":"A182 F316","justificativa":""}
+{"CODIGO_MATERIAL":"22042050","id_pdm":"PDM050","campo":"CONEXAO","y_gold":"SOLDA ENCAIXE SW","status":"DEFINIDO","evidencia":"TIPO CONEXAO:SOLDA ENCAIXE SW","justificativa":""}
+{"CODIGO_MATERIAL":"22181613","id_pdm":"PDM050","campo":"_CLASSE","y_gold":"PDM050","status":"DEFINIDO","evidencia":"BUCHA REDUCAO","justificativa":""}
+{"CODIGO_MATERIAL":"22181613","id_pdm":"PDM050","campo":"DIAMETRO NOMINAL","y_gold":"1/2POL","status":"DEFINIDO","evidencia":"1/2\"","justificativa":""}
+{"CODIGO_MATERIAL":"22181613","id_pdm":"PDM050","campo":"DIAMETRO REDUZIDO","y_gold":"3/8POL","status":"DEFINIDO","evidencia":"3/8\"","justificativa":"segunda medida"}
+{"CODIGO_MATERIAL":"22181613","id_pdm":"PDM050","campo":"CLASSE PRESSAO","y_gold":"3000#","status":"DEFINIDO","evidencia":"3000#","justificativa":""}
+{"CODIGO_MATERIAL":"22181613","id_pdm":"PDM050","campo":"MATERIAL","y_gold":"","status":"INDEFINIVEL","evidencia":"INOX 316","justificativa":"as duas opcoes inox do PDM050 sao 316; o texto nao diz se e forjado (A182) ou conexao laminada (A403)"}
+{"CODIGO_MATERIAL":"22181613","id_pdm":"PDM050","campo":"CONEXAO","y_gold":"SOLDA ENCAIXE SW","status":"DEFINIDO","evidencia":"SOLDA ENCAIXE SW","justificativa":""}
+{"CODIGO_MATERIAL":"25175228","id_pdm":"PDM050","campo":"_CLASSE","y_gold":"PDM050","status":"DEFINIDO","evidencia":"CAP; DIAMETRO NOMINAL: 4POL","justificativa":"CAP esta em SUBSTANTIVOS_CONEXOES"}
+{"CODIGO_MATERIAL":"25175228","id_pdm":"PDM050","campo":"DIAMETRO NOMINAL","y_gold":"4POL","status":"DEFINIDO","evidencia":"DIAMETRO NOMINAL: 4POL","justificativa":""}
+{"CODIGO_MATERIAL":"25175228","id_pdm":"PDM050","campo":"SCHEDULE","y_gold":"SCH 10S","status":"DEFINIDO","evidencia":"SCHEDULE: SCH 10S","justificativa":"solda de topo: o atributo se aplica"}
+{"CODIGO_MATERIAL":"25175228","id_pdm":"PDM050","campo":"MATERIAL","y_gold":"ACO INOX A403 WP316","status":"DEFINIDO","evidencia":"MATERIAL: ACO INOX A403 WP316","justificativa":""}
+{"CODIGO_MATERIAL":"25175228","id_pdm":"PDM050","campo":"CONEXAO","y_gold":"SOLDA TOPO BW","status":"DEFINIDO","evidencia":"CONEXAO: SOLDA TOPO BW","justificativa":"BW: CLASSE PRESSAO nao se aplica"}
+{"CODIGO_MATERIAL":"28759306","id_pdm":"PDM050","campo":"_CLASSE","y_gold":"PDM050","status":"DEFINIDO","evidencia":"BUCHA REDUCAO","justificativa":""}
+{"CODIGO_MATERIAL":"28759306","id_pdm":"PDM050","campo":"DIAMETRO NOMINAL","y_gold":"2POL","status":"DEFINIDO","evidencia":"DN:DN 50","justificativa":"DN 50 = 2POL"}
+{"CODIGO_MATERIAL":"28759306","id_pdm":"PDM050","campo":"DIAMETRO REDUZIDO","y_gold":"1.1/4POL","status":"DEFINIDO","evidencia":"DIAMETRO REDUZIDO:1,25POL","justificativa":"1,25 pol = 1.1/4POL"}
+{"CODIGO_MATERIAL":"28759306","id_pdm":"PDM050","campo":"CLASSE PRESSAO","y_gold":"3000#","status":"DEFINIDO","evidencia":"CLASSE PRESSAO:3000#","justificativa":""}
+{"CODIGO_MATERIAL":"28759306","id_pdm":"PDM050","campo":"MATERIAL","y_gold":"ACO INOX FORJADO A182 F316","status":"DEFINIDO","evidencia":"MAT:F316","justificativa":"F316 = A182 F316"}
+{"CODIGO_MATERIAL":"28759306","id_pdm":"PDM050","campo":"CONEXAO","y_gold":"ROSCA NPT","status":"DEFINIDO","evidencia":"EXTREMIDADES:RSC NPT","justificativa":"RSC = rosca"}
+{"CODIGO_MATERIAL":"14444801","id_pdm":"PDM032","campo":"_CLASSE","y_gold":"PDM032","status":"DEFINIDO","evidencia":"RETENTOR, FURO:25 MM","justificativa":""}
+{"CODIGO_MATERIAL":"14444801","id_pdm":"PDM032","campo":"DIAMETRO EIXO","y_gold":"25MM","status":"DEFINIDO","evidencia":"FURO:25 MM","justificativa":"furo = eixo"}
+{"CODIGO_MATERIAL":"14444801","id_pdm":"PDM032","campo":"DIAMETRO ALOJAMENTO","y_gold":"40MM","status":"DEFINIDO","evidencia":"DIAM EXT:40MM","justificativa":"diametro externo = alojamento"}
+{"CODIGO_MATERIAL":"14444801","id_pdm":"PDM032","campo":"LARGURA","y_gold":"8MM","status":"DEFINIDO","evidencia":"ESPESSURA:8MM","justificativa":""}
+{"CODIGO_MATERIAL":"14444801","id_pdm":"PDM032","campo":"TIPO","y_gold":"BASL","status":"DEFINIDO","evidencia":"MODELO:BASL","justificativa":""}
+{"CODIGO_MATERIAL":"14444801","id_pdm":"PDM032","campo":"MATERIAL","y_gold":"FKM (VITON)","status":"DEFINIDO","evidencia":"MATERIAL:FKM (VITON)","justificativa":""}
+{"CODIGO_MATERIAL":"27203985","id_pdm":"PDM033","campo":"_CLASSE","y_gold":"PDM033","status":"DEFINIDO","evidencia":"JUNTA ESPIRALADA","justificativa":""}
+{"CODIGO_MATERIAL":"27203985","id_pdm":"PDM033","campo":"DIAMETRO NOMINAL","y_gold":"1.1/2POL","status":"DEFINIDO","evidencia":"DIAMETRO:1-1/2\"","justificativa":"1-1/2\" = 1.1/2POL"}
+{"CODIGO_MATERIAL":"27203985","id_pdm":"PDM033","campo":"CLASSE PRESSAO","y_gold":"900#","status":"DEFINIDO","evidencia":"PRESSAO NOMINAL:900#","justificativa":""}
+{"CODIGO_MATERIAL":"27203985","id_pdm":"PDM033","campo":"MATERIAL FITA","y_gold":"","status":"INDEFINIVEL","evidencia":"MATERIAL FITA:INOX","justificativa":"nao decide entre 304 e 316"}
+{"CODIGO_MATERIAL":"27203985","id_pdm":"PDM033","campo":"ENCHIMENTO","y_gold":"GRAFITE FLEXIVEL","status":"DEFINIDO","evidencia":"ENCHIMENTO:GRAFOIL","justificativa":"GRAFOIL e grafite flexivel"}
+{"CODIGO_MATERIAL":"27203985","id_pdm":"PDM033","campo":"ANEL INTERNO","y_gold":"COM ANEL INTERNO","status":"DEFINIDO","evidencia":"COM ANEL INTERNO","justificativa":""}
+{"CODIGO_MATERIAL":"15154966","id_pdm":"PDM001","campo":"_CLASSE","y_gold":"PDM001","status":"DEFINIDO","evidencia":"PARAFUSO HEXAGONAL","justificativa":"hexagonal = sextavado"}
+{"CODIGO_MATERIAL":"15154966","id_pdm":"PDM001","campo":"ROSCA","y_gold":"METRICA GROSSA","status":"DEFINIDO","evidencia":"METRICA GROSSA","justificativa":""}
+{"CODIGO_MATERIAL":"15154966","id_pdm":"PDM001","campo":"BITOLA","y_gold":"M12","status":"DEFINIDO","evidencia":"M 12X60","justificativa":""}
+{"CODIGO_MATERIAL":"15154966","id_pdm":"PDM001","campo":"COMPRIMENTO","y_gold":"60MM","status":"DEFINIDO","evidencia":"M 12X60","justificativa":"regra 2: M12X60 separa bitola e comprimento"}
+{"CODIGO_MATERIAL":"15154966","id_pdm":"PDM001","campo":"CLASSE RESISTENCIA","y_gold":"8.8","status":"DEFINIDO","evidencia":"8.8","justificativa":""}
+{"CODIGO_MATERIAL":"15154966","id_pdm":"PDM001","campo":"MATERIAL","y_gold":"ACO CARBONO","status":"DEFINIDO","evidencia":"CARBONO","justificativa":""}
+{"CODIGO_MATERIAL":"15154966","id_pdm":"PDM001","campo":"ACABAMENTO","y_gold":"GALVANIZADO A FOGO","status":"DEFINIDO","evidencia":"GF","justificativa":"GF = galvanizado a fogo"}
+{"CODIGO_MATERIAL":"15154966","id_pdm":"PDM001","campo":"NORMA","y_gold":"DIN 931","status":"DEFINIDO","evidencia":"DIN 931","justificativa":""}
+{"CODIGO_MATERIAL":"17765095","id_pdm":"PDM041","campo":"_CLASSE","y_gold":"PDM041","status":"DEFINIDO","evidencia":"VALVULA GAVETA","justificativa":""}
+{"CODIGO_MATERIAL":"17765095","id_pdm":"PDM041","campo":"DIAMETRO NOMINAL","y_gold":"1.1/2POL","status":"DEFINIDO","evidencia":"DIAMETRO NOMINAL: 1.1/2POL","justificativa":""}
+{"CODIGO_MATERIAL":"17765095","id_pdm":"PDM041","campo":"CLASSE PRESSAO","y_gold":"PN 16","status":"DEFINIDO","evidencia":"CLASSE PRESSAO: PN 16","justificativa":"PN 16 e valor da lista, nao part number"}
+{"CODIGO_MATERIAL":"17765095","id_pdm":"PDM041","campo":"MATERIAL CORPO","y_gold":"FERRO FUNDIDO NODULAR","status":"DEFINIDO","evidencia":"MATERIAL CORPO: FERRO FUNDIDO NODULAR","justificativa":""}
+{"CODIGO_MATERIAL":"17765095","id_pdm":"PDM041","campo":"CONEXAO","y_gold":"FLANGE FF","status":"DEFINIDO","evidencia":"CONEXAO: FLANGE FF","justificativa":""}
+{"CODIGO_MATERIAL":"17765095","id_pdm":"PDM041","campo":"CASTELO","y_gold":"ROSCADO","status":"DEFINIDO","evidencia":"CASTELO: ROSCADO","justificativa":""}
+{"CODIGO_MATERIAL":"17765095","id_pdm":"PDM041","campo":"ACIONAMENTO","y_gold":"VOLANTE","status":"DEFINIDO","evidencia":"ACIONAMENTO: VOLANTE","justificativa":""}
+{"CODIGO_MATERIAL":"23167204","id_pdm":"PDM050","campo":"_CLASSE","y_gold":"PDM050","status":"DEFINIDO","evidencia":"BUCHA REDUCAO","justificativa":""}
+{"CODIGO_MATERIAL":"23167204","id_pdm":"PDM050","campo":"DIAMETRO NOMINAL","y_gold":"1POL","status":"DEFINIDO","evidencia":"BITOLA DE DN 25","justificativa":"DN 25 = 1POL"}
+{"CODIGO_MATERIAL":"23167204","id_pdm":"PDM050","campo":"DIAMETRO REDUZIDO","y_gold":"3/4POL","status":"DEFINIDO","evidencia":"DN 25 3/4\"","justificativa":"segunda medida"}
+{"CODIGO_MATERIAL":"23167204","id_pdm":"PDM050","campo":"CLASSE PRESSAO","y_gold":"6000#","status":"DEFINIDO","evidencia":"CL 6000#","justificativa":""}
+{"CODIGO_MATERIAL":"23167204","id_pdm":"PDM050","campo":"MATERIAL","y_gold":"","status":"INDEFINIVEL","evidencia":"MATERIAL DE INOX 316","justificativa":"nao diz se e forjado A182 F316 ou conexao A403 WP316"}
+{"CODIGO_MATERIAL":"23167204","id_pdm":"PDM050","campo":"CONEXAO","y_gold":"","status":"INDEFINIVEL","evidencia":"TIPO CONEXAO ROSCA","justificativa":"ROSCA nao decide entre BSP e NPT"}
+{"CODIGO_MATERIAL":"27846113","id_pdm":"PDM011","campo":"_CLASSE","y_gold":"PDM011","status":"DEFINIDO","evidencia":"MANGUEIRA HID MONTADA","justificativa":""}
+{"CODIGO_MATERIAL":"27846113","id_pdm":"PDM011","campo":"NORMA","y_gold":"EN 853 2SN","status":"DEFINIDO","evidencia":"EN 853 2SN","justificativa":""}
+{"CODIGO_MATERIAL":"27846113","id_pdm":"PDM011","campo":"DIAMETRO INTERNO","y_gold":"","status":"AUSENTE","evidencia":"","justificativa":"sem diametro interno"}
+{"CODIGO_MATERIAL":"27846113","id_pdm":"PDM011","campo":"COMPRIMENTO","y_gold":"1800MM","status":"DEFINIDO","evidencia":"1800MM","justificativa":""}
+{"CODIGO_MATERIAL":"27846113","id_pdm":"PDM011","campo":"TERMINAL A","y_gold":"FEMEA CURVA 90 GRAUS JIC","status":"DEFINIDO","evidencia":"FEMEA 90G JIC","justificativa":"90G = curva 90 graus"}
+{"CODIGO_MATERIAL":"27846113","id_pdm":"PDM011","campo":"TERMINAL B","y_gold":"","status":"AUSENTE","evidencia":"","justificativa":"so um terminal citado"}
+{"CODIGO_MATERIAL":"27846113","id_pdm":"PDM011","campo":"MATERIAL TERMINAIS","y_gold":"ACO CARBONO ZINCADO","status":"DEFINIDO","evidencia":"ACO CARBONO","justificativa":"unica opcao de aco carbono da lista"}
+{"CODIGO_MATERIAL":"17479914","id_pdm":"PDM032","campo":"_CLASSE","y_gold":"PDM032","status":"DEFINIDO","evidencia":"RETENTOR FURO 32MM ... TIPO B1","justificativa":""}
+{"CODIGO_MATERIAL":"17479914","id_pdm":"PDM032","campo":"DIAMETRO EIXO","y_gold":"32MM","status":"DEFINIDO","evidencia":"FURO 32MM 42MM 13MM","justificativa":"primeira medida da sequencia"}
+{"CODIGO_MATERIAL":"17479914","id_pdm":"PDM032","campo":"DIAMETRO ALOJAMENTO","y_gold":"42MM","status":"DEFINIDO","evidencia":"32MM 42MM 13MM","justificativa":"segunda medida"}
+{"CODIGO_MATERIAL":"17479914","id_pdm":"PDM032","campo":"LARGURA","y_gold":"13MM","status":"DEFINIDO","evidencia":"32MM 42MM 13MM","justificativa":"terceira medida"}
+{"CODIGO_MATERIAL":"17479914","id_pdm":"PDM032","campo":"TIPO","y_gold":"B1","status":"DEFINIDO","evidencia":"TIPO B1","justificativa":""}
+{"CODIGO_MATERIAL":"17479914","id_pdm":"PDM032","campo":"MATERIAL","y_gold":"FKM (VITON)","status":"DEFINIDO","evidencia":"FLUORELASTOMERO","justificativa":"fluorelastomero = FKM"}
+{"CODIGO_MATERIAL":"25059059","id_pdm":"PDM011","campo":"_CLASSE","y_gold":"PDM011","status":"DEFINIDO","evidencia":"MANGUEIRA HID MONTADA","justificativa":""}
+{"CODIGO_MATERIAL":"25059059","id_pdm":"PDM011","campo":"NORMA","y_gold":"EN 856 4SP","status":"DEFINIDO","evidencia":"NORMA CONSTRUCAO EN 856 4SP","justificativa":""}
+{"CODIGO_MATERIAL":"25059059","id_pdm":"PDM011","campo":"DIAMETRO INTERNO","y_gold":"1/2POL","status":"DEFINIDO","evidencia":"DIAM INT -8","justificativa":"dash -8 = 8/16 pol = 1/2POL"}
+{"CODIGO_MATERIAL":"25059059","id_pdm":"PDM011","campo":"COMPRIMENTO","y_gold":"2000MM","status":"DEFINIDO","evidencia":"COMPR 2000 MM","justificativa":""}
+{"CODIGO_MATERIAL":"25059059","id_pdm":"PDM011","campo":"TERMINAL A","y_gold":"FEMEA RETA JIC","status":"DEFINIDO","evidencia":"FEM RETA JIC","justificativa":""}
+{"CODIGO_MATERIAL":"25059059","id_pdm":"PDM011","campo":"TERMINAL B","y_gold":"","status":"INDEFINIVEL","evidencia":"TERM B JIC FEMEA","justificativa":"nao decide reta ou curva"}
+{"CODIGO_MATERIAL":"25059059","id_pdm":"PDM011","campo":"MATERIAL TERMINAIS","y_gold":"ACO CARBONO ZINCADO","status":"DEFINIDO","evidencia":"TERMINAIS ACO CARBONO","justificativa":"unica opcao de aco carbono da lista"}
+{"CODIGO_MATERIAL":"20504737","id_pdm":"PDM001","campo":"_CLASSE","y_gold":"PDM001","status":"DEFINIDO","evidencia":"PARAFUSO HEXAGONAL MA M20X80","justificativa":""}
+{"CODIGO_MATERIAL":"20504737","id_pdm":"PDM001","campo":"ROSCA","y_gold":"METRICA GROSSA","status":"DEFINIDO","evidencia":"MA M20X80","justificativa":"sem passo => metrica grossa (regra 2)"}
+{"CODIGO_MATERIAL":"20504737","id_pdm":"PDM001","campo":"BITOLA","y_gold":"M20","status":"DEFINIDO","evidencia":"M20X80","justificativa":""}
+{"CODIGO_MATERIAL":"20504737","id_pdm":"PDM001","campo":"COMPRIMENTO","y_gold":"80MM","status":"DEFINIDO","evidencia":"M20X80","justificativa":"regra 2"}
+{"CODIGO_MATERIAL":"20504737","id_pdm":"PDM001","campo":"CLASSE RESISTENCIA","y_gold":"8.8","status":"DEFINIDO","evidencia":"8.8","justificativa":""}
+{"CODIGO_MATERIAL":"20504737","id_pdm":"PDM001","campo":"MATERIAL","y_gold":"","status":"AUSENTE","evidencia":"","justificativa":"nenhuma palavra de material no texto; deduzir da classe 8.8 seria ir alem do que esta escrito"}
+{"CODIGO_MATERIAL":"20504737","id_pdm":"PDM001","campo":"ACABAMENTO","y_gold":"SEM ACABAMENTO","status":"DEFINIDO","evidencia":"S/ACAB","justificativa":""}
+{"CODIGO_MATERIAL":"20504737","id_pdm":"PDM001","campo":"NORMA","y_gold":"DIN 933","status":"DEFINIDO","evidencia":"DIN 933","justificativa":""}
+{"CODIGO_MATERIAL":"15799962","id_pdm":"PDM066","campo":"_CLASSE","y_gold":"PDM066","status":"DEFINIDO","evidencia":"SENSOR IND - CORPO:M-18","justificativa":"SENSOR IND = indutivo"}
+{"CODIGO_MATERIAL":"15799962","id_pdm":"PDM066","campo":"ROSCA CORPO","y_gold":"M18","status":"DEFINIDO","evidencia":"CORPO:M-18","justificativa":""}
+{"CODIGO_MATERIAL":"15799962","id_pdm":"PDM066","campo":"DISTANCIA SENSORA","y_gold":"5MM","status":"DEFINIDO","evidencia":"ALCANCE:5MM","justificativa":"alcance = distancia sensora"}
+{"CODIGO_MATERIAL":"15799962","id_pdm":"PDM066","campo":"MONTAGEM","y_gold":"FACEADO","status":"DEFINIDO","evidencia":"MONTAGEM:FACEADO","justificativa":""}
+{"CODIGO_MATERIAL":"15799962","id_pdm":"PDM066","campo":"SAIDA","y_gold":"NPN NA","status":"DEFINIDO","evidencia":"NPN NA","justificativa":""}
+{"CODIGO_MATERIAL":"15799962","id_pdm":"PDM066","campo":"CONEXAO","y_gold":"CABO 2M","status":"DEFINIDO","evidencia":"TIPO CONEXAO:CABO 2M","justificativa":""}
+{"CODIGO_MATERIAL":"28638567","id_pdm":"PDM041","campo":"_CLASSE","y_gold":"PDM041","status":"DEFINIDO","evidencia":"VALVULA GAV ... ROSCADO REDUTOR","justificativa":"GAV = gaveta"}
+{"CODIGO_MATERIAL":"28638567","id_pdm":"PDM041","campo":"DIAMETRO NOMINAL","y_gold":"8POL","status":"DEFINIDO","evidencia":"DN200","justificativa":"DN200 = 8POL"}
+{"CODIGO_MATERIAL":"28638567","id_pdm":"PDM041","campo":"CLASSE PRESSAO","y_gold":"300#","status":"DEFINIDO","evidencia":"300#","justificativa":""}
+{"CODIGO_MATERIAL":"28638567","id_pdm":"PDM041","campo":"MATERIAL CORPO","y_gold":"","status":"AUSENTE","evidencia":"","justificativa":"sem material"}
+{"CODIGO_MATERIAL":"28638567","id_pdm":"PDM041","campo":"CONEXAO","y_gold":"","status":"INDEFINIVEL","evidencia":"FLANGES","justificativa":"nao decide FF ou RF"}
+{"CODIGO_MATERIAL":"28638567","id_pdm":"PDM041","campo":"CASTELO","y_gold":"ROSCADO","status":"DEFINIDO","evidencia":"ROSCADO","justificativa":""}
+{"CODIGO_MATERIAL":"28638567","id_pdm":"PDM041","campo":"ACIONAMENTO","y_gold":"REDUTOR","status":"DEFINIDO","evidencia":"REDUTOR MANUAL","justificativa":""}
+{"CODIGO_MATERIAL":"18612778","id_pdm":"PDM044","campo":"_CLASSE","y_gold":"PDM044","status":"DEFINIDO","evidencia":"VALV. BORB ... TIPO CORPO:LUG","justificativa":"BORB = borboleta"}
+{"CODIGO_MATERIAL":"18612778","id_pdm":"PDM044","campo":"DIAMETRO NOMINAL","y_gold":"4POL","status":"DEFINIDO","evidencia":"DIAM NOMINAL:4 IN","justificativa":"IN = polegada"}
+{"CODIGO_MATERIAL":"18612778","id_pdm":"PDM044","campo":"TIPO CORPO","y_gold":"LUG","status":"DEFINIDO","evidencia":"TIPO CORPO:LUG","justificativa":""}
+{"CODIGO_MATERIAL":"18612778","id_pdm":"PDM044","campo":"MATERIAL CORPO","y_gold":"ACO CARBONO FUNDIDO A216 WCB","status":"DEFINIDO","evidencia":"CORPO:ACO CARBONO FUNDIDO A216 WCB","justificativa":""}
+{"CODIGO_MATERIAL":"18612778","id_pdm":"PDM044","campo":"MATERIAL DISCO","y_gold":"ACO INOX FUNDIDO A351 CF8M","status":"DEFINIDO","evidencia":"MATERIAL DISCO:A351 CF8M","justificativa":""}
+{"CODIGO_MATERIAL":"18612778","id_pdm":"PDM044","campo":"VEDACAO SEDE","y_gold":"EPDM","status":"DEFINIDO","evidencia":"VEDACAO SEDE:EPDM","justificativa":""}
+{"CODIGO_MATERIAL":"18612778","id_pdm":"PDM044","campo":"ACIONAMENTO","y_gold":"ATUADOR PNEUMATICO","status":"DEFINIDO","evidencia":"ACIONAMENTO:PNEUMATICO","justificativa":"unico pneumatico da lista"}
+{"CODIGO_MATERIAL":"11247496","id_pdm":"PDM064","campo":"_CLASSE","y_gold":"PDM064","status":"DEFINIDO","evidencia":"FUSIVEL, TIPO:NH","justificativa":""}
+{"CODIGO_MATERIAL":"11247496","id_pdm":"PDM064","campo":"TIPO","y_gold":"NH","status":"DEFINIDO","evidencia":"TIPO:NH","justificativa":""}
+{"CODIGO_MATERIAL":"11247496","id_pdm":"PDM064","campo":"TAMANHO","y_gold":"NH1","status":"DEFINIDO","evidencia":"TAM:NH1","justificativa":""}
+{"CODIGO_MATERIAL":"11247496","id_pdm":"PDM064","campo":"CORRENTE NOMINAL","y_gold":"125A","status":"DEFINIDO","evidencia":"IN:125A","justificativa":""}
+{"CODIGO_MATERIAL":"14571652","id_pdm":"PDM081","campo":"_CLASSE","y_gold":"PDM081","status":"DEFINIDO","evidencia":"DISCO ABRASIVO; TIPO: FLAP","justificativa":""}
+{"CODIGO_MATERIAL":"14571652","id_pdm":"PDM081","campo":"TIPO","y_gold":"FLAP","status":"DEFINIDO","evidencia":"TIPO: FLAP","justificativa":""}
+{"CODIGO_MATERIAL":"14571652","id_pdm":"PDM081","campo":"DIAMETRO","y_gold":"180MM","status":"DEFINIDO","evidencia":"DIAMETRO: 180MM","justificativa":""}
+{"CODIGO_MATERIAL":"14571652","id_pdm":"PDM081","campo":"APLICACAO","y_gold":"ACO INOX","status":"DEFINIDO","evidencia":"APLICACAO: ACO INOX","justificativa":""}
+{"CODIGO_MATERIAL":"14571652","id_pdm":"PDM081","campo":"GRAO","y_gold":"60","status":"DEFINIDO","evidencia":"GRAO: 60","justificativa":"tipo FLAP: o atributo se aplica"}
+{"CODIGO_MATERIAL":"23311924","id_pdm":"PDM013","campo":"_CLASSE","y_gold":"PDM013","status":"DEFINIDO","evidencia":"MANGUEIRA PNEUMATICA","justificativa":""}
+{"CODIGO_MATERIAL":"23311924","id_pdm":"PDM013","campo":"MATERIAL","y_gold":"PVC","status":"DEFINIDO","evidencia":"MAT PVC","justificativa":""}
+{"CODIGO_MATERIAL":"23311924","id_pdm":"PDM013","campo":"DIAMETRO EXTERNO","y_gold":"16MM","status":"DEFINIDO","evidencia":"DIAMETRO EXTERNO 16 MM","justificativa":""}
+{"CODIGO_MATERIAL":"23311924","id_pdm":"PDM013","campo":"PRESSAO TRABALHO","y_gold":"10BAR","status":"DEFINIDO","evidencia":"PRESSAO TRAB 145 PSI","justificativa":"145 PSI / 14,5038 = 10,0 BAR"}
+{"CODIGO_MATERIAL":"23311924","id_pdm":"PDM013","campo":"COR","y_gold":"PRETA","status":"DEFINIDO","evidencia":"COR PRETA","justificativa":""}
+{"CODIGO_MATERIAL":"16613005","id_pdm":"PDM050","campo":"_CLASSE","y_gold":"PDM050","status":"DEFINIDO","evidencia":"FLANGE; TIPO:SOBREPOSTO SO","justificativa":""}
+{"CODIGO_MATERIAL":"16613005","id_pdm":"PDM050","campo":"TIPO","y_gold":"SOBREPOSTO SO","status":"DEFINIDO","evidencia":"TIPO:SOBREPOSTO SO","justificativa":"flange: o atributo se aplica"}
+{"CODIGO_MATERIAL":"16613005","id_pdm":"PDM050","campo":"DIAMETRO NOMINAL","y_gold":"12POL","status":"DEFINIDO","evidencia":"DIAMETRO:12\"","justificativa":""}
+{"CODIGO_MATERIAL":"16613005","id_pdm":"PDM050","campo":"CLASSE PRESSAO","y_gold":"150#","status":"DEFINIDO","evidencia":"CL:150#","justificativa":""}
+{"CODIGO_MATERIAL":"16613005","id_pdm":"PDM050","campo":"FACE","y_gold":"RF","status":"DEFINIDO","evidencia":"FACE:RF","justificativa":"flange: o atributo se aplica"}
+{"CODIGO_MATERIAL":"16613005","id_pdm":"PDM050","campo":"MATERIAL","y_gold":"","status":"INDEFINIVEL","evidencia":"MAT:INOX","justificativa":"INOX sozinho nao escolhe entre A403 WP316 e A182 F316"}
+{"CODIGO_MATERIAL":"10818442","id_pdm":"PDM034","campo":"_CLASSE","y_gold":"PDM034","status":"DEFINIDO","evidencia":"JUNTA  VEDACAO 1\" 300# EPDM 3MM RF","justificativa":"espessura e tipo de face: junta plana"}
+{"CODIGO_MATERIAL":"10818442","id_pdm":"PDM034","campo":"DIAMETRO NOMINAL","y_gold":"1POL","status":"DEFINIDO","evidencia":"1\"","justificativa":""}
+{"CODIGO_MATERIAL":"10818442","id_pdm":"PDM034","campo":"CLASSE PRESSAO","y_gold":"300#","status":"DEFINIDO","evidencia":"300#","justificativa":""}
+{"CODIGO_MATERIAL":"10818442","id_pdm":"PDM034","campo":"MATERIAL","y_gold":"EPDM","status":"DEFINIDO","evidencia":"EPDM","justificativa":""}
+{"CODIGO_MATERIAL":"10818442","id_pdm":"PDM034","campo":"ESPESSURA","y_gold":"3MM","status":"DEFINIDO","evidencia":"3MM","justificativa":""}
+{"CODIGO_MATERIAL":"10818442","id_pdm":"PDM034","campo":"TIPO FACE","y_gold":"RF","status":"DEFINIDO","evidencia":"RF","justificativa":""}
+{"CODIGO_MATERIAL":"11848855","id_pdm":"PDM011","campo":"_CLASSE","y_gold":"PDM011","status":"DEFINIDO","evidencia":"MANGUEIRA HIDRAULICA MONT","justificativa":""}
+{"CODIGO_MATERIAL":"11848855","id_pdm":"PDM011","campo":"NORMA","y_gold":"EN 856 4SP","status":"DEFINIDO","evidencia":"CONF EN 856 4SP","justificativa":""}
+{"CODIGO_MATERIAL":"11848855","id_pdm":"PDM011","campo":"DIAMETRO INTERNO","y_gold":"1/2POL","status":"DEFINIDO","evidencia":"D.I. 1/2POL (-8)","justificativa":""}
+{"CODIGO_MATERIAL":"11848855","id_pdm":"PDM011","campo":"COMPRIMENTO","y_gold":"750MM","status":"DEFINIDO","evidencia":"COMP 750 MM","justificativa":""}
+{"CODIGO_MATERIAL":"11848855","id_pdm":"PDM011","campo":"TERMINAL A","y_gold":"MACHO RETO NPT","status":"DEFINIDO","evidencia":"TERM A DE MACHO RETO NPT","justificativa":""}
+{"CODIGO_MATERIAL":"11848855","id_pdm":"PDM011","campo":"TERMINAL B","y_gold":"","status":"INDEFINIVEL","evidencia":"LADO B DE FEMEA ORFS","justificativa":"nao decide reta ou curva 90"}
+{"CODIGO_MATERIAL":"11848855","id_pdm":"PDM011","campo":"MATERIAL TERMINAIS","y_gold":"ACO CARBONO ZINCADO","status":"DEFINIDO","evidencia":"MAT TERMINAIS DE ACO ZINCADO","justificativa":""}
+{"CODIGO_MATERIAL":"29792820","id_pdm":"PDM110","campo":"_CLASSE","y_gold":"PDM110","status":"DEFINIDO","evidencia":"RODA  GUIA, ESCAVADEIRA HIDRAULICA","justificativa":"RODA GUIA esta na lista de sobressalentes"}
+{"CODIGO_MATERIAL":"29792820","id_pdm":"PDM110","campo":"APLICACAO","y_gold":"ESCAVADEIRA HIDRAULICA","status":"DEFINIDO","evidencia":"ESCAVADEIRA HIDRAULICA","justificativa":""}
+{"CODIGO_MATERIAL":"29792820","id_pdm":"PDM110","campo":"MODELO EQUIPAMENTO","y_gold":"PC2000","status":"DEFINIDO","evidencia":"MODELO EQUIPAMENTO:PC2000","justificativa":""}
+{"CODIGO_MATERIAL":"29792820","id_pdm":"PDM110","campo":"FABRICANTE","y_gold":"KOMATSU","status":"DEFINIDO","evidencia":"MARCA:KOMATSU","justificativa":""}
+{"CODIGO_MATERIAL":"29792820","id_pdm":"PDM110","campo":"REFERENCIA FABRICANTE","y_gold":"536-07-55951","status":"DEFINIDO","evidencia":"P/N:536-07-55951","justificativa":""}
+{"CODIGO_MATERIAL":"10858863","id_pdm":"PDM002","campo":"_CLASSE","y_gold":"PDM002","status":"DEFINIDO","evidencia":"PARAFUSO  SEXTAVADO ALLEN CILINDRICA","justificativa":"allen = sextavado interno"}
+{"CODIGO_MATERIAL":"10858863","id_pdm":"PDM002","campo":"TIPO CABECA","y_gold":"CILINDRICA","status":"DEFINIDO","evidencia":"CILINDRICA","justificativa":""}
+{"CODIGO_MATERIAL":"10858863","id_pdm":"PDM002","campo":"BITOLA","y_gold":"M14","status":"DEFINIDO","evidencia":"M14X70","justificativa":""}
+{"CODIGO_MATERIAL":"10858863","id_pdm":"PDM002","campo":"COMPRIMENTO","y_gold":"70MM","status":"DEFINIDO","evidencia":"M14X70","justificativa":"regra 2"}
+{"CODIGO_MATERIAL":"10858863","id_pdm":"PDM002","campo":"CLASSE RESISTENCIA","y_gold":"12.9","status":"DEFINIDO","evidencia":"12.9","justificativa":""}
+{"CODIGO_MATERIAL":"10858863","id_pdm":"PDM002","campo":"MATERIAL","y_gold":"","status":"INDEFINIVEL","evidencia":"ACO ESPECIAL","justificativa":"ACO ESPECIAL nao e valor da lista do PDM002"}
+{"CODIGO_MATERIAL":"10858863","id_pdm":"PDM002","campo":"ACABAMENTO","y_gold":"ZINCADO BRANCO","status":"DEFINIDO","evidencia":"ZINC BRANCO","justificativa":""}
+{"CODIGO_MATERIAL":"29452826","id_pdm":"PDM012","campo":"_CLASSE","y_gold":"PDM012","status":"DEFINIDO","evidencia":"MANGUEIRA MULTIUSO AR COMPRIMIDO EPDM ... LONAS TEXTEIS","justificativa":"mangueira industrial"}
+{"CODIGO_MATERIAL":"29452826","id_pdm":"PDM012","campo":"APLICACAO","y_gold":"MULTIUSO","status":"DEFINIDO","evidencia":"MANGUEIRA MULTIUSO AR COMPRIMIDO","justificativa":"MULTIUSO qualifica a mangueira; AR COMPRIMIDO e o uso citado"}
+{"CODIGO_MATERIAL":"29452826","id_pdm":"PDM012","campo":"MATERIAL","y_gold":"EPDM","status":"DEFINIDO","evidencia":"EPDM","justificativa":""}
+{"CODIGO_MATERIAL":"29452826","id_pdm":"PDM012","campo":"DIAMETRO INTERNO","y_gold":"3/4POL","status":"DEFINIDO","evidencia":"3/4POL","justificativa":""}
+{"CODIGO_MATERIAL":"29452826","id_pdm":"PDM012","campo":"PRESSAO TRABALHO","y_gold":"20BAR","status":"DEFINIDO","evidencia":"290 PSI","justificativa":"290 PSI / 14,5038 = 20,0 BAR"}
+{"CODIGO_MATERIAL":"29452826","id_pdm":"PDM012","campo":"REFORCO","y_gold":"LONAS TEXTEIS","status":"DEFINIDO","evidencia":"LONAS TEXTEIS","justificativa":""}
+{"CODIGO_MATERIAL":"12012755","id_pdm":"PDM040","campo":"_CLASSE","y_gold":"PDM040","status":"DEFINIDO","evidencia":"VALVULA ESFERA DN 100 300#","justificativa":""}
+{"CODIGO_MATERIAL":"12012755","id_pdm":"PDM040","campo":"DIAMETRO NOMINAL","y_gold":"4POL","status":"DEFINIDO","evidencia":"DN 100","justificativa":"DN 100 = 4POL"}
+{"CODIGO_MATERIAL":"12012755","id_pdm":"PDM040","campo":"CLASSE PRESSAO","y_gold":"300#","status":"DEFINIDO","evidencia":"300#","justificativa":""}
+{"CODIGO_MATERIAL":"12012755","id_pdm":"PDM040","campo":"MATERIAL CORPO","y_gold":"ACO INOX FUNDIDO A351 CF8M","status":"DEFINIDO","evidencia":"CF8M","justificativa":"CF8M = A351 CF8M"}
+{"CODIGO_MATERIAL":"12012755","id_pdm":"PDM040","campo":"CONEXAO","y_gold":"FLANGE RF","status":"DEFINIDO","evidencia":"FLANGE RF","justificativa":""}
+{"CODIGO_MATERIAL":"12012755","id_pdm":"PDM040","campo":"PASSAGEM","y_gold":"PLENA","status":"DEFINIDO","evidencia":"PLENA","justificativa":""}
+{"CODIGO_MATERIAL":"12012755","id_pdm":"PDM040","campo":"VEDACAO SEDE","y_gold":"RPTFE","status":"DEFINIDO","evidencia":"RPTFE","justificativa":""}
+{"CODIGO_MATERIAL":"12012755","id_pdm":"PDM040","campo":"ACIONAMENTO","y_gold":"ALAVANCA","status":"DEFINIDO","evidencia":"ALAVANCA","justificativa":""}
+{"CODIGO_MATERIAL":"22166850","id_pdm":"PDM013","campo":"_CLASSE","y_gold":"PDM013","status":"DEFINIDO","evidencia":"MANGUEIRA PNEUMATICA","justificativa":""}
+{"CODIGO_MATERIAL":"22166850","id_pdm":"PDM013","campo":"MATERIAL","y_gold":"POLIURETANO","status":"DEFINIDO","evidencia":"MAT PU","justificativa":"PU = poliuretano"}
+{"CODIGO_MATERIAL":"22166850","id_pdm":"PDM013","campo":"DIAMETRO EXTERNO","y_gold":"4MM","status":"DEFINIDO","evidencia":"D.E. 4MM","justificativa":""}
+{"CODIGO_MATERIAL":"22166850","id_pdm":"PDM013","campo":"PRESSAO TRABALHO","y_gold":"10BAR","status":"DEFINIDO","evidencia":"PT 145 PSI","justificativa":"145 PSI / 14,5038 = 10,0 BAR"}
+{"CODIGO_MATERIAL":"22166850","id_pdm":"PDM013","campo":"COR","y_gold":"AZUL","status":"DEFINIDO","evidencia":"COR AZUL","justificativa":""}
+{"CODIGO_MATERIAL":"24883818","id_pdm":"PDM033","campo":"_CLASSE","y_gold":"PDM033","status":"DEFINIDO","evidencia":"JUNTA ESPIRALADA","justificativa":""}
+{"CODIGO_MATERIAL":"24883818","id_pdm":"PDM033","campo":"DIAMETRO NOMINAL","y_gold":"1.1/2POL","status":"DEFINIDO","evidencia":"DIAMETRO NOMINAL:1-1/2\"","justificativa":""}
+{"CODIGO_MATERIAL":"24883818","id_pdm":"PDM033","campo":"CLASSE PRESSAO","y_gold":"150#","status":"DEFINIDO","evidencia":"RATING:150#","justificativa":"rating = classe de pressao"}
+{"CODIGO_MATERIAL":"24883818","id_pdm":"PDM033","campo":"MATERIAL FITA","y_gold":"ACO INOX 316","status":"DEFINIDO","evidencia":"MATERIAL FITA:SS316","justificativa":"SS316 = ACO INOX 316"}
+{"CODIGO_MATERIAL":"24883818","id_pdm":"PDM033","campo":"ENCHIMENTO","y_gold":"GRAFITE FLEXIVEL","status":"DEFINIDO","evidencia":"ENCHIMENTO:GRAFOIL","justificativa":""}
+{"CODIGO_MATERIAL":"24883818","id_pdm":"PDM033","campo":"ANEL INTERNO","y_gold":"SEM ANEL INTERNO","status":"DEFINIDO","evidencia":"ANEL INTERNO:SEM ANEL INTERNO","justificativa":""}
