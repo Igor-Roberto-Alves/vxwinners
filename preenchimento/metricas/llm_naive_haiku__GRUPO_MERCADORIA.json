@@ -1,0 +1,11 @@
+{
+ "segundos": 100.1,
+ "chamadas_api": 1775.83,
+ "tokens_entrada": 527754,
+ "tokens_saida": 107377,
+ "modelo": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+ "custo_estimado_usd": 1.0646,
+ "observacoes": "Comparador ingenuo: 1 chamada por linha da uniao do teste, enviando o registro completo da base (15 colunas) em JSON com os campos de teste da linha = null; sem vocabulario de valores validos, sem exemplos, sem few-shot. Linhas presentes no teste de mais de um campo compartilham a mesma chamada, por isso tokens, chamadas e segundos da chamada foram rateados igualmente entre os campos mascarados da linha (valores fracionarios; a soma dos 4 campos = total do modelo). Abstencoes: 1/2000 (resposta ilegivel, campo ausente no JSON, normalizacao vazia ou falha apos retries). Erros de API da solucao inteira: nenhum.",
+ "solucao": "llm_naive_haiku",
+ "campo": "GRUPO_MERCADORIA"
+}

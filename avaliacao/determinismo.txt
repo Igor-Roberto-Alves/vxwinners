@@ -1,0 +1,1 @@
+23.554 registros comparados, nenhuma diferença: saneado_base.csv, plano_juncao.csv e aprendizado.json idênticos nas duas execuções (scripts/17_testar_determinismo.sh, 08/11/2026)

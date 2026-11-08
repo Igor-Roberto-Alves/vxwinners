@@ -1,0 +1,11 @@
+{
+ "segundos": 55.9,
+ "chamadas_api": 100,
+ "tokens_entrada": 726493,
+ "tokens_saida": 128352,
+ "modelo": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+ "custo_estimado_usd": 1.3683,
+ "observacoes": "lotes de 20 itens (100 lotes); few-shot 3 vizinhos TF-IDF do treino; abstencoes=0 (itens sem resposta/ilegiveis do modelo=0); prep tfidf 5.4s compartilhada entre os dois modelos",
+ "solucao": "llm_fewshot_haiku",
+ "campo": "GRUPO_MERCADORIA"
+}

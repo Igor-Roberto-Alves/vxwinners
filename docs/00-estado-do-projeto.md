@@ -5,7 +5,9 @@ Hackathon VX, Desafio 01 — Cadastro e saneamento de materiais.
 
 Este é o documento de entrada. Ele diz o que existe, o que foi medido, o que
 ainda não funciona e onde está cada coisa. Para entender **como** o pipeline
-funciona, leia `04-como-funciona.md`.
+funciona, leia `04-como-funciona.md`. O produto de cadastro, que usa este
+pipeline como fonte de conhecimento, está em `06-plano-modo-cadastro.md` e
+[`backend/`](../backend/README.md); a seção 8 resume a integração.
 
 ---
 
@@ -26,6 +28,11 @@ quando duas grades têm as mesmas caixas, é o mesmo item.**
 ## 2. Números medidos
 
 Tudo abaixo saiu de execução real sobre os 23.554 registros, não de estimativa.
+
+**Estes números são anteriores às correções da seção 5** (os cinco últimos bugs)
+e valem como histórico. Depois delas, o pipeline **sem** BERT mede 9.268 chaves
+fechadas e 1.199 códigos redundantes. Com BERT não foi medido de novo: o modelo
+não está no GitHub. Os números do backend estão na seção 8.
 
 ### Pipeline determinístico (regras + dicionário, sem modelo)
 
@@ -159,14 +166,17 @@ src/saneamento/
 | `00-estado-do-projeto.md` | este arquivo: índice e status |
 | `01-dados.md` | os 3 xlsx e o PDF, com os problemas medidos |
 | `02-plano-projeto.md` | o plano original e a stack |
+| `03-analise-mercado.md` | análise de mercado e comparação de soluções |
 | `03-treinar-bert.md` | handoff para treinar em outra máquina |
 | **`04-como-funciona.md`** | **a explicação didática do pipeline, do zero** |
 | `05-riscos-pdm.md` | gerado: os riscos estruturais do PDM |
+| `06-extracao-das-caixas.md` | como cada atributo é extraído para a sua caixa |
+| `06-plano-modo-cadastro.md` | o produto de cadastro: decisões, estado e medições |
 
 ### Testes
 
 ```bash
-.venv/bin/python -m pytest tests/ -q     # 73 testes
+.venv/bin/python -m pytest tests/ -q     # 77 testes
 ```
 
 Cobrem as invariantes do PDM (formato de unidade, lista de valores, chave de
@@ -204,7 +214,8 @@ Inspeções úteis:
 ## 5. Bugs encontrados e corrigidos
 
 Esta seção existe porque a banca vai perguntar como sabemos que o resultado está
-certo. Nove bugs, e quatro deles inflavam números que já tinham sido reportados.
+certo. São catorze bugs. Quatro dos nove primeiros inflavam números já reportados.
+Os cinco últimos apareceram ao comparar este pipeline com o backend.
 
 | Bug | Efeito medido |
 |---|---|
@@ -217,6 +228,11 @@ certo. Nove bugs, e quatro deles inflavam números que já tinham sido reportado
 | `temperature` enviado a modelos que o rejeitam | 100% das chamadas ao LLM falhariam |
 | Erro do LLM ignorado pelo pipeline | falha total apareceria como "rodou e não achou nada" |
 | Train/serve skew: o treino apaga os nomes de atributo, a inferência não | 3.141 registros com `FABRICANTE` etiquetado como valor de `MATERIAL` |
+| Passo da rosca lido como comprimento | 68 registros; unia parafusos de 35, 60 e 150 mm |
+| O-ring com diâmetro interno e seção trocados | 41 registros com medidas invertidas na chave |
+| `1/2POLX3 1/2POL` ficava com `COMPRIMENTO=1/2POL` | unia itens de comprimentos diferentes |
+| Ruído na referência (`REV A`, `-00`, zero à esquerda) | a mesma peça ficava em chaves diferentes |
+| Substantivo dentro da chave de referência, contra a regra 10 | a mesma referência separada por um nome diferente |
 
 Os três primeiros só apareceram porque fomos buscar um exemplo de junção para o
 documento didático e o exemplo estava errado — três cabos idênticos exceto pela
@@ -278,7 +294,9 @@ não de extração — e qualquer modelo que preencha ali está inventando.
 
 ## 7. O que falta
 
-Em ordem de retorno por esforço:
+Em ordem de retorno por esforço. **Os itens 3, 5 e 7 foram resolvidos pelo backend**
+(LLM na base inteira, pedidos e interface; seção 8), e o cliente Bedrock pelo SDK da
+Anthropic também está lá. A lista fica como referência para o saneamento:
 
 | # | O que | Por que importa |
 |---|---|---|
@@ -301,7 +319,30 @@ Pendências menores:
 
 ---
 
-## 8. Glossário rápido
+## 8. Integração com o modo de cadastro
+
+As branches `main`, `analise-de-mercado` e `Expli` estão unidas em `modo-cadastro`. O
+backend importa sinônimos e limpeza de referência de `src/saneamento`, roda os modelos
+de `servico/` e foi comparado com este pipeline registro a registro.
+
+| Medida, com regras e LLM | Valor |
+|---|---|
+| Base com classe | **99,5%** (23.440) |
+| Chave de identidade fechada | **78,2%** (18.417) |
+| Códigos redundantes | **3.314**, em 2.417 chaves |
+| Capital nesses códigos | **R$ 19,27 mi**, de R$ 200,87 mi |
+
+O frontend do time já usa esse backend: busca, cadastro, pedidos e revisão funcionam
+com a base real em `http://localhost:8000/`, e `./rodar.sh` sobe tudo. As demais telas
+ainda são demonstração, e a etiqueta do topo avisa.
+
+Os valores ainda são estimativa: faltam a revisão do time e uma amostra anotada à mão.
+A comparação dos dois pipelines, o que entrou e o que ficou de fora estão em
+`06-plano-modo-cadastro.md`, seção 0.
+
+---
+
+## 9. Glossário rápido
 
 | Termo | Significado |
 |---|---|

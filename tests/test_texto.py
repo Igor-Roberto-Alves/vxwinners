@@ -13,7 +13,7 @@ import pytest  # noqa: E402
 
 from saneamento.texto import (  # noqa: E402
     expandir, fmt_bar, fmt_mm, fmt_mm2, fmt_pol, juntar, normalizar,
-    normalizar_estrutura, parse_numero, sem_acento, separar_rosca_metrica,
+    normalizar_estrutura, parse_numero, referencia_canonica, sem_acento, separar_rosca_metrica,
 )
 
 
@@ -266,3 +266,32 @@ def test_aspas_de_polegada_viram_pol(cru, esperado):
 def test_polegada_em_ingles(cru, esperado):
     # 1.152 ocorrencias de numero + IN na base; o termo nao reconhecido mais comum.
     assert normalizar(cru) == esperado
+
+
+# ---- regressoes encontradas comparando este pipeline com o backend (2026-11-07)
+
+def test_passo_da_rosca_nao_vira_comprimento():
+    """Bug: M12X1,5 virava COMPRIMENTO=1,5MM e parafusos de 35, 60 e 150 mm fechavam a mesma chave."""
+    r = separar_rosca_metrica("BITOLA: M12X1,5")
+    assert r["BITOLA"] == "M12X1,5" and "COMPRIMENTO" not in r and r["ROSCA"] == "METRICA FINA"
+    r = separar_rosca_metrica("PARAFUSO M12X1,5X60 A2-70")
+    assert (r["BITOLA"], r["COMPRIMENTO"], r["ROSCA"]) == ("M12X1,5", "60MM", "METRICA FINA")
+    r = separar_rosca_metrica("M12X50")
+    assert (r["BITOLA"], r["COMPRIMENTO"], r["ROSCA"]) == ("M12", "50MM", "METRICA GROSSA")
+
+
+def test_notacao_composta_em_polegada():
+    """Bug: `1/2POLX3 1/2POL` ficava com COMPRIMENTO=1/2POL e unia itens diferentes."""
+    r = separar_rosca_metrica("PARAFUSO HEXAGONAL UNC 1/2POLX3 1/2POL SAE GRAU 8")
+    assert r == {"BITOLA": "1/2POL", "COMPRIMENTO": "3.1/2POL"}
+
+
+def test_referencia_canonica_tira_ruido_de_cadastro():
+    assert referencia_canonica("5751 9508 65 REV A") == referencia_canonica("5751950865")
+    assert referencia_canonica("05307 P/ MANUTENCAO") == referencia_canonica("05307") == "5307"
+    assert referencia_canonica("36146, CARBETO TUNGSTENIO") == "36146"
+    assert referencia_canonica("362-88-67868-00") == referencia_canonica("362-88-67868")
+    assert referencia_canonica("02099") == referencia_canonica("2099")
+    assert referencia_canonica("N75323456 ITEM CRITICO") == "N75323456"
+    assert referencia_canonica("1R-1808") == "1R1808"
+    assert referencia_canonica("") == ""

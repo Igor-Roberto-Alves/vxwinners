@@ -1,0 +1,23 @@
+[project]
+name = "vxwinners-cadastro"
+version = "0.1.0"
+description = "Modo de cadastro de materiais: API, motor de sugestão e verificação de duplicidade"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+  "pydantic-settings>=2.4",
+  "sqlalchemy>=2.0",
+  "psycopg[binary]>=3.2",
+  "alembic>=1.13",
+  "openpyxl>=3.1",
+  "boto3>=1.34",
+  "anthropic[bedrock]>=2.6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "httpx>=0.27", "pgserver>=0.1.4"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

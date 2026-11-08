@@ -1,0 +1,11 @@
+{
+ "segundos": 291.2,
+ "chamadas_api": 100,
+ "tokens_entrada": 1274806,
+ "tokens_saida": 161644,
+ "modelo": "us.anthropic.claude-fable-5",
+ "custo_estimado_usd": 20.8303,
+ "observacoes": "lotes de 20 itens (100 lotes); few-shot 3 vizinhos TF-IDF do treino; abstencoes=0 (itens sem resposta/ilegiveis do modelo=0); prep tfidf 2.9s compartilhada entre os modelos da execucao; candidatos = ate 10 NCMs mais frequentes do grupo no treino",
+ "solucao": "llm_fewshot_fable",
+ "campo": "NCM"
+}

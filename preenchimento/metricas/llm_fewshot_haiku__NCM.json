@@ -1,0 +1,11 @@
+{
+ "segundos": 64.7,
+ "chamadas_api": 100,
+ "tokens_entrada": 889838,
+ "tokens_saida": 129408,
+ "modelo": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+ "custo_estimado_usd": 1.5369,
+ "observacoes": "lotes de 20 itens (100 lotes); few-shot 3 vizinhos TF-IDF do treino; abstencoes=0 (itens sem resposta/ilegiveis do modelo=0); prep tfidf 2.8s compartilhada entre os dois modelos; candidatos = ate 10 NCMs mais frequentes do grupo no treino",
+ "solucao": "llm_fewshot_haiku",
+ "campo": "NCM"
+}

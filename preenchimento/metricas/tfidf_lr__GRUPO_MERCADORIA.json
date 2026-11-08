@@ -1,0 +1,11 @@
+{
+ "segundos": 26.5,
+ "chamadas_api": 0,
+ "tokens_entrada": 0,
+ "tokens_saida": 0,
+ "modelo": "",
+ "custo_estimado_usd": 0.0,
+ "observacoes": "TF-IDF uniao word(1,2)+char_wb(3,5) min_df=2 (88309 dims, fit so no treino) + LogisticRegression(max_iter=3000, solver=lbfgs); conf=prob top1, top3=3 classes mais provaveis; sem API.",
+ "solucao": "tfidf_lr",
+ "campo": "GRUPO_MERCADORIA"
+}

@@ -494,6 +494,42 @@ def _e_passo(numero: str, diametro: int) -> bool:
         return False
     return ("," in numero or "." in numero) or diametro >= 6
 
+# 1/2POLX3 1/2POL: bitola x comprimento em polegada (a segunda medida pode ter parte inteira)
+_POLEGADA_COMPOSTA = re.compile(
+    r"(?<![0-9/.])((?:\d+[ .])?\d+/\d+|\d+)\s?(?:POL|\")\s?[Xx*]\s?((?:\d+[ .])?\d+/\d+|\d+)\s?(?:POL|\")")
+
+
+
+
+def _pol(medida: str) -> str:
+    """'3 1/2' ou '3.1/2' -> '3.1/2POL'."""
+    return re.sub(r"\s", ".", medida.strip()) + "POL"
+
+
+_REF_LIXO = re.compile(r"\s*(?:[,;]|\bP/\s|\bPARA\b|\bITEM CRITICO\b|\bVER DESENHO\b|\bCONF\b|\bCOMPRA LOCAL\b|\bREF ANTIGA\b).*$")
+_REF_REVISAO = re.compile(r"[\s\-/]*\bREV(?:ISAO)?\.?\s*[A-Z0-9]{0,2}$")
+_REF_SUFIXO_00 = re.compile(r"[\s\-/]00$")
+
+
+def referencia_limpa(valor: str | None) -> str:
+    """Part number sem o ruido de cadastro, ainda legivel: `5751 9508 65 REV A` -> `5751 9508 65`.
+
+    A base traz sufixo de revisao, observacao colada (`05307 P/ MANUTENCAO`) e `-00` de versao.
+    """
+    # sobre o texto ainda com pontuacao: a virgula e o `P/` marcam onde a observacao comeca
+    t = re.sub(r"\s+", " ", sem_acento(str(valor or "")).upper()).strip()
+    t = _REF_LIXO.sub("", t)
+    t = _REF_REVISAO.sub("", t)
+    if len(re.sub(r"[^A-Z0-9]", "", t)) > 6:
+        t = _REF_SUFIXO_00.sub("", t)
+    return t.strip(" -/.")
+
+
+def referencia_canonica(valor: str | None) -> str:
+    """Part number para comparar (regra 10): sem ruido, sem separadores e sem zero a esquerda."""
+    r = re.sub(r"[^A-Z0-9]", "", referencia_limpa(valor))
+    return r.lstrip("0") or r
+
 
 def separar_rosca_metrica(texto: str) -> dict[str, str]:
     """Desmembra notacao compacta (regra 2 do PDM).
@@ -515,7 +551,9 @@ def separar_rosca_metrica(texto: str) -> dict[str, str]:
     t = normalizar(texto)
     m = _BITOLA.search(t)
     if not m:
-        return {}
+        # sem bitola metrica: pode ser bitola x comprimento em polegada
+        p = _POLEGADA_COMPOSTA.search(t)
+        return {"BITOLA": _pol(p.group(1)), "COMPRIMENTO": _pol(p.group(2))} if p else {}
     d = int(m.group(1))
     a, b = m.group(2), m.group(3)
     # numero colado a unidade e comprimento, nunca passo: 'M16X1M' e barra de

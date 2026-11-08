@@ -1,0 +1,11 @@
+{
+ "segundos": 54.8,
+ "chamadas_api": 100,
+ "tokens_entrada": 740798,
+ "tokens_saida": 126399,
+ "modelo": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+ "custo_estimado_usd": 1.3728,
+ "observacoes": "lotes de 20 itens (100 lotes); few-shot 3 vizinhos TF-IDF do treino; abstencoes=0 (itens sem resposta/ilegiveis do modelo=0); prep tfidf 0.6s compartilhada entre os dois modelos; vocabulario com 88 fabricantes do treino",
+ "solucao": "llm_fewshot_haiku",
+ "campo": "FABRICANTE"
+}

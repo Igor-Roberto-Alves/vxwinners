@@ -1,0 +1,14 @@
+fastapi==0.162.2
+uvicorn==0.54.0
+pydantic-settings==2.16.2
+SQLAlchemy==2.1.8
+psycopg[binary]==3.3.8
+alembic==1.20.1
+openpyxl==3.1.5
+boto3==1.43.126
+anthropic[bedrock]==2.6.0
+numpy==2.5.4
+pandas==3.1.1
+scikit-learn==1.9.1
+scipy==1.18.1
+joblib==1.6.0

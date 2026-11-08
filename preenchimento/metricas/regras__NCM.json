@@ -1,0 +1,11 @@
+{
+ "segundos": 1.2,
+ "chamadas_api": 0,
+ "tokens_entrada": 0,
+ "tokens_saida": 0,
+ "modelo": "",
+ "custo_estimado_usd": 0.0,
+ "observacoes": "NCM mais frequente do treino dentro do grupo, priorizando o conjunto de NCMs validos do PDM (pdm_classes+pdm_ncm_referencia, normalizados p/ 8 digitos); top3 por frequencia priorizando validos; abstencao 0/2000 (0.0%)",
+ "solucao": "regras",
+ "campo": "NCM"
+}

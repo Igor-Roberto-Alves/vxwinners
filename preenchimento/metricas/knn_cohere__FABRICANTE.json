@@ -1,0 +1,11 @@
+{
+ "segundos": 44.7,
+ "chamadas_api": 83,
+ "tokens_entrada": 263711,
+ "tokens_saida": 0,
+ "modelo": "us.cohere.embed-v4:0",
+ "custo_estimado_usd": 0.0316,
+ "observacoes": "kNN k=25 sobre embeddings Cohere embed v4 (input_type=classification); similaridade = produto interno de vetores L2-normalizados; score de classe = soma das similaridades dos vizinhos da classe; conf = score_top1/soma dos scores; top3 = 3 classes de maior score; tokens estimados por chars/4 (API de embedding nao devolve contagem); chamadas/tokens cobrem embeddings de treino+teste do campo",
+ "solucao": "knn_cohere",
+ "campo": "FABRICANTE"
+}

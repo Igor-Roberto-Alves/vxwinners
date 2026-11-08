@@ -1626,3 +1626,14 @@ def test_bert_nao_desempata_ambiguidade(pdm):
     d = arb._decidir(classe, "MATERIAL", regra, bert)
     assert d.estado == "AMBIGUO" and d.valor is None
     assert "ACO INOX 316" in d.motivo and "pista" in d.motivo
+
+
+def test_oring_com_secao_antes_do_diametro_nao_troca_as_medidas(pdm):
+    """Bug: SECAO nao tinha peso de dominio; o texto `SECAO:2MM, DIAM INTERNO:12MM` trocava as medidas
+    (41 O-rings ficaram com diametro menor que a secao, o que e fisicamente impossivel)."""
+    from saneamento.regras import ExtratorLexico
+
+    classe = pdm.classes["PDM031"] if hasattr(pdm, "classes") else None
+    ext = ExtratorLexico(pdm)
+    r = ext.extrair("ANEL ORING, SECAO:2MM, DIAM INTERNO:12MM, FKM, DUREZA:70 SHORE A", classe, "ANEL")
+    assert r["DIAMETRO INTERNO"].valor == "12MM" and r["SECAO"].valor == "2MM"

@@ -1,0 +1,11 @@
+{
+ "segundos": 145.2,
+ "chamadas_api": 100,
+ "tokens_entrada": 1079854,
+ "tokens_saida": 153732,
+ "modelo": "us.anthropic.claude-sonnet-5",
+ "custo_estimado_usd": 3.697,
+ "observacoes": "lotes de 20 itens (100 lotes); few-shot 3 vizinhos TF-IDF do treino; abstencoes=0 (itens sem resposta/ilegiveis do modelo=0); prep tfidf 5.4s compartilhada entre os dois modelos",
+ "solucao": "llm_fewshot_sonnet",
+ "campo": "GRUPO_MERCADORIA"
+}

@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de Cadastro</title>
+<script>if (new URLSearchParams(location.search).has("embutido")) document.documentElement.dataset.embutido = "1";</script>
+<style>
+  :root {
+    --bg: #f4f5f7; --card: #ffffff; --texto: #1c2430; --suave: #5b6675; --linha: #dfe3e9; --marca: #0f6b6b;
+    --marca-fraca: #e3f2f1; --ok: #1a7f4b; --ok-fraco: #e2f4ea; --erro: #b42318; --erro-fraco: #fdecea;
+    --aviso: #a15c00; --aviso-fraco: #fff3dc; --info: #2459b3; --info-fraco: #e6eefb; --campo: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) {
+      --bg: #12161c; --card: #1a2029; --texto: #e6eaf0; --suave: #9aa5b4; --linha: #2c3542; --marca: #4fc3c0; --marca-fraca: #17302f;
+      --ok: #5fd38d; --ok-fraco: #14301f; --erro: #ff8f85; --erro-fraco: #3a1c19; --aviso: #ffc46b; --aviso-fraco: #3a2c10;
+      --info: #8fb4ff; --info-fraco: #17243f; --campo: #11161d;
+    }
+  }
+  :root[data-tema="escuro"] {
+    --bg: #12161c; --card: #1a2029; --texto: #e6eaf0; --suave: #9aa5b4; --linha: #2c3542; --marca: #4fc3c0; --marca-fraca: #17302f;
+    --ok: #5fd38d; --ok-fraco: #14301f; --erro: #ff8f85; --erro-fraco: #3a1c19; --aviso: #ffc46b; --aviso-fraco: #3a2c10;
+    --info: #8fb4ff; --info-fraco: #17243f; --campo: #11161d;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--texto); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: var(--card); border-bottom: 1px solid var(--linha); flex-wrap: wrap; }
+  header h1 { font-size: 15px; margin: 0; font-weight: 650; }
+  header .aviso-dev { font-size: 12px; color: var(--aviso); background: var(--aviso-fraco); padding: 2px 8px; border-radius: 999px; }
+  header .esp { flex: 1; }
+  select, input, textarea, button { font: inherit; color: var(--texto); }
+  select, input[type=text], textarea { background: var(--campo); border: 1px solid var(--linha); border-radius: 6px; padding: 6px 8px; width: 100%; }
+  select:focus, input:focus, textarea:focus { outline: 2px solid var(--marca); outline-offset: -1px; }
+  button { background: var(--card); border: 1px solid var(--linha); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+  button:hover { border-color: var(--marca); }
+  button.principal { background: var(--marca); border-color: var(--marca); color: #fff; font-weight: 600; }
+  button.perigo { color: var(--erro); }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  main { display: grid; grid-template-columns: 330px minmax(0, 1fr) 400px; gap: 14px; padding: 14px; align-items: start; }
+  @media (max-width: 1250px) { main { grid-template-columns: 300px minmax(0, 1fr); } #col-dir { grid-column: 1 / -1; } }
+  @media (max-width: 800px) { main { grid-template-columns: 1fr; } }
+  .card { background: var(--card); border: 1px solid var(--linha); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; }
+  .card h2 { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--suave); margin: 0 0 8px; font-weight: 650; }
+  .abas { display: flex; gap: 4px; margin-bottom: 10px; }
+  .abas button { flex: 1; border-radius: 6px; }
+  .abas button.ativa { background: var(--marca-fraca); border-color: var(--marca); color: var(--marca); font-weight: 600; }
+  .linha { display: flex; gap: 8px; align-items: center; }
+  .suave { color: var(--suave); } .peq { font-size: 12px; } .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .item { border: 1px solid var(--linha); border-radius: 8px; padding: 8px 10px; margin-top: 8px; cursor: pointer; }
+  .item:hover { border-color: var(--marca); background: var(--marca-fraca); }
+  .item b { font-weight: 600; }
+  .pill { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 999px; background: var(--info-fraco); color: var(--info); white-space: nowrap; }
+  .pill.ok { background: var(--ok-fraco); color: var(--ok); } .pill.erro { background: var(--erro-fraco); color: var(--erro); }
+  .pill.aviso { background: var(--aviso-fraco); color: var(--aviso); } .pill.cinza { background: var(--linha); color: var(--suave); }
+  .aviso-caixa { border-radius: 8px; padding: 8px 10px; margin-top: 8px; font-size: 13px; }
+  .aviso-caixa.erro { background: var(--erro-fraco); color: var(--erro); } .aviso-caixa.aviso { background: var(--aviso-fraco); color: var(--aviso); }
+  .aviso-caixa.info { background: var(--info-fraco); color: var(--info); } .aviso-caixa.ok { background: var(--ok-fraco); color: var(--ok); }
+  .grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
+  @media (max-width: 800px) { .grade { grid-template-columns: 1fr; } }
+  .campo label { display: flex; justify-content: space-between; gap: 6px; font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+  .campo .obrig { color: var(--erro); } .campo.inativo { opacity: .45; }
+  .campo.invalido input, .campo.invalido select { border-color: var(--erro); }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+  .chip { font-size: 12px; padding: 2px 9px; border-radius: 999px; border: 1px dashed var(--marca); color: var(--marca); background: transparent; cursor: pointer; }
+  .chip:hover { background: var(--marca-fraca); }
+  .desc { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12.5px; background: var(--bg); border-radius: 8px; padding: 8px 10px; word-break: break-word; }
+  .cand { border: 1px solid var(--linha); border-radius: 8px; padding: 9px 10px; margin-top: 8px; }
+  .cand.IGUAL { border-color: var(--erro); background: var(--erro-fraco); } .cand.PROVAVEL { border-color: var(--aviso); background: var(--aviso-fraco); }
+  .cand .topo { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .comp { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .comp span { font-size: 11px; padding: 1px 7px; border-radius: 6px; background: var(--card); border: 1px solid var(--linha); }
+  .comp .igual { color: var(--ok); } .comp .diverge { color: var(--erro); border-color: var(--erro); } .comp .ausente { color: var(--suave); }
+  .vazio { color: var(--suave); font-size: 13px; padding: 6px 0; }
+  .legenda { font-size: 12px; color: var(--suave); }
+  .legenda b { color: var(--texto); }
+  textarea { resize: vertical; min-height: 54px; }
+  .acoes { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .texto-pedido { white-space: pre-wrap; font-size: 13px; background: var(--bg); border-radius: 8px; padding: 8px 10px; max-height: 170px; overflow: auto; }
+  .toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--texto); color: var(--bg); padding: 8px 14px; border-radius: 8px; z-index: 9; max-width: 90vw; }
+  details summary { cursor: pointer; color: var(--suave); font-size: 12px; }
+
+  /* dentro do frontend do time: mesmo painel, com a moldura e as cores de lá */
+  :root[data-embutido] {
+    --bg: #fcfcfc; --card: #ffffff; --texto: #171717; --suave: #525252; --linha: #e6e6e6; --marca: #158252; --marca-fraca: rgba(62,207,142,.12);
+    --ok: #148556; --ok-fraco: rgba(20,133,86,.10); --erro: #cf3939; --erro-fraco: rgba(240,106,106,.10); --aviso: #9d5e00; --aviso-fraco: rgba(245,165,36,.12);
+    --info: #2f6fc4; --info-fraco: rgba(106,166,240,.12); --campo: #f8f8f8;
+  }
+  :root[data-embutido][data-tema="escuro"] {
+    --bg: #1c1c1c; --card: #232323; --texto: #ededed; --suave: #a0a0a0; --linha: #333333; --marca: #3ecf8e; --marca-fraca: rgba(62,207,142,.10);
+    --ok: #4ad295; --ok-fraco: rgba(74,210,149,.12); --erro: #e87474; --erro-fraco: rgba(227,96,96,.10); --aviso: #e3a63c; --aviso-fraco: rgba(227,166,60,.10);
+    --info: #6aa6f0; --info-fraco: rgba(106,166,240,.10); --campo: #171717;
+  }
+  :root[data-embutido][data-tema="escuro"] button.principal { color: #0b2318; }
+  [data-embutido] header { display: none; }
+  [data-embutido] body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 13px; }
+  @media (min-width: 980px) { [data-embutido] main { grid-template-columns: 285px minmax(0, 1fr) 340px; } [data-embutido] #col-dir { grid-column: auto; } }
+  [data-embutido] .abas button, [data-embutido] #lista-pedidos .item b { white-space: nowrap; }
+  [data-embutido] #lista-pedidos .linha { flex-wrap: wrap; }
+  [data-embutido] #lateral .pill { white-space: normal; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cadastro de materiais</h1>
+  <span class="aviso-dev">versão isolada do cadastro</span>
+  <a class="peq" href="/" style="color:var(--marca)">abrir no frontend</a>
+  <span class="esp"></span>
+  <span class="peq suave" id="api-status">conectando…</span>
+  <label class="peq suave">usuário
+    <select id="usuario" style="width:auto">
+      <option value="ana|analista">ana · analista</option>
+      <option value="beto|analista">beto · analista</option>
+      <option value="bia|revisor">bia · revisora</option>
+      <option value="leo|leitor">leo · leitor</option>
+    </select>
+  </label>
+  <select id="tema" style="width:auto" title="tema"><option value="">auto</option><option value="claro">claro</option><option value="escuro">escuro</option></select>
+</header>
+
+<main>
+  <!-- ======================= esquerda: por onde começar -->
+  <section id="col-esq">
+    <div class="card">
+      <div class="abas">
+        <button id="aba-buscar" class="ativa" data-aba="buscar">Buscar material</button>
+        <button id="aba-pedidos" data-aba="pedidos">Pedidos</button>
+      </div>
+
+      <div id="painel-buscar">
+        <input type="text" id="q" placeholder="Digite o material: paraf sext, valv esf, rolamento…" autocomplete="off">
+        <div class="linha" style="margin-top:8px">
+          <span class="peq suave" style="white-space:nowrap">Centro</span>
+          <select id="centro">
+            <option>1100 - MINA SERRA AZUL</option><option>1200 - USINA DE BENEFICIAMENTO</option><option>1300 - TERMINAL PORTUARIO</option>
+            <option>2100 - UTE SERRA AZUL</option><option>2200 - PCH RIO CLARO</option><option>9000 - CD CENTRAL</option>
+          </select>
+        </div>
+        <div id="resultado-nomes"></div>
+        <p class="legenda" style="margin-top:12px">Escreva como quiser (abreviado, plural, até em inglês: <i>ball valve</i>, <i>oil seal</i>). O sistema sugere as classes do PDM; <b>você confirma</b>.</p>
+      </div>
+
+      <div id="painel-pedidos" hidden>
+        <div class="linha">
+          <input type="text" id="busca-pedido" placeholder="filtrar pedidos…">
+          <select id="urg" style="width:auto"><option value="">todas</option><option>EMERGENCIAL</option><option>ALTA</option><option>NORMAL</option></select>
+        </div>
+        <div id="lista-pedidos"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= centro: o cadastro -->
+  <section id="col-meio">
+    <div id="vazio-meio" class="card">
+      <h2>Como funciona</h2>
+      <p style="margin-top:0">1. Digite o material (ou abra um pedido) · 2. confirme a classe · 3. preencha os atributos, com sugestões do que já está cadastrado · 4. veja se o item já existe · 5. aprove.</p>
+      <p class="legenda">Nada vem preenchido por frequência: as sugestões aparecem como botões, e <b>a decisão é sempre sua</b>. O que contraria o PDM vira exceção, com justificativa.</p>
+    </div>
+    <div id="cadastro" hidden></div>
+  </section>
+
+  <!-- ======================= direita: duplicidade e decisão -->
+  <section id="col-dir">
+    <div id="lateral" hidden></div>
+  </section>
+</main>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+"use strict";
+const API = "/api/v1";
+const S = { cad: null, textoPedido: null, sugestoes: {}, foco: null, just: {} };
+
+/* ------------------------------------------------------------ utilitários */
+const $ = (s, r = document) => r.querySelector(s);
+function h(tag, attrs = {}, ...filhos) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v === null || v === undefined || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else if (k === "value") el.value = v;
+    else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const f of filhos.flat()) {
+    if (f === null || f === undefined || f === false) continue;
+    el.append(f instanceof Node ? f : document.createTextNode(String(f)));
+  }
+  return el;
+}
+function limpa(el) { while (el.firstChild) el.removeChild(el.firstChild); return el; }
+function toast(msg, ms = 3800) {
+  const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast._t);
+  toast._t = setTimeout(() => (t.hidden = true), ms);
+}
+function usuario() { const [u, p] = $("#usuario").value.split("|"); return { u, p }; }
+async function api(metodo, caminho, corpo) {
+  const { u, p } = usuario();
+  const r = await fetch(API + caminho, {
+    method: metodo,
+    headers: { "X-Usuario": u, "X-Papel": p, ...(corpo ? { "Content-Type": "application/json" } : {}) },
+    body: corpo ? JSON.stringify(corpo) : undefined,
+  });
+  const dados = r.status === 204 ? null : await r.json().catch(() => null);
+  if (!r.ok) { const e = new Error((dados && (dados.detail || dados.title)) || r.statusText); e.status = r.status; e.problema = dados; throw e; }
+  return dados;
+}
+async function tenta(fn) {
+  try { return await fn(); }
+  catch (e) {
+    if (e.problema && e.problema.title === "bloqueios") {
+      toast("Não dá para aprovar ainda: " + e.problema.bloqueios.map(b => b.mensagem).join(" · "), 7000);
+    } else if (e.problema && e.problema.title === "versao_desatualizada") {
+      toast("Outra pessoa alterou este rascunho; recarreguei.");
+      if (S.cad) await abre(S.cad.id);
+    } else toast("Erro: " + e.message, 6000);
+    return null;
+  }
+}
+const NIVEIS = {
+  IGUAL: ["mesmo item", "erro"], PROVAVEL: ["provável duplicata", "aviso"], DIVERGENTE: ["quase igual, mas difere", "cinza"],
+  PARECIDO: ["texto parecido", "cinza"], EQUIVALENTE: ["equivalente (item distinto)", "info"],
+};
+
+/* ------------------------------------------------------------ esquerda: busca */
+let tBusca;
+$("#q").addEventListener("input", () => { clearTimeout(tBusca); tBusca = setTimeout(buscaNomes, 160); });
+async function buscaNomes() {
+  const q = $("#q").value.trim(), box = limpa($("#resultado-nomes"));
+  if (q.length < 2) return;
+  const r = await tenta(() => api("GET", `/pdm/nomes?q=${encodeURIComponent(q)}&limite=6`));
+  if (!r) return;
+  if (r.ambiguo) box.append(h("div", { class: "aviso-caixa aviso" }, "Esse nome existe em mais de uma classe do PDM. Escolha a certa:"));
+  if (r.fora_do_pdm) box.append(h("div", { class: "aviso-caixa info" }, "Nada no PDM parece com isso. O material pode estar fora do padrão: abra um pedido e use “Recusar” ou “Propor classe”."));
+  for (const i of r.itens) {
+    box.append(h("div", { class: "item", onclick: () => criaRascunho(i.id_pdm, i.nome) },
+      h("div", {}, h("b", {}, i.nome), " ", h("span", { class: "pill cinza mono" }, i.id_pdm)),
+      h("div", { class: "peq suave" }, i.grupo_descricao || i.grupo)));
+  }
+}
+async function criaRascunho(id_pdm, nome) {
+  const v = await tenta(() => api("POST", "/cadastros", { id_pdm, nome, centro: $("#centro").value }));
+  if (v) { S.textoPedido = null; S.sugestoes = {}; define(v); }
+}
+
+/* ------------------------------------------------------------ esquerda: pedidos */
+document.querySelectorAll(".abas button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".abas button").forEach(x => x.classList.toggle("ativa", x === b));
+  $("#painel-buscar").hidden = b.dataset.aba !== "buscar"; $("#painel-pedidos").hidden = b.dataset.aba !== "pedidos";
+  if (b.dataset.aba === "pedidos") carregaPedidos();
+}));
+let tPed;
+$("#busca-pedido").addEventListener("input", () => { clearTimeout(tPed); tPed = setTimeout(carregaPedidos, 250); });
+$("#urg").addEventListener("change", carregaPedidos);
+async function carregaPedidos() {
+  const q = $("#busca-pedido").value.trim(), urg = $("#urg").value;
+  const r = await tenta(() => api("GET", `/pedidos?limite=25&estado=NOVO${urg ? "&urgencia=" + urg : ""}${q ? "&q=" + encodeURIComponent(q) : ""}`));
+  if (!r) return;
+  const box = limpa($("#lista-pedidos"));
+  box.append(h("div", { class: "peq suave", style: "margin-top:8px" }, `${r.total} pedidos novos · mostrando ${r.itens.length}`));
+  for (const p of r.itens) {
+    const cor = p.urgencia === "EMERGENCIAL" ? "erro" : p.urgencia === "ALTA" ? "aviso" : "cinza";
+    box.append(h("div", { class: "item", onclick: () => abrePedido(p) },
+      h("div", { class: "linha" }, h("b", {}, p.id), h("span", { class: `pill ${cor}` }, p.urgencia || "—"), p.tem_anexo ? h("span", { class: "pill" }, "anexo") : null),
+      h("div", { class: "peq suave" }, (p.texto || "").replace(/\s+/g, " ").slice(0, 110))));
+  }
+}
+async function abrePedido(p) {
+  const v = await tenta(() => api("POST", `/pedidos/${p.id}/assumir`));
+  if (v) { S.textoPedido = p.texto; S.sugestoes = {}; define(v); }
+}
+
+/* ------------------------------------------------------------ cadastro aberto */
+async function abre(id) { const v = await tenta(() => api("GET", `/cadastros/${id}`)); if (v) define(v); }
+function define(v) {
+  if (!S.cad || S.cad.id !== v.id) S.just = {};
+  S.cad = v; renderiza();
+  if (window.parent !== window) window.parent.postMessage({ tipo: "cadastro-mudou" }, location.origin);   // o menu do frontend atualiza as contagens
+}
+/* Escritas de um rascunho, uma de cada vez: sair de um campo e clicar em Aprovar dispara as duas quase juntas,
+   e cada uma precisa da versão que a anterior devolveu, senão o servidor acusa um conflito que não existe. */
+let filaEscrita = Promise.resolve();
+const naFila = fn => (filaEscrita = filaEscrita.then(fn, fn));
+function edita(corpo) {
+  return naFila(async () => {
+    const v = await tenta(() => api("PATCH", `/cadastros/${S.cad.id}`, { versao: S.cad.versao, ...corpo }));
+    if (v) { S.sugestoes = {}; define(v); }
+  });
+}
+const valorDe = (v, atr) => (v.campos.find(c => c.atributo === atr) || {}).valor;
+
+function renderiza() {
+  const v = S.cad;
+  $("#vazio-meio").hidden = true;
+  renderMeio(v); renderLateral(v);
+  if (S.foco) { const el = document.querySelector(`[data-atr="${CSS.escape(S.foco)}"]`); if (el) el.focus(); }
+}
+
+function renderMeio(v) {
+  const box = limpa($("#cadastro")); box.hidden = false;
+  const editavel = v.estado === "RASCUNHO";
+  const cls = v.classe;
+
+  // cabeçalho
+  box.append(h("div", { class: "card" },
+    h("div", { class: "linha" },
+      h("h2", { style: "margin:0;flex:1" }, v.pedido_id ? `Pedido ${v.pedido_id}` : "Novo cadastro"),
+      h("span", { class: `pill ${v.estado === "APROVADO" || v.estado === "CADASTRADO" ? "ok" : v.estado === "RASCUNHO" ? "" : "aviso"}` }, v.estado.replaceAll("_", " "))),
+    S.textoPedido ? h("div", { class: "texto-pedido", style: "margin-top:8px" }, S.textoPedido) : null,
+    classeBloco(v, editavel)));
+
+  if (!cls) return;
+
+  // interpretar texto + LLM
+  if (editavel) {
+    const ta = h("input", { type: "text", id: "texto-extra", placeholder: "texto solto: M12X50 galvanizado 8.8 din 933 …" });
+    ta.addEventListener("keydown", async e => {
+      if (e.key !== "Enter" || !ta.value.trim()) return;
+      const r = await tenta(() => api("POST", `/cadastros/${S.cad.id}/interpretar`, { versao: S.cad.versao, texto: ta.value.trim() }));
+      if (r) { toast(r.interpretacao.preenchidos.length ? "Preenchi: " + r.interpretacao.preenchidos.join(", ") : "Nada novo para preencher nesse texto."); S.sugestoes = {}; define(r); }
+    });
+    box.append(h("div", { class: "card" }, h("h2", {}, "Texto livre (opcional)"),
+      h("div", { class: "linha" }, ta,
+        v.pedido_id ? h("button", { onclick: lerLLM, title: "complementa a leitura do pedido com o modelo" }, "Ler com IA") : null),
+      h("div", { class: "peq suave", style: "margin-top:4px" }, "Enter separa medidas e valores por regra (M12X50 → bitola + comprimento). Só preenche o que está vazio.")));
+  }
+
+  // atributos
+  const grade = h("div", { class: "grade" });
+  for (const c of v.campos) {
+    const inativo = c.aplica === false;
+    const dep = c.aplica === null;
+    let ctl;
+    if (c.tipo === "LISTA") {
+      ctl = h("select", { "data-atr": c.atributo, disabled: !editavel || inativo, onchange: e => { S.foco = null; edita({ valores: { [c.atributo]: e.target.value || null } }); } },
+        h("option", { value: "" }, "— escolher —"),
+        c.valores_permitidos.map(x => h("option", { value: x, selected: x === c.valor }, x)),
+        c.valor && !c.valores_permitidos.includes(c.valor) ? h("option", { value: c.valor, selected: true }, `${c.valor} (fora do PDM)`) : null);
+    } else {
+      ctl = h("input", { type: "text", "data-atr": c.atributo, value: c.valor || "", placeholder: dica(c), disabled: !editavel || inativo,
+        onchange: e => { S.foco = null; edita({ valores: { [c.atributo]: e.target.value.trim() || null } }); } });
+    }
+    if (editavel && !inativo) ctl.addEventListener("focus", () => carregaSugestoes(c.atributo));
+    const origem = c.valor && c.origem ? h("span", { class: `pill ${c.origem === "OPCAO" || c.origem === "DIGITADO" ? "cinza" : "info"}`, title: c.trecho || "" }, c.origem.replace("_", " ").toLowerCase()) : null;
+    grade.append(h("div", { class: `campo ${inativo ? "inativo" : ""} ${c.valido === false ? "invalido" : ""}` },
+      h("label", {}, h("span", {}, c.atributo, c.obrigatorio ? h("span", { class: "obrig" }, " *") : ""), origem),
+      ctl,
+      c.valido === false ? h("div", { class: "peq", style: "color:var(--erro)" }, "fora do PDM: vira exceção na aprovação") : null,
+      dep ? h("div", { class: "peq suave" }, `depende de outro atributo (${c.condicao})`) : null,
+      c.candidatos && c.candidatos.length ? h("div", { class: "peq suave" }, "ambíguo: " + c.candidatos.join(" · ")) : null,
+      h("div", { class: "chips", id: `sug-${slug(c.atributo)}` })));
+  }
+  box.append(h("div", { class: "card" }, h("h2", {}, `Atributos de ${cls.nome || cls.id_pdm}`), grade,
+    h("p", { class: "legenda", style: "margin-bottom:0" }, "* obrigatório. Clique num campo para ver as opções mais usadas no histórico.")));
+
+  // fiscal
+  if (v.fiscal) {
+    const f = v.fiscal, val = f.ncm.validacao;
+    const ncmInput = h("input", { type: "text", value: f.ncm.personalizado ? f.ncm.usado : "", placeholder: f.ncm.esperado || "informe o NCM", disabled: !editavel,
+      onchange: e => edita({ campos: { ncm: e.target.value.trim() || null } }) });
+    const unInput = h("input", { type: "text", value: f.unidade.personalizado ? f.unidade.usado : "", placeholder: f.unidade.padrao, disabled: !editavel,
+      onchange: e => edita({ campos: { unidade: e.target.value.trim() || null } }) });
+    box.append(h("div", { class: "card" }, h("h2", {}, "Dados fiscais e logísticos"),
+      h("div", { class: "grade" },
+        h("div", { class: "campo" }, h("label", {}, "Unidade de medida"), unInput, h("div", { class: "peq suave" }, `padrão da classe: ${f.unidade.padrao}`)),
+        h("div", { class: "campo" }, h("label", {}, "NCM"), ncmInput,
+          h("div", { class: "peq suave" }, f.ncm.esperado ? `esperado: ${f.ncm.esperado} (${f.ncm.regra})` : `ainda não determinado: ${f.ncm.regra}`))),
+      val ? h("div", { class: `aviso-caixa ${val.ok ? "ok" : "erro"}` },
+        val.ok ? `NCM ${f.ncm.usado} válido na tabela oficial${val.descricao ? ": " + val.descricao : ""}` :
+          `NCM ${f.ncm.usado}: ${val.motivo}${val.sucessores.length ? ". Vigentes próximos: " + val.sucessores.join(", ") : ""}`) : null,
+      cls.criterio_identidade === "ESPECIFICACAO" ? h("div", { class: "grade", style: "margin-top:10px" },
+        h("div", { class: "campo" }, h("label", {}, "Fabricante (fora da descrição)"), h("input", { type: "text", value: v.fabricante || "", disabled: !editavel, onchange: e => edita({ campos: { fabricante: e.target.value.trim() || null } }) })),
+        h("div", { class: "campo" }, h("label", {}, "Referência do fabricante"), h("input", { type: "text", value: v.referencia_fabricante || "", disabled: !editavel, onchange: e => edita({ campos: { referencia_fabricante: e.target.value.trim() || null } }) }))) : null));
+  }
+
+  // sugestões dos modelos do time (grupo, NCM, fabricante, referência)
+  if (editavel) { const card = h("div", { class: "card" }, h("h2", {}, "Sugestões do modelo"), h("div", { class: "vazio" }, "consultando…")); box.append(card); carregaModelo(v, card); }
+}
+async function carregaModelo(v, card) {
+  const r = await tenta(() => api("GET", `/cadastros/${v.id}/sugestoes-modelo`));
+  if (!r || !card.isConnected) return;
+  limpa(card).append(h("h2", {}, "Sugestões do modelo"));
+  if (r.estado !== "ok") { card.append(h("div", { class: "vazio" }, r.estado === "indisponivel" ? `Modelos indisponíveis: ${r.motivo || ""}` : "Sem texto suficiente para sugerir.")); return; }
+  const porReferencia = v.classe.criterio_identidade === "REFERENCIA";
+  const linha = (rotulo, chips) => chips.length ? card.append(h("div", { class: "linha", style: "margin-top:6px;flex-wrap:wrap" }, h("span", { class: "peq suave", style: "min-width:84px" }, rotulo), chips)) : null;
+  const pct = c => c != null ? ` · ${Math.round(c * 100)}%` : "";
+  linha("NCM", r.ncm.slice(0, 3).map(s => h("button", { class: "chip", title: "aplica este NCM; se diferir da regra do PDM, vira exceção", onclick: () => edita({ campos: { ncm: s.valor_formatado } }) }, s.valor_formatado + pct(s.conf))));
+  linha("Fabricante", (r.fabricante.sugestoes || []).slice(0, 3).map(s => h("button", { class: "chip", onclick: () => edita(porReferencia ? { valores: { FABRICANTE: { valor: s.valor, origem: "OPCAO" } } } : { campos: { fabricante: s.valor } }) }, s.valor + pct(s.conf))));
+  if (r.referencia && r.referencia.valor) linha("Referência", [h("button", { class: "chip", onclick: () => edita(porReferencia ? { valores: { "REFERENCIA FABRICANTE": { valor: r.referencia.valor, origem: "OPCAO" } } } : { campos: { referencia_fabricante: r.referencia.valor } }) }, r.referencia.valor + pct(r.referencia.conf))]);
+  card.append(h("p", { class: "legenda", style: "margin-bottom:0" }, "Vêm de modelos de texto treinados na base: confira antes de usar. Nada é aplicado sem o seu clique, e o NCM da regra do PDM continua sendo a referência."));
+}
+function dica(c) {
+  if (c.tipo === "MM") return "ex.: 16,25MM ou 15 mm";
+  if (c.tipo === "POL") return 'ex.: 1.1/4POL ou 1 1/4"';
+  if (c.tipo === "BAR") return "ex.: 215BAR ou 3.650 psi";
+  return "";
+}
+const slug = s => s.replace(/[^A-Za-z0-9]+/g, "_");
+
+function classeBloco(v, editavel) {
+  const cls = v.classe, prop = v.proposta_de_classe;
+  if (!cls) {
+    return h("div", {},
+      h("div", { class: "aviso-caixa aviso" }, "Nenhuma classe do PDM foi reconhecida neste pedido. Pode estar fora do padrão."),
+      prop && prop.alternativas && prop.alternativas.length ? h("div", {}, h("div", { class: "peq suave", style: "margin-top:6px" }, "Possibilidades:"),
+        prop.alternativas.map(a => h("button", { style: "margin:4px 6px 0 0", onclick: () => edita({ classe: { id_pdm: a.id_pdm, nome: a.nome } }) }, a.nome))) : null);
+  }
+  const partes = [h("div", { class: "linha" }, h("b", { style: "font-size:16px" }, cls.nome || cls.id_pdm), h("span", { class: "pill cinza mono" }, cls.id_pdm),
+    h("span", { class: "peq suave" }, cls.grupo_descricao || ""))];
+  if (!cls.confirmada && editavel) {
+    partes.push(h("div", { class: "aviso-caixa aviso" }, "Classe proposta pela leitura do pedido. ",
+      h("button", { class: "principal", style: "margin-left:6px", onclick: () => edita({ classe: { id_pdm: cls.id_pdm, nome: cls.nome } }) }, "Confirmar classe")));
+  }
+  if (editavel && cls.nomes_possiveis.length > 1) {
+    const sel = h("select", { onchange: e => edita({ classe: { id_pdm: cls.id_pdm, nome: e.target.value } }) },
+      h("option", { value: "" }, "— nome do material —"), cls.nomes_possiveis.map(n => h("option", { value: n, selected: n === cls.nome }, n)));
+    partes.push(h("div", { style: "margin-top:8px", class: "campo" }, h("label", {}, "Nome do material *"), sel));
+  }
+  return h("div", { style: "margin-top:8px" }, partes);
+}
+
+async function carregaSugestoes(atr) {
+  S.foco = atr;
+  const alvo = $(`#sug-${slug(atr)}`); if (!alvo) return;
+  let r = S.sugestoes[atr];
+  if (!r) { r = await tenta(() => api("GET", `/cadastros/${S.cad.id}/sugestoes/${encodeURIComponent(atr)}`)); if (!r) return; S.sugestoes[atr] = r; }
+  limpa(document.getElementById(`sug-${slug(atr)}`) || alvo);
+  const al = document.getElementById(`sug-${slug(atr)}`); if (!al) return;
+  if (!r.opcoes.length) { al.append(h("span", { class: "peq suave" }, r.sem_opcoes_motivo || "sem histórico suficiente")); return; }
+  for (const o of r.opcoes) {
+    al.append(h("button", { class: "chip", title: `${o.n} itens no histórico${r.contexto.length ? " com " + r.contexto.join(", ") + " iguais" : ""}`,
+      onclick: () => { S.foco = null; edita({ valores: { [atr]: { valor: o.valor, origem: "OPCAO" } } }); } },
+      `${o.valor} · ${o.n}×${o.pct != null ? ` (${Math.round(o.pct)}%)` : ""}`));
+  }
+  if (r.contexto.length) al.append(h("span", { class: "peq suave" }, `dos itens com ${r.contexto.join(", ")} iguais`));
+}
+
+async function lerLLM() {
+  toast("Lendo o pedido com o modelo…", 9000);
+  const r = await tenta(() => api("POST", `/cadastros/${S.cad.id}/ler-pedido`));
+  if (!r) return;
+  S.sugestoes = {}; define(r);
+  toast(r.llm && r.llm.estado === "ok" ? "Leitura por IA concluída: só os campos vazios foram preenchidos." : "IA indisponível agora; segui só com as regras.");
+}
+
+/* ------------------------------------------------------------ direita: duplicidade e decisão */
+function renderLateral(v) {
+  const box = limpa($("#lateral")); box.hidden = false;
+  const editavel = v.estado === "RASCUNHO";
+  const dup = v.duplicidade;
+
+  // descrição
+  box.append(h("div", { class: "card" }, h("h2", {}, "Descrição gerada (padrão PDM)"),
+    v.descricao.longa ? h("div", { class: "desc" }, v.descricao.longa) : h("div", { class: "vazio" }, "Escolha a classe para gerar a descrição."),
+    v.descricao.curta ? h("div", { class: "peq suave", style: "margin-top:6px" }, h("span", { class: "mono" }, v.descricao.curta), `  (${v.descricao.curta_tamanho}/${v.descricao.curta_limite})`) : null,
+    v.chave ? h("div", { class: "peq", style: "margin-top:6px" }, v.chave.completa ? h("span", { class: "pill ok" }, "identidade completa") :
+      h("span", { class: "pill aviso" }, "faltam para identificar o item: " + v.chave.faltando.join(", "))) : null));
+
+  // duplicidade
+  const cardDup = h("div", { class: "card" }, h("h2", {}, "Itens existentes parecidos"));
+  if (!dup) cardDup.append(h("div", { class: "vazio" }, "Aparece depois que a classe é escolhida."));
+  else {
+    if (!dup.candidatos.length) cardDup.append(h("div", { class: "aviso-caixa ok" }, "Nenhum item existente coincide com o que já foi preenchido."));
+    for (const c of dup.candidatos) cardDup.append(cartaoCandidato(c, editavel));
+    cardDup.append(h("div", { class: "legenda", style: "margin-top:8px" },
+      `Comparado por atributos: ${dup.comparaveis} de ${dup.total_classe} itens desta classe. `,
+      dup.comparaveis < dup.total_classe ? "Os demais só têm texto livre: o painel não garante que o item não exista." : ""));
+  }
+  box.append(cardDup);
+
+  // pendências
+  const pend = h("div", { class: "card" }, h("h2", {}, "Para poder aprovar"));
+  if (v.bloqueios.length) for (const b of v.bloqueios) pend.append(h("div", { class: "aviso-caixa erro" }, b.mensagem));
+  else if (editavel) pend.append(h("div", { class: "aviso-caixa ok" }, "Sem pendências: pronto para aprovar."));
+  for (const a of v.avisos) pend.append(h("div", { class: "aviso-caixa info" }, a));
+  box.append(pend);
+
+  // exceções
+  const just = {};
+  if (v.excecoes_previstas.length) {
+    const ex = h("div", { class: "card" }, h("h2", {}, "Exceções (contrariam o PDM)"),
+      h("div", { class: "legenda" }, "A decisão é sua, mas precisa de justificativa (mín. 10 caracteres)."));
+    for (const e of v.excecoes_previstas) {
+      const ta = h("textarea", { placeholder: "por que este item deve ser criado assim?", disabled: !editavel, value: S.just[e.id] || "", oninput: ev => { S.just[e.id] = ev.target.value; } });
+      just[e.id] = ta;
+      ex.append(h("div", { class: "cand" },
+        h("div", { class: "topo" }, h("b", {}, e.tipo.replaceAll("_", " ").toLowerCase()), h("span", { class: `pill ${e.exige_revisor ? "aviso" : "cinza"}` }, e.exige_revisor ? "exige 2º analista" : "só justificativa")),
+        h("div", { class: "peq suave" }, [e.atributo, e.padrao ? `padrão: ${e.padrao}` : null, e.usado ? `usado: ${e.usado}` : null].filter(Boolean).join(" · ")), ta));
+    }
+    box.append(ex);
+  }
+
+  // ações
+  const acoes = h("div", { class: "card" }, h("h2", {}, "Decisão"));
+  if (editavel) {
+    const ap = h("button", { class: "principal", disabled: v.bloqueios.length > 0, onclick: () => naFila(async () => {
+      if (S.cad.estado !== "RASCUNHO") return;   // duplo clique: a primeira já decidiu
+      const j = Object.fromEntries(S.cad.excecoes_previstas.map(e => [e.id, S.just[e.id] || ""]));
+      const r = await tenta(() => api("POST", `/cadastros/${S.cad.id}/aprovar`, { versao: S.cad.versao, justificativas: j }));
+      if (r) { toast(r.estado === "EM_REVISAO" ? "Enviado para revisão de um segundo analista." : "Aprovado e enviado à fila do ERP."); define(r); }
+    }) }, v.excecoes_previstas.length ? "Aprovar (com exceções)" : "Aprovar");
+    acoes.append(h("div", { class: "acoes" }, ap,
+      v.pedido_id ? h("button", { onclick: async () => { const r = await tenta(() => api("POST", `/cadastros/${v.id}/devolver`, {})); if (r) { toast(r.devolucao.aviso || "Devolvido ao solicitante."); define(r); } } }, "Devolver ao solicitante") : null,
+      h("button", { class: "perigo", onclick: async () => { const m = prompt("Motivo da recusa (fora do PDM):"); if (!m) return; const r = await tenta(() => api("POST", `/cadastros/${v.id}/recusar`, { motivo: m })); if (r) define(r); } }, "Recusar")));
+  } else if (v.estado === "EM_REVISAO") {
+    acoes.append(h("div", { class: "aviso-caixa aviso" }, "Aguardando um segundo analista. Troque o usuário (canto superior) para “bia · revisora” para decidir."),
+      h("div", { class: "acoes" },
+        h("button", { class: "principal", onclick: () => revisa(v, true) }, "Aprovar exceções"),
+        h("button", { class: "perigo", onclick: () => revisa(v, false) }, "Rejeitar")));
+  } else {
+    acoes.append(h("div", { class: `aviso-caixa ${["APROVADO", "CADASTRADO", "JA_EXISTE"].includes(v.estado) ? "ok" : "info"}` },
+      v.estado === "JA_EXISTE" ? `Encerrado: usar o código ${v.usar_codigo}.` : v.estado === "APROVADO" ? "Aprovado. Na fila para enviar ao ERP, que gera o código." : `Estado: ${v.estado.replaceAll("_", " ")}`));
+  }
+  box.append(acoes);
+
+  box.append(h("details", { class: "card" }, h("summary", {}, "Como ler os níveis de duplicidade"),
+    h("div", { class: "legenda", style: "margin-top:6px" },
+      h("p", {}, h("b", {}, "Mesmo item:"), " todos os atributos que definem o item coincidem."),
+      h("p", {}, h("b", {}, "Provável duplicata:"), " nada diverge, mas o cadastro existente tem atributos vazios."),
+      h("p", {}, h("b", {}, "Quase igual:"), " parece, mas um atributo de identidade difere (é outro item)."),
+      h("p", {}, h("b", {}, "Equivalente:"), " produto de outro fabricante que serve no lugar; continua sendo outro item."))));
+}
+
+function cartaoCandidato(c, editavel) {
+  const [rot, cor] = NIVEIS[c.nivel] || [c.nivel, "cinza"];
+  const inativo = c.status && c.status !== "ATIVO";
+  const topo = h("div", { class: "topo" }, h("span", { class: `pill ${cor}` }, rot), h("b", { class: "mono" }, c.codigo),
+    c.status ? h("span", { class: `pill ${inativo ? "erro" : "ok"}` }, c.status.toLowerCase()) : null,
+    c.centro ? h("span", { class: "peq suave" }, c.centro.split(" - ")[0]) : null,
+    c.estoque != null ? h("span", { class: "peq suave" }, `estoque ${c.estoque}`) : null);
+  const comp = h("div", { class: "comp" }, c.comparacao.filter(x => x.estado !== "sem_valor").map(x =>
+    h("span", { class: x.estado, title: `rascunho: ${x.rascunho ?? "—"}  ·  existente: ${x.candidato ?? "—"}` },
+      (x.estado === "igual" ? "✓ " : x.estado === "diverge" ? "≠ " : "— ") + x.atributo.toLowerCase())));
+  const acoes = h("div", { class: "acoes", style: "margin-top:6px" });
+  if (editavel && c.origem === "base") {
+    if (c.permite_uso_direto) acoes.append(h("button", { class: c.nivel === "IGUAL" ? "principal" : "", onclick: () => naFila(async () => {
+      if (S.cad.estado !== "RASCUNHO") return;   // duplo clique: a primeira já decidiu
+      const r = await tenta(() => api("POST", `/cadastros/${S.cad.id}/usar-existente`, { codigo: c.codigo })); if (r) { toast(`Pedido encerrado: usar o código ${c.codigo}.`); define(r); } }) }, "Usar este código"));
+    else acoes.append(h("button", { onclick: async () => {
+      const j = prompt(`O código ${c.codigo} está ${c.status}. Justifique a reativação (mín. 10 caracteres):`); if (!j) return;
+      const r = await tenta(() => api("POST", `/cadastros/${S.cad.id}/reativar`, { codigo: c.codigo, justificativa: j })); if (r) define(r); } }, "Pedir reativação"));
+  }
+  return h("div", { class: `cand ${c.nivel}` }, topo,
+    c.descricao ? h("div", { class: "peq suave", style: "margin-top:4px" }, c.descricao.slice(0, 140)) : null,
+    h("div", { class: "peq", style: "margin-top:4px" }, c.motivo), comp, acoes);
+}
+async function revisa(v, aprovar) {
+  const comentario = aprovar ? null : prompt("Motivo da rejeição:"); if (!aprovar && !comentario) return;
+  const r = await tenta(() => api("POST", `/cadastros/${v.id}/revisao`, { aprovar, comentario })); if (r) { toast(aprovar ? "Exceções aprovadas." : "Rejeitado: voltou para rascunho."); define(r); }
+}
+
+/* ------------------------------------------------------------ partida */
+(function inicia() {
+  const salvo = localStorage.getItem("painel-usuario"); if (salvo) $("#usuario").value = salvo;
+  const tema = localStorage.getItem("painel-tema") || ""; $("#tema").value = tema; if (tema) document.documentElement.dataset.tema = tema;
+  $("#usuario").addEventListener("change", () => { localStorage.setItem("painel-usuario", $("#usuario").value); if (S.cad) abre(S.cad.id); });
+  $("#tema").addEventListener("change", e => { localStorage.setItem("painel-tema", e.target.value); if (e.target.value) document.documentElement.dataset.tema = e.target.value; else delete document.documentElement.dataset.tema; });
+  fetch("/saude").then(r => r.json()).then(s => { $("#api-status").textContent = `API ok · PDM v${s.pdm_versao} · IA ${s.llm.habilitado ? s.llm.provider : "desligada"} · modelos ${s.modelos_sugestao.pronto ? "ok" : "fora"}`; })
+    .catch(() => { $("#api-status").textContent = "API fora do ar"; });
+  const p = new URLSearchParams(location.search);
+  if (p.get("q")) { $("#q").value = p.get("q"); buscaNomes(); }
+  if (p.get("pedido")) { $("#aba-pedidos").click(); api("GET", `/pedidos?q=${encodeURIComponent(p.get("pedido"))}&limite=1`).then(r => r.itens[0] && abrePedido(r.itens[0])); }
+  if (p.get("classe")) criaRascunho(p.get("classe"), p.get("nome") || null);
+  if (p.get("abrir")) abre(p.get("abrir"));
+})();
+
+/* O que o frontend do time pede ao painel: trocar de aba, abrir um cadastro, usuário e tema vêm da moldura dele. */
+window.painel = {
+  aba(nome) { $(`#aba-${nome}`).click(); if (nome === "buscar") $("#q").focus(); },
+  abrir(id) { abre(id); },
+  usuario(valor) { const s = $("#usuario"); if (s.value !== valor) { s.value = valor; s.dispatchEvent(new Event("change")); } },
+  tema(t) { document.documentElement.dataset.tema = t; },
+};
+</script>
+</body>
+</html>

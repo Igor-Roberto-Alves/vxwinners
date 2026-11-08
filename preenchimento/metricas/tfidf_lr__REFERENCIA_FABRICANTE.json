@@ -1,0 +1,11 @@
+{
+ "segundos": 1.7,
+ "chamadas_api": 0,
+ "tokens_entrada": 0,
+ "tokens_saida": 0,
+ "modelo": "",
+ "custo_estimado_usd": 0.0,
+ "observacoes": "Recuperacao por vizinho lexical: NearestNeighbors(metric='cosine') sobre TF-IDF uniao word(1,2)+char_wb(3,5) do treino; y_pred = copia do y do vizinho 1, conf = 1 - distancia, top3 = y dos vizinhos 1-3. Estrategia de COPIA: so funciona para itens quase-duplicados do treino, nao generaliza para referencias ineditas; sem API.",
+ "solucao": "tfidf_lr",
+ "campo": "REFERENCIA_FABRICANTE"
+}

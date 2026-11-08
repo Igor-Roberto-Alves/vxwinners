@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from .pdm import (UNIDADE_EMBALAGEM, UNIDADE_SINONIMO, Atributo, Classe, Pdm,
                    aplica_atributo)
 from .texto import (fmt_bar, fmt_inteiro, fmt_metro, fmt_mm, fmt_mm2, fmt_pol,
-                    fmt_simples, normalizar, parse_numero, sem_acento)
+                    fmt_simples, normalizar, parse_numero, referencia_canonica, sem_acento)
 
 _ZERO_INUTIL = re.compile(r"^(\d+),(\d*?)0+(MM2|MM|BAR|A|W|M)$")
 
@@ -264,10 +264,12 @@ class Validador:
         number (regra 13: equivalencia entre fabricantes NAO fecha a mesma chave).
         """
         if classe.por_referencia:
-            f, r = normalizar(fabricante), re.sub(r"[^A-Z0-9]", "", normalizar(referencia))
+            f, r = normalizar(fabricante), referencia_canonica(referencia)
             if not f or not r:
                 return None
-            return f"{classe.id_pdm}|{normalizar(substantivo)}|{f}|{r}"
+            # Regra 10: nas classes de referencia a identidade e fabricante + part number. Incluir o
+            # substantivo separava o mesmo part number quando o nome era lido errado (ADAPTADOR x EXPULSOR).
+            return f"{classe.id_pdm}|{f}|{r}"
 
         # Percorre TODO atributo obrigatorio, inclusive o condicional. Usar
         # classe.obrigatorios aqui era um bug: ele filtra quando == 'sempre', e
