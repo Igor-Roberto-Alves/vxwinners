@@ -335,8 +335,15 @@ rodar.sh                    sobe tudo
 Hackathon_VX_Desafio01_Cadastro_e_Saneamento.pdf
 ```
 
-Não versionados (`.gitignore`): `preenchimento/dados/` e `preenchimento/cache/` (splits e
-embeddings, regeneráveis) e `servico/modelos/` (artefatos de treino).
+Os dados e os artefatos do pipeline vão **versionados**, inclusive os caches de LLM e de
+embedding: quem clonar tem a base saneada, a junção, as medições e o benchmark sem rodar
+nada e sem precisar de credencial de LLM.
+
+Fora do git (`.gitignore`), só quatro coisas: `.env` (credencial AWS — **este repositório é
+público**), os `venv`/`__pycache__` (binário da máquina de quem rodou), `artefatos/modelo_bert/`
+(515 MB num arquivo só: acima do limite do GitHub, e o `scripts/06_treinar_bert.py` refaz a
+partir do `treino.jsonl` versionado) e `servico/modelos/` + `.pgdata/` (118 MB e 165 MB que o
+`./rodar.sh` remonta sozinho na primeira execução).
 
 ---
 
@@ -373,9 +380,9 @@ Os 84,4% do benchmark para `regras` não contradizem isso: foram medidos em linh
 *existia* no gabarito. Nos 18.488 campos genuinamente vazios a distribuição é outra — boa parte não
 tem part number nenhum a extrair.
 
-**2. Benchmark não roda em clone limpo sem `00_prep.py`.** Os splits são regeneráveis e
-determinísticos (`SEED = 42`), mas não versionados — então `pred/` e `benchmark.csv` commitados não
-podem ser reauditados antes de regenerar os splits.
+**2. ~~Benchmark não roda em clone limpo sem `00_prep.py`.~~** Resolvido: `preenchimento/dados/`
+passou a ser versionado, então os splits (determinísticos, `SEED = 42`) já vêm no clone e o
+`pred/` com o `benchmark.csv` pode ser reauditado direto.
 
 **3. Os 363 grupos suspeitos não foram verificados um por um.** São a saída de um modelo discordando
 do rótulo com confiança alta; as amostras inspecionadas estão certas, mas a lista inteira ainda

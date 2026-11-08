@@ -1,59 +1,37 @@
-# segredos e configuracao local
+# Regra deste arquivo: fica de fora SO o que vaza segredo, o que e binario da
+# maquina de quem rodou, ou o que o GitHub recusa. Todo o resto (dados,
+# artefatos do pipeline, caches de LLM, medicoes) e versionado de proposito,
+# para quem clonar ter a plataforma com os dados reais sem rodar nada.
+
+# ---- segredo: este repositorio e PUBLICO -------------------------------------
+# .env tem credencial AWS viva (Bedrock). Nunca versionar.
 .env
 .claude/settings.local.json
+.claude/worktrees/
 
-# python
+# ---- ambiente e cache de execucao --------------------------------------------
+# Binario compilado para a maquina de quem rodou; o rodar.sh refaz o venv.
 .venv/
+backend/.venv/
 __pycache__/
 *.pyc
 .pytest_cache/
-*.log
-*.out
 
-# backend do modo de cadastro
-.pgdata/
-backend/erp_out/
-backend/erp_in/
-backend/artefatos/
+# ---- acima do limite de 100 MB por arquivo do GitHub -------------------------
+# artefatos/modelo_bert/model.safetensors tem 515 MB: o push seria recusado.
+# Regeneravel com `python scripts/06_treinar_bert.py` (ver docs/03-treinar-bert.md),
+# e o treino.jsonl/validacao.jsonl que ele precisa ESTAO versionados.
+artefatos/modelo_bert/
 
-# preenchimento e servico de sugestao (regeneraveis)
-preenchimento/cache/
-preenchimento/dados/
-preenchimento/saida/fab_llm_ckpt.jsonl
+# ---- regeneravel em minutos, e grande ----------------------------------------
+# 118 MB de artefato de treino (ncm.joblib sozinho tem 70 MB). O rodar.sh treina
+# na primeira execucao, em cerca de 3 minutos.
 servico/modelos/
 
-# planilhas duplicadas na raiz: as versionadas estao em dados/
-/01_base_materiais.xlsx
-/02_pedidos_cadastro.xlsx
-/03_padrao_cadastro_PDM.xlsx
+# Diretorio de dados do Postgres: estado binario atrelado a versao e a maquina,
+# nao abre na maquina de outro. O rodar.sh remonta o banco a partir dos xlsx.
+.pgdata/
 
-# artefatos grandes ou regeneraveis do saneamento (rode ./scripts/rodar_tudo.sh)
-artefatos/modelo_bert/
-artefatos/cache_llm/
-artefatos/cache_emb.json
-artefatos/*.csv
-artefatos/decisoes_*.jsonl
-artefatos/caixas_*.jsonl
-artefatos/rotulos.jsonl
-artefatos/catalogo_final.xlsx
-artefatos/aprendizado.json
-artefatos/treino.log
-
-# 4 MB que nao precisam ir duas vezes: a copia que a tela le e
-# frontend/dados/juncao_ncm.json, e essa sim e versionada (rodar.sh numa maquina
-# limpa nao tem o plano_juncao.csv para regerar)
-artefatos/juncao_ncm.json
-
-# mesma regra, mesmo motivo: 2,8 MB cada. A copia versionada e
-# frontend/dados/regras_ia.json, porque numa maquina limpa o
-# scripts/22_regras_ia.py nao tem aprendizado.json nem desempate_llm.jsonl para
-# regerar a tela de regras da IA
-artefatos/regras_ia.json
-
-# versionados de proposito: pdm.json, treino.jsonl e validacao.jsonl
-# tornam o treino em outra maquina um 'git clone' (ver docs/03-treinar-bert.md)
-
-# cache das chamadas do scripts/12_detectar_ausentes.py (regeneravel)
-artefatos/cache_deteccao/
-# estado local das sessoes do Claude Code
-.claude/worktrees/
+# Log do servidor, reescrito a cada `./rodar.sh`: so geraria sujeira no git.
+artefatos/uvicorn.log
+backend/artefatos/uvicorn.log
