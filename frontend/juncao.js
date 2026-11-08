@@ -98,24 +98,65 @@
   }
 
   /* ---------------------------------------------------------------- KPIs */
-  function cartao(rotulo, valor, sub, dica, cor) {
+  function cartao(rotulo, valor, sub, dica, cor, selo, avanco) {
+    const s = selo || { cls: "src-med", txt: "medido" };
     return el("div", { class: "card kpi", "data-tt": `${rotulo}|${sub}|${dica}` },
       el("div", { class: "l" }, rotulo,
-        el("span", { class: "src-tag src-med", style: "margin-left:6px" }, "medido")),
+        el("span", { class: "src-tag " + s.cls, style: "margin-left:6px" }, s.txt)),
       el("div", { class: "v", style: cor ? "color:" + cor : null }, valor),
+      // barra de avanco: so nos cartoes que medem progresso, e so quando ja ha
+      // alguma decisao - uma barra a zero em toda abertura da tela so poluiria
+      typeof avanco === "number" && avanco > 0
+        ? el("div", { style: "height:3px;border-radius:2px;background:var(--border);margin:6px 0 2px" },
+          el("div", { style: `height:3px;border-radius:2px;background:var(--brand);width:${Math.min(100, avanco * 100).toFixed(1)}%` }))
+        : null,
       el("div", { class: "s" }, sub));
   }
+
+  /* O que foi decidido nesta sessao. So `unificada` libera capital: `separada`
+   * resolve o grupo sem juntar nada, e `pergunta` deixa o grupo em aberto,
+   * esperando informacao. */
+  function progresso() {
+    const d = Object.values(decisoes);
+    const por = (t) => d.filter((x) => x.decisao === t);
+    const unificadas = por("unificada");
+    return {
+      unificadas: unificadas.length,
+      separadas: por("separada").length,
+      perguntas: por("pergunta").length,
+      resolvidos: unificadas.length + por("separada").length,
+      capital: unificadas.reduce((s, x) => s + (x.capital_liberado || 0), 0),
+    };
+  }
+
+  const SESSAO = { cls: "src-est", txt: "nesta sessão" };
 
   function pintaKpis() {
     const r = dados.resumo, n = r.ncm;
     const prec = r.precisao_juncao;
+    const p = progresso();
+    const restam = Math.max(0, r.grupos - p.resolvidos);
     $("#jn-kpis").replaceChildren(
-      cartao("Grupos de códigos juntados", inteiro(r.grupos),
-        `${inteiro(r.codigos_que_saem)} códigos saem · ${inteiro(r.saem_com_saldo)} com saldo`,
-        "fonte: " + dados.fonte.juncao),
-      cartao("Capital liberado", brlCurto(r.capital_liberado),
-        "estoque dos códigos que saem, somado",
-        "fonte: " + dados.fonte.capital),
+      // Antes este cartao dizia "Grupos de codigos juntados: 1.991 - medido",
+      // que e o tamanho do PLANO e nao mexia um milimetro quando se decidia um
+      // grupo. Agora o numero grande e o que falta, e o plano vai no rodape.
+      cartao("Grupos a juntar", inteiro(restam),
+        `de ${inteiro(r.grupos)} no plano · ${inteiro(p.unificadas)} confirmada(s) · ` +
+        `${inteiro(p.separadas)} separada(s)` +
+        (p.perguntas ? ` · ${inteiro(p.perguntas)} com pergunta` : ""),
+        `${inteiro(r.codigos_que_saem)} códigos saem no plano · ` +
+        `${inteiro(r.saem_com_saldo)} com saldo · fonte: ${dados.fonte.juncao}`,
+        null, p.resolvidos ? SESSAO : null,
+        r.grupos ? p.resolvidos / r.grupos : 0),
+      // E este dizia "Capital liberado: R$ 30,24 mi - medido" com o plano
+      // inteiro, antes de qualquer decisao. Liberado, nao estava: o Radar diz
+      // (certo) que nenhuma unificacao foi executada no ERP.
+      cartao("Capital das junções confirmadas", brlCurto(p.capital),
+        `de ${brlCurto(r.capital_liberado)} no plano · a execução no ERP ainda não aconteceu`,
+        "estoque dos códigos que saem nos grupos que você confirmou · fonte: " +
+        dados.fonte.capital,
+        p.capital ? null : "var(--text-2)", SESSAO,
+        r.capital_liberado ? p.capital / r.capital_liberado : 0),
       cartao("NCM trocado", inteiro(n.trocado),
         `${inteiro(n.preenchido)} preenchidos · ${inteiro(n.reformatado)} reformatados`,
         "fonte: " + dados.fonte.saneado, "var(--warn)"),
@@ -131,7 +172,7 @@
     const abas = $("#jn-abas");
     if (abas) {
       abas.querySelector('[data-aba="grupos"]').textContent =
-        `Códigos juntados · ${inteiro(r.grupos)} grupos`;
+        `Grupos a juntar · ${inteiro(restam)} de ${inteiro(r.grupos)}`;
       abas.querySelector('[data-aba="ncm"]').textContent =
         `NCM trocado · ${inteiro(n.trocado)}`;
     }
@@ -447,6 +488,9 @@
       if (window.toast) toast(`${tipo} · ${g.fica} (${g.saem.length} bloqueados)`);
     }
     atual = (atual + 1) % lista.length;
+    // sem isto os KPI do topo ficavam congelados no tamanho do plano: decidir
+    // um grupo nao mexia em "grupos a juntar" nem no capital confirmado
+    pintaKpis();
     desenhaGrupos();
     abreDetalhe();
     $("#jn-detalhe").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -586,7 +630,7 @@
     if (!confirm("Apagar as revisões desta sessão?")) return;
     decisoes = {}; fica = {};
     try { localStorage.removeItem(CHAVE); } catch (e) {}
-    desenhaGrupos(); abreDetalhe();
+    pintaKpis(); desenhaGrupos(); abreDetalhe();
   }
 
   /* --------------------------------------------------------- carregamento */
