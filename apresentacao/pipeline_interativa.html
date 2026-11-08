@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<meta charset="utf-8">
+<title>Pipeline de saneamento · passo a passo</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  Pipeline de saneamento VX — slide interativo.
+
+  Conteúdo e números: "Pipeline de Saneamento VX - pitch.pdf" (slide "Mesmas caixas,
+  mesmo item" e slides de Arbitragem e Junção). Nenhum número é digitado aqui sem
+  estar naquele deck; a fonte de cada tela vai no rodapé.
+
+  Cores: tokens do front-end (frontend/tema.css + :root de plataforma.html), copiados
+  para o arquivo ficar autocontido. Contrato de tema idêntico ao da plataforma
+  (:root = escuro, [data-theme="light"] = claro, que é o padrão da marca), então
+  embutir isto num iframe dentro da plataforma herda o tema certo.
+
+  Dataviz: uma única matiz de dado (--brand) + cinza de de-ênfase. As etapas inativas
+  não são "outra série", são contexto — ênfase, não paleta categórica. Status
+  (aceito/dúvida/pendente) usa a escala reservada do front-end e sempre com glifo +
+  rótulo, porque sob deuteranopia --err e --warn colapsam (ΔE 1,7).
+-->
+<style>
+:root{
+  --bg:#111214; --panel:#1C1D20; --panel-2:#26282C; --hover:#2B2D31;
+  --border:#2B2D31; --border-strong:#3A3D43; --border-hover:#555961;
+  --text:#F1F1F2; --text-2:#C4C6CA; --text-3:#8F9299;
+  --brand:#4CC38A; --brand-dim:#245A40; --brand-bg:rgba(76,195,138,.12);
+  --warn:#F5A524; --err:#F2706B; --ok:#4CC38A;
+  --track:#34363B;
+  color-scheme:dark;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#F8F8F9; --panel:#FFFFFF; --panel-2:#F1F1F2; --hover:#EBECED;
+  --border:#E2E3E5; --border-strong:#C4C6CA; --border-hover:#9A9DA3;
+  --text:#1C1D20; --text-2:#4C4F55; --text-3:#6E7178;
+  --brand:#1E7B4C; --brand-dim:#A9D8BF; --brand-bg:rgba(30,123,76,.09);
+  --warn:#9A5B00; --err:#C62828; --ok:#148556;
+  --track:#E2E3E5;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--text); font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  display:flex; align-items:center; justify-content:center; min-height:100vh; padding:40px 32px;
+}
+.slide{width:100%; max-width:1180px}
+
+/* ---------- cabeçalho ---------- */
+.topo{display:flex; align-items:flex-start; justify-content:space-between; gap:40px; margin-bottom:34px}
+.topo > div{flex:1 1 auto; min-width:0}
+h1{font-size:25px; font-weight:600; letter-spacing:-.016em; margin:0 0 5px}
+.sub{font-size:13.5px; color:var(--text-2); margin:0; max-width:68ch; line-height:1.5}
+.ctrl{display:flex; gap:7px; flex:none; padding-top:4px}
+.btn{
+  font-family:var(--sans); font-size:12px; height:29px; padding:0 11px; border-radius:6px;
+  background:var(--panel); border:1px solid var(--border-strong); color:var(--text-2);
+  cursor:pointer; transition:background .15s,border-color .15s,color .15s;
+}
+.btn:hover{background:var(--hover); border-color:var(--border-hover); color:var(--text)}
+.btn[aria-pressed="true"]{background:var(--brand-bg); border-color:var(--brand); color:var(--brand)}
+
+/* ---------- trilho de etapas ---------- */
+.trilho{position:relative; margin-bottom:30px}
+/* a linha começa e termina no CENTRO dos pontos extremos: cada coluna é 1fr e o
+   ponto fica na borda esquerda dela, então o último ponto está a 5/6 da largura. */
+.linha{position:absolute; left:5px; right:calc(100%/6 - 5px); top:11px; height:2px; background:var(--track); border-radius:1px}
+.linha i{
+  display:block; height:100%; width:0; background:var(--brand); border-radius:1px;
+  transition:width .34s cubic-bezier(.3,.7,.3,1);
+}
+.passos{position:relative; display:grid; grid-template-columns:repeat(6,1fr); gap:0; list-style:none; margin:0; padding:0}
+.passo{
+  /* o botão todo é o alvo de clique: bem maior que o ponto de 10px */
+  display:flex; flex-direction:column; align-items:flex-start; gap:9px;
+  background:none; border:0; padding:0 12px 4px 0; cursor:pointer; text-align:left;
+  font-family:var(--sans); color:inherit;
+}
+.passo:focus-visible{outline:2px solid var(--brand); outline-offset:3px; border-radius:4px}
+.ponto{
+  width:10px; height:10px; border-radius:50%; flex:none; margin-left:0;
+  background:var(--bg); border:2px solid var(--border-strong);
+  transition:background .2s,border-color .2s,transform .2s;
+}
+.passo:hover .ponto{border-color:var(--border-hover)}
+.passo[data-estado="feito"] .ponto{background:var(--brand); border-color:var(--brand)}
+.passo[data-estado="ativo"] .ponto{background:var(--brand); border-color:var(--brand); transform:scale(1.5)}
+.rot{font-size:13px; font-weight:500; color:var(--text-3); transition:color .2s; line-height:1.25}
+.passo[data-estado="feito"] .rot{color:var(--text-2)}
+.passo[data-estado="ativo"] .rot{color:var(--text); font-weight:600}
+.passo:hover .rot{color:var(--text-2)}
+.passo[data-estado="ativo"]:hover .rot{color:var(--text)}
+.ord{display:block; font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); margin-top:3px}
+
+/* ---------- painel ---------- */
+.painel{
+  background:var(--panel); border:1px solid var(--border); border-radius:11px;
+  display:grid; grid-template-columns:minmax(0,310px) minmax(0,1fr); min-height:286px;
+}
+.esq{padding:26px 26px 22px; border-right:1px solid var(--border); display:flex; flex-direction:column}
+.faz{font-size:15px; line-height:1.48; color:var(--text); margin:0 0 auto; letter-spacing:-.004em}
+/* hero figure: sans, não mono — no mono o separador de milhar ganha uma célula
+   inteira e "23.554" lê como "23 . 554" neste corpo. */
+.num{
+  font-family:var(--sans); font-size:48px; font-weight:600; letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums; color:var(--brand); line-height:1; margin-top:26px;
+}
+.num-rot{font-size:12px; color:var(--text-2); margin-top:9px; line-height:1.42}
+.dir{padding:26px; min-width:0; display:flex; flex-direction:column; gap:15px}
+.dir-tit{
+  font-family:var(--mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--text-3); margin:0;
+}
+
+/* ---------- peças de conteúdo ---------- */
+.cru{
+  font-family:var(--mono); font-size:12.5px; line-height:1.72; color:var(--text-2);
+  background:var(--panel-2); border:1px solid var(--border); border-radius:7px; padding:13px 15px;
+  word-break:break-word;
+}
+.cru b{color:var(--text); font-weight:600}
+
+.chips{display:flex; flex-wrap:wrap; gap:7px}
+.chip{
+  font-family:var(--mono); font-size:11.5px; height:27px; padding:0 10px; border-radius:6px;
+  display:inline-flex; align-items:center; gap:7px;
+  background:var(--panel-2); border:1px solid var(--border); color:var(--text-3);
+}
+.chip.vence{background:var(--brand-bg); border-color:var(--brand); color:var(--brand); font-weight:500}
+.chip.vence::before{content:"✓"; font-weight:600}
+
+/* caixas: grade de rótulo + valor */
+.caixas{display:grid; grid-template-columns:repeat(auto-fill,minmax(216px,1fr)); gap:1px 22px}
+.caixa{display:flex; align-items:baseline; gap:10px; padding:5px 0; border-bottom:1px solid var(--border)}
+.caixa dt{font-size:12px; color:var(--text-3); flex:none; min-width:94px}
+.caixa dd{font-family:var(--mono); font-size:12px; color:var(--text); margin:0; font-weight:500}
+
+/* barras ranqueadas: uma matiz, um eixo, rótulo direto */
+.barras{display:flex; flex-direction:column; gap:3px; margin:0}
+.barra{display:grid; grid-template-columns:148px minmax(0,1fr) 46px; align-items:center; gap:11px; padding:2px 0; border-radius:4px}
+.barra:hover,.barra:focus-visible{background:var(--hover); outline:none}
+.barra .nm{font-size:12px; color:var(--text-2); text-align:right; line-height:1.3}
+.barra .tr{height:8px; background:var(--track); border-radius:4px; overflow:hidden}
+.barra .tr i{display:block; height:100%; background:var(--brand); border-radius:0 4px 4px 0; width:0; transition:width .5s cubic-bezier(.3,.7,.3,1)}
+.barra .vl{font-family:var(--mono); font-size:11.5px; font-variant-numeric:tabular-nums; color:var(--text); text-align:right}
+.barra:first-child .nm{color:var(--text); font-weight:500}
+
+/* estado do item: glifo + rótulo, nunca cor sozinha */
+.estado{display:inline-flex; align-items:center; gap:8px; font-size:12.5px; color:var(--text-2)}
+.estado b{font-family:var(--mono); font-size:11.5px; letter-spacing:.04em; font-weight:600}
+.estado .g{width:17px; height:17px; border-radius:50%; display:grid; place-items:center; font-size:11px; font-weight:700; flex:none}
+.e-ok .g{background:var(--brand-bg); color:var(--ok); box-shadow:inset 0 0 0 1px var(--ok)}
+.e-ok b{color:var(--ok)}
+.e-duvida .g{background:rgba(245,165,36,.12); color:var(--warn); box-shadow:inset 0 0 0 1px var(--warn)}
+.e-duvida b{color:var(--warn)}
+.e-pend .g{background:rgba(242,112,107,.12); color:var(--err); box-shadow:inset 0 0 0 1px var(--err)}
+.e-pend b{color:var(--err)}
+
+/* junção: dois códigos, uma chave */
+.par{display:grid; grid-template-columns:1fr 1fr; gap:9px}
+.cod{
+  font-family:var(--mono); font-size:12px; padding:9px 12px; border-radius:7px;
+  background:var(--panel-2); border:1px solid var(--border); color:var(--text-2);
+}
+.cod b{display:block; color:var(--text); font-size:13px; margin-bottom:3px}
+.chave{
+  font-family:var(--mono); font-size:11.5px; line-height:1.62; color:var(--brand);
+  background:var(--brand-bg); border:1px solid var(--brand-dim); border-radius:7px; padding:11px 13px;
+  word-break:break-word;
+}
+.nota{font-size:12px; color:var(--text-3); line-height:1.5; margin:0}
+
+/* ---------- rodapé ---------- */
+.rodape{display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:16px}
+.fonte{font-family:var(--mono); font-size:10px; color:var(--text-3); letter-spacing:.015em}
+.dica{font-size:11.5px; color:var(--text-3)}
+kbd{
+  font-family:var(--mono); font-size:10.5px; padding:1px 5px; border-radius:4px;
+  background:var(--panel-2); border:1px solid var(--border-strong); color:var(--text-2);
+}
+
+/* ---------- tabela (todo valor alcançável sem hover) ---------- */
+.tabela{margin-top:18px; background:var(--panel); border:1px solid var(--border); border-radius:11px; padding:20px 22px}
+.tabela[hidden]{display:none}
+table{width:100%; border-collapse:collapse; font-size:12.5px}
+caption{text-align:left; font-size:12px; color:var(--text-3); padding-bottom:9px}
+th,td{text-align:left; padding:7px 12px 7px 0; border-bottom:1px solid var(--border); vertical-align:top}
+th{font-size:10px; font-family:var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); font-weight:400}
+td.n{font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap}
+.tabela table + table{margin-top:24px}
+
+@media (max-width:880px){
+  .painel{grid-template-columns:1fr}
+  .esq{border-right:0; border-bottom:1px solid var(--border)}
+  .rot{font-size:11.5px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+
+<body>
+<main class="slide">
+  <div class="topo">
+    <div>
+      <h1>Mesmas caixas, mesmo item</h1>
+      <p class="sub">Como um material em texto livre vira uma grade de caixas comparável — e por que duas grades iguais provam um código redundante. Siga um parafuso real pelos seis passos.</p>
+    </div>
+    <div class="ctrl">
+      <button class="btn" id="b-tab" aria-pressed="false">Tabela</button>
+      <button class="btn" id="b-tema">Escuro</button>
+    </div>
+  </div>
+
+  <div class="trilho">
+    <div class="linha" aria-hidden="true"><i id="preenche"></i></div>
+    <ul class="passos" id="passos" role="tablist" aria-label="Passos da pipeline"></ul>
+  </div>
+
+  <section class="painel" id="painel" role="tabpanel" tabindex="0"></section>
+
+  <div class="rodape">
+    <span class="fonte" id="fonte"></span>
+    <span class="dica">navegue com <kbd>←</kbd> <kbd>→</kbd> ou clique num passo</span>
+  </div>
+
+  <div class="tabela" id="tab" hidden></div>
+</main>
+
+<script>
+"use strict";
+
+/* Números e textos: "Pipeline de Saneamento VX - pitch.pdf".
+   O item que atravessa a pipeline é o par 16220310 / 16686120 do slide "Junção". */
+const ETAPAS = [
+  {
+    ord: "entrada", rot: "Base",
+    faz: "Texto livre, 22 anos de deriva, seis plantas.",
+    num: "23.554", numRot: "materiais na base · PDM com 44 classes",
+    tit: "O texto como o ERP guarda",
+    fonte: "fonte: artefatos/radar.json · docs/04-como-funciona.md",
+    render: p => {
+      const d = el("div", "cru");
+      d.append(
+        forte("16220310"),
+        txt(" PARAFUSO SEXTAVADO, ROSCA:ROSCA GROSSA, ROSCA:M12, COMPRIMENTO:75,0MM, GRAU:8.8…")
+      );
+      p.append(d, nota("Uma coluna de descrição, abreviada à mão por seis plantas diferentes ao longo de 22 anos. Nada aqui é comparável com nada."));
+    },
+  },
+  {
+    ord: "passo 1", rot: "Classe",
+    faz: "O grupo reduz 44 classes a 1–3; o substantivo decide.",
+    num: "90,8%", numRot: "acerto de classe",
+    tit: "Qual classe do PDM",
+    fonte: "fonte: docs/09-pipeline-correto.md §1 · artefatos/radar.json",
+    render: p => {
+      p.append(chips([
+        ["PDM001 · PARAFUSO SEXTAVADO", true],
+        ["PDM002 · PARAFUSO ALLEN", false],
+        ["PDM004 · PRISIONEIRO", false],
+      ]));
+      p.append(nota("O grupo do ERP corta as 44 classes para um punhado de candidatas. Entre elas, quem decide é o substantivo escrito no texto — não a similaridade da frase inteira."));
+    },
+  },
+  {
+    ord: "passo 2", rot: "Caixas",
+    faz: "A classe define as caixas; regras e BERT as preenchem.",
+    num: "97,5%", numRot: "precisão dos atributos afirmados",
+    tit: "As sete caixas obrigatórias da PDM001",
+    fonte: "fonte: docs/04-como-funciona.md §8 · docs/06-extracao-das-caixas.md",
+    render: p => {
+      p.append(caixas([
+        ["Rosca", "METRICA GROSSA"], ["Bitola", "M12"],
+        ["Comprimento", "75MM"], ["Classe resist.", "8.8"],
+        ["Material", "ACO CARBONO"], ["Acabamento", "OXIDADO PRETO"],
+        ["Norma", "DIN 931"],
+      ]));
+      p.append(nota("A classe é que diz quais caixas existem. Onze camadas disputam cada uma, da mais forte (rótulo escrito no texto) à mais fraca (LLM) — e todas as aplicáveis rodam, sempre."));
+    },
+  },
+  {
+    ord: "passo 3", rot: "Árbitro",
+    faz: "Tudo passa pela lista do PDM; acordo dá confiança.",
+    num: "92,6%", numRot: "cobertura do que o texto traz",
+    tit: "De onde vem cada valor aceito",
+    fonte: "escala 0–60% · medição com o BERT ligado · docs/00-estado-do-projeto.md §2",
+    render: p => {
+      p.append(barras([
+        ["acordo regra × BERT", 52.9], ["lista do PDM", 20.5],
+        ["BERT sozinho", 10.1], ["sinônimo curado", 5.0],
+        ["gramática", 3.7], ["BERT desempata", 2.1],
+        ["restrição de domínio", 0.6],
+      ], 60));
+      p.append(estado("ok", "✓", "ACEITO", "as sete caixas deste parafuso bateram com a lista do PDM"));
+      p.append(nota("Metade dos valores vem de regra e BERT concordando — sinal que só existe porque o BERT roda mesmo quando a regra já achou o valor."));
+    },
+  },
+  {
+    ord: "passo 4", rot: "LLM",
+    faz: "Só nas caixas em dúvida, nunca no dado ausente.",
+    num: "3.482", numRot: "itens que sobram para decisão humana",
+    tit: "Quando o modelo é chamado",
+    fonte: "fonte: docs/04-como-funciona.md §7 · src/saneamento/pipeline.py",
+    render: p => {
+      p.append(estado("ok", "✓", "SEM CHAMADA", "neste item, custo zero: nenhuma caixa ficou em dúvida"));
+      p.append(estado("duvida", "?", "BANDA_LLM", "parece bater, mas sem folga sobre o 2º → o LLM escolhe entre as alternativas"));
+      p.append(estado("pend", "—", "PENDENTE", "o texto não informa → fila de intervenção, um humano confirma"));
+      p.append(nota("O LLM nunca inventa o que o texto não tem: ele só escolhe entre alternativas da lista do PDM, e só nas caixas sem folga. O que falta vira pendência, não palpite."));
+    },
+  },
+  {
+    ord: "passo 5", rot: "Junção",
+    faz: "Chave igual: código redundante.",
+    num: "98,5%", numRot: "precisão da junção",
+    tit: "Dois códigos, uma chave",
+    fonte: "fonte: docs/04-como-funciona.md §8 · plano_juncao.csv",
+    render: p => {
+      p.append(par([
+        ["16220310", "PARAFUSO SEXTAVADO, ROSCA:ROSCA GROSSA, ROSCA:M12…"],
+        ["16686120", "PARAFUSO SEXTAVADO; ROSCA: METRICA GROSSA; BITOLA: M12…"],
+      ]));
+      p.append(chave("PDM001 | PARAFUSO | ROSCA=METRICA GROSSA | BITOLA=M12 | COMPRIMENTO=75MM | CLASSE=8.8 | MATERIAL=ACO CARBONO | ACABAMENTO=OXIDADO PRETO | NORMA=DIN 931"));
+      p.append(nota("Mesma chave, mesmo item. Nenhum modelo opinou — a igualdade é literal, e por isso dá para auditar linha por linha. Na base: R$ 30,24 mi consolidáveis em 1.991 grupos."));
+    },
+  },
+];
+
+const ORIGENS = [
+  ["acordo regra × BERT", "52,9%"], ["lista do PDM", "20,5%"],
+  ["BERT sozinho", "10,1%"], ["sinônimo curado", "5,0%"],
+  ["gramática", "3,7%"], ["BERT desempata", "2,1%"],
+  ["restrição de domínio", "0,6%"],
+];
+
+/* ---------- helpers de DOM. Rótulo sempre por textContent, nunca innerHTML. ---------- */
+function el(tag, cls, texto) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (texto !== undefined) n.textContent = texto;
+  return n;
+}
+const txt = s => document.createTextNode(s);
+const forte = s => el("b", null, s);
+const nota = s => el("p", "nota", s);
+
+function chips(itens) {
+  const d = el("div", "chips");
+  for (const [rotulo, vence] of itens) d.append(el("span", vence ? "chip vence" : "chip", rotulo));
+  return d;
+}
+
+function caixas(pares) {
+  const dl = el("dl", "caixas");
+  for (const [k, v] of pares) {
+    const linha = el("div", "caixa");
+    linha.append(el("dt", null, k), el("dd", null, v));
+    dl.append(linha);
+  }
+  return dl;
+}
+
+function barras(dados, escala) {
+  const d = el("div", "barras");
+  for (const [nome, pct] of dados) {
+    const linha = el("div", "barra");
+    linha.tabIndex = 0;
+    const rotulo = pct.toFixed(1).replace(".", ",") + "%";
+    linha.title = nome + ": " + rotulo + " dos valores aceitos";
+    const tr = el("div", "tr");
+    const i = el("i");
+    tr.append(i);
+    linha.append(el("div", "nm", nome), tr, el("div", "vl", rotulo));
+    d.append(linha);
+    requestAnimationFrame(() => { i.style.width = (pct / escala * 100).toFixed(2) + "%"; });
+  }
+  return d;
+}
+
+function estado(tipo, glifo, nome, texto) {
+  const d = el("div", "estado e-" + tipo);
+  const g = el("span", "g", glifo);
+  g.setAttribute("aria-hidden", "true");
+  d.append(g, el("b", null, nome), txt(" " + texto));
+  return d;
+}
+
+function par(itens) {
+  const d = el("div", "par");
+  for (const [cod, desc] of itens) {
+    const c = el("div", "cod");
+    c.append(forte(cod), txt(desc));
+    d.append(c);
+  }
+  return d;
+}
+const chave = s => el("div", "chave", s);
+
+/* ---------- trilho ---------- */
+const lista = document.getElementById("passos");
+const painel = document.getElementById("painel");
+const preenche = document.getElementById("preenche");
+const fonte = document.getElementById("fonte");
+let atual = 0;
+
+ETAPAS.forEach((etapa, i) => {
+  const li = el("li");
+  li.setAttribute("role", "presentation");
+  const b = el("button", "passo");
+  b.type = "button";
+  b.id = "passo-" + i;
+  b.setAttribute("role", "tab");
+  b.append(el("span", "ponto"), (() => {
+    const r = el("span", "rot", etapa.rot);
+    r.append(el("span", "ord", etapa.ord));
+    return r;
+  })());
+  b.addEventListener("click", () => ir(i));
+  li.append(b);
+  lista.append(li);
+});
+
+const botoes = [...lista.querySelectorAll(".passo")];
+
+function ir(i) {
+  atual = i;
+  const etapa = ETAPAS[i];
+
+  botoes.forEach((b, j) => {
+    b.dataset.estado = j < i ? "feito" : j === i ? "ativo" : "futuro";
+    b.setAttribute("aria-selected", String(j === i));
+    b.tabIndex = j === i ? 0 : -1;
+  });
+  /* a linha enche até o centro do ponto ativo */
+  preenche.style.width = (i / (ETAPAS.length - 1) * 100).toFixed(2) + "%";
+
+  painel.textContent = "";
+  painel.setAttribute("aria-labelledby", "passo-" + i);
+
+  const esq = el("div", "esq");
+  esq.append(el("p", "faz", etapa.faz), el("div", "num", etapa.num), el("div", "num-rot", etapa.numRot));
+
+  const dir = el("div", "dir");
+  dir.append(el("h2", "dir-tit", etapa.tit));
+  etapa.render(dir);
+
+  painel.append(esq, dir);
+  fonte.textContent = etapa.fonte;
+
+  /* deep-link do passo: #3 abre direto no passo 3 (serve para embutir um passo
+     específico num slide por iframe). replaceState para não encher o histórico. */
+  if (history.replaceState) history.replaceState(null, "", "#" + (i + 1));
+}
+
+document.addEventListener("keydown", e => {
+  const k = e.key;
+  if (k === "ArrowRight" || k === "ArrowDown" || k === " " || k === "PageDown") {
+    if (atual < ETAPAS.length - 1) { ir(atual + 1); botoes[atual].focus(); }
+    e.preventDefault();
+  } else if (k === "ArrowLeft" || k === "ArrowUp" || k === "PageUp") {
+    if (atual > 0) { ir(atual - 1); botoes[atual].focus(); }
+    e.preventDefault();
+  } else if (k === "Home") { ir(0); botoes[0].focus(); e.preventDefault(); }
+  else if (k === "End") { ir(ETAPAS.length - 1); botoes[atual].focus(); e.preventDefault(); }
+  else if (k >= "1" && k <= "6") { ir(+k - 1); botoes[atual].focus(); }
+});
+
+/* ---------- tabela: todo valor alcançável sem hover ---------- */
+function tabela(legenda, colunas, linhas) {
+  const t = el("table");
+  t.append(el("caption", null, legenda));
+
+  const thead = el("thead");
+  const trh = el("tr");
+  for (const c of colunas) trh.append(el("th", null, c));
+  thead.append(trh);
+
+  const tbody = el("tbody");
+  for (const linha of linhas) {
+    const tr = el("tr");
+    /* uma célula é ["texto"] ou ["texto","n"] quando é número */
+    for (const [valor, cls] of linha) tr.append(el("td", cls, valor));
+    tbody.append(tr);
+  }
+
+  t.append(thead, tbody);
+  return t;
+}
+
+function montaTabela(host) {
+  host.append(
+    tabela(
+      "Os seis passos, com o número de cada um",
+      ["Passo", "Etapa", "O que faz", "Número", "Mede"],
+      ETAPAS.map(et => [[et.ord], [et.rot], [et.faz], [et.num, "n"], [et.numRot]])
+    ),
+    tabela(
+      "De onde vem cada valor aceito (passo 3 · escala 0–60%)",
+      ["Camada", "Share"],
+      ORIGENS.map(([nome, pct]) => [[nome], [pct, "n"]])
+    )
+  );
+}
+
+const bTab = document.getElementById("b-tab");
+const tab = document.getElementById("tab");
+montaTabela(tab);
+function mostraTabela(abrir) {
+  tab.hidden = !abrir;
+  bTab.setAttribute("aria-pressed", String(abrir));
+}
+bTab.addEventListener("click", () => mostraTabela(tab.hidden));
+/* ?tabela=1 já abre com a tabela — serve para imprimir o slide com os dados à vista */
+if (new URLSearchParams(location.search).get("tabela") === "1") mostraTabela(true);
+
+/* ---------- tema: ?tema=dark|light força; senão segue o sistema ---------- */
+const bTema = document.getElementById("b-tema");
+const temaPedido = new URLSearchParams(location.search).get("tema");
+if (temaPedido === "dark" || temaPedido === "light") {
+  document.documentElement.dataset.theme = temaPedido;
+} else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  document.documentElement.dataset.theme = "dark";
+}
+function rotulaTema() {
+  bTema.textContent = document.documentElement.dataset.theme === "light" ? "Escuro" : "Claro";
+}
+bTema.addEventListener("click", () => {
+  const html = document.documentElement;
+  html.dataset.theme = html.dataset.theme === "light" ? "dark" : "light";
+  rotulaTema();
+});
+rotulaTema();
+
+const inicial = parseInt(location.hash.slice(1), 10);
+ir(Number.isInteger(inicial) && inicial >= 1 && inicial <= ETAPAS.length ? inicial - 1 : 0);
+</script>
+</body>
+</html>
