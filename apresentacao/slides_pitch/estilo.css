@@ -407,10 +407,20 @@ body {
   gap: 14px;
 }
 .linha-barra .nota-risco {
-  font-size: 21px;
+  font-size: 24px;
   font-weight: 400;
-  color: var(--texto-suave);
+  color: var(--texto-corpo);
   font-style: italic;
+}
+/* a última linha cai sobre a faixa clara do horizonte: pílula escura
+   atrás do rótulo (mesma linguagem da faixa-rodapé) garante contraste */
+.linha-barra.risco .rotulo {
+  width: fit-content;
+  background: rgba(16, 6, 36, 0.62);
+  border: 1px solid var(--fio-cartao);
+  border-radius: 12px;
+  padding: 8px 20px;
+  margin-bottom: 10px;
 }
 .linha-barra .trilho-barra {
   display: flex;
@@ -560,19 +570,6 @@ body {
 .cartao-pessoa .funcao {
   font-size: 25px;
   color: var(--texto-corpo);
-}
-.nota-time {
-  margin-top: 44px;
-  font-size: 24px;
-  color: var(--texto-suave);
-}
-.nota-time code {
-  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
-  font-size: 22px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 6px;
-  padding: 3px 10px;
 }
 
 /* ============================================================ S10 obrigado */
