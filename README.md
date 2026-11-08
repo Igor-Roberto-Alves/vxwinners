@@ -66,6 +66,13 @@ entrar na base.
   plataforma funciona offline, e o Bedrock fica reservado às etapas de enriquecimento e ao
   desempate — só onde regras não alcançam.
 
+**Quanto isso custou.** **US$ 40,35** de LLM nesta base de 23.554 registros, em 23.595 perguntas
+ao modelo (mais US$ 173,62 do benchmark, que é pesquisa e não se repete por cliente). Se o LLM
+fosse a única camada, a mesma base custaria **US$ 228,59** por execução — 5,7× — e acertaria
+menos em 3 dos 4 campos de identidade. A conta completa, com o método e as ressalvas, está em
+[`docs/16-custo-de-llm.md`](docs/16-custo-de-llm.md); `scripts/27_custo_llm.py` a reproduz sem
+chamar o Bedrock.
+
 ---
 
 ## Resultados

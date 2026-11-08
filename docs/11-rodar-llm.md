@@ -71,6 +71,19 @@ registro no desempate, e ~US$ 0,0003 por termo na canonização. Para o resíduo
 acima, isso dá uns **US$ 3** no passo 3 e **menos de US$ 0,10** no passo 1. O
 `--so-contar` dá o valor exato antes de qualquer chamada.
 
+**Atenção: os dois `--so-contar` subestimam, e por motivos diferentes.** Os dois
+usam um número fixo de tokens por chamada, chutado:
+
+| Script | Assume | Medido | Desvio |
+|---|---|---|---|
+| `11` canonizar | 220 tokens de entrada por termo | ~1.300 (implícito no custo real) | ~6× |
+| `10` desempate | 2.157 de entrada, 204 de saída por registro | 3.389 e 251, em log (rodada dos pedidos) | ~1,3× |
+
+O chute do script 11 ignora o `SISTEMA` do próprio script (~520 tokens) e o `enum`
+do atributo no tool use — é a explicação da nota no fim desta página. A medição
+está em [`16-custo-de-llm.md`](16-custo-de-llm.md) §2, que também traz o gasto de
+LLM do projeto inteiro e quanto custaria rodar LLM em tudo.
+
 ## Antes de apresentar
 
 Conferir à mão uma amostra das caixas que o LLM resolveu (fonte `llm` no

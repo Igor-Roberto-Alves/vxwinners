@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Pipeline de saneamento · custo de LLM</title>
+<meta name="viewport" content="width=1334"><style>
+:root{--navy:#17202a;--teal:#1d6a73;--surface:#f2f4f3;--card:#fefefe;--track:#e0e6e5;
+ --green:#2d794b;--cream:#f5ead2;--amber:#7e5200;--pink:#f4dedb;--red:#8d2d29;--cyan:#5cb7c0;
+ --tit:"Archivo Narrow","Oswald","Roboto Condensed","Ubuntu Sans","Liberation Sans Narrow","Nimbus Sans Narrow",system-ui,sans-serif;
+ --txt:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+ --mono:ui-monospace,"JetBrains Mono","SF Mono","DejaVu Sans Mono",Menlo,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:#8a9098;font-family:var(--txt);color:var(--navy)}
+.deck{display:flex;flex-direction:column;align-items:center;gap:22px;padding:22px}
+.slide{position:relative;width:1334px;height:750px;flex:0 0 auto;background:var(--surface);padding:62px 90px 56px;overflow:hidden}
+.rot{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--teal);text-transform:uppercase;margin:0 0 12px}
+h2{font-family:var(--tit);font-weight:800;font-stretch:condensed;font-size:42px;line-height:1.04;margin:0 0 8px}
+.corpo{margin-top:10px}
+.fonte{position:absolute;left:90px;right:90px;bottom:24px;font-family:var(--mono);font-size:12px;color:rgba(23,32,42,.45)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead th{background:var(--track);font-weight:600;font-size:12.5px;padding:7px 9px;text-align:left;border:1px solid rgba(23,32,42,.10);line-height:1.22}
+tbody td{padding:6px 9px;border:1px solid rgba(23,32,42,.10);background:var(--card);vertical-align:middle;line-height:1.28}
+td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+tr.final td{background:#dcebe9}
+td.fraco,.fraco{color:rgba(23,32,42,.58);font-weight:400}
+code{font-family:var(--mono);font-size:.9em;background:rgba(23,32,42,.055);padding:1px 5px;border-radius:3px}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.tres{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.obs{font-size:13.5px;line-height:1.42;margin:10px 0 0}
+.destaque{background:var(--cream);border-left:3px solid var(--amber);padding:9px 15px;margin:0 0 14px;
+  font-size:14.5px;line-height:1.4}
+.obs.ressalva{background:var(--card);border-left:3px solid var(--teal);padding:9px 15px;color:rgba(23,32,42,.82);margin-top:12px}
+.lado{display:flex;flex-direction:column;gap:12px}
+.caixa{background:var(--card);border:1px solid rgba(23,32,42,.09);border-radius:8px;padding:10px 14px}
+.caixa p{margin:4px 0 0;font-size:13.5px;line-height:1.4}
+.caixa .mini{font-size:12px;color:rgba(23,32,42,.7);margin-top:7px}
+.crot{font-size:12.5px;color:rgba(23,32,42,.62);font-weight:600;margin-bottom:5px}
+table.mini{font-size:13px;margin-top:4px}
+table.mini tbody td{padding:3px 8px;border:none;border-bottom:1px solid rgba(23,32,42,.07);white-space:nowrap}
+p.mini{font-size:12.5px;line-height:1.38;color:rgba(23,32,42,.7);margin:8px 0 0}
+@media print{@page{size:1334px 750px;margin:0} html,body{background:#fff} .deck{gap:0;padding:0}
+ .slide{page-break-after:always;break-after:page}}
+</style></head>
+<body><div class="deck">
+<section class="slide">
+  <div class="rot">CUSTO DE IA · O QUE GASTAMOS E O QUE GASTARÍAMOS</div>
+  <h2>US$ 40,35 de LLM nesta base. Com LLM em tudo: US$ 228,59</h2>
+  <div class="corpo"><p class="destaque"><b>5,7×</b> mais caro por execução — e
+8,4× na tarefa que as duas abordagens fazem igual, ler atributo e
+decidir classe (US$ 19,90 medidos contra US$ 168,08 estimados). Por registro,
+US$ 0,00171 contra
+US$ 0,00970.</p>
+<div class="duas">
+  <div><div class="crot">Gasto real — perguntas que de fato foram feitas 🟢</div>
+    <table><thead><tr><th>etapa</th><th style="width:16%">perguntas</th>
+      <th style="width:20%">custo</th></tr></thead><tbody><tr><td>11 · canonizar termos que o PDM recusou</td><td class='n'>939</td><td class='n'>US$ 1,32</td></tr><tr><td>10 · desempate de CONFLITO e AMBÍGUO</td><td class='n'>1.370</td><td class='n'>US$ 5,53</td></tr><tr><td>12 · detecção de dado genérico (caixas com sinal)</td><td class='n'>1.919</td><td class='n'>US$ 2,92</td></tr><tr><td>12 · detecção de dado genérico (todas as caixas)</td><td class='n'>6.382</td><td class='n'>US$ 9,83</td></tr><tr><td>08 · preencher FABRICANTE nos faltantes (Sonnet 5, em lote)</td><td class='n'>12.909</td><td class='n'>US$ 20,45</td></tr><tr><td>24 · aprender tradução de classe (catálogo em inglês)</td><td class='n'>38</td><td class='n'>US$ 0,13</td></tr><tr><td>04 · os 520 pedidos com todas as camadas ligadas</td><td class='n'>38</td><td class='n'>US$ 0,17</td></tr><tr class='final'><td><b>total em produção</b></td><td class='n'>23.595</td><td class='n'>US$ 40,35</td></tr></tbody></table>
+    <p class="mini">Fora da tabela, porque é pesquisa e não operação: o benchmark das
+    10 soluções × 4 campos custou US$ 173,62, uma vez só, para
+    descobrir qual solução ganha em cada campo. Num cliente novo não se repete.</p></div>
+  <div><div class="crot">Se o LLM fosse a única camada, nos mesmos
+      23.554 registros 🟡</div>
+    <table><thead><tr><th>o que o LLM faria</th><th style="width:16%">perguntas</th>
+      <th style="width:20%">custo</th></tr></thead><tbody><tr><td>atributos, 1 pergunta por registro</td><td class='n'>23.517</td><td class='n'>US$ 112,10</td></tr><tr><td>classe, contra a lista fechada do PDM</td><td class='n'>23.554</td><td class='n'>US$ 55,98</td></tr><tr><td>FABRICANTE em toda linha</td><td class='n'>23.554</td><td class='n'>US$ 16,17</td></tr><tr><td>REFERENCIA_FABRICANTE em toda linha</td><td class='n'>23.554</td><td class='n'>US$ 10,13</td></tr><tr><td>NCM em toda linha</td><td class='n'>23.554</td><td class='n'>US$ 18,10</td></tr><tr><td>GRUPO_MERCADORIA em toda linha</td><td class='n'>23.554</td><td class='n'>US$ 16,11</td></tr><tr class='final'><td><b>total, uma execução, mesmo modelo</b></td><td class='n'>141.287</td><td class='n'>US$ 228,59</td></tr></tbody></table>
+    <div class="tres" style="margin-top:12px">
+      <div class="caixa"><div class="crot">O modelo multiplica</div>
+        <table class="mini"><tbody><tr><td>haiku-4-5</td><td class='n'>US$ 228,59</td></tr><tr><td>sonnet-5</td><td class='n'>US$ 457,17</td></tr><tr><td>opus-5</td><td class='n'>US$ 1 142,94</td></tr><tr><td>fable-5</td><td class='n'>US$ 2 285,87</td></tr></tbody></table></div>
+      <div class="caixa"><div class="crot">A reexecução multiplica</div>
+        <p class="mini">Hoje a 2ª execução da mesma base custa <b>US$ 0,00</b>: a resposta
+        virou regra no dicionário e o cache devolve a pergunta repetida. Sem camada barata,
+        <b>US$ 457,18</b> pelas duas rodadas do teste de
+        determinismo.</p></div>
+      <div class="caixa"><div class="crot">O desconto que falta aos dois</div>
+        <p class="mini">Com <i>prompt caching</i> por classe o contrafactual cairia a
+        <b>US$ 116,35</b>. Não está implementado, e valeria igual para o
+        resíduo: a razão se mantém.</p></div>
+    </div></div>
+</div></div>
+  <div class="fonte">fonte: artefatos/custo_llm.json · scripts/27_custo_llm.py · docs/16-custo-de-llm.md · Haiku 4.5 no Bedrock, preço de tabela</div>
+</section>
+<section class="slide">
+  <div class="rot">CUSTO DE IA · ONDE O LLM NÃO VALE O PREÇO</div>
+  <h2>Em 3 dos 4 campos de identidade, a solução barata <i>acerta mais</i></h2>
+  <div class="corpo"><div class="duas">
+  <div><table><thead><tr><th>campo</th><th>solução aplicada</th><th>top-1</th>
+      <th>na base inteira</th><th>top-1 do LLM</th>
+      <th>LLM na base inteira</th></tr></thead><tbody><tr class='final'><td>REFERENCIA_FABRICANTE</td><td><code>regras</code></td><td class='n'>0,844</td><td class='n'>US$ 0,00</td><td class='n'>0,811</td><td class='n'>US$ 10,13</td></tr><tr class='final'><td>NCM</td><td><code>tfidf_lr</code></td><td class='n'>0,910</td><td class='n'>US$ 0,00</td><td class='n'>0,887</td><td class='n'>US$ 18,10</td></tr><tr class='final'><td>GRUPO_MERCADORIA</td><td><code>knn_cohere</code></td><td class='n'>0,966</td><td class='n'>US$ 1,09</td><td class='n'>0,965</td><td class='n'>US$ 16,11</td></tr><tr><td>FABRICANTE</td><td><code>llm_fewshot_sonnet</code></td><td class='n'>0,843</td><td class='n'>US$ 46,40</td><td class='n'>0,833</td><td class='n'>US$ 16,17</td></tr></tbody></table>
+    <p class="obs">Se o LLM em tudo fosse só mais caro, seria escolha de orçamento. O
+    benchmark diz outra coisa: em 3 dos 4 campos, pagar pelo LLM
+    compraria <b>menos acerto</b>. Só em FABRICANTE ele ganha — e ali o projeto pagou pelo
+    modelo melhor (Sonnet 5), que é metade do gasto real do projeto. A arquitetura não
+    economiza por avareza: paga o LLM onde ele é o melhor e não paga onde ele perde.</p>
+    <p class="obs ressalva"><b>O que este slide não prova.</b> A comparação de acerto é dos
+    quatro campos de identidade, que têm gabarito e benchmark. Nos <i>atributos</i> o
+    contrafactual mede custo, não acurácia: rodar 500 registros com o LLM fazendo tudo
+    (~US$ 5) fecharia essa lacuna, e é a próxima medição da lista.</p></div>
+  <div class="lado">
+    <div class="caixa"><div class="crot">Como o contrafactual foi calculado</div>
+      <p>O script monta o <b>prompt de verdade</b> para cada um dos 23.554 registros — o
+      mesmo <code>SISTEMA</code>, o mesmo <code>enum</code> da classe no tool use — e converte
+      caractere em token por uma razão <b>medida</b>: a única rodada do projeto com tokens em
+      log (37 chamadas, 125.402 tokens de entrada) dá
+      <b>2,1068 caracteres por
+      token</b>.</p>
+      <p class="mini">A convenção de 3,5 car/token dos scripts 12 e 24 conta 40% menos token
+      do que o real, e toda estimativa de <code>--so-contar</code> sai baixa na mesma
+      proporção.</p></div>
+    <div class="caixa"><div class="crot">Aferição contra medição real</div>
+      <p>O item "atributos" é a mesma chamada do desempate, só que em todos os registros. Os
+      dois custos por registro batem:</p>
+      <table class="mini"><tbody>
+        <tr><td>contrafactual, atributos 🟡</td><td class="n">
+          US$ 0,00477</td></tr>
+        <tr><td>desempate real, 1.370 registros 🟢</td><td class="n">US$ 0,00404</td></tr>
+      </tbody></table>
+      <p class="mini">Os 18% de diferença têm o sinal certo: no contrafactual o modelo
+      preenche <b>todas</b> as caixas, e escreve mais na saída.</p></div>
+    <div class="caixa"><div class="crot">O LLM sem o andaime das camadas</div>
+      <p>O mesmo modelo, perguntado sem lista fechada, sem <i>tool use</i> e sem validador
+      (<code>llm_naive</code>), tira top-1 de <b>0,000</b> em
+      GRUPO_MERCADORIA e <b>0,025</b> em NCM — e custa quase o mesmo. O que faz
+      o LLM servir não é o modelo, é o andaime em volta dele.</p></div>
+  </div>
+</div></div>
+  <div class="fonte">fonte: preenchimento/benchmark.csv (10 soluções × 4 campos, tokens reais) · artefatos/custo_llm.json · docs/16-custo-de-llm.md</div>
+</section>
+</div></body></html>

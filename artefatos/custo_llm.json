@@ -1,0 +1,180 @@
+{
+ "gerado_por": "scripts/27_custo_llm.py",
+ "modelo_do_pipeline": "haiku-4-5",
+ "precos_usd_por_milhao_de_token": {
+  "haiku-4-5": [
+   1.0,
+   5.0
+  ],
+  "sonnet-5": [
+   2.0,
+   10.0
+  ],
+  "opus-5": [
+   5.0,
+   25.0
+  ],
+  "fable-5": [
+   10.0,
+   50.0
+  ]
+ },
+ "calibracao": {
+  "fonte": "artefatos/medicao_pedidos/3_bert_llm/execucao.log",
+  "chamadas": 37,
+  "tokens_entrada": 125402,
+  "tokens_saida": 9284,
+  "caracteres_por_token_entrada": 2.1068,
+  "caracteres_por_token_saida": 1.1401
+ },
+ "gasto_real": {
+  "etapas": [
+   {
+    "etapa": "11 · canonizar termos que o PDM recusou",
+    "natureza": "producao",
+    "perguntas": 939,
+    "usd": 1.32,
+    "fonte": "docs/11-rodar-llm.md, primeira execucao"
+   },
+   {
+    "etapa": "10 · desempate de CONFLITO e AMBÍGUO",
+    "natureza": "producao",
+    "perguntas": 1370,
+    "usd": 5.53,
+    "fonte": "docs/11-rodar-llm.md, primeira execucao"
+   },
+   {
+    "etapa": "12 · detecção de dado genérico (caixas com sinal)",
+    "natureza": "producao",
+    "perguntas": 1919,
+    "usd": 2.92,
+    "fonte": "docs/12-dado-generico.md, secao 1"
+   },
+   {
+    "etapa": "12 · detecção de dado genérico (todas as caixas)",
+    "natureza": "producao",
+    "perguntas": 6382,
+    "usd": 9.83,
+    "fonte": "docs/12-dado-generico.md, secao 6"
+   },
+   {
+    "etapa": "08 · preencher FABRICANTE nos faltantes (Sonnet 5, em lote)",
+    "natureza": "producao",
+    "perguntas": 12909,
+    "usd": 20.45,
+    "fonte": "preenchimento/saida/resumo_preenchimento.json"
+   },
+   {
+    "etapa": "24 · aprender tradução de classe (catálogo em inglês)",
+    "natureza": "producao",
+    "perguntas": 38,
+    "usd": 0.13,
+    "fonte": "avaliacao/slides_camadas.html, 38 perguntas"
+   },
+   {
+    "etapa": "04 · os 520 pedidos com todas as camadas ligadas",
+    "natureza": "producao",
+    "perguntas": 38,
+    "usd": 0.17,
+    "fonte": "artefatos/medicao_pedidos/3_bert_llm/execucao.log"
+   }
+  ],
+  "usd_producao": 40.35,
+  "perguntas_producao": 23595,
+  "usd_benchmark_pesquisa": 173.62,
+  "usd_total_projeto": 213.97
+ },
+ "contrafactual_llm_em_tudo": {
+  "registros_da_base": 23554,
+  "registros_com_classe_do_pdm": 23517,
+  "amostra_medida": 3000,
+  "atributos": {
+   "tokens_entrada": 79257495,
+   "tokens_saida": 6607579,
+   "usd": 112.3
+  },
+  "classe": {
+   "tokens_entrada": 47731842,
+   "tokens_saida": 1652719,
+   "usd": 56.0
+  },
+  "campos_de_identidade": [
+   {
+    "campo": "FABRICANTE",
+    "solucao": "llm_fewshot_haiku",
+    "top1": 0.8325,
+    "tokens_entrada": 8724378,
+    "tokens_saida": 1488601,
+    "usd_base_inteira": 16.167383161,
+    "aplicada": "llm_fewshot_sonnet",
+    "aplicada_top1": 0.843,
+    "aplicada_usd_por_1k": 1.9698,
+    "aplicada_usd_base_inteira": 46.3966692
+   },
+   {
+    "campo": "REFERENCIA_FABRICANTE",
+    "solucao": "llm_fewshot_haiku",
+    "top1": 0.8113,
+    "tokens_entrada": 8118687,
+    "tokens_saida": 401863,
+    "usd_base_inteira": 10.128000162666668,
+    "aplicada": "regras",
+    "aplicada_top1": 0.844,
+    "aplicada_usd_por_1k": 0.0,
+    "aplicada_usd_base_inteira": 0.0
+   },
+   {
+    "campo": "NCM",
+    "solucao": "llm_fewshot_haiku",
+    "top1": 0.887,
+    "tokens_entrada": 10479622,
+    "tokens_saida": 1524038,
+    "usd_base_inteira": 18.099812206,
+    "aplicada": "tfidf_lr",
+    "aplicada_top1": 0.9105,
+    "aplicada_usd_por_1k": 0.0,
+    "aplicada_usd_base_inteira": 0.0
+   },
+   {
+    "campo": "GRUPO_MERCADORIA",
+    "solucao": "llm_fewshot_haiku",
+    "top1": 0.965,
+    "tokens_entrada": 8555908,
+    "tokens_saida": 1511602,
+    "usd_base_inteira": 16.113915581,
+    "aplicada": "knn_cohere",
+    "aplicada_top1": 0.9655,
+    "aplicada_usd_por_1k": 0.0461,
+    "aplicada_usd_base_inteira": 1.0858394
+   }
+  ],
+  "tokens_entrada": 162867933,
+  "tokens_saida": 13186401,
+  "perguntas": 141287,
+  "usd_uma_execucao": 228.8,
+  "usd_por_modelo": {
+   "haiku-4-5": 228.8,
+   "sonnet-5": 457.6,
+   "opus-5": 1144.0,
+   "fable-5": 2288.0
+  },
+  "com_prompt_caching": {
+   "implementado": false,
+   "fonte_dos_precos": "backend/app/llm/cliente.py",
+   "usd_leitura_cache": 0.1,
+   "usd_escrita_cache": 1.25,
+   "atributos_usd": 42.08,
+   "classe_usd": 14.0,
+   "usd_uma_execucao": 116.59,
+   "nota": "campos de identidade nao modelados; tambem cairiam"
+  }
+ },
+ "razao": {
+  "contrafactual_sobre_real": 5.7,
+  "leitura_usd_real": 19.9,
+  "leitura_usd_contrafactual": 168.29,
+  "leitura_razao": 8.5,
+  "usd_por_registro_real": 0.00171,
+  "usd_por_registro_contrafactual": 0.00971
+ }
+}
