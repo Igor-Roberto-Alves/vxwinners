@@ -91,3 +91,8 @@ echo " catalogo ....... $ART/catalogo_final.xlsx"
 echo " plano de juncao  $ART/plano_juncao.csv"
 echo " auditoria ...... $ART/decisoes_base.jsonl"
 echo " grades .......... $ART/caixas_base.jsonl  (rode scripts/05_encaixotar.py)"
+echo
+echo " para atualizar as telas que leem estes artefatos:"
+echo "   scripts/19_fila_intervencao.py   fila de intervencao humana"
+echo "   scripts/20_radar.py              radar (precisa rodar antes do 21)"
+echo "   scripts/21_juncao_ncm.py         codigos juntados e NCM trocado"

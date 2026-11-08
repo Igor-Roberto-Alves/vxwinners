@@ -10,6 +10,10 @@
 const BASE = location.protocol === "file:" ? "http://127.0.0.1:8000" : "";
 const API = BASE + "/api/v1";
 const PAGINAS_REAIS = new Set(["busca", "cadastro", "pedidos", "cadastros", "revisao"]);
+/* Estas não falam com a API: leem os artefatos do saneamento. O dado é medido do
+ * mesmo jeito, e a etiqueta precisa dizer isso — chamá-las de "demonstração"
+ * fazia a tela mentir sobre 1.991 grupos e 1.104 NCMs que saem de arquivo. */
+const PAGINAS_PIPELINE = new Set(["radar", "intervencao", "clusters"]);
 const ABA_DO_PAINEL = { busca: "buscar", cadastro: "buscar", pedidos: "pedidos" };   // as três entradas do menu levam ao painel
 const ESTADOS = {
   RASCUNHO: ["rascunho", "st-neutral"], AGUARDANDO_SOLICITANTE: ["aguardando solicitante", "st-warn"],
@@ -103,10 +107,12 @@ function mostraPainel(p) {
 const goBase = window.go;
 const AO_ENTRAR = { cadastros: () => carregaCadastros(), revisao: () => carregaRevisao() };
 function marcaDados(p) {
-  const pill = $("#pill-dados"), real = PAGINAS_REAIS.has(p);
-  pill.textContent = real ? "dados reais" : "demonstração";
-  pill.title = real ? "Esta tela grava no banco de desenvolvimento" : "Tela de demonstração: ainda não ligada à API";
-  pill.classList.toggle("green", real);
+  const pill = $("#pill-dados"), real = PAGINAS_REAIS.has(p), pipeline = PAGINAS_PIPELINE.has(p);
+  pill.textContent = real ? "dados reais" : pipeline ? "saída do pipeline" : "demonstração";
+  pill.title = real ? "Esta tela grava no banco de desenvolvimento"
+    : pipeline ? "Lê os artefatos do saneamento (medido); não passa pela API"
+      : "Tela de demonstração: ainda não ligada à API";
+  pill.classList.toggle("green", real || pipeline);
 }
 window.go = function (p, { semRota = false } = {}) {
   if (!semRota) history.replaceState(null, "", "#/" + p);

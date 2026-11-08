@@ -66,6 +66,20 @@
 [data-theme="light"] .tbl tr:nth-child(even):not(:hover):not(.sel):not(.dup-row) td{background:rgba(0,0,0,.02)}
 [data-theme="light"] #sugestoes-api{background:rgba(47,111,196,.04)}
 
+/* ---------- junção e NCM: o antes e o depois na mesma célula ----------
+ * O valor antigo riscado em vermelho e o novo em verde, para a troca ser legível
+ * sem abrir nada. Mesma convenção do painel de evidências (.fx-row .old/.new),
+ * aqui em classe própria porque a tabela de junção não vive dentro de um .fx-row. */
+.troca{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11.5px;flex-wrap:wrap}
+.troca .de{color:var(--danger);text-decoration:line-through;text-decoration-color:var(--danger)}
+.troca .para{color:var(--brand-text);font-weight:500}
+.troca .seta{color:var(--text-3)}
+/* quem fica e quem sai, com a mesma cor em qualquer lugar da tela */
+.mono.fica{color:var(--brand-text);font-weight:500}
+.mono.saem{color:var(--danger);text-decoration:line-through;text-decoration-color:rgba(227,96,96,.5)}
+.cmp th.keep{box-shadow:inset 0 -2px 0 var(--brand)}
+.fx.on{border-color:var(--brand);background:var(--brand-bg)}
+
 /* foco visível e movimento reduzido */
 .inp:focus-visible,.sel:focus-visible,textarea:focus-visible,button:focus-visible,.btn:focus-visible,.conf-chip:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--ok);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}

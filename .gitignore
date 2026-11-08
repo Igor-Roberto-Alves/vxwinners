@@ -39,6 +39,11 @@ artefatos/catalogo_final.xlsx
 artefatos/aprendizado.json
 artefatos/treino.log
 
+# 4 MB que nao precisam ir duas vezes: a copia que a tela le e
+# frontend/dados/juncao_ncm.json, e essa sim e versionada (rodar.sh numa maquina
+# limpa nao tem o plano_juncao.csv para regerar)
+artefatos/juncao_ncm.json
+
 # versionados de proposito: pdm.json, treino.jsonl e validacao.jsonl
 # tornam o treino em outra maquina um 'git clone' (ver docs/03-treinar-bert.md)
 

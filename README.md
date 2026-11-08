@@ -77,8 +77,9 @@ O frontend do time é a moldura, e a tela de cadastro é o painel, embutido nela
 tela usa **dados reais** ou é **demonstração**.
 
 - **Reais:** Buscar material, Cadastrar novo item, Pedidos de cadastro, Cadastros, Revisão de exceções,
-  **Fila de intervenção** e **Radar** (as duas últimas leem a saída do pipeline, não a API).
-- **Demonstração:** Início, Requisições, Base e Clusters.
+  **Fila de intervenção**, **Radar** e **Códigos juntados e NCM trocado** (as três últimas leem a saída
+  do pipeline, não a API).
+- **Demonstração:** Início, Requisições e Base.
 
 **Radar** passou a sair de `artefatos/radar.json` (`scripts/20_radar.py`), e cada número leva a própria
 procedência: `medido` quando sai de um artefato ou de um gabarito, `estimado` quando é cálculo sobre a
@@ -104,6 +105,27 @@ pipeline consome de volta.
 
 ```bash
 uv run --no-project --with pandas --with openpyxl python scripts/19_fila_intervencao.py
+```
+
+**Códigos juntados e NCM trocado** abre o que antes só existia somado no Radar. Até aqui a tela de
+clusters mostrava sete grupos escritos à mão dentro do `plataforma.html`, com confiança inventada por
+grupo, enquanto o Radar dizia "1.991 grupos" e "1.104 NCM corrigidos" sem que houvesse onde conferir
+nenhum dos dois. Agora são duas abas, as duas completas:
+
+- **Códigos juntados** — os 1.991 grupos de identidade. Em cada um, o código que **fica** em verde e os
+  que **saem** riscados, com saldo somado, capital liberado, centros e o que diverge entre eles (NCM,
+  unidade, saldo no código que sai, LLM na chave). A comparação é campo a campo contra o código que
+  fica; o rádio no cabeçalho troca quem fica e a troca vai na decisão exportada. Não há percentual de
+  confiança por grupo porque o pipeline não produz um: no lugar dele, a precisão da junção medida no
+  gabarito (98,5%), que vale para o conjunto.
+- **NCM trocado** — toda alteração de NCM com o valor antigo riscado ao lado do novo, separada pelo que
+  a mudança significa: **1.104 trocados** (dígitos diferentes — muda a tributação e exige o tributário,
+  R$ 2,94 mi em estoque), **597 preenchidos** (entraram vazios, derivados da classe), **8.063
+  reformatados** (mesmos dígitos, só a pontuação; publicados por amostra de maior capital, com a
+  contagem total ao lado) e **611 que continuam sem NCM**, porque a classe tem NCM condicional.
+
+```bash
+uv run --no-project --with pandas --with openpyxl python scripts/21_juncao_ncm.py
 ```
 
 Três decisões de projeto:
@@ -248,8 +270,9 @@ preenchimento/
 servico/
   treina.py api.py exemplos_curl.sh
 backend/                    API, banco, estruturação da base, cadastro, testes
-frontend/                   cadastro real, fila de intervenção, tema e teste de ponta a ponta
-  cadastro.js intervencao.js radar.js dados/{fila_intervencao,radar}.json
+frontend/                   cadastro real, fila de intervenção, junção/NCM, tema e teste de ponta a ponta
+  cadastro.js intervencao.js juncao.js radar.js
+  dados/{fila_intervencao,juncao_ncm,radar}.json
 src/saneamento/             pipeline de saneamento (caixas, BERT, junção, catálogo)
 plataforma.html      casca da interface
 rodar.sh                    sobe tudo
@@ -302,6 +325,6 @@ podem ser reauditados antes de regenerar os splits.
 do rótulo com confiança alta; as amostras inspecionadas estão certas, mas a lista inteira ainda
 precisa de revisão humana antes de virar correção na base.
 
-**4. A interface ainda tem telas de demonstração.** Início, Radar, Requisições, Base e Clusters usam dados
+**4. A interface ainda tem telas de demonstração.** Início, Requisições e Base usam dados
 embutidos no arquivo. A autenticação é só de desenvolvimento, e o usuário é
 escolhido no topo da tela: não use em produção. Limites completos em [`backend/README.md`](backend/README.md).

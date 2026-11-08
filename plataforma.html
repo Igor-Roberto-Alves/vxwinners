@@ -380,7 +380,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
   <button class="rail-btn" data-nav="requisicoes" data-tip="Requisições" onclick="go('requisicoes')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h18l-2 13H5z"/><path d="M8 7a4 4 0 0 1 8 0"/></svg></button>
   <div class="sep"></div>
   <button class="rail-btn" data-nav="base" data-tip="Base de materiais" onclick="go('base')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg></button>
-  <button class="rail-btn" data-nav="clusters" data-tip="Clusters (saneamento)" onclick="go('clusters')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg></button>
+  <button class="rail-btn" data-nav="clusters" data-tip="Códigos juntados e NCM trocado" onclick="go('clusters')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg></button>
   <button class="rail-btn" data-nav="intervencao" data-tip="Fila de intervenção" onclick="go('intervencao')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h10M4 12h7M4 18h10"/><path d="M15.5 15.5 19 19M19 19l1.5-1.5-3.5-3.5-1.5 1.5z"/></svg></button>
   <div class="spacer"></div>
   <button class="rail-btn" data-nav="manual" data-tip="Manual" onclick="go('manual')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/></svg></button>
@@ -418,7 +418,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
   <div class="side-sec">
     <h6>Base</h6>
     <div class="side-item" data-nav="base" onclick="go('base')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>base_materiais<span class="count">23.554</span></div>
-    <div class="side-item" data-nav="clusters" onclick="go('clusters')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg>Clusters (saneamento)<span class="count">1.412</span></div>
+    <div class="side-item" data-nav="clusters" onclick="go('clusters')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg>Juntados e NCM<span class="count">1.991</span></div>
     <div class="side-item" data-nav="intervencao" onclick="go('intervencao')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h10M4 12h7M4 18h10"/><path d="M15.5 15.5 19 19M19 19l1.5-1.5-3.5-3.5-1.5 1.5z"/></svg>Fila de intervenção<span class="count" id="n-intervencao">—</span></div>
   </div>
 </aside>
@@ -506,7 +506,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
       <a data-sec="m-busca" onclick="manGo('m-busca')">Buscar material</a>
       <a data-sec="m-cadastro" onclick="manGo('m-cadastro')">Cadastrar item</a>
       <a data-sec="m-req" onclick="manGo('m-req')">Requisições</a>
-      <a data-sec="m-novas" onclick="manGo('m-novas')">Base de materiais e clusters</a>
+      <a data-sec="m-novas" onclick="manGo('m-novas')">Base de materiais, junção e NCM</a>
       <a data-sec="m-radar" onclick="manGo('m-radar')">Radar</a>
       <a data-sec="m-regras" onclick="manGo('m-regras')">Regras de decisão</a>
       <a data-sec="m-gloss" onclick="manGo('m-gloss')">Glossário</a>
@@ -558,11 +558,13 @@ input[type=range]{accent-color:var(--brand);width:100%}
       </section>
 
       <section id="m-novas">
-        <h2>Base de materiais e clusters</h2>
+        <h2>Base de materiais, junção e NCM</h2>
         <h3>base_materiais</h3>
         <p>Tabela da base como está hoje, com filtros por status, centro e grupo. A coluna <b>Qualidade</b> marca NCM fora do formato, unidade fora do PDM, falta de fabricante e códigos remissivos ("NAO UTILIZAR").</p>
-        <h3>Clusters</h3>
-        <p>Grupos de códigos que podem ser o mesmo material. A confiança usa cores: <span class="conf-pill hi"><i></i>verde ≥ 80%</span> <span class="conf-pill md"><i></i>amarelo 60–79%</span> <span class="conf-pill lo"><i></i>vermelho &lt; 60%</span>. Células em vermelho na comparação são divergências. Escolha o código que fica e unifique, separe ou peça informação.</p>
+        <h3>Códigos juntados e NCM trocado</h3>
+        <p>Vem de <code>artefatos/juncao_ncm.json</code>, gerado por <code>scripts/21_juncao_ncm.py</code> a partir do plano de junção e do saneado. Duas abas:</p>
+        <p><b>Códigos juntados</b> — um grupo por chave de identidade do PDM (classe, substantivo, fabricante, part number). Em cada grupo, o código que <b>fica</b> aparece em verde e os que <b>saem</b> riscados em vermelho; os que saem são bloqueados e passam a apontar para o que fica, nunca apagados. Células em vermelho na comparação divergem do código que fica. O rádio no cabeçalho troca qual código fica, e a troca vai na decisão exportada. Não há percentual de confiança por grupo: o pipeline não produz um. O que existe é a <b>precisão da junção medida no gabarito</b>, no cartão do topo, que vale para o conjunto.</p>
+        <p><b>NCM trocado</b> — toda alteração de NCM com o valor antigo riscado ao lado do novo, separada pelo que a mudança significa: <b>trocado</b> (dígitos diferentes, muda a tributação e exige o tributário), <b>preenchido</b> (entrou vazio, derivado da classe) e <b>reformatado</b> (mesmos dígitos, só a pontuação — publicado por amostra de maior capital, com a contagem total ao lado).</p>
       </section>
 
       <section id="m-radar">
@@ -645,34 +647,104 @@ input[type=range]{accent-color:var(--brand);width:100%}
   </div>
 </section>
 
-<!-- ================================================================ CLUSTERS -->
+<!-- ================================================ JUNÇÃO E NCM (dados reais) -->
 <section class="page" id="page-clusters">
   <div class="page-head">
-    <div><h1>Clusters de duplicidade</h1><p>Códigos que podem ser o mesmo material. Revise, escolha o código que fica e unifique, ou separe. Fusões são reversíveis: os códigos são bloqueados, nunca apagados.</p></div>
-    <div class="actions"><select class="sel" style="height:30px;width:auto"><option>Ordenar por capital</option><option>Ordenar por confiança</option></select></div>
+    <div>
+      <h1>Códigos juntados e NCM trocado</h1>
+      <p>O que o saneamento decidiu, código por código: quais códigos viraram um só —
+         o que <b>fica</b> e os que <b>saem</b> — e quais NCMs mudaram, com o valor antigo
+         ao lado do novo. Nada é apagado: o código que sai é bloqueado e passa a apontar
+         para o que fica. <span class="faint" id="jn-gerado"></span></p>
+    </div>
+    <div class="actions">
+      <button class="btn sm" id="jn-exportar" title="Baixa as decisões desta sessão em .jsonl">Exportar decisões</button>
+      <button class="btn sm ghost" id="jn-limpar">Limpar sessão</button>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-h"><h3>Fila de revisão</h3><span class="sub">1.412 clusters abertos · amostra</span>
-      <div class="r"><span class="conf-pill hi"><i></i>≥ 80%</span><span class="conf-pill md"><i></i>60–79%</span><span class="conf-pill lo"><i></i>&lt; 60%</span></div></div>
-    <div style="overflow:auto"><table class="tbl" id="cl-table"></table></div>
+
+  <div class="grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px" id="jn-kpis"></div>
+
+  <div style="display:flex;gap:6px;margin-bottom:14px" id="jn-abas">
+    <button class="seg-btn on" data-aba="grupos">Códigos juntados</button>
+    <button class="seg-btn" data-aba="ncm">NCM trocado</button>
   </div>
-  <div class="card section-gap" id="cl-detail">
-    <div class="card-h"><h3 id="cl-title">—</h3><span id="cl-conf"></span><div class="r"><span class="sub" id="cl-sub"></span></div></div>
-    <div class="card-b">
-      <div id="cl-why" style="margin-bottom:14px"></div>
-      <div style="overflow:auto"><table class="tbl cmp" id="cl-cmp"></table></div>
-      <div class="divider"></div>
-      <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Resultado se unificar</div>
-      <div class="grid" style="grid-template-columns:repeat(4,1fr)" id="cl-imp"></div>
-      <div class="divider"></div>
-      <label class="lbl">Comentário da revisão</label>
-      <textarea class="inp" placeholder="Ex.: unidade CX era erro de cadastro; confirmado com almoxarifado 1200."></textarea>
-      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-        <button class="btn primary" onclick="clDecide('Unificado')">Unificar no código escolhido</button>
-        <button class="btn" onclick="clDecide('Separado')">Não são o mesmo · separar</button>
-        <button class="btn" onclick="clDecide('Pergunta enviada')">Pedir informação</button>
-        <button class="btn ghost" onclick="clNext()">Pular →</button>
+
+  <!-- ---------------------------------------------------------- grupos -->
+  <div id="jn-aba-grupos">
+    <div class="card">
+      <div class="card-h"><h3>Grupos de identidade</h3><span class="sub" id="jn-g-sub">—</span>
+        <div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="toolbar">
+        <input class="inp" id="jn-g-busca" placeholder="Buscar código, classe, fabricante…" style="width:250px">
+        <select class="sel" id="jn-g-filtro">
+          <option value="">todos os grupos</option>
+          <option value="ncm">NCM divergente entre os códigos</option>
+          <option value="trocas">NCM alterado em algum código</option>
+          <option value="unidade">unidade divergente</option>
+          <option value="saldo">com saldo no código que sai</option>
+          <option value="llm">chave decidida com LLM</option>
+          <option value="decididos">já revisados nesta sessão</option>
+        </select>
+        <select class="sel" id="jn-g-ordem">
+          <option value="capital">ordenar por capital liberado</option>
+          <option value="codigos">ordenar por nº de códigos</option>
+          <option value="saldo">ordenar por saldo que sai</option>
+        </select>
+        <span class="faint" id="jn-g-conta" style="margin-left:auto;font-size:12px"></span>
       </div>
+      <div style="overflow:auto"><table class="tbl" id="jn-g-table"></table></div>
+      <div class="pager" id="jn-g-pager"></div>
+    </div>
+
+    <div class="card section-gap" id="jn-detalhe">
+      <div class="card-h"><h3 id="jn-d-titulo">—</h3><span class="sub" id="jn-d-sub"></span>
+        <div class="r"><span class="mono faint" id="jn-d-chave" style="font-size:11px"></span></div></div>
+      <div class="card-b">
+        <div id="jn-d-por-que" style="margin-bottom:14px"></div>
+        <div style="overflow:auto"><table class="tbl cmp" id="jn-d-cmp"></table></div>
+        <div class="divider"></div>
+        <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Resultado se unificar</div>
+        <div class="grid" style="grid-template-columns:repeat(4,1fr)" id="jn-d-imp"></div>
+        <div class="divider"></div>
+        <label class="lbl">Comentário da revisão</label>
+        <textarea class="inp" id="jn-d-nota" placeholder="Ex.: unidade CX era erro de cadastro; confirmado com o almoxarifado do 1200."></textarea>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button class="btn primary" data-jn-dec="unificada">Confirmar a junção no código que fica</button>
+          <button class="btn" data-jn-dec="separada">Não são o mesmo · separar</button>
+          <button class="btn" data-jn-dec="pergunta">Pedir informação</button>
+          <button class="btn ghost" data-jn-dec="pular">Próximo →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ------------------------------------------------------------- NCM -->
+  <div id="jn-aba-ncm" style="display:none">
+    <div class="card">
+      <div class="card-h"><h3>NCM alterado pelo saneamento</h3>
+        <span class="sub" id="jn-n-sub">—</span>
+        <div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="card-b" style="padding-bottom:0">
+        <div class="grid" style="grid-template-columns:repeat(4,1fr)" id="jn-n-tipos"></div>
+        <div class="faint" style="font-size:11.5px;margin:10px 0 2px" id="jn-n-nota"></div>
+      </div>
+      <div class="toolbar">
+        <input class="inp" id="jn-n-busca" placeholder="Buscar código, NCM, classe, motivo…" style="width:250px">
+        <select class="sel" id="jn-n-tipo">
+          <option value="">toda alteração de NCM</option>
+          <option value="trocado">trocado · muda a tributação</option>
+          <option value="preenchido">preenchido · entrou vazio</option>
+          <option value="reformatado">reformatado · só a pontuação</option>
+        </select>
+        <select class="sel" id="jn-n-ordem">
+          <option value="capital">ordenar por capital</option>
+          <option value="codigo">ordenar por código</option>
+        </select>
+        <span class="faint" id="jn-n-conta" style="margin-left:auto;font-size:12px"></span>
+      </div>
+      <div style="overflow:auto"><table class="tbl" id="jn-n-table"></table></div>
+      <div class="pager" id="jn-n-pager"></div>
     </div>
   </div>
 </section>
@@ -1011,7 +1083,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
 
 <script>
 /* ---------- navegação ---------- */
-const titles={pedidos:'Pedidos de cadastro',cadastros:'Cadastros',revisao:'Revisão de exceções',base:'base_materiais',clusters:'Clusters',inicio:'Início',manual:'Manual',radar:'Radar',busca:'Buscar material',cadastro:'Cadastrar novo item',requisicoes:'Requisições',intervencao:'Fila de intervenção'};
+const titles={pedidos:'Pedidos de cadastro',cadastros:'Cadastros',revisao:'Revisão de exceções',base:'base_materiais',clusters:'Códigos juntados e NCM trocado',inicio:'Início',manual:'Manual',radar:'Radar',busca:'Buscar material',cadastro:'Cadastrar novo item',requisicoes:'Requisições',intervencao:'Fila de intervenção'};
 function go(p){
   document.querySelectorAll('.page').forEach(e=>e.classList.toggle('active',e.id==='page-'+p));
   document.querySelectorAll('[data-nav]').forEach(e=>e.classList.toggle('active',e.dataset.nav===p));
@@ -1216,34 +1288,10 @@ function baseOpen(code){
 }
 baseRender(1);
 
-/* ---------- clusters ---------- */
-const CL=[{"ref": "8339402", "conf": 97, "why": "Fabricante + part number iguais nos 4 códigos; só a escrita da descrição e o formato do NCM mudam.", "itens": [["19410345", "DENTE CACAMBA; APLICACAO: ESCAVADEIRA HIDRAULICA; MODELO EQUIPAMENTO: EX2600; FABRICANTE: HITACHI; REFERENCIA FABRICANTE: 8339402", "PC", "84314929", "SOB01", "", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 10.0, 737.35], ["10263349", "DENTE CACAMBA ESCAVADEIRA HIDRAULICA EX2600 COD 8339402 HITACHI", "PC", "84314929", "SOB01", "HITACHI", "9000 - CD CENTRAL", "ATIVO", 0.0, 832.5], ["12815718", "DENTE CACAMBA, APLICACAO:ESCAVADEIRA HIDRAULICA, MOD:EX2600, FABRICANTE:HITACHI, REF FABRICANTE:8339402", "PC", "8431.49.29", "SOB01", "", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 2.0, 843.62], ["10446452", "DENTE CACAMBA, FABR:HITACHI, EQUIP:EX2600, PARA:ESCAVADEIRA HIDRAULICA, PN:8339402", "PC", "8431.49.29", "SOB01", "", "1300 - TERMINAL PORTUARIO", "ATIVO", 0.0, 766.95]]}, {"ref": "1626003064", "conf": 95, "why": "Fabricante + part number iguais e mesma especificação (bronze TM23). Evidência forte: fusão automática permitida.", "itens": [["17296328", "BUCHA EXCENTRICO BRITADOR CONICO RAPTOR 450 1626003064 FLSMIDTH", "PC", "8474.90.00", "SOB01", "FLSMIDTH", "2200 - PCH RIO CLARO", "ATIVO", 1.0, 2259.92], ["28022010", "BUCHA  EXCENTRICO, USO:BRITADOR CONICO, EQUIP:RAPTOR 450, FAB:FLSMIDTH, PN:1626003064, MAT:BRONZE TM23", "PC", "8474.90.00", "SOB01", "FLSMIDTH", "1100 - MINA SERRA AZUL", "ATIVO", 0.0, 2705.16], ["16132199", "BUCHA EXCENTRICO - APLICACAO:BRITADOR CONICO - EQUIP:RAPTOR 450 - FLSMIDTH - REF:1626003064 - MATERIAL:BRONZE TM23", "PC", "8474.90.00", "SOB01", "", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 3.0, 3108.51]]}, {"ref": "87954-HC", "conf": 91, "why": "Mesmo equipamento (TC-12), fabricante e part number. Um código está BLOQUEADO com 3 PC em estoque.", "itens": [["12863178", "ROLETE CARGA, APLICACAO: CORREIA TRANSPORTADORA, MOD: TC 12, PN: 87954-HC, FAB: MARTIN ENGINEERING", "PC", "8431.39.00", "SOB01", "", "1100 - MINA SERRA AZUL", "ATIVO", 4.0, 974.79], ["14769574", "ROLETE CARGA; APLICACAO: CORREIA TRANSPORTADORA; MODELO EQUIPAMENTO: TC-12; FABRICANTE: MARTIN ENGINEERING; REFERENCIA FABRICANTE: 87954-HC", "PC", "8431.3900", "SOB01", "", "1100 - MINA SERRA AZUL", "BLOQUEADO", 3.0, 848.42], ["21413321", "ROLETE CARGA - APLIC:CORREIA TRANSPORTADORA - MOD:TC-12 - MARTIN ENGINEERING", "PC", "84313900", "SOB01", "MARTIN ENGINEERING", "2100 - UTE SERRA AZUL", "ATIVO", 2.0, 940.18], ["14433890", "ROLETE CARGA;APLIC: CORREIA TRANSPORTADORA;MOD: TC-12;FABR: MARTIN ENGINEERING;COD FABRICANTE: 87954-HC", "PC", "8431.39.00", "SOB01", "MARTIN ENGINEERING", "9000 - CD CENTRAL", "ATIVO", 3.0, 871.99]]}, {"ref": "6206/C3", "conf": 88, "why": "Série, vedação (aberto) e folga C3 iguais. Um código tinha NCM 8482.80.00, incoerente com a classe.", "itens": [["14139909", "ROLAMENTO RIGIDO ESFERAS 6206/C3 30MM 62MM ABERTO C3", "PC", "84821010", "ROL01", "", "9000 - CD CENTRAL", "ATIVO", 12.0, 586.0], ["26187360", "ROLAMENTO RIG ESF, REF: 6206 C3, DIAM INTERNO: 30MM, DIAM EXTERNO: 62MM, L: 16MM, PROTECAO: ABERTO, FOLGA: C3", "PC", "8482.10.10", "ROL01", "", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 1.0, 679.92], ["18065249", "ROLAMENTO RIGIDO ESF 6206-C3 62MM ABERTO", "PC", "8482.80.00", "ROL01", "KOYO", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 0.0, 640.11]]}, {"ref": "HD 997/4", "conf": 78, "why": "Mesmo fabricante e part number. Unidade diverge (PC, CX, CT) e NCM em dois formatos: precisa confirmar a embalagem antes de somar saldos.", "itens": [["24813676", "FILTRO HIDRAULICO, USO:CAMINHAO FORA DE ESTRADA, MARCA:MANN", "PC", "84212990", "FIL01", "MANN", "1100 - MINA SERRA AZUL", "ATIVO", 0.0, 72.64], ["23991433", "FILTRO HIDRAULICO - PARA:CAMINHAO FORA DE ESTRADA - COD FABRICANTE:HD 997/4 - FABR:MANN", "CX", "8421.29.90", "FIL01", "MANN", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 0.0, 60.69], ["28476673", "FILTRO HIDRAULICO, APLICACAO:CAMINHAO FORA DE ESTRADA, FABR:MANN, P/N:HD 997/4", "PC", "84212990", "FIL01", "MANN", "2100 - UTE SERRA AZUL", "ATIVO", 0.0, 60.11], ["14900273", "FILTRO HIDRAULICO; APLICACAO: CAMINHAO FORA DE ESTRADA; FABRICANTE: MANN; REFERENCIA FABRICANTE: HD 997/4", "CT", "8421.29.90", "FIL01", "", "2200 - PCH RIO CLARO", "ATIVO", 1.0, 57.2]]}, {"ref": "WK 991/0", "conf": 72, "why": "Mesmo part number. Um código já indica \"usar 26382659\", que está OBSOLETO; outro está em KG. Escolha do código mantido exige atenção.", "itens": [["13588232", "FILTRO COMBUSTIVEL VEICULO LEVE MANN WK 991/0", "PC", "8421.23.00", "FIL01", "MANN", "1300 - TERMINAL PORTUARIO", "ATIVO", 0.0, 119.57], ["11189186", "NAO UTILIZAR - USAR COD 26382659 - FILTRO COMBUSTIVEL; MANN; PART NUMBER:WK 991/0-00 - ITEM CRITICO", "PC", "8421.23.00", "FIL01", "", "1100 - MINA SERRA AZUL", "BLOQUEADO", 39.0, 104.84], ["26382659", "FILTRO COMBUSTIVEL PN WK 991/0 MANN", "PC", "84212300", "FIL01", "MANN", "1100 - MINA SERRA AZUL", "OBSOLETO", 0.0, 114.46], ["15953773", "FILTRO  COMBUSTIVEL, FABRICANTE:MANN, PN:WK 991/0", "KG", "8421.23.00", "FIL01", "MANN", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 0.0, 81.4]]}, {"ref": "VALV ESF 1.1/2\" 800# F316", "conf": 58, "why": "5 de 7 atributos de identidade iguais. ACIONAMENTO ausente em 22228120 e PASSAGEM \"STD\" ambígua: só a engenharia pode decidir.", "itens": [["21457702", "VALVULA ESFERA 1.1/2\" 800# INOX 316 ROSCADA NPT PASSAGEM REDUZIDA METAL-METAL ATUADOR PNEUMATICO", "PC", "84818095", "VAL01", "", "2200 - PCH RIO CLARO", "ATIVO", 8.0, 309.54], ["22228120", "VALVULA ESFERA, BITOLA:1.1/2POL, RATING:800#, MAT CORPO:F316, TIPO CONEXAO:RSC NPT, PASSAGEM:STD, METAL-METAL", "PC", "84818095", "VAL01", "", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 0.0, 677.34]]}];
-let clCur=0, clKeep={};
-function clScore(it){let s=0;if(it[5])s+=2;if(/\d{4}\.\d{2}\.\d{2}/.test(it[3]))s+=1;if(UNP.includes(it[2]))s+=1;if(it[7]==='ATIVO')s+=2;s+=it[1].length/100;return s}
-function clTable(){
-  document.getElementById('cl-table').innerHTML=`<thead><tr><th>CLUSTER</th><th class="num">CÓDIGOS</th><th>CENTROS</th><th class="num">SALDO SOMADO</th><th class="num">CAPITAL</th><th>CONFIANÇA</th><th>STATUS</th></tr></thead><tbody>`+
-   CL.map((c,i)=>{const sal=c.itens.reduce((a,x)=>a+x[8],0),cap=c.itens.reduce((a,x)=>a+x[8]*x[9],0),cen=new Set(c.itens.map(x=>x[6].split(' - ')[0]));
-    return `<tr class="${i===clCur?'sel':''}" style="cursor:pointer" onclick="clOpen(${i})"><td class="mono">${c.ref}</td><td class="num">${c.itens.length}</td><td class="mono">${[...cen].join(', ')}</td><td class="num">${sal}</td><td class="num">${fmtR(cap)}</td><td>${confPill(c.conf)}</td><td><span class="badge ${c.done?'b-green':'b-gray'}">${c.done||'ABERTO'}</span></td></tr>`}).join('')+'</tbody>';
-}
-function clOpen(i){
-  clCur=i;clTable();const c=CL[i];
-  if(clKeep[i]===undefined){let b=0;c.itens.forEach((x,j)=>{if(clScore(x)>clScore(c.itens[b]))b=j});clKeep[i]=b}
-  const k=clKeep[i], cls=confCls(c.conf);
-  document.getElementById('cl-title').textContent='Cluster '+c.ref;
-  document.getElementById('cl-conf').innerHTML=confPill(c.conf);
-  document.getElementById('cl-sub').textContent=c.itens.length+' códigos';
-  document.getElementById('cl-why').innerHTML=`<div class="callout ${cls==='hi'?'ok':cls==='md'?'warn':'warn'}" style="${cls==='lo'?'border-color:var(--err-bd);background:var(--err-bg)':''}"><div style="font-size:12.5px"><b style="font-weight:500">${cls==='hi'?'Confiança alta':cls==='md'?'Confiança média: revise as divergências':'Confiança baixa: não unificar sem validação técnica'}.</b> ${c.why}</div></div>`;
-  const rows=[['Descrição',1],['Unidade',2],['NCM',3,v=>v.replace(/\D/g,'')],['Grupo',4],['Fabricante (campo)',5],['Centro',6],['Status',7],['Estoque',8],['Custo médio',9]];
-  let h=`<thead><tr><th></th>${c.itens.map((x,j)=>`<th class="${j===k?'keep':''}"><label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="radio" name="keep" ${j===k?'checked':''} onchange="clKeep[${i}]=${j};clOpen(${i})"> <span class="mono">${x[0]}</span>${j===k?' <span class="badge b-green">MANTER</span>':''}</label></th>`).join('')}</tr></thead><tbody>`;
-  rows.forEach(([l,ix,norm])=>{const vals=c.itens.map(x=>x[ix]);const nv=vals.map(v=>norm?norm(String(v)):String(v));const allSame=nv.every(v=>v===nv[0]);
-    h+=`<tr><td>${l}</td>${vals.map((v,j)=>{const ne=nv.filter(z=>z!=='');const diff=ix===5?(new Set(ne).size>1&&nv[j]!==''):(!allSame&&ix!==1&&ix!==6&&ix!==8&&ix!==9&&nv.filter(z=>z===nv[j]).length<Math.ceil(nv.length/2+0.1));return `<td class="mono ${ix===1?'muted':''} ${diff?'diff':''}" style="font-size:${ix===1?11:12}px">${ix===9?fmtR(v):(v===''?'<span class="faint">(vazio)</span>':v)}</td>`}).join('')}</tr>`});
-  document.getElementById('cl-cmp').innerHTML=h+'</tbody>';
-  const sal=c.itens.reduce((a,x)=>a+x[8],0),cap=c.itens.reduce((a,x)=>a+x[8]*x[9],0),pm=sal?cap/sal:c.itens[k][9];
-  document.getElementById('cl-imp').innerHTML=[['Código mantido',c.itens[k][0]],['Saldo somado',sal+' '+(c.itens[k][2])],['Capital consolidado',fmtR(cap)],['Códigos bloqueados',c.itens.length-1]].map(([a,b])=>`<div class="fx" style="padding:10px 12px"><div class="faint" style="font-size:11px">${a}</div><div class="mono" style="font-size:14px;margin-top:2px">${b}</div></div>`).join('');
-}
-function clDecide(t){CL[clCur].done=t.toUpperCase();toast(t+' · cluster '+CL[clCur].ref);clNext()}
-function clNext(){clOpen((clCur+1)%CL.length);document.getElementById('cl-detail').scrollIntoView({behavior:'smooth',block:'start'})}
-clOpen(0);
+/* ---------- junção e NCM ----------
+   A tela vive em frontend/juncao.js, com os dados de
+   artefatos/juncao_ncm.json (publicado em /frontend/dados/). Antes, sete grupos
+   escritos a mão moravam aqui dentro. */
 
 /* ---------- manual ---------- */
 function manGo(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('#man-toc a').forEach(a=>a.classList.toggle('on',a.dataset.sec===id))}
@@ -1271,6 +1319,7 @@ function alternarMenu(){aplicarMenu(!document.body.classList.contains('menu-reco
 </script>
 <script src="frontend/cadastro.js"></script>
 <script src="frontend/intervencao.js"></script>
+<script src="frontend/juncao.js"></script>
 <script src="frontend/radar.js"></script>
 </body>
 </html>

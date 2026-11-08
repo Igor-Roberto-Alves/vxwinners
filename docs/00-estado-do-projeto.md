@@ -333,8 +333,11 @@ de `servico/` e foi comparado com este pipeline registro a registro.
 | Capital nesses códigos | **R$ 19,27 mi**, de R$ 200,87 mi |
 
 O frontend do time já usa esse backend: busca, cadastro, pedidos e revisão funcionam
-com a base real em `http://localhost:8000/`, e `./rodar.sh` sobe tudo. As demais telas
-ainda são demonstração, e a etiqueta do topo avisa.
+com a base real em `http://localhost:8000/`, e `./rodar.sh` sobe tudo. Radar, Fila de
+intervenção e Códigos juntados e NCM trocado não passam pela API: leem os artefatos do
+pipeline (`radar.json`, `fila_intervencao.json`, `juncao_ncm.json`), e a etiqueta do topo
+diz "saída do pipeline". Início, Requisições e Base seguem como demonstração, também
+avisado na etiqueta.
 
 Os valores ainda são estimativa: faltam a revisão do time e uma amostra anotada à mão.
 A comparação dos dois pipelines, o que entrou e o que ficou de fora estão em
