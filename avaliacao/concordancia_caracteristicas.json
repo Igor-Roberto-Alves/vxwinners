@@ -1,0 +1,496 @@
+{
+  "por_atributo": {
+    "ACABAMENTO": {
+      "n": 39,
+      "acordo": 0.9744,
+      "kappa": 0.9691
+    },
+    "ACIONAMENTO": {
+      "n": 23,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "ANEL INTERNO": {
+      "n": 13,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "APLICACAO": {
+      "n": 14,
+      "acordo": 0.9286,
+      "kappa": 0.9152
+    },
+    "BASE": {
+      "n": 2,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "BITOLA": {
+      "n": 31,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "CAPACIDADE INTERRUPCAO": {
+      "n": 6,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "CASTELO": {
+      "n": 5,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "CLASSE PRESSAO": {
+      "n": 79,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "CLASSE RESISTENCIA": {
+      "n": 31,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "CLASSIFICACAO AWS": {
+      "n": 1,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "COMPRIMENTO": {
+      "n": 49,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "CONEXAO": {
+      "n": 63,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "CONTATOS AUXILIARES": {
+      "n": 2,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "COR": {
+      "n": 10,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "CORRENTE AC3": {
+      "n": 2,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "CORRENTE NOMINAL": {
+      "n": 13,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "CURVA": {
+      "n": 5,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "DIAMETRO": {
+      "n": 3,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "DIAMETRO ALOJAMENTO": {
+      "n": 9,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "DIAMETRO EIXO": {
+      "n": 11,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "DIAMETRO EXTERNO": {
+      "n": 3,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "DIAMETRO INTERNO": {
+      "n": 25,
+      "acordo": 0.96,
+      "kappa": 0.9552
+    },
+    "DIAMETRO NOMINAL": {
+      "n": 87,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "DIAMETRO REDUZIDO": {
+      "n": 24,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "DISTANCIA SENSORA": {
+      "n": 4,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "ENCHIMENTO": {
+      "n": 13,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "ESPESSURA": {
+      "n": 6,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "FABRICANTE": {
+      "n": 13,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "FACE": {
+      "n": 4,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "FAIXA AJUSTE": {
+      "n": 1,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "FOLGA": {
+      "n": 14,
+      "acordo": 0.9286,
+      "kappa": 0.8654
+    },
+    "FURO": {
+      "n": 8,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "GRAO": {
+      "n": 1,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "HASTE": {
+      "n": 1,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "ISOLACAO": {
+      "n": 8,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "LARGURA": {
+      "n": 9,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "MATERIAL": {
+      "n": 100,
+      "acordo": 0.93,
+      "kappa": 0.9207
+    },
+    "MATERIAL CORPO": {
+      "n": 28,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "MATERIAL DISCO": {
+      "n": 5,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "MATERIAL FITA": {
+      "n": 13,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "MATERIAL TERMINAIS": {
+      "n": 22,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "MODELO EQUIPAMENTO": {
+      "n": 10,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "MONTAGEM": {
+      "n": 4,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "NORMA": {
+      "n": 44,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "NUMERO CONDUTORES": {
+      "n": 8,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "PARA PARAFUSO": {
+      "n": 8,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "PASSAGEM": {
+      "n": 7,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "POLOS": {
+      "n": 7,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "POTENCIA": {
+      "n": 2,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "PRESSAO TRABALHO": {
+      "n": 6,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "REFERENCIA": {
+      "n": 20,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "REFERENCIA FABRICANTE": {
+      "n": 13,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "REFORCO": {
+      "n": 2,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "ROSCA": {
+      "n": 21,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "ROSCA CORPO": {
+      "n": 4,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "SAIDA": {
+      "n": 4,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "SCHEDULE": {
+      "n": 3,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "SECAO": {
+      "n": 8,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "SECAO CABO": {
+      "n": 3,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TAMANHO": {
+      "n": 7,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TEMPERATURA COR": {
+      "n": 2,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TENSAO": {
+      "n": 2,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TENSAO BOBINA": {
+      "n": 2,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TENSAO ISOLAMENTO": {
+      "n": 8,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TERMINAL A": {
+      "n": 22,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TERMINAL B": {
+      "n": 22,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TIPO": {
+      "n": 53,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TIPO CABECA": {
+      "n": 7,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TIPO CORPO": {
+      "n": 5,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "TIPO FACE": {
+      "n": 6,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "VEDACAO": {
+      "n": 9,
+      "acordo": 1.0,
+      "kappa": 1.0
+    },
+    "VEDACAO SEDE": {
+      "n": 12,
+      "acordo": 1.0,
+      "kappa": 1.0
+    }
+  },
+  "classe": {
+    "n": 240,
+    "acordo": 1.0,
+    "kappa": 1.0
+  },
+  "juncao": {
+    "n": 150,
+    "acordo": 0.9867,
+    "kappa": 0.9762
+  },
+  "caracteristicas": {
+    "n": 1131,
+    "acordo": 0.9903,
+    "kappa": 0.9902
+  },
+  "global": {
+    "n": 1521,
+    "acordo": 0.9915,
+    "kappa": 0.9914
+  },
+  "divergencias_adjudicadas": 13,
+  "exemplos_divergencia": [
+    {
+      "codigo": "10858863",
+      "campo": "MATERIAL",
+      "A": "DEFINIDO:ACO LIGA",
+      "B": "INDEFINIVEL:",
+      "decisao_final": "DEFINIDO:ACO LIGA",
+      "justificativa": "decisao do adjudicador (R2): o texto traz material (ACO ESPECIAL) e a classe 12.9 do PDM002 so existe fora do inox (as opcoes inox sao A2-70 e A4-70), logo ACO LIGA e o unico valor possivel da lista"
+    },
+    {
+      "codigo": "13065631",
+      "campo": "FOLGA",
+      "A": "AUSENTE:",
+      "B": "DEFINIDO:NORMAL",
+      "decisao_final": "DEFINIDO:NORMAL",
+      "justificativa": "decisao do adjudicador (R5): o PDM020 diz que a referencia traz o sufixo de folga (/C3); referencia 6000-ZZ sem sufixo e folga normal (CN), que e o padrao da designacao ISO"
+    },
+    {
+      "codigo": "16613005",
+      "campo": "MATERIAL",
+      "A": "DEFINIDO:ACO INOX FORJADO A182 F316",
+      "B": "INDEFINIVEL:",
+      "decisao_final": "DEFINIDO:ACO INOX FORJADO A182 F316",
+      "justificativa": "decisao do adjudicador (R3): flange ASME B16.5 e peca forjada; A403 WP316 e conexao de solda de topo (B16.9). Como as duas opcoes inox do PDM050 sao 316, resta ACO INOX FORJADO A182 F316"
+    },
+    {
+      "codigo": "19469152",
+      "campo": "MATERIAL",
+      "A": "DEFINIDO:ACO LIGA",
+      "B": "INDEFINIVEL:",
+      "decisao_final": "DEFINIDO:ACO LIGA",
+      "justificativa": "decisao do adjudicador (R2): mesmo caso de 10858863 - ACO ESPECIAL com classe 12.9 no PDM002 so pode ser ACO LIGA"
+    },
+    {
+      "codigo": "20504737",
+      "campo": "MATERIAL",
+      "A": "DEFINIDO:ACO CARBONO",
+      "B": "AUSENTE:",
+      "decisao_final": "AUSENTE:",
+      "justificativa": "decisao do adjudicador (R1): PARAFUSO HEXAGONAL MA M20X80 8.8 S/ACAB DIN 933 nao tem nenhuma palavra de material; deduzir ACO CARBONO da classe 8.8 e extrapolacao, e preencher conta como invencao"
+    },
+    {
+      "codigo": "21446483",
+      "campo": "DIAMETRO INTERNO",
+      "A": "DEFINIDO:1.1/4POL",
+      "B": "INDEFINIVEL:",
+      "decisao_final": "DEFINIDO:1.1/4POL",
+      "justificativa": "decisao do adjudicador: DN31 (DN31,5) e um diametro da serie de mangueiras hidraulicas e corresponde a 1.1/4POL; nao e erro de digitacao"
+    },
+    {
+      "codigo": "22181613",
+      "campo": "MATERIAL",
+      "A": "DEFINIDO:ACO INOX FORJADO A182 F316",
+      "B": "INDEFINIVEL:",
+      "decisao_final": "DEFINIDO:ACO INOX FORJADO A182 F316",
+      "justificativa": "decisao do adjudicador (R3): classe 3000# com solda de encaixe e norma ASME B16.11 e conexao forjada; A403 WP316 e de solda de topo"
+    },
+    {
+      "codigo": "23167204",
+      "campo": "MATERIAL",
+      "A": "DEFINIDO:ACO INOX FORJADO A182 F316",
+      "B": "INDEFINIVEL:",
+      "decisao_final": "DEFINIDO:ACO INOX FORJADO A182 F316",
+      "justificativa": "decisao do adjudicador (R3): classe 6000# com rosca e ASME B16.11 e conexao forjada A182 F316"
+    },
+    {
+      "codigo": "23460268",
+      "campo": "MATERIAL",
+      "A": "DEFINIDO:ACO INOX FORJADO A182 F316",
+      "B": "INDEFINIVEL:",
+      "decisao_final": "DEFINIDO:ACO INOX FORJADO A182 F316",
+      "justificativa": "decisao do adjudicador (R3): as duas opcoes inox do PDM050 sao 316 e SW com B16.11 define a forjada A182 F316; o 304/316 nao esta em jogo"
+    },
+    {
+      "codigo": "26334178",
+      "campo": "ACABAMENTO",
+      "A": "DEFINIDO:GALVANIZADO A FOGO",
+      "B": "INDEFINIVEL:",
+      "decisao_final": "DEFINIDO:GALVANIZADO A FOGO",
+      "justificativa": "decisao do adjudicador (R4): no vocabulario do PDM o eletrolitico se escreve ZINCADO (branco/amarelo) e a imersao a quente GALVANIZADO A FOGO, que e o unico 'galvanizado' da lista do PDM003"
+    },
+    {
+      "codigo": "29452826",
+      "campo": "APLICACAO",
+      "A": "INDEFINIVEL:",
+      "B": "DEFINIDO:MULTIUSO",
+      "decisao_final": "INDEFINIVEL:",
+      "justificativa": "decisao do adjudicador: MULTIUSO e AR COMPRIMIDO sao dois valores da lista do PDM012 e o texto traz os dois sem hierarquia; escolher um e sorteio, logo o atributo e indefinivel"
+    },
+    {
+      "codigo": "P067",
+      "campo": "_JUNCAO",
+      "A": "DEFINIDO:MESMO_ITEM",
+      "B": "INDEFINIVEL:INDETERMINADO",
+      "decisao_final": "DEFINIDO:MESMO_ITEM",
+      "justificativa": "decisao do adjudicador (R4): GALVANIZADO no vocabulario do PDM e GALVANIZADO A FOGO, logo os dois registros tem os mesmos obrigatorios"
+    },
+    {
+      "codigo": "P149",
+      "campo": "_JUNCAO",
+      "A": "DEFINIDO:MESMO_ITEM",
+      "B": "INDEFINIVEL:INDETERMINADO",
+      "decisao_final": "INDEFINIVEL:INDETERMINADO",
+      "justificativa": "decisao do adjudicador: mesmo fabricante e mesma raiz de codigo, mas o sufixo -00 da numeracao Sandvik pode designar outra versao da peca; so com o texto cru nao se decide"
+    }
+  ]
+}

@@ -34,6 +34,7 @@ Saidas
   pares_juncao_candidatos.csv     150 pares, com fonte_par (so para o avaliador)
   pares_juncao_cego.csv           os mesmos 150 pares as cegas, para anotar
 """
+import argparse
 import csv
 import re
 import sys
@@ -43,6 +44,11 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+_ap = argparse.ArgumentParser(description=__doc__)
+_ap.add_argument("--refazer-pares", action="store_true",
+                 help="resorteia os pares de juncao (exige reanotar a parte C)")
+REFAZER_PARES = _ap.parse_args().refazer_pares
 
 RAIZ = Path(__file__).resolve().parent
 REPO = RAIZ.parent
@@ -408,7 +414,25 @@ for cb_ in chaves_bloco:
 dfp = pd.DataFrame(pares)
 dfp = dfp.sample(len(dfp), random_state=rng).reset_index(drop=True)
 dfp.insert(0, "par_id", [f"P{i:03d}" for i in range(1, len(dfp) + 1)])
-dfp.to_csv(RAIZ / "pares_juncao_candidatos.csv", index=False)
+
+# Os pares NAO sao reproduziveis como os itens: eles sao sorteados a partir de
+# artefatos/saneado_base.csv (chave de identidade, atributo que difere,
+# similaridade), e esse arquivo muda a cada execucao do pipeline. Reexecutando
+# com outra versao dos artefatos, P001..P150 continuam existindo mas apontam
+# para OUTROS codigos - e as anotacoes, que sao indexadas por par_id, passariam
+# a descrever o par errado em silencio. Medido: uma reexecucao trocou os 150
+# pares depois de o pipeline ser rodado de novo.
+#
+# Por isso sobrescrever exige --refazer-pares, e refazer obriga a reanotar a
+# parte C. Os itens (parte A e B) nao tem esse problema: saem so da base crua.
+arq_pares = RAIZ / "pares_juncao_candidatos.csv"
+if arq_pares.exists() and not REFAZER_PARES:
+    print(f"\n{arq_pares.name} ja existe: mantido como esta "
+          "(use --refazer-pares para resortear, e reanote a parte C depois).",
+          file=sys.stderr)
+    print(f"pares de juncao: {len(pd.read_csv(arq_pares))} (preservados)")
+    sys.exit(0)
+dfp.to_csv(arq_pares, index=False)
 
 # versao CEGA usada na anotacao: so o texto cru, sem chave/cluster/fonte
 cego = dfp[["par_id", "codigo_1", "codigo_2"]].copy()
