@@ -29,10 +29,11 @@ __pycache__/
 # e o treino.jsonl/validacao.jsonl que ele precisa ESTAO versionados.
 artefatos/modelo_bert/
 
-# ---- regeneravel em minutos, e grande ----------------------------------------
-# 118 MB de artefato de treino (ncm.joblib sozinho tem 70 MB). O rodar.sh treina
-# na primeira execucao, em cerca de 3 minutos.
-servico/modelos/
+# servico/modelos/ NAO esta aqui de proposito: os 118 MB dos modelos de sugestao
+# (ncm.joblib sozinho tem 70 MB) foram versionados, para quem clonar nao esperar
+# os ~3 min de treino do rodar.sh. Se um dia incomodar o tamanho do clone, da
+# para tirar com `git rm -r --cached servico/modelos` e reativar a regra: o
+# rodar.sh refaz os modelos sozinho.
 
 # Diretorio de dados do Postgres: estado binario atrelado a versao e a maquina,
 # nao abre na maquina de outro. O rodar.sh remonta o banco a partir dos xlsx.

@@ -339,11 +339,14 @@ Os dados e os artefatos do pipeline vão **versionados**, inclusive os caches de
 embedding: quem clonar tem a base saneada, a junção, as medições e o benchmark sem rodar
 nada e sem precisar de credencial de LLM.
 
-Fora do git (`.gitignore`), só quatro coisas: `.env` (credencial AWS — **este repositório é
-público**), os `venv`/`__pycache__` (binário da máquina de quem rodou), `artefatos/modelo_bert/`
-(515 MB num arquivo só: acima do limite do GitHub, e o `scripts/06_treinar_bert.py` refaz a
-partir do `treino.jsonl` versionado) e `servico/modelos/` + `.pgdata/` (118 MB e 165 MB que o
-`./rodar.sh` remonta sozinho na primeira execução).
+Os modelos de sugestão (`servico/modelos/`, 118 MB) também vão versionados, então o
+`./rodar.sh` nem precisa treinar na primeira execução.
+
+Fora do git (`.gitignore`), só três coisas: `.env` (credencial AWS — **este repositório é
+público**), os `venv`/`__pycache__` (binário da máquina de quem rodou) e os dois que não
+caberiam: `artefatos/modelo_bert/` (515 MB num arquivo só, acima do limite do GitHub — o
+`scripts/06_treinar_bert.py` refaz a partir do `treino.jsonl` versionado) e `.pgdata/`
+(165 MB de estado binário do Postgres, que o `./rodar.sh` remonta a partir dos xlsx).
 
 ---
 
