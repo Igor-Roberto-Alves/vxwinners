@@ -37,7 +37,9 @@ publica em /frontend/dados/regras_ia.json.
 import argparse
 import csv
 import json
+import re
 import sys
+import unicodedata
 from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
@@ -78,17 +80,45 @@ def recorte(texto: str, termo: str, volta: int = 34) -> str:
     """
     if not texto or not termo:
         return ""
-    alvo, base = termo.upper(), texto.upper()
-    i = base.find(alvo)
-    if i < 0:
-        # o texto pode usar pontuacao no meio ('MAT:INOX 316'): tenta sem ela
-        simples = "".join(c for c in base if c.isalnum() or c == " ")
-        i = simples.find(alvo)
-        if i < 0:
-            return ""
-        base, texto = simples, simples
-    ini, fim = max(0, i - volta), min(len(texto), i + len(alvo) + volta)
+    # O casamento do pipeline e feito no texto NORMALIZADO, entao procurar o
+    # termo cru perdia 267 aplicacoes legitimas: 'ACO ZINCADO' nao e achado em
+    # 'ACO-ZINCADO' nem em 'MAT.:ACO  ZINCADO'. A busca aqui tolera o que a
+    # normalizacao tolera: qualquer pontuacao ou espaco entre as palavras.
+    rx = re.compile(r"[^0-9A-Za-z]*".join(re.escape(p) for p in termo.split() if p),
+                    re.IGNORECASE)
+    # 'ACO CARBONO' tem de achar 'AÇO CARBONO'. A troca e feita caractere a
+    # caractere, e nao com NFKD sobre a string inteira, para o indice encontrado
+    # aqui continuar valendo no texto original - e o recorte sair com acento.
+    base = "".join(unicodedata.normalize("NFKD", c)[0] for c in texto)
+    m = rx.search(base)
+    if m is None:
+        return ""
+    ini, fim = max(0, m.start() - volta), min(len(texto), m.end() + volta)
     return ("…" if ini else "") + texto[ini:fim].strip() + ("…" if fim < len(texto) else "")
+
+
+def palavras_acrescentadas(termo: str, valor: str) -> list[str]:
+    """Palavras do valor que o termo nao sustenta.
+
+    'ACO CARBONO' -> ACO CARBONO ZINCADO acrescenta ZINCADO: o cadastro escreveu
+    aco carbono e a regra gravou aco carbono zincado, em 245 linhas. Ja
+    'GALV FOGO' -> GALVANIZADO A FOGO nao acrescenta nada - GALV e prefixo de
+    GALVANIZADO, e 'A' e curta demais para contar.
+
+    O sinal e mais frouxo que a trava G1 do pipeline (que consulta o enum do
+    atributo): se a lista do PDM tiver um unico valor com 'ACO CARBONO', a
+    escolha e forcada e a palavra extra nao e palpite. Por isso a tela mostra o
+    acrescimo como informacao, nao como veredito.
+    """
+    do_termo = [p for p in termo.upper().split() if len(p) > 2]
+    extras = []
+    for p in valor.upper().split():
+        if len(p) <= 2:
+            continue
+        if any(p.startswith(t[:3]) or t.startswith(p[:3]) for t in do_termo):
+            continue
+        extras.append(p)
+    return extras
 
 
 def main():
@@ -251,6 +281,7 @@ def main():
             "curado_rebaixou": bool(c and c.get("revisar") and not e.revisar),
             "curado_fonte": (c or {}).get("fonte", ""),
             "interpretacao": interpreta,
+            "acrescenta": palavras_acrescentadas(e.termo, e.valor),
             # aplicacao em que nem o trecho foi achado no texto: se aparecer, a
             # regra decidiu sem o termo estar escrito, e a tela tem de gritar
             "aplicacoes_sem_trecho": sem_trecho,
@@ -285,6 +316,10 @@ def main():
             "regras_com_conflito": sum(1 for r in regras if "conflito" in r["fonte"]),
             "regras_curado_rebaixou": sum(1 for r in regras if r["curado_rebaixou"]),
             "regras_interpretacao": sum(1 for r in regras if r["interpretacao"]),
+            "regras_que_acrescentam": sum(1 for r in regras if r["acrescenta"]),
+            "linhas_com_acrescimo": sum(r["n_aplicacoes"] for r in regras if r["acrescenta"]),
+            "capital_com_acrescimo": round(sum(r["capital"] for r in regras
+                                               if r["acrescenta"]), 2),
             "aplicacoes_sem_trecho": sum(r["aplicacoes_sem_trecho"] for r in regras),
             "aplicacoes": sum(r["n_aplicacoes"] for r in regras),
             "aplicacoes_sem_ligacao": len(sem_ligacao),

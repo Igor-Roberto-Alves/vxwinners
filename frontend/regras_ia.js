@@ -124,10 +124,11 @@
       cartao("Capital sob regra de IA", brlCurto(r.capital_em_regras),
         "estoque dos itens que uma regra decidiu",
         "fonte: " + dados.fonte.capital, "var(--warn)"),
-      cartao("Regras com uma confirmação", inteiro(r.regras_uma_confirmacao),
-        `${inteiro(o.registrada || 0)} com origem registrada · ${inteiro(o.derivada || 0)} derivada · ` +
-        `${inteiro(o.ausente || 0)} sem rastro`,
-        "confirmação é repetição, não evidência: uma regra vista uma vez decide igual",
+      cartao("Regras que acrescentam ao texto", inteiro(r.regras_que_acrescentam),
+        `${inteiro(r.linhas_com_acrescimo)} linhas · ${brlCurto(r.capital_com_acrescimo)} · ` +
+        `${inteiro(r.regras_uma_confirmacao)} regras vistas uma única vez`,
+        "o valor gravado tem palavra que o termo lido não traz — 'ACO CARBONO' virando " +
+        "'ACO CARBONO ZINCADO'. Pode ser escolha forçada pela lista do PDM, pode ser palpite",
         "var(--err)"));
 
     const g = $("#ia-gerado");
@@ -154,6 +155,7 @@
       if (f === "uma" && r.confirmacoes !== 1) return false;
       if (f === "conflito" && !r.fonte.includes("conflito")) return false;
       if (f === "rebaixada" && !r.curado_rebaixou) return false;
+      if (f === "acrescenta" && !(r.acrescenta || []).length) return false;
       if (f === "decididas" && !(julgamento(r.id) || temExcecao(r.id))) return false;
       if (!q) return true;
       return r.termo.toUpperCase().includes(q) || r.valor.toUpperCase().includes(q) ||
@@ -177,8 +179,15 @@
     if (r.fonte.includes("conflito")) s.push(el("span", {
       class: "badge b-err", title: "o mesmo termo recebeu dois valores diferentes",
     }, "conflito"));
-    if (r.fonte.includes("interpretacao")) s.push(el("span", {
-      class: "badge b-warn", title: "não é tradução de notação: é interpretação de domínio",
+    if (r.acrescenta && r.acrescenta.length) s.push(el("span", {
+      class: "badge b-err",
+      title: `o texto traz “${r.termo}” e a regra gravou “${r.valor}”: ` +
+        `${r.acrescenta.join(", ")} não está escrito no texto. Pode ser escolha forçada ` +
+        "pela lista do PDM (se só um valor contém o termo) ou palpite — é o que a revisão decide",
+    }, "+" + r.acrescenta.join(" +")));
+    if (r.interpretacao) s.push(el("span", {
+      class: "badge b-warn", title: "o curador marcou como interpretação de domínio, " +
+        "não tradução de notação",
     }, "interpretação"));
     if (r.curado_rebaixou) s.push(el("span", {
       class: "badge b-warn", title: "o curador (scripts/18_curar_aprendizado.py) rebaixou " +
