@@ -1,9 +1,11 @@
 {
- "gerado_em": "2026-11-08T01:40:20",
+ "gerado_em": "2026-11-08T11:15:15",
  "base": {
   "itens": 23554,
   "estoque": 200874691.83,
-  "estoque_texto": "R$ 200,87 mi"
+  "estoque_texto": "R$ 200,87 mi",
+  "grupos": 1991,
+  "codigos_que_saem": 2676
  },
  "hero": {
   "consolidavel": {

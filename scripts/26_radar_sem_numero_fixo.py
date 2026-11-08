@@ -89,6 +89,30 @@ KPI_NOVO = '''        <!-- Preenchidos por frontend/radar.js a partir de artefat
 
 FUNCOES = {"trendChart": TREND, "healthTiles": HEALTH, "radarCalc": CALC}
 
+# A contagem de grupos de duplicidade aparecia como 1.412 em dois lugares da
+# casca: o menu lateral e o titulo da home. O valor real e 1.991, e as duas
+# fontes concordam nele (radar.json base.grupos e juncao_ncm.json
+# resumo.grupos). O 25_religar_frontend.py troca o do menu por '—', por isso
+# as duas formas sao aceitas aqui.
+#
+# Quem preenche e o frontend/radar.js, que ja baixa o radar.json (4,8 KB) na
+# home para os KPI: puxar o juncao_ncm.json de 4,5 MB so para mostrar uma
+# contagem sairia caro.
+CONTAGENS = [
+    # (variantes a procurar, substituto, rotulo)
+    (['>Clusters (saneamento)<span class="count">1.412</span>',
+      '>Clusters (saneamento)<span class="count">—</span>'],
+     '>Clusters (saneamento)<span class="count" id="n-clusters">—</span>',
+     "contagem do menu lateral"),
+    (['<h2>1.412 clusters esperam revisão</h2>',
+      '<h2>— clusters esperam revisão</h2>'],
+     '<h2><span id="n-clusters-home">—</span> clusters esperam revisão</h2>',
+     "titulo da home"),
+    (['<span class="sub">1.412 clusters abertos · amostra</span>'],
+     '<span class="sub"><span id="n-clusters-fila">—</span> clusters abertos · amostra</span>',
+     "subtitulo da fila de revisao"),
+]
+
 
 def conserta(texto: str) -> tuple[str, list[str]]:
     feito = []
@@ -107,6 +131,16 @@ def conserta(texto: str) -> tuple[str, list[str]]:
             feito.append("KPI da home: ligados ao radar.json")
         else:
             feito.append("KPI da home: NAO ACHEI o bloco original")
+
+    for variantes, novo, rotulo in CONTAGENS:
+        if novo in texto:
+            continue
+        achou = next((v for v in variantes if v in texto), None)
+        if achou is None:
+            # nao e erro: cada arquivo tem um subconjunto destes pontos
+            continue
+        texto = texto.replace(achou, novo)
+        feito.append(f"{rotulo}: ligada ao radar.json")
     return texto, feito
 
 

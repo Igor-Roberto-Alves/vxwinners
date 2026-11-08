@@ -171,8 +171,13 @@ def main():
     taxa = a.taxa_oportunidade
     radar = {
         "gerado_em": datetime.now().isoformat(timespec="seconds"),
+        # Contagens estruturadas, nao so dentro da frase do `detalhe`: a casca da
+        # interface (menu lateral, titulo da home) precisa do numero cru, e este
+        # JSON ja e baixado na home para os KPI. Sem isto, o unico jeito seria
+        # puxar o juncao_ncm.json de 4,5 MB para mostrar uma contagem.
         "base": {"itens": itens_base, "estoque": round(estoque, 2),
-                 "estoque_texto": milhoes(estoque)},
+                 "estoque_texto": milhoes(estoque),
+                 "grupos": len(manter), "codigos_que_saem": len(bloq)},
         "hero": {
             "consolidavel": dado(
                 round(capital_bloq, 2), "medido",

@@ -70,6 +70,17 @@
     kpi("home-consolidado", "home-consolidado-d", radar.hero.consolidado,
         (t) => t.split(":")[0]);
 
+    // Contagem de grupos de duplicidade, nos pontos da casca que a traziam
+    // escrita a mao (1.412, quando o plano tem 1.991). Este JSON ja está
+    // baixado aqui, então não custa rede nenhuma a mais.
+    const grupos = (radar.base || {}).grupos;
+    if (typeof grupos === "number") {
+      ["n-clusters", "n-clusters-home", "n-clusters-fila"].forEach((id) => {
+        const n = $("#" + id);
+        if (n) n.textContent = inteiro(grupos);
+      });
+    }
+
     // o que não tem medição aparece dito, não escondido
     const nm = $("#rad-naomedido");
     if (nm && (radar.nao_medido || []).length) {

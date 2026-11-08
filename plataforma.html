@@ -589,7 +589,7 @@ input[type=range]{accent-color:var(--accent)}
   <div class="side-sec">
     <h6>Base</h6>
     <div class="side-item" data-nav="base" onclick="go('base')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>base_materiais<span class="count">23.554</span></div>
-    <div class="side-item" data-nav="clusters" onclick="go('clusters')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg>Clusters (saneamento)<span class="count">—</span></div>
+    <div class="side-item" data-nav="clusters" onclick="go('clusters')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg>Clusters (saneamento)<span class="count" id="n-clusters">—</span></div>
   <div class="side-item" data-nav="ia" onclick="go('ia')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="M9 10h.01M15 10h.01M9 14h6"/><path d="M12 2v3"/></svg>Interferência de IA<span class="count" id="n-ia">487</span></div>
     <div class="side-item" data-nav="intervencao" onclick="go('intervencao')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h10M4 12h7M4 18h10"/><path d="M15.5 15.5 19 19M19 19l1.5-1.5-3.5-3.5-1.5 1.5z"/></svg>Fila de intervenção<span class="count" id="n-intervencao">—</span></div>
   </div>
@@ -722,7 +722,7 @@ input[type=range]{accent-color:var(--accent)}
       <div class="ax-band">
         <div>
           <span class="ax-eyebrow">Fila de revisão</span>
-          <h2>1.412 clusters esperam revisão</h2>
+          <h2><span id="n-clusters-home">—</span> clusters esperam revisão</h2>
           <p>Comece pelos de maior capital: a fila é ordenada por valor e mostra a confiança de cada grupo de códigos.</p>
         </div>
         <a class="ax-btn ax-btn-light" onclick="go('clusters')">Abrir clusters →</a>
