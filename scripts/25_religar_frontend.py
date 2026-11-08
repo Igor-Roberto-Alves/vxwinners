@@ -56,6 +56,13 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 
+# Nome do produto. O mockup (apresentacao/interface2.html) escreve "nome do
+# produto" como placeholder; e aqui, na geracao, que ele vira marca. Trocar de
+# nome e trocar esta linha e rodar o script.
+NOME_DO_PRODUTO = "Prumo"
+# Slug de projeto que o mockup cravou na migalha, herdado do nome antigo.
+SLUG_ANTIGO = "catalogo-mro"
+
 CSS = ["frontend/tema.css", "frontend/cadastro.css"]
 JS = ["frontend/cadastro.js", "frontend/intervencao.js", "frontend/juncao.js",
       "frontend/regras_ia.js", "frontend/radar.js"]
@@ -303,14 +310,23 @@ def religa(novo: str, velho: str) -> tuple[str, list[str]]:
         log.append("item de menu duplicado removido (o 'Pedidos de cadastro' "
                    "desabilitado do mockup)")
 
-    # o mockup deixou o nome do produto como placeholder, em 5 lugares. Uso o
-    # nome que o proprio arquivo ja usa na barra lateral e no titulo da home,
-    # para nao inventar marca nova.
+    # O mockup deixou o nome do produto como placeholder, em 6 lugares (titulo,
+    # marca da barra, cabecalho lateral, migalha, marca do rodape e copyright). O nome e o do produto
+    # (NOME_DO_PRODUTO): o placeholder fica no mockup, e so a saida leva a marca -
+    # assim trocar de nome e uma linha, nao uma varredura por HTML.
     n_nome = h.count("nome do produto")
     if n_nome:
-        h = h.replace("nome do produto", "Catálogo de Materiais")
-        log.append(f"placeholder 'nome do produto' -> 'Catálogo de Materiais' "
+        h = h.replace("nome do produto", NOME_DO_PRODUTO)
+        log.append(f"placeholder 'nome do produto' -> {NOME_DO_PRODUTO!r} "
                    f"({n_nome} ocorrencia(s))")
+
+    # A migalha tem um slug de projeto ('catalogo-mro', do nome antigo). Deriva do
+    # mesmo lugar, para nao sobrar o nome velho numa tela depois de um rename.
+    if SLUG_ANTIGO in h:
+        n_slug = h.count(SLUG_ANTIGO)
+        h = h.replace(SLUG_ANTIGO, NOME_DO_PRODUTO.lower())
+        log.append(f"slug do projeto na migalha: {SLUG_ANTIGO!r} -> "
+                   f"{NOME_DO_PRODUTO.lower()!r} ({n_slug} ocorrencia(s))")
 
     # contagens cravadas no menu que o JS preenche de verdade: deixar o numero do
     # mockup ali mostra valor falso ate o fetch terminar (clusters dizia 1.412;

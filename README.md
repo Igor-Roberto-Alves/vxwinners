@@ -1,4 +1,4 @@
-# vxwinners — Cadastro e saneamento de materiais
+# Prumo — Cadastro e saneamento de materiais
 
 Hackathon VX · **Desafio 01**. Empresa fictícia *Serra Azul Mineração e Energia*: seis plantas,
 **23.554 materiais cadastrados**, 22 anos de deriva e um padrão descritivo (PDM) que 79% da base

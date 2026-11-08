@@ -5,7 +5,7 @@
    ===================================================================== */
 window.CONTEUDO = {
   capa: {
-    titulo: "Catálogo MRO inteligente",
+    titulo: "Prumo",
     sub: "Cadastro e saneamento de materiais com IA",
     assinatura: "equipe vxwinners · Hackathon VX",
   },
