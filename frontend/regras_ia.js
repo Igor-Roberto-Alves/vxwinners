@@ -384,9 +384,9 @@
       return el("tr", { class: ex || derrubada ? "dup-row" : "" },
         el("td", { class: "mono" }, x.codigo),
         el("td", { class: "mono faint", style: "font-size:11px" }, x.id_pdm || ""),
-        el("td", { class: "wrap", style: "font-size:11.5px;max-width:230px" },
+        el("td", { class: "wrap", style: "font-size:11.5px;max-width:190px" },
           x.descricao || ""),
-        el("td", { class: "wrap", style: "max-width:320px" }, provaNoTexto(r, x)),
+        el("td", { class: "wrap", style: "max-width:330px" }, provaNoTexto(r, x)),
         el("td", { class: "mono" }, x.valor || ""),
         el("td", { class: "num mono", style: "font-size:11.5px" },
           x.confianca != null ? String(x.confianca) : "—"),
@@ -395,7 +395,9 @@
           ? el("span", { class: "badge b-warn", title: ex.comentario || "" }, "exceção aqui")
           : derrubada
             ? el("span", { class: "badge b-err" }, "a revisar")
-            : el("span", { class: "badge b-ia" }, "decidido por IA")),
+            : el("span", {
+              class: "badge b-ia", title: "valor decidido por esta regra de IA",
+            }, "IA")),
         el("td", {}, ex || derrubada
           ? el("button", {
             class: "btn sm ghost",
@@ -492,6 +494,27 @@
     }
     pendente = null;
     desenha(); abreDetalhe();
+  }
+
+  function tabelaOrfas() {
+    const lista = dados.aplicacoes_sem_ligacao || [];
+    $("#ia-orfas-sub").textContent =
+      `${inteiro(dados.resumo.aplicacoes_sem_ligacao)} de ` +
+      `${inteiro(dados.resumo.aplicacoes + dados.resumo.aplicacoes_sem_ligacao)} aplicações ` +
+      `(${inteiro(lista.length)} aqui, as de maior capital)`;
+    const thead = el("thead", {}, el("tr", {},
+      el("th", {}, "CÓDIGO"), el("th", {}, "CLASSE"), el("th", {}, "ATRIBUTO"),
+      el("th", {}, "VALOR GRAVADO"), el("th", {}, "TEXTO DO ITEM"),
+      el("th", { class: "num" }, "CAPITAL")));
+    const tbody = el("tbody", {}, lista.map((x) => el("tr", {},
+      el("td", { class: "mono" }, x.codigo),
+      el("td", { class: "mono faint", style: "font-size:11px" }, x.id_pdm || ""),
+      el("td", { class: "mono faint", style: "font-size:11px" }, x.atributo || ""),
+      el("td", { class: "mono" }, x.valor || ""),
+      el("td", { class: "wrap mono faint", style: "font-size:10.5px;max-width:460px" },
+        x.texto || ""),
+      el("td", { class: "num" }, brl(x.capital)))));
+    $("#ia-orfas-table").replaceChildren(thead, tbody);
   }
 
   /* --------------------------------------------- decisões diretas de IA */
@@ -630,6 +653,7 @@
     carregaDecisoes();
     pintaKpis();
     tilesFontes();
+    tabelaOrfas();
     desenha();
     abreDetalhe();
   }

@@ -507,7 +507,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
       <a data-sec="m-busca" onclick="manGo('m-busca')">Buscar material</a>
       <a data-sec="m-cadastro" onclick="manGo('m-cadastro')">Cadastrar item</a>
       <a data-sec="m-req" onclick="manGo('m-req')">Requisições</a>
-      <a data-sec="m-novas" onclick="manGo('m-novas')">Base de materiais, junção e NCM</a>
+      <a data-sec="m-novas" onclick="manGo('m-novas')">Base, junção, NCM e IA</a>
       <a data-sec="m-radar" onclick="manGo('m-radar')">Radar</a>
       <a data-sec="m-regras" onclick="manGo('m-regras')">Regras de decisão</a>
       <a data-sec="m-gloss" onclick="manGo('m-gloss')">Glossário</a>
@@ -559,13 +559,21 @@ input[type=range]{accent-color:var(--brand);width:100%}
       </section>
 
       <section id="m-novas">
-        <h2>Base de materiais, junção e NCM</h2>
+        <h2>Base, junção, NCM e IA</h2>
         <h3>base_materiais</h3>
         <p>Tabela da base como está hoje, com filtros por status, centro e grupo. A coluna <b>Qualidade</b> marca NCM fora do formato, unidade fora do PDM, falta de fabricante e códigos remissivos ("NAO UTILIZAR").</p>
         <h3>Códigos juntados e NCM trocado</h3>
         <p>Vem de <code>artefatos/juncao_ncm.json</code>, gerado por <code>scripts/21_juncao_ncm.py</code> a partir do plano de junção e do saneado. Duas abas:</p>
         <p><b>Códigos juntados</b> — um grupo por chave de identidade do PDM (classe, substantivo, fabricante, part number). Em cada grupo, o código que <b>fica</b> aparece em verde e os que <b>saem</b> riscados em vermelho; os que saem são bloqueados e passam a apontar para o que fica, nunca apagados. Clicar na linha abre, embaixo, <b>as linhas originais da base</b> — uma por código, com as colunas do ERP (descrição longa, UN, NCM, status, estoque, capital, centro, grupo, fabricante, referência, preço, data de criação e última movimentação) — e, abaixo delas, a mesma informação virada em comparação campo a campo. Células em vermelho divergem do código que fica. O rádio no cabeçalho troca qual código fica, e a troca vai na decisão exportada. Não há percentual de confiança por grupo: o pipeline não produz um. O que existe é a <b>precisão da junção medida no gabarito</b>, no cartão do topo, que vale para o conjunto.</p>
         <p><b>NCM trocado</b> — toda alteração de NCM com o valor antigo riscado ao lado do novo, separada pelo que a mudança significa: <b>trocado</b> (dígitos diferentes, muda a tributação e exige o tributário), <b>preenchido</b> (entrou vazio, derivado da classe) e <b>reformatado</b> (mesmos dígitos, só a pontuação — publicado por amostra de maior capital, com a contagem total ao lado).</p>
+
+        <h3>Interferência de IA</h3>
+        <p>Vem de <code>artefatos/regras_ia.json</code> (<code>scripts/22_regras_ia.py</code>). O dicionário aprendido é a camada mais barata do pipeline e a mais perigosa: uma pergunta feita ao LLM uma vez vira regra e decide sozinha em centenas de registros.</p>
+        <p><b>Regras do dicionário</b> — cada regra como <span class="mono">termo → valor</span>, com o atributo, as classes, quantas vezes o LLM viu o termo, quantas linhas ela decidiu e o capital dessas linhas. Clicar abre três coisas: <b>de onde a regra saiu</b> (com o selo de procedência: <b>registrada</b> quando o dicionário gravou o código de origem, <b>desempate</b> quando a linha está no artefato do LLM, <b>derivada</b> quando é a linha mais antiga em que a regra vale hoje — pista, não registro), <b>todas as linhas em que ela decidiu</b> e, em cada uma, <b>o trecho do texto que a regra leu</b>, com o termo destacado. Essa coluna existe porque a descrição curta do ERP tem 40 caracteres e corta justo o termo: sem ela, aplicação legítima parece palpite.</p>
+        <p>O selo <span class="badge b-err">+PALAVRA</span> marca a regra cujo valor acrescenta palavra que o texto não traz — <span class="mono">ACO CARBONO → ACO CARBONO ZINCADO</span> acrescenta o zincado. Pode ser escolha forçada pela lista do PDM (se só um valor contém o termo) ou palpite: é o que a revisão decide.</p>
+        <p><b>Derrubar não é por linha.</b> Ao marcar "não valeu aqui", a tela mostra as outras linhas que a mesma regra decidiu, com o capital que carregam, e pergunta: <b>não valeu só nesta linha</b> (a regra segue valendo e aquele registro vira exceção) ou <b>a regra não vale</b> (ela cai e todas as linhas que decidiu voltam para revisão, marcadas na hora). Há também <b>confirmar a regra</b>, para a curadoria positiva. As decisões saem em <code>.jsonl</code> no formato que o <code>18_curar_aprendizado.py</code> consome.</p>
+        <p><b>Decisões diretas de IA</b> — o que decidiu só naquela linha e não virou regra: desempate do LLM, detecção de ausente, recorte do BERT. Não têm irmãs para derrubar junto. A junção que usou LLM na chave de identidade aparece na tela <b>Códigos juntados e NCM trocado</b>, com o selo LLM.</p>
+        <p>No fim da aba, <b>aplicações sem regra identificável</b>: o pipeline gravou "dicionário aprendido" e nenhum termo do dicionário atual casa no texto. Em geral é rastro perdido (termo removido na curadoria, ou casamento por variação), não invenção — mas é o único grupo em que não dá para apontar a regra, e por isso vem com o texto do item ao lado.</p>
       </section>
 
       <section id="m-radar">

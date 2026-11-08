@@ -334,10 +334,18 @@ de `servico/` e foi comparado com este pipeline registro a registro.
 
 O frontend do time já usa esse backend: busca, cadastro, pedidos e revisão funcionam
 com a base real em `http://localhost:8000/`, e `./rodar.sh` sobe tudo. Radar, Fila de
-intervenção e Códigos juntados e NCM trocado não passam pela API: leem os artefatos do
-pipeline (`radar.json`, `fila_intervencao.json`, `juncao_ncm.json`), e a etiqueta do topo
-diz "saída do pipeline". Início, Requisições e Base seguem como demonstração, também
-avisado na etiqueta.
+intervenção, Códigos juntados e NCM trocado e Interferência de IA não passam pela API:
+leem os artefatos do pipeline (`radar.json`, `fila_intervencao.json`, `juncao_ncm.json`,
+`regras_ia.json`), e a etiqueta do topo diz "saída do pipeline". Início, Requisições e
+Base seguem como demonstração, também avisado na etiqueta.
+
+A tela de **Interferência de IA** fechou uma lacuna de auditoria do próprio pipeline: o
+`aprendizado.json` guardava termo, valor, confirmações e classes, mas **não** a linha de
+onde o termo foi lido — e sem ela uma regra que decide 255 registros não tem como ser
+conferida. `Entrada.origens` passou a gravar o código de material, nos quatro pontos que
+alimentam o dicionário. Para as 487 regras que já existem, a tela mostra a procedência que
+há (16 registradas no desempate, 249 derivadas da aplicação mais antiga, 222 sem rastro) e
+rotula cada caso, em vez de apresentar derivação como registro.
 
 Os valores ainda são estimativa: faltam a revisão do time e uma amostra anotada à mão.
 A comparação dos dois pipelines, o que entrou e o que ficou de fora estão em
