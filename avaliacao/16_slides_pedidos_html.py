@@ -236,9 +236,21 @@ SL.append(slide(
 cx = M["caixas"]
 inv = M["invencao"]
 pr = M["perdidas"]
+# Classe em portugues = todos os formatos menos o catalogo do fornecedor, que
+# chega em ingles. IC de Wilson, o mesmo do evaluate_pedidos.py.
+_pt = [v for k, v in pe.items() if k != "catalogo"]
+_k, _n = sum(v["k"] for v in _pt), sum(v["n"] for v in _pt)
+_z = 1.96
+_c = (_k / _n + _z * _z / (2 * _n)) / (1 + _z * _z / _n)
+_m = _z * ((_k / _n * (1 - _k / _n) / _n + _z * _z / (4 * _n * _n)) ** 0.5) / (1 + _z * _z / _n)
+cls_pt = {"k": _k, "n": _n, "p": _k / _n, "ic": [max(0.0, _c - _m), min(1.0, _c + _m)]}
+n_fora_pt = pe.get("catalogo", {}).get("n", 0)
 cards = [
-    cartao("Acerto de classe", pct(cls_geral),
-           f"{cls_geral['k']} de {cls_geral['n']} pedidos · IC {ic(cls_geral)}",
+    cartao("Acerto de classe · pedidos em português",
+           f'{pct(cls_pt)}<span class="clado"><b>{n_fora_pt} de {cls_geral["n"]}</b>'
+           f'<br>não vieram em português</span>',
+           f"{cls_pt['k']} de {cls_pt['n']} · IC {ic(cls_pt)}. Contando os em inglês: "
+           f"{pct(cls_geral)} ({cls_geral['k']} de {cls_geral['n']})",
            C["teal"]),
     cartao("Precisão das caixas", pct(cx["precisao"]),
            f"{cx['precisao']['k']} de {cx['precisao']['n']} valores afirmados · "
@@ -363,6 +375,10 @@ code{{font-family:var(--mono);font-size:.92em;background:rgba(23,32,42,.055);
   padding:20px 22px 18px;min-height:168px;display:flex;flex-direction:column}}
 .cartao.destaque{{background:var(--cream);border-color:rgba(126,82,0,.18)}}
 .crot{{font-size:14.5px;color:rgba(23,32,42,.62);margin-bottom:6px}}
+.clado{{font-family:var(--txt);font-weight:400;font-stretch:normal;font-size:14px;line-height:1.3;
+  color:var(--amber);display:inline-block;vertical-align:middle;margin-left:14px;
+  padding-left:12px;border-left:2px solid rgba(126,82,0,.35)}}
+.clado b{{font-weight:700}}
 .cnum{{font-family:var(--tit);font-weight:800;font-stretch:condensed;font-size:42px;
   line-height:1;margin-bottom:auto}}
 .cnota{{font-size:13.5px;line-height:1.4;color:rgba(23,32,42,.72);margin-top:12px}}
