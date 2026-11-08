@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>nome do produto · Gestão de Materiais — Mockup</title>
+<title>Catálogo de Materiais · Gestão de Materiais — Mockup</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2264%22%20height%3D%2264%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23B23232%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%235E0F0F%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22url%28%23g%29%22/%3E%3Crect%20x%3D%2221%22%20y%3D%2222%22%20width%3D%2222%22%20height%3D%2220%22%20rx%3D%223%22%20fill%3D%22%23fff%22%20transform%3D%22skewX%28-18%29%20translate%287%200%29%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="stylesheet" href="frontend/tema.css">
+<link rel="stylesheet" href="frontend/cadastro.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -535,7 +538,7 @@ input[type=range]{accent-color:var(--accent)}
 </div></div>
 
 <header class="ax-header"><div class="in">
-  <a class="ax-logo" onclick="go('inicio')"><span class="mark"></span>nome do produto<small>Gestão de Materiais</small></a>
+  <a class="ax-logo" onclick="go('inicio')"><span class="mark"></span>Catálogo de Materiais<small>Gestão de Materiais</small></a>
   <nav class="ax-nav">
     <ul>
       <li><a data-group="inicio" onclick="go('inicio')">Início</a></li>
@@ -574,7 +577,9 @@ input[type=range]{accent-color:var(--accent)}
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Buscar material</div>
     <div class="side-item" data-nav="cadastro" onclick="go('cadastro')">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 5v14M5 12h14"/></svg>Cadastrar novo item</div>
-    <div class="side-item disabled"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v12H8l-4 4z"/></svg>Pedidos de cadastro<span class="count">520</span></div>
+    <div class="side-item" data-nav="pedidos" onclick="go('pedidos')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v12H8l-4 4z"/></svg>Pedidos de cadastro<span class="count" id="n-pedidos">—</span></div>
+    <div class="side-item" data-nav="cadastros" onclick="go('cadastros')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>Cadastros<span class="count" id="n-cadastros" title="em andamento">—</span></div>
+    <div class="side-item" data-nav="revisao" onclick="go('revisao')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Revisão de exceções<span class="count" id="n-revisao">—</span></div>
   </div>
   <div class="side-sec">
     <h6>Suprimentos</h6>
@@ -584,7 +589,9 @@ input[type=range]{accent-color:var(--accent)}
   <div class="side-sec">
     <h6>Base</h6>
     <div class="side-item" data-nav="base" onclick="go('base')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>base_materiais<span class="count">23.554</span></div>
-    <div class="side-item" data-nav="clusters" onclick="go('clusters')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg>Clusters (saneamento)<span class="count">1.412</span></div>
+    <div class="side-item" data-nav="clusters" onclick="go('clusters')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg>Clusters (saneamento)<span class="count">—</span></div>
+  <div class="side-item" data-nav="ia" onclick="go('ia')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="M9 10h.01M15 10h.01M9 14h6"/><path d="M12 2v3"/></svg>Interferência de IA<span class="count" id="n-ia">487</span></div>
+    <div class="side-item" data-nav="intervencao" onclick="go('intervencao')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h10M4 12h7M4 18h10"/><path d="M15.5 15.5 19 19M19 19l1.5-1.5-3.5-3.5-1.5 1.5z"/></svg>Fila de intervenção<span class="count" id="n-intervencao">—</span></div>
   </div>
 </aside>
 
@@ -592,13 +599,15 @@ input[type=range]{accent-color:var(--accent)}
 <div class="main">
   <header class="topbar">
     <div class="crumb">
-      <span>nome do produto</span><span class="slash">/</span>
+      <span>Catálogo de Materiais</span><span class="slash">/</span>
       <b>catalogo-mro</b><span class="pill green">PRODUÇÃO</span><span class="slash">/</span>
       <span id="crumb-page">Início</span>
     </div>
     <div class="grow"></div>
-    <div class="top-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Ir para código…<span style="margin-left:auto" class="kbd">⌘K</span></div>
-    <span class="pill" id="api-pill">mockup · dados fictícios</span><button class="btn sm ghost theme-btn" onclick="toggleTheme()" title="Alternar modo claro/escuro" aria-label="Alternar tema">
+    <div class="top-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="ir-codigo" placeholder="Ir para código…" aria-label="Ir para código" autocomplete="off"><span style="margin-left:auto" class="kbd">⌘K</span></div>
+    <span class="cad-status" id="api-status">conectando…</span>
+    <span class="pill" id="pill-dados">tela de demonstração · dados fictícios</span>
+    <select class="sel cad-usuario" id="usuario" aria-label="Usuário"><option value="ana|analista">ana · analista</option><option value="beto|analista">beto · analista</option><option value="bia|revisor">bia · revisora</option><option value="leo|leitor">leo · leitor</option></select><div class="avatar" id="avatar">AC</div><button class="btn sm ghost theme-btn" onclick="toggleTheme()" title="Alternar modo claro/escuro" aria-label="Alternar tema">
       <svg class="moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>
       <svg class="sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       <span class="theme-lbl">Escuro</span></button>
@@ -626,8 +635,11 @@ input[type=range]{accent-color:var(--accent)}
       <aside class="ax-result">
         <span class="ax-tag">RADAR · JUN–NOV 2026</span>
         <h3>O retorno da limpeza, em reais</h3>
-        <div class="ax-kpi"><strong>R$ 4,7 mi</strong><span>capital já consolidado <i style="font-style:normal;opacity:.7">(medido)</i></span></div>
-        <div class="ax-kpi"><strong>R$ 18,4 mi</strong><span>consolidável em 1.412 clusters abertos</span></div>
+        <!-- Preenchidos por frontend/radar.js a partir de artefatos/radar.json.
+             Nao escrever numero aqui: era isto que punha "R$ 4,7 mi · capital
+             ja consolidado (medido)" na home sem nenhuma unificacao executada. -->
+        <div class="ax-kpi"><strong id="home-consolidavel">—</strong><span id="home-consolidavel-d">capital consolidável</span></div>
+        <div class="ax-kpi"><strong id="home-consolidado">—</strong><span id="home-consolidado-d">capital já consolidado no ERP</span></div>
         <button class="ax-btn ax-btn-primary" onclick="go('radar')">Abrir o Radar</button>
       </aside>
     </div>
@@ -722,7 +734,7 @@ input[type=range]{accent-color:var(--accent)}
     <div class="ax-container">
       <div class="ax-foot-grid">
         <div>
-          <a class="ax-logo" onclick="go('inicio')"><span class="mark"></span>nome do produto</a>
+          <a class="ax-logo" onclick="go('inicio')"><span class="mark"></span>Catálogo de Materiais</a>
           <p>Cadastro de materiais que se mantém limpo: menos duplicidade, menos capital parado, mais confiança no que se compra.</p>
         </div>
         <div><h5>Porta de entrada</h5><ul><li><a onclick="go('busca')">Buscar material</a></li><li><a onclick="go('cadastro')">Cadastrar novo item</a></li></ul></div>
@@ -733,7 +745,7 @@ input[type=range]{accent-color:var(--accent)}
           <p style="margin:0">Dúvidas sobre o padrão PDM<strong><a onclick="go('manual')">Abrir o manual</a></strong></p>
         </div>
       </div>
-      <div class="ax-foot-bottom"><span>© 2026 nome do produto — mockup conceitual · dados fictícios</span><div><a>Privacidade</a><a>Termos de uso</a><a>Cookies</a></div></div>
+      <div class="ax-foot-bottom"><span>© 2026 Catálogo de Materiais — mockup conceitual · dados fictícios</span><div><a>Privacidade</a><a>Termos de uso</a><a>Cookies</a></div></div>
     </div>
   </footer>
 </section>
@@ -902,32 +914,312 @@ input[type=range]{accent-color:var(--accent)}
 <!-- ================================================================ CLUSTERS -->
 <section class="page" id="page-clusters">
   <div class="page-head">
-    <div><h1>Clusters de duplicidade</h1><p>Códigos que podem ser o mesmo material. Revise, escolha o código que fica e unifique, ou separe. Fusões são reversíveis: os códigos são bloqueados, nunca apagados.</p></div>
-    <div class="actions"><select class="sel" style="height:30px;width:auto"><option>Ordenar por capital</option><option>Ordenar por confiança</option></select></div>
+    <div>
+      <h1>Códigos juntados e NCM trocado</h1>
+      <p>O que o saneamento decidiu, código por código: quais códigos viraram um só —
+         o que <b>fica</b> e os que <b>saem</b> — e quais NCMs mudaram, com o valor antigo
+         ao lado do novo. Nada é apagado: o código que sai é bloqueado e passa a apontar
+         para o que fica. <span class="faint" id="jn-gerado"></span></p>
+    </div>
+    <div class="actions">
+      <button class="btn sm" id="jn-exportar" title="Baixa as decisões desta sessão em .jsonl">Exportar decisões</button>
+      <button class="btn sm ghost" id="jn-limpar">Limpar sessão</button>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-h"><h3>Fila de revisão</h3><span class="sub">1.412 clusters abertos · amostra</span>
-      <div class="r"><span class="conf-pill hi"><i></i>≥ 80%</span><span class="conf-pill md"><i></i>60–79%</span><span class="conf-pill lo"><i></i>&lt; 60%</span></div></div>
-    <div style="overflow:auto"><table class="tbl" id="cl-table"></table></div>
+
+  <div class="grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px" id="jn-kpis"></div>
+
+  <div style="display:flex;gap:6px;margin-bottom:14px" id="jn-abas">
+    <button class="seg-btn on" data-aba="grupos">Códigos juntados</button>
+    <button class="seg-btn" data-aba="ncm">NCM trocado</button>
   </div>
-  <div class="card section-gap" id="cl-detail">
-    <div class="card-h"><h3 id="cl-title">—</h3><span id="cl-conf"></span><div class="r"><span class="sub" id="cl-sub"></span></div></div>
-    <div class="card-b">
-      <div id="cl-why" style="margin-bottom:14px"></div>
-      <div style="overflow:auto"><table class="tbl cmp" id="cl-cmp"></table></div>
-      <div class="divider"></div>
-      <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Resultado se unificar</div>
-      <div class="grid" style="grid-template-columns:repeat(4,1fr)" id="cl-imp"></div>
-      <div class="divider"></div>
-      <label class="lbl">Comentário da revisão</label>
-      <textarea class="inp" placeholder="Ex.: unidade CX era erro de cadastro; confirmado com almoxarifado 1200."></textarea>
-      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-        <button class="btn primary" onclick="clDecide('Unificado')">Unificar no código escolhido</button>
-        <button class="btn" onclick="clDecide('Separado')">Não são o mesmo · separar</button>
-        <button class="btn" onclick="clDecide('Pergunta enviada')">Pedir informação</button>
-        <button class="btn ghost" onclick="clNext()">Pular →</button>
+
+  <!-- ---------------------------------------------------------- grupos -->
+  <div id="jn-aba-grupos">
+    <div class="card">
+      <div class="card-h"><h3>Grupos de identidade</h3><span class="sub" id="jn-g-sub">—</span>
+        <div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="toolbar">
+        <input class="inp" id="jn-g-busca" placeholder="Buscar código, classe, fabricante…" style="width:250px">
+        <select class="sel" id="jn-g-filtro">
+          <option value="">todos os grupos</option>
+          <option value="ncm">NCM divergente entre os códigos</option>
+          <option value="trocas">NCM alterado em algum código</option>
+          <option value="unidade">unidade divergente</option>
+          <option value="saldo">com saldo no código que sai</option>
+          <option value="llm">chave decidida com LLM</option>
+          <option value="decididos">já revisados nesta sessão</option>
+        </select>
+        <select class="sel" id="jn-g-ordem">
+          <option value="capital">ordenar por capital liberado</option>
+          <option value="codigos">ordenar por nº de códigos</option>
+          <option value="saldo">ordenar por saldo que sai</option>
+        </select>
+        <span class="faint" id="jn-g-conta" style="margin-left:auto;font-size:12px"></span>
+      </div>
+      <div style="overflow:auto"><table class="tbl" id="jn-g-table"></table></div>
+      <div class="pager" id="jn-g-pager"></div>
+    </div>
+
+    <div class="card section-gap" id="jn-detalhe">
+      <div class="card-h"><h3 id="jn-d-titulo">—</h3><span class="sub" id="jn-d-sub"></span>
+        <div class="r"><span class="mono faint" id="jn-d-chave" style="font-size:11px"></span></div></div>
+      <div class="card-b">
+        <div id="jn-d-por-que" style="margin-bottom:14px"></div>
+        <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">
+          As linhas da <b>base_materiais</b> que entraram neste grupo, uma por código, como estão hoje
+          <span class="faint" id="jn-d-linhas-sub"></span>
+        </div>
+        <div style="overflow:auto"><table class="tbl" id="jn-d-linhas"></table></div>
+        <div class="divider"></div>
+        <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">
+          Campo a campo, contra o código que fica — em vermelho, o que diverge
+        </div>
+        <div style="overflow:auto"><table class="tbl cmp" id="jn-d-cmp"></table></div>
+        <div class="divider"></div>
+        <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Resultado se unificar</div>
+        <div class="grid" style="grid-template-columns:repeat(4,1fr)" id="jn-d-imp"></div>
+        <div class="divider"></div>
+        <label class="lbl">Comentário da revisão</label>
+        <textarea class="inp" id="jn-d-nota" placeholder="Ex.: unidade CX era erro de cadastro; confirmado com o almoxarifado do 1200."></textarea>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button class="btn primary" data-jn-dec="unificada">Confirmar a junção no código que fica</button>
+          <button class="btn" data-jn-dec="separada">Não são o mesmo · separar</button>
+          <button class="btn" data-jn-dec="pergunta">Pedir informação</button>
+          <button class="btn ghost" data-jn-dec="pular">Próximo →</button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- ------------------------------------------------------------- NCM -->
+  <div id="jn-aba-ncm" style="display:none">
+    <div class="card">
+      <div class="card-h"><h3>NCM alterado pelo saneamento</h3>
+        <span class="sub" id="jn-n-sub">—</span>
+        <div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="card-b" style="padding-bottom:0">
+        <div class="grid" style="grid-template-columns:repeat(4,1fr)" id="jn-n-tipos"></div>
+        <div class="faint" style="font-size:11.5px;margin:10px 0 2px" id="jn-n-nota"></div>
+      </div>
+      <div class="toolbar">
+        <input class="inp" id="jn-n-busca" placeholder="Buscar código, NCM, classe, motivo…" style="width:250px">
+        <select class="sel" id="jn-n-tipo">
+          <option value="">toda alteração de NCM</option>
+          <option value="trocado">trocado · muda a tributação</option>
+          <option value="preenchido">preenchido · entrou vazio</option>
+          <option value="reformatado">reformatado · só a pontuação</option>
+        </select>
+        <select class="sel" id="jn-n-ordem">
+          <option value="capital">ordenar por capital</option>
+          <option value="codigo">ordenar por código</option>
+        </select>
+        <span class="faint" id="jn-n-conta" style="margin-left:auto;font-size:12px"></span>
+      </div>
+      <div style="overflow:auto"><table class="tbl" id="jn-n-table"></table></div>
+      <div class="pager" id="jn-n-pager"></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="page" id="page-ia">
+  <div class="page-head">
+    <div>
+      <h1>Interferência de IA</h1>
+      <p>Cada regra que o LLM criou no dicionário, a linha de onde ela saiu e <b>todas</b> as linhas
+         em que ela decidiu. Uma pergunta respondida uma vez vira regra e passa a decidir sozinha:
+         se a resposta estava errada, estão erradas todas as linhas que a usaram. Por isso, derrubar
+         uma aplicação não derruba só ela — a tela mostra as outras e pergunta se a regra caiu ali
+         ou se não vale em lugar nenhum. <span class="faint" id="ia-gerado"></span></p>
+    </div>
+    <div class="actions">
+      <button class="btn sm" id="ia-exportar" title="Baixa as decisões desta sessão em .jsonl, no formato que o scripts/18_curar_aprendizado.py consome">Exportar decisões</button>
+      <button class="btn sm ghost" id="ia-limpar">Limpar sessão</button>
+    </div>
+  </div>
+
+  <div class="grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px" id="ia-kpis"></div>
+
+  <div style="display:flex;gap:6px;margin-bottom:14px" id="ia-abas">
+    <button class="seg-btn on" data-aba="regras">Regras do dicionário</button>
+    <button class="seg-btn" data-aba="decisoes">Decisões diretas de IA</button>
+  </div>
+
+  <!-- ------------------------------------------------- regras do dicionário -->
+  <div id="ia-aba-regras">
+    <div class="card">
+      <div class="card-h"><h3>Regras aprendidas</h3><span class="sub" id="ia-r-sub">—</span>
+        <div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="toolbar">
+        <input class="inp" id="ia-r-busca" placeholder="Buscar termo, valor, atributo, classe…" style="width:250px">
+        <select class="sel" id="ia-r-filtro">
+          <option value="usadas">só as que decidiram alguma linha</option>
+          <option value="">todas as regras</option>
+          <option value="revisao">em revisão</option>
+          <option value="acrescenta">que acrescentam palavra ao texto</option>
+          <option value="uma">com uma confirmação só</option>
+          <option value="conflito">com conflito de valor</option>
+          <option value="rebaixada">o curador rebaixou</option>
+          <option value="decididas">já julgadas nesta sessão</option>
+        </select>
+        <select class="sel" id="ia-r-ordem">
+          <option value="linhas">ordenar por linhas afetadas</option>
+          <option value="capital">ordenar por capital afetado</option>
+          <option value="confirmacoes">ordenar por confirmações</option>
+        </select>
+        <span class="faint" id="ia-r-conta" style="margin-left:auto;font-size:12px"></span>
+      </div>
+      <div style="overflow:auto"><table class="tbl" id="ia-r-table"></table></div>
+      <div class="pager" id="ia-r-pager"></div>
+    </div>
+
+    <div class="card section-gap" id="ia-detalhe">
+      <div class="card-h"><h3 id="ia-d-titulo">—</h3><span class="sub" id="ia-d-sub"></span>
+        <div class="r" id="ia-d-selo"></div></div>
+      <div class="card-b">
+        <div id="ia-d-origem" style="margin-bottom:14px"></div>
+        <div id="ia-d-validacao"></div>
+        <div style="font-size:12px;color:var(--text-2);margin:14px 0 8px" id="ia-d-usos-tit"></div>
+        <div style="overflow:auto"><table class="tbl" id="ia-d-usos"></table></div>
+        <div class="divider"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="ia-d-acoes"></div>
+      </div>
+    </div>
+
+    <div class="card section-gap" id="ia-orfas">
+      <div class="card-h"><h3>Aplicações sem regra identificável</h3>
+        <span class="sub" id="ia-orfas-sub">—</span>
+        <div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="card-b">
+        <div class="faint" style="font-size:12px;margin-bottom:10px">
+          O pipeline gravou estes valores dizendo <span class="mono">dicionário aprendido</span>,
+          mas nenhum termo do dicionário <b>atual</b> casa no texto do item. Em geral é rastro
+          perdido — o termo saiu na curadoria, ou casou por uma variação que a reconstrução não
+          repete (<span class="mono">ATUADOR PNEUM</span>, <span class="mono">FM GALV</span>,
+          <span class="mono">BRITADOR CONIO</span> com erro de digitação). Não é prova de invenção,
+          mas é o único grupo em que não dá para apontar a regra: confira o texto ao lado do valor.
+        </div>
+        <div style="overflow:auto"><table class="tbl" id="ia-orfas-table"></table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- --------------------------------------------- decisões diretas de IA -->
+  <div id="ia-aba-decisoes" style="display:none">
+    <div class="card">
+      <div class="card-h"><h3>Decisões de IA sem regra por trás</h3>
+        <span class="sub" id="ia-d2-sub">—</span>
+        <div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="card-b" style="padding-bottom:0">
+        <div class="grid" style="grid-template-columns:repeat(5,1fr)" id="ia-d2-fontes"></div>
+        <div class="faint" style="font-size:11.5px;margin:10px 0 2px" id="ia-d2-nota"></div>
+      </div>
+      <div class="toolbar">
+        <input class="inp" id="ia-d2-busca" placeholder="Buscar código, atributo, valor, evidência…" style="width:250px">
+        <select class="sel" id="ia-d2-fonte"><option value="">toda decisão de IA</option></select>
+        <span class="faint" id="ia-d2-conta" style="margin-left:auto;font-size:12px"></span>
+      </div>
+      <div style="overflow:auto"><table class="tbl" id="ia-d2-table"></table></div>
+      <div class="pager" id="ia-d2-pager"></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="page" id="page-intervencao">
+  <div class="page-head">
+    <div>
+      <h1>Fila de intervenção</h1>
+      <p>Onde o saneamento parou e precisa de uma pessoa. Cada campo chega com a ação que pede:
+         <b>confirmar</b> quando o valor já está decidido, <b>escolher</b> quando há candidatos com
+         probabilidade, <b>sem pista</b> quando o texto não sustenta nenhum. A fila vem ordenada pelo que
+         dá para resolver, e dentro de cada grupo pelo capital em risco — mude a ordem no seletor
+         se quiser atacar primeiro o código mais caro.</p>
+    </div>
+    <div class="actions">
+      <button class="btn sm" id="fi-exportar" title="Baixa as decisões em .jsonl para o pipeline consumir">Exportar decisões</button>
+      <button class="btn sm ghost" id="fi-limpar">Limpar sessão</button>
+    </div>
+  </div>
+  <div class="grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
+    <div class="card kpi"><div class="l">Itens na fila</div><div class="v" id="fi-k-itens">—</div><div class="s" id="fi-k-itens-s"></div></div>
+    <div class="card kpi"><div class="l">Campos para confirmar</div><div class="v" id="fi-k-clique" style="color:var(--brand)">—</div><div class="s" id="fi-k-clique-s"></div></div>
+    <div class="card kpi"><div class="l">Campos para decidir</div><div class="v" id="fi-k-escolher" style="color:var(--warn)">—</div><div class="s" id="fi-k-escolher-s"></div></div>
+    <div class="card kpi"><div class="l">Capital na fila</div><div class="v" id="fi-k-capital">—</div><div class="s" id="fi-k-capital-s"></div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="toolbar">
+      <input class="inp" id="fi-busca" placeholder="Buscar código ou texto…" style="width:240px">
+      <select class="sel" id="fi-acao" aria-label="Ação">
+        <option value="">Toda ação</option>
+        <option value="um_clique">Só confirmar</option>
+        <option value="escolher">Só escolher</option>
+        <option value="sem_pista">Só sem pista</option>
+      </select>
+      <select class="sel" id="fi-classe" aria-label="Classe"><option value="">Toda classe</option></select>
+      <select class="sel" id="fi-ordem" aria-label="Ordem" title="Como ordenar a fila">
+        <option value="acionavel">Ordem: o que dá para resolver</option>
+        <option value="capital">Ordem: capital em risco</option>
+        <option value="campos">Ordem: mais campos abertos</option>
+      </select>
+      <label style="display:flex;gap:6px;align-items:center;font-size:12px;color:var(--text-2)">
+        <input type="checkbox" id="fi-pendentes"> esconder o que já decidi</label>
+      <span class="faint" style="font-size:12px" id="fi-decididos"></span>
+      <span class="faint" style="margin-left:auto;font-size:12px" id="fi-conta"></span>
+    </div>
+  </div>
+  <div id="fi-lista"></div>
+  <div class="pager" id="fi-pager" style="margin-top:4px"></div>
+  <p class="faint" style="font-size:11.5px;margin-top:10px">
+    Fonte: <span class="mono">artefatos/fila_intervencao.json</span>, de
+    <span class="mono">scripts/19_fila_intervencao.py</span> sobre a saída do pipeline
+    (<span class="mono">deteccao_ausentes.jsonl</span> e <span class="mono">completacoes_sugeridas.jsonl</span>)
+    — <span id="fi-gerado"></span>. As decisões ficam no navegador até você exportar.<br>
+    O percentual ao lado de cada candidato é a <b>fatia da distribuição de candidatos daquele
+    campo</b>, não uma taxa de acerto: com um candidato único ele dá 100% por construção. O que
+    está medido é o acerto por faixa, em teste retroativo — a faixa provável diz ≥90% e acerta
+    96% em 6.891 casos; no geral, 81,9%. As outras faixas não estão calibradas, e o candidato
+    marcado <span class="badge">do texto</span> vem de conversão de notação
+    (<span class="mono">SECAO 4MM</span> → <span class="mono">4MM2</span>), sem probabilidade.</p>
+</section>
+
+
+<section class="page" id="page-cadastros">
+  <div class="page-head">
+    <div>
+      <h1>Cadastros</h1>
+      <p>Todos os cadastros e o estado de cada um.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-h">
+      <h3>Cadastros</h3><span class="badge b-gray" id="cads-total">—</span>
+      <div class="r cad-filtros">
+        <label class="faint" style="font-size:12px;display:flex;gap:6px;align-items:center"><input type="checkbox" id="cads-meus">só os meus</label>
+        <select class="sel" id="cads-estado" aria-label="Estado"><option value="">Todos os estados</option><option value="RASCUNHO">Rascunho</option><option value="EM_REVISAO">Em revisão</option><option value="AGUARDANDO_SOLICITANTE">Aguardando solicitante</option><option value="AGUARDANDO_CLASSE">Aguardando classe</option><option value="APROVADO">Aprovado</option><option value="CADASTRADO">Cadastrado</option><option value="JA_EXISTE">Já existe</option><option value="FORA_DO_PDM">Fora do PDM</option><option value="CANCELADO">Cancelado</option></select>
+      </div>
+    </div>
+    <div style="overflow:auto" id="cads-tabela"></div>
+  </div>
+</section>
+
+
+<section class="page" id="page-revisao">
+  <div class="page-head">
+    <div>
+      <h1>Revisão de exceções</h1>
+      <p>O que contraria o PDM precisa de justificativa e da decisão de uma segunda pessoa.</p>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-h"><h3>Aguardando segundo analista</h3></div>
+    <div style="overflow:auto" id="rev-tabela"></div>
+  </div>
+  <div class="card">
+    <div class="card-h"><h3>Envios ao ERP</h3><span class="sub">o ERP gera o código</span>
+      <div class="r"><button class="btn sm" id="rev-sync">Sincronizar com o ERP</button></div></div>
+    <div style="overflow:auto" id="rev-erp"></div>
   </div>
 </section>
 
@@ -945,39 +1237,17 @@ input[type=range]{accent-color:var(--accent)}
     </div>
   </div>
 
-  <!-- hero row -->
-  <div class="grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px">
-    <div class="card hero" data-tt="Soma de saldo × custo médio dos códigos em clusters de duplicidade ainda abertos.|Base: R$ 200,9 mi em estoque (23.554 códigos)">
-      <div class="l">Capital consolidável <span class="src-tag src-est">estimado</span></div>
-      <div class="v">R$ 18,4 mi</div>
-      <div class="s"><b>9,2%</b> dos R$ 200,9 mi em estoque, em 1.412 clusters abertos</div>
-    </div>
-    <div class="card hero" data-tt="Códigos bloqueados após unificação aprovada; saldo transferido ao código mantido.|Fonte: log de unificações (assinadas)">
-      <div class="l">Capital já consolidado <span class="src-tag src-med">medido</span></div>
-      <div class="v" style="color:var(--brand)">R$ 4,7 mi</div>
-      <div class="s"><b>2.120</b> códigos bloqueados · <b>25%</b> do consolidável</div>
-    </div>
-    <div class="card hero">
-      <div class="l">Custo de oportunidade evitado <span class="src-tag src-pre">premissa</span></div>
-      <div class="v"><span id="opp-v">R$ 1,41 mi</span><span style="font-size:13px;color:var(--text-3)">/ano</span></div>
-      <div class="s">R$ 4,7 mi × <b id="opp-rate">30%</b> a.a. · potencial restante <b id="opp-pot">R$ 4,11 mi</b>/ano</div>
-    </div>
-    <div class="card hero" data-tt="Cada reserva/transferência originada de uma busca que encontrou a peça em outro centro.|Fonte: requisições com status TRANSFERÊNCIA">
-      <div class="l">Compras evitadas pela busca <span class="src-tag src-med">medido</span></div>
-      <div class="v"><span id="buy-v">R$ 2,31 mi</span></div>
-      <div class="s"><b>312</b> reservas · R$ 2,01 mi a custo médio + <b id="buy-prem">15%</b> de prêmio de emergência</div>
-    </div>
-    <div class="card hero" data-tt="NCMs corrigidos com aprovação do tributário; rejeições evitadas = notas que teriam o NCM antigo.|Fonte: validação NF-e × tabela NCM vigente">
-      <div class="l">NF-e que deixaram de travar <span class="src-tag src-med">medido</span></div>
-      <div class="v">87</div>
-      <div class="s"><b>1.146</b> NCMs corrigidos · <b>412</b> descontinuados na base antes</div>
-    </div>
+  <!-- hero row: preenchida por frontend/radar.js a partir de artefatos/radar.json -->
+  <div class="grid" id="rad-hero" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px"></div>
+  <div class="card" id="rad-naomedido-card" style="margin-bottom:16px;display:none">
+    <div class="card-h"><h3>O que não está medido</h3>
+      <span class="sub">dito aqui para não virar número bonito no slide</span></div>
+    <div style="padding:12px 16px" id="rad-naomedido"></div>
   </div>
-
   <!-- row 2: trend + health -->
   <div class="grid" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);margin-bottom:16px">
     <div class="card">
-      <div class="card-h"><h3>Capital consolidado acumulado</h3><span class="sub">R$ mi · por mês</span><div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="card-h"><h3>Capital a consolidar</h3><span class="sub">o plano de junção, em dinheiro</span><div class="r"><span class="src-tag src-med">medido</span></div></div>
       <div class="card-b chart" id="trend"></div>
     </div>
     <div class="card">
@@ -987,8 +1257,8 @@ input[type=range]{accent-color:var(--accent)}
     </div>
   </div>
 
-  <!-- row 3: matrix -->
-  <div class="grid" style="grid-template-columns:minmax(0,1fr);margin-bottom:16px">
+  <!-- row 3: matrix + capital by class -->
+  <div class="grid" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-bottom:16px">
     <div class="card">
       <div class="card-h"><h3>Matriz de autonomia</h3><span class="sub">decisões por faixa de risco</span><div class="r"><span class="src-tag src-med">medido</span></div></div>
       <table class="tbl mtx">
@@ -1010,7 +1280,7 @@ input[type=range]{accent-color:var(--accent)}
   <!-- evidências -->
   <div class="card" style="margin-bottom:16px" id="evid">
     <div class="card-h">
-      <h3>Evidências de eficácia</h3><span class="sub">o método funciona? veja por fator</span>
+      <h3>Evidências de eficácia</h3><span class="sub">o método funciona? antes × hoje, por fator</span>
     </div>
 
     <div id="ev-fator" class="card-b">
@@ -1032,7 +1302,6 @@ input[type=range]{accent-color:var(--accent)}
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- row 4: live signals + premissas -->
@@ -1076,6 +1345,7 @@ input[type=range]{accent-color:var(--accent)}
   </div>
 </section>
 
+<!-- ================================================================ CADASTRO -->
 <!-- ================================================================ BUSCA -->
 <section class="page" id="page-busca">
   <div class="page-head">
@@ -1344,6 +1614,8 @@ Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largu
       </div>
     </div>
   </div>
+
+  <iframe id="painel" src="/painel?embutido=1" title="Cadastro de materiais"></iframe>
 </section>
 
 <!-- ================================================================ REQUISIÇÕES -->
@@ -1585,44 +1857,40 @@ const fmtMi=v=>'R$ '+v.toFixed(2).replace('.',',')+' mi';
 function radarCalc(){
   const r=+document.getElementById('r-opp').value, pr=+document.getElementById('r-prem').value;
   document.getElementById('r-opp-l').textContent=r+'% a.a.';document.getElementById('r-prem-l').textContent=pr+'%';
-  document.getElementById('opp-rate').textContent=r+'%';
-  document.getElementById('opp-v').textContent=fmtMi(4.7*r/100);
-  document.getElementById('opp-pot').textContent=fmtMi((18.4-4.7)*r/100);
-  document.getElementById('buy-prem').textContent=pr+'%';
-  document.getElementById('buy-v').textContent=fmtMi(2.01*(1+pr/100));
+  // O capital vem de artefatos/radar.json (plano de juncao x base), nao de
+  // constante no HTML. Os cartoes que dependiam de premissa sem medicao sairam,
+  // por isso def() nao assume que o no existe.
+  const mi=window.RADAR ? RADAR.hero.consolidavel.valor/1e6 : 0;
+  const def=(id,v)=>{const n=document.getElementById(id); if(n) n.textContent=v;};
+  def('opp-rate', r+'%');
+  def('opp-v', fmtMi(mi*r/100));
+  def('opp-pot', fmtMi(mi*r/100));
+  def('buy-prem', pr+'%');
 }
 function trendChart(){
-  const m=['jun','jul','ago','set','out','nov'], v=[0.3,0.9,1.7,2.6,3.6,4.7];
-  const W=1100,H=240,L=40,R=50,T=14,B=26,max=6,x=i=>L+i*(W-L-R)/(m.length-1),y=d=>T+(H-T-B)*(1-d/max);
-  let g='';for(let t=0;t<=6;t+=2)g+=`<line class="grid-l" x1="${L}" x2="${W-R}" y1="${y(t)}" y2="${y(t)}"/><text x="${L-8}" y="${y(t)+3.5}" text-anchor="end">${t}</text>`;
-  m.forEach((k,i)=>g+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${k}</text>`);
-  const pts=v.map((d,i)=>x(i)+','+y(d)).join(' ');
-  g+=`<polygon points="${x(0)},${y(0)} ${pts} ${x(5)},${y(0)}" fill="var(--brand-bg)"/>`;
-  g+=`<polyline points="${pts}" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linejoin="round"/>`;
-  g+=`<line id="xh" y1="${T}" y2="${H-B}" stroke="var(--border-strong)" stroke-dasharray="3 3" style="display:none"/><circle id="xd" r="4.5" fill="var(--brand)" stroke="var(--panel)" stroke-width="2" style="display:none"/>`;
-  g+=`<circle cx="${x(5)}" cy="${y(4.7)}" r="4" fill="var(--brand)" stroke="var(--panel)" stroke-width="2"/><text x="${x(5)+8}" y="${y(4.7)+4}" style="fill:var(--text)">4,7</text>`;
-  g+=`<line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" stroke="var(--border-strong)"/>`;
-  const step=(W-L-R)/(m.length-1);
-  m.forEach((k,i)=>g+=`<rect x="${x(i)-step/2}" y="${T}" width="${step}" height="${H-T-B}" fill="transparent" data-i="${i}" class="hit"/>`);
-  const el=document.getElementById('trend');el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%">${g}</svg>`;
-  const inc=v.map((d,i)=>i?d-v[i-1]:d);
-  el.querySelectorAll('.hit').forEach(h=>{
-    h.addEventListener('mousemove',e=>{const i=+h.dataset.i;const xh=el.querySelector('#xh'),xd=el.querySelector('#xd');
-      xh.setAttribute('x1',x(i));xh.setAttribute('x2',x(i));xh.style.display='';xd.setAttribute('cx',x(i));xd.setAttribute('cy',y(v[i]));xd.style.display='';
-      showTT(e,`<b style="font-weight:500">${m[i]}/2026</b><br><span class="mono">${fmtMi(v[i])}</span> acumulado<br><span class="faint">+${inc[i].toFixed(1).replace('.',',')} mi no mês</span>`)});
-    h.addEventListener('mouseleave',()=>{el.querySelector('#xh').style.display='none';el.querySelector('#xd').style.display='none';hideTT()});
-  });
+  // Sem serie historica: esta e a primeira execucao do pipeline sobre a base, o
+  // marco zero. O mockup desenhava seis meses inventados ([0.3..4.7]).
+  const alvo=document.getElementById('trend');
+  if(!alvo) return;
+  if(!window.RADAR){ alvo.innerHTML=''; return; }
+  const h=RADAR.hero.consolidavel;
+  alvo.innerHTML=`<div style="padding:18px 4px;line-height:1.7">
+    <div class="mono" style="font-size:26px">${fmtMi(h.valor/1e6)}</div>
+    <div class="faint" style="font-size:12.5px;margin-top:6px">${h.detalhe}</div>
+    <div class="faint" style="font-size:11.5px;margin-top:10px;font-style:italic">
+      Sem série por mês: esta é a primeira execução sobre a base — o marco zero.
+      A próxima execução passa a comparar com esta.</div></div>`;
 }
 function healthTiles(){
-  const H=[['Aderência ao PDM',[21,27,36,44,51,58],'%','↑ melhor'],['Completude de identidade',[34,41,49,57,64,71],'%','↑ melhor'],['Duplicidades suspeitas',[14.2,12.9,10.8,9.1,7.4,6.1],'%','↓ melhor']];
-  document.getElementById('health').innerHTML=H.map(([n,d,u,dir])=>{
-    const W=140,Ht=40,mx=Math.max(...d)*1.1,mn=Math.min(...d)*0.85,px=i=>3+i*(W-6)/(d.length-1),py=v=>Ht-3-(Ht-6)*(v-mn)/(mx-mn);
-    const pts=d.map((v,i)=>px(i)+','+py(v)).join(' ');
-    const f=v=>String(v).replace('.',',');
-    return `<div class="spark-tile" data-tt="${n}: jun ${f(d[0])}${u} → nov ${f(d[5])}${u}|${dir}"><div class="faint" style="font-size:12px;min-height:34px">${n}</div>
-      <div style="display:flex;align-items:baseline;gap:6px;margin:4px 0"><span class="mono" style="font-size:20px">${f(d[5])}${u}</span><span class="faint mono" style="font-size:11px">era ${f(d[0])}${u}</span></div>
-      <svg viewBox="0 0 ${W} ${Ht}" width="100%" height="40" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>
-      <div class="faint" style="font-size:11px;margin-top:2px">${dir}</div></div>`}).join('');
+  // Medido na saida do pipeline (artefatos/saneado_base.csv), em vez da serie
+  // de seis meses do mockup, que nao existe em lugar nenhum.
+  const alvo=document.getElementById('health');
+  if(!alvo||!window.RADAR) return;
+  alvo.style.gridTemplateColumns='repeat(3,1fr)';
+  alvo.innerHTML=RADAR.saude.map(t=>`<div class="spark-tile" data-tt="${t.rotulo}|${t.detalhe}">
+    <div class="faint" style="font-size:12px;min-height:34px">${t.rotulo}</div>
+    <div class="mono" style="font-size:20px;margin-top:4px">${t.valor}</div>
+    <div class="faint" style="font-size:11px;margin-top:4px">${t.detalhe}</div></div>`).join('');
 }
 const TT=document.getElementById('tt');
 function showTT(e,h){TT.innerHTML=h;TT.style.display='block';const w=TT.offsetWidth;let x=e.clientX+14;if(x+w>innerWidth-8)x=e.clientX-w-14;TT.style.left=x+'px';TT.style.top=(e.clientY+14)+'px'}
@@ -1714,33 +1982,10 @@ function baseOpen(code){
 baseRender(1);
 
 /* ---------- clusters ---------- */
-const CL=[{"ref": "8339402", "conf": 97, "why": "Fabricante + part number iguais nos 4 códigos; só a escrita da descrição e o formato do NCM mudam.", "itens": [["19410345", "DENTE CACAMBA; APLICACAO: ESCAVADEIRA HIDRAULICA; MODELO EQUIPAMENTO: EX2600; FABRICANTE: HITACHI; REFERENCIA FABRICANTE: 8339402", "PC", "84314929", "SOB01", "", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 10.0, 737.35], ["10263349", "DENTE CACAMBA ESCAVADEIRA HIDRAULICA EX2600 COD 8339402 HITACHI", "PC", "84314929", "SOB01", "HITACHI", "9000 - CD CENTRAL", "ATIVO", 0.0, 832.5], ["12815718", "DENTE CACAMBA, APLICACAO:ESCAVADEIRA HIDRAULICA, MOD:EX2600, FABRICANTE:HITACHI, REF FABRICANTE:8339402", "PC", "8431.49.29", "SOB01", "", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 2.0, 843.62], ["10446452", "DENTE CACAMBA, FABR:HITACHI, EQUIP:EX2600, PARA:ESCAVADEIRA HIDRAULICA, PN:8339402", "PC", "8431.49.29", "SOB01", "", "1300 - TERMINAL PORTUARIO", "ATIVO", 0.0, 766.95]]}, {"ref": "1626003064", "conf": 95, "why": "Fabricante + part number iguais e mesma especificação (bronze TM23). Evidência forte: fusão automática permitida.", "itens": [["17296328", "BUCHA EXCENTRICO BRITADOR CONICO RAPTOR 450 1626003064 FLSMIDTH", "PC", "8474.90.00", "SOB01", "FLSMIDTH", "2200 - PCH RIO CLARO", "ATIVO", 1.0, 2259.92], ["28022010", "BUCHA  EXCENTRICO, USO:BRITADOR CONICO, EQUIP:RAPTOR 450, FAB:FLSMIDTH, PN:1626003064, MAT:BRONZE TM23", "PC", "8474.90.00", "SOB01", "FLSMIDTH", "1100 - MINA SERRA AZUL", "ATIVO", 0.0, 2705.16], ["16132199", "BUCHA EXCENTRICO - APLICACAO:BRITADOR CONICO - EQUIP:RAPTOR 450 - FLSMIDTH - REF:1626003064 - MATERIAL:BRONZE TM23", "PC", "8474.90.00", "SOB01", "", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 3.0, 3108.51]]}, {"ref": "87954-HC", "conf": 91, "why": "Mesmo equipamento (TC-12), fabricante e part number. Um código está BLOQUEADO com 3 PC em estoque.", "itens": [["12863178", "ROLETE CARGA, APLICACAO: CORREIA TRANSPORTADORA, MOD: TC 12, PN: 87954-HC, FAB: MARTIN ENGINEERING", "PC", "8431.39.00", "SOB01", "", "1100 - MINA SERRA AZUL", "ATIVO", 4.0, 974.79], ["14769574", "ROLETE CARGA; APLICACAO: CORREIA TRANSPORTADORA; MODELO EQUIPAMENTO: TC-12; FABRICANTE: MARTIN ENGINEERING; REFERENCIA FABRICANTE: 87954-HC", "PC", "8431.3900", "SOB01", "", "1100 - MINA SERRA AZUL", "BLOQUEADO", 3.0, 848.42], ["21413321", "ROLETE CARGA - APLIC:CORREIA TRANSPORTADORA - MOD:TC-12 - MARTIN ENGINEERING", "PC", "84313900", "SOB01", "MARTIN ENGINEERING", "2100 - UTE SERRA AZUL", "ATIVO", 2.0, 940.18], ["14433890", "ROLETE CARGA;APLIC: CORREIA TRANSPORTADORA;MOD: TC-12;FABR: MARTIN ENGINEERING;COD FABRICANTE: 87954-HC", "PC", "8431.39.00", "SOB01", "MARTIN ENGINEERING", "9000 - CD CENTRAL", "ATIVO", 3.0, 871.99]]}, {"ref": "6206/C3", "conf": 88, "why": "Série, vedação (aberto) e folga C3 iguais. Um código tinha NCM 8482.80.00, incoerente com a classe.", "itens": [["14139909", "ROLAMENTO RIGIDO ESFERAS 6206/C3 30MM 62MM ABERTO C3", "PC", "84821010", "ROL01", "", "9000 - CD CENTRAL", "ATIVO", 12.0, 586.0], ["26187360", "ROLAMENTO RIG ESF, REF: 6206 C3, DIAM INTERNO: 30MM, DIAM EXTERNO: 62MM, L: 16MM, PROTECAO: ABERTO, FOLGA: C3", "PC", "8482.10.10", "ROL01", "", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 1.0, 679.92], ["18065249", "ROLAMENTO RIGIDO ESF 6206-C3 62MM ABERTO", "PC", "8482.80.00", "ROL01", "KOYO", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 0.0, 640.11]]}, {"ref": "HD 997/4", "conf": 78, "why": "Mesmo fabricante e part number. Unidade diverge (PC, CX, CT) e NCM em dois formatos: precisa confirmar a embalagem antes de somar saldos.", "itens": [["24813676", "FILTRO HIDRAULICO, USO:CAMINHAO FORA DE ESTRADA, MARCA:MANN", "PC", "84212990", "FIL01", "MANN", "1100 - MINA SERRA AZUL", "ATIVO", 0.0, 72.64], ["23991433", "FILTRO HIDRAULICO - PARA:CAMINHAO FORA DE ESTRADA - COD FABRICANTE:HD 997/4 - FABR:MANN", "CX", "8421.29.90", "FIL01", "MANN", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 0.0, 60.69], ["28476673", "FILTRO HIDRAULICO, APLICACAO:CAMINHAO FORA DE ESTRADA, FABR:MANN, P/N:HD 997/4", "PC", "84212990", "FIL01", "MANN", "2100 - UTE SERRA AZUL", "ATIVO", 0.0, 60.11], ["14900273", "FILTRO HIDRAULICO; APLICACAO: CAMINHAO FORA DE ESTRADA; FABRICANTE: MANN; REFERENCIA FABRICANTE: HD 997/4", "CT", "8421.29.90", "FIL01", "", "2200 - PCH RIO CLARO", "ATIVO", 1.0, 57.2]]}, {"ref": "WK 991/0", "conf": 72, "why": "Mesmo part number. Um código já indica \"usar 26382659\", que está OBSOLETO; outro está em KG. Escolha do código mantido exige atenção.", "itens": [["13588232", "FILTRO COMBUSTIVEL VEICULO LEVE MANN WK 991/0", "PC", "8421.23.00", "FIL01", "MANN", "1300 - TERMINAL PORTUARIO", "ATIVO", 0.0, 119.57], ["11189186", "NAO UTILIZAR - USAR COD 26382659 - FILTRO COMBUSTIVEL; MANN; PART NUMBER:WK 991/0-00 - ITEM CRITICO", "PC", "8421.23.00", "FIL01", "", "1100 - MINA SERRA AZUL", "BLOQUEADO", 39.0, 104.84], ["26382659", "FILTRO COMBUSTIVEL PN WK 991/0 MANN", "PC", "84212300", "FIL01", "MANN", "1100 - MINA SERRA AZUL", "OBSOLETO", 0.0, 114.46], ["15953773", "FILTRO  COMBUSTIVEL, FABRICANTE:MANN, PN:WK 991/0", "KG", "8421.23.00", "FIL01", "MANN", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 0.0, 81.4]]}, {"ref": "VALV ESF 1.1/2\" 800# F316", "conf": 58, "why": "5 de 7 atributos de identidade iguais. ACIONAMENTO ausente em 22228120 e PASSAGEM \"STD\" ambígua: só a engenharia pode decidir.", "itens": [["21457702", "VALVULA ESFERA 1.1/2\" 800# INOX 316 ROSCADA NPT PASSAGEM REDUZIDA METAL-METAL ATUADOR PNEUMATICO", "PC", "84818095", "VAL01", "", "2200 - PCH RIO CLARO", "ATIVO", 8.0, 309.54], ["22228120", "VALVULA ESFERA, BITOLA:1.1/2POL, RATING:800#, MAT CORPO:F316, TIPO CONEXAO:RSC NPT, PASSAGEM:STD, METAL-METAL", "PC", "84818095", "VAL01", "", "1200 - USINA DE BENEFICIAMENTO", "ATIVO", 0.0, 677.34]]}];
-let clCur=0, clKeep={};
-function clScore(it){let s=0;if(it[5])s+=2;if(/\d{4}\.\d{2}\.\d{2}/.test(it[3]))s+=1;if(UNP.includes(it[2]))s+=1;if(it[7]==='ATIVO')s+=2;s+=it[1].length/100;return s}
-function clTable(){
-  document.getElementById('cl-table').innerHTML=`<thead><tr><th>CLUSTER</th><th class="num">CÓDIGOS</th><th>CENTROS</th><th class="num">SALDO SOMADO</th><th class="num">CAPITAL</th><th>CONFIANÇA</th><th>STATUS</th></tr></thead><tbody>`+
-   CL.map((c,i)=>{const sal=c.itens.reduce((a,x)=>a+x[8],0),cap=c.itens.reduce((a,x)=>a+x[8]*x[9],0),cen=new Set(c.itens.map(x=>x[6].split(' - ')[0]));
-    return `<tr class="${i===clCur?'sel':''}" style="cursor:pointer" onclick="clOpen(${i})"><td class="mono">${c.ref}</td><td class="num">${c.itens.length}</td><td class="mono">${[...cen].join(', ')}</td><td class="num">${sal}</td><td class="num">${fmtR(cap)}</td><td>${confPill(c.conf)}</td><td><span class="badge ${c.done?'b-green':'b-gray'}">${c.done||'ABERTO'}</span></td></tr>`}).join('')+'</tbody>';
-}
-function clOpen(i){
-  clCur=i;clTable();const c=CL[i];
-  if(clKeep[i]===undefined){let b=0;c.itens.forEach((x,j)=>{if(clScore(x)>clScore(c.itens[b]))b=j});clKeep[i]=b}
-  const k=clKeep[i], cls=confCls(c.conf);
-  document.getElementById('cl-title').textContent='Cluster '+c.ref;
-  document.getElementById('cl-conf').innerHTML=confPill(c.conf);
-  document.getElementById('cl-sub').textContent=c.itens.length+' códigos';
-  document.getElementById('cl-why').innerHTML=`<div class="callout ${cls==='hi'?'ok':cls==='md'?'warn':'warn'}" style="${cls==='lo'?'border-color:var(--err-bd);background:var(--err-bg)':''}"><div style="font-size:12.5px"><b style="font-weight:500">${cls==='hi'?'Confiança alta':cls==='md'?'Confiança média: revise as divergências':'Confiança baixa: não unificar sem validação técnica'}.</b> ${c.why}</div></div>`;
-  const rows=[['Descrição',1],['Unidade',2],['NCM',3,v=>v.replace(/\D/g,'')],['Grupo',4],['Fabricante (campo)',5],['Centro',6],['Status',7],['Estoque',8],['Custo médio',9]];
-  let h=`<thead><tr><th></th>${c.itens.map((x,j)=>`<th class="${j===k?'keep':''}"><label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="radio" name="keep" ${j===k?'checked':''} onchange="clKeep[${i}]=${j};clOpen(${i})"> <span class="mono">${x[0]}</span>${j===k?' <span class="badge b-green">MANTER</span>':''}</label></th>`).join('')}</tr></thead><tbody>`;
-  rows.forEach(([l,ix,norm])=>{const vals=c.itens.map(x=>x[ix]);const nv=vals.map(v=>norm?norm(String(v)):String(v));const allSame=nv.every(v=>v===nv[0]);
-    h+=`<tr><td>${l}</td>${vals.map((v,j)=>{const ne=nv.filter(z=>z!=='');const diff=ix===5?(new Set(ne).size>1&&nv[j]!==''):(!allSame&&ix!==1&&ix!==6&&ix!==8&&ix!==9&&nv.filter(z=>z===nv[j]).length<Math.ceil(nv.length/2+0.1));return `<td class="mono ${ix===1?'muted':''} ${diff?'diff':''}" style="font-size:${ix===1?11:12}px">${ix===9?fmtR(v):(v===''?'<span class="faint">(vazio)</span>':v)}</td>`}).join('')}</tr>`});
-  document.getElementById('cl-cmp').innerHTML=h+'</tbody>';
-  const sal=c.itens.reduce((a,x)=>a+x[8],0),cap=c.itens.reduce((a,x)=>a+x[8]*x[9],0),pm=sal?cap/sal:c.itens[k][9];
-  document.getElementById('cl-imp').innerHTML=[['Código mantido',c.itens[k][0]],['Saldo somado',sal+' '+(c.itens[k][2])],['Capital consolidado',fmtR(cap)],['Códigos bloqueados',c.itens.length-1]].map(([a,b])=>`<div class="fx" style="padding:10px 12px"><div class="faint" style="font-size:11px">${a}</div><div class="mono" style="font-size:14px;margin-top:2px">${b}</div></div>`).join('');
-}
-function clDecide(t){CL[clCur].done=t.toUpperCase();toast(t+' · cluster '+CL[clCur].ref);clNext()}
-function clNext(){clOpen((clCur+1)%CL.length);document.getElementById('cl-detail').scrollIntoView({behavior:'smooth',block:'start'})}
-clOpen(0);
+/* o simulador de clusters do mockup saiu (array CL de 7 clusters
+   ficticios + clScore/clTable/clOpen/clDecide/clNext): a tela de
+   juncao agora e a ligada, servida por frontend/juncao.js sobre
+   frontend/dados/juncao_ncm.json */
 
 /* ---------- manual ---------- */
 function manGo(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('#man-toc a').forEach(a=>a.classList.toggle('on',a.dataset.sec===id))}
@@ -1753,7 +1998,7 @@ go('inicio');
    Integração com o backend (servico/api.pyc · porta 8700)
    GET /saude · POST /sugerir {descricao, grupo?} · POST /similares {descricao}
    ===================================================================== */
-const API_URL='http://127.0.0.1:8700';
+const API_URL=(location.protocol==='file:'?'http://127.0.0.1:8000':'');
 let apiOn=false;
 async function apiPost(path,body){
   const r=await fetch(API_URL+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
@@ -1766,18 +2011,7 @@ const fConf=v=>v.toFixed(2).replace('.',',');
 function simCls(s){return s>=.5?'hi':s>=.3?'md':'lo'}
 const stBadge={ATIVO:'b-green',BLOQUEADO:'b-warn',OBSOLETO:'b-err'};
 
-/* saúde: liga o indicador quando o backend responde */
-(async function(){
-  try{
-    const r=await fetch(API_URL+'/saude');const d=await r.json();
-    if(d.ok){apiOn=true;
-      const p=document.getElementById('api-pill');
-      p.textContent='API conectada · '+d.linhas_base.toLocaleString('pt-BR')+' itens';
-      p.classList.add('green');
-      toast('Backend conectado · modelos: '+d.modelos.join(', '));
-    }
-  }catch(e){/* sem backend: a interface continua com os dados do mockup */}
-})();
+/* o IIFE de saude do mockup saiu: o cadastro.js administra #api-status contra /api/v1 */
 
 /* busca: substitui os candidatos fixos pelos similares reais da base */
 async function buscarAPI(){
@@ -1847,5 +2081,16 @@ function toggleTheme(){applyTheme(document.documentElement.dataset.theme==='ligh
 (function(){let t=null;try{t=localStorage.getItem('axia-theme')}catch(e){}
   if(!t)t='light';applyTheme(t)})();
 </script>
+
+<div class="overlay" id="ov-mat"></div>
+<div class="drawer" id="drawer-mat">
+  <div class="drawer-h"><b style="font-weight:500" class="mono" id="mat-titulo">—</b><span class="faint" style="font-size:12px">material da base</span><button class="btn sm ghost" id="mat-fechar" style="margin-left:auto">Fechar</button></div>
+  <div class="drawer-b" id="mat-corpo"></div>
+</div>
+<script src="frontend/cadastro.js"></script>
+<script src="frontend/intervencao.js"></script>
+<script src="frontend/juncao.js"></script>
+<script src="frontend/regras_ia.js"></script>
+<script src="frontend/radar.js"></script>
 </body>
 </html>
