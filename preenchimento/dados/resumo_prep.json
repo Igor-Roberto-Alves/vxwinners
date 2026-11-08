@@ -1,0 +1,50 @@
+{
+ "n_linhas": 23554,
+ "colunas": [
+  "CODIGO_MATERIAL",
+  "DESCRICAO_CURTA",
+  "DESCRICAO_LONGA",
+  "UNIDADE_MEDIDA",
+  "NCM",
+  "GRUPO_MERCADORIA",
+  "FABRICANTE",
+  "REFERENCIA_FABRICANTE",
+  "CENTRO",
+  "STATUS",
+  "DATA_CRIACAO",
+  "USUARIO_CRIACAO",
+  "DATA_ULTIMA_MOVIMENTACAO",
+  "ESTOQUE_ATUAL",
+  "PRECO_MEDIO_UNITARIO"
+ ],
+ "GRUPO_MERCADORIA": {
+  "preenchidos": 23554,
+  "faltantes": 0,
+  "classes_distintas": 15,
+  "n_treino": 21554,
+  "n_teste": 2000
+ },
+ "NCM": {
+  "preenchidos": 22381,
+  "faltantes": 1173,
+  "classes_distintas": 115,
+  "n_treino": 20381,
+  "n_teste": 2000
+ },
+ "FABRICANTE": {
+  "preenchidos": 7880,
+  "faltantes": 15674,
+  "classes_distintas": 89,
+  "n_treino": 5880,
+  "n_teste": 2000,
+  "teto_extraivel_no_texto": 0.739
+ },
+ "REFERENCIA_FABRICANTE": {
+  "preenchidos": 5066,
+  "faltantes": 18488,
+  "classes_distintas": 4450,
+  "n_treino": 3566,
+  "n_teste": 1500,
+  "teto_extraivel_no_texto": 0.866
+ }
+}
