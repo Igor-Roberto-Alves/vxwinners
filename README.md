@@ -21,6 +21,30 @@ valor do estoque**. Preencher esses campos é o que destrava a deduplicação.
 
 ---
 
+## Abrir a aplicação
+
+```bash
+git clone https://github.com/Igor-Roberto-Alves/vxwinners.git
+cd vxwinners && ./rodar.sh
+```
+
+É só isso. O script prepara o ambiente, treina os modelos de sugestão e monta o banco
+(um PostgreSQL embutido, nada para instalar) na primeira vez, sobe a API e abre
+`http://localhost:8000/`. Da segunda em diante, segundos.
+
+**O que você precisa ter:** Python 3.12 e rede na primeira execução, para o `pip`. Nada mais —
+os dados vêm no repositório. `Ctrl+C` encerra.
+
+Se o `python3.12 -m venv` da sua distribuição vier sem `pip` (Debian e Ubuntu sem o pacote
+`python3.12-venv`), o script detecta e usa o [`uv`](https://docs.astral.sh/uv/) se houver; se não
+houver, ele diz qual dos dois instalar e para.
+
+Comece em **Buscar material**, ou assuma um pedido em **Pedidos de cadastro**. Para decidir
+exceções, troque o usuário no topo para `bia · revisora` — quem pede a exceção não pode decidi-la.
+Detalhes, variações do comando e as outras telas em [Aplicação](#aplicação).
+
+---
+
 ## O que está pronto
 
 **1. Benchmark auditado de 10 soluções × 4 campos** — [`preenchimento/`](preenchimento/)
@@ -77,8 +101,8 @@ O frontend do time é a moldura, e a tela de cadastro é o painel, embutido nela
 tela usa **dados reais** ou é **demonstração**.
 
 - **Reais:** Buscar material, Cadastrar novo item, Pedidos de cadastro, Cadastros, Revisão de exceções,
-  **Fila de intervenção**, **Radar** e **Códigos juntados e NCM trocado** (as três últimas leem a saída
-  do pipeline, não a API).
+  **Fila de intervenção**, **Radar**, **Códigos juntados e NCM trocado** e **Interferência de IA** (as
+  quatro últimas leem a saída do pipeline, não a API — a etiqueta do topo diz `saída do pipeline`).
 - **Demonstração:** Início, Requisições e Base.
 
 **Radar** passou a sair de `artefatos/radar.json` (`scripts/20_radar.py`), e cada número leva a própria
@@ -128,6 +152,36 @@ nenhum dos dois. Agora são duas abas, as duas completas:
 
 ```bash
 uv run --no-project --with pandas --with openpyxl python scripts/21_juncao_ncm.py
+```
+
+**Interferência de IA** é a tela que torna o dicionário aprendido auditável. Ele é a camada mais barata
+do pipeline (`11_canonizar_termos.py` resolve 1.963 termos por US$ 0,68 em vez de 11.852 registros por
+US$ 44,60) e por isso a mais perigosa: uma pergunta respondida uma vez vira regra e decide sozinha em
+centenas de registros. São **487 regras**, **251** delas decidindo **4.819 linhas** e **R$ 20,37 mi** em
+estoque. Cada regra traz:
+
+- **a procedência**, rotulada: `registrada` quando o dicionário gravou o código de origem, `desempate`
+  quando a linha está em `desempate_llm.jsonl`, `derivada` quando é a linha mais antiga em que a regra
+  vale hoje — pista, não registro, e a tela diz isso. Até aqui o `aprendizado.json` **não guardava**
+  a linha de origem; `Entrada.origens` foi acrescentado e os quatro pontos que alimentam o dicionário
+  (`arbitro.incorporar_llm`, `pipeline._aprender_do_bert`, `10_desempatar_llm.py` e
+  `11_canonizar_termos.py`) passaram a informar o código. Daqui em diante é registro.
+- **todas as linhas em que decidiu**, cada uma com **o trecho do texto que a regra leu**, com o termo
+  destacado — a descrição curta do ERP tem 40 caracteres e corta justo o termo, o que faz aplicação
+  legítima parecer palpite.
+- **o que a regra acrescentou ao texto**: 317 regras gravam palavra que o termo não traz, em 3.743
+  linhas e R$ 14,75 mi. `ACO CARBONO → ACO CARBONO ZINCADO` acrescenta o zincado em 245 linhas; a regra
+  irmã `ACO ZINCADO → ACO CARBONO ZINCADO` acrescenta a liga em outras 255. Pode ser escolha forçada
+  pela lista do PDM ou palpite — a tela mostra, a revisão decide.
+
+**Derrubar não é por linha.** Marcar "não valeu aqui" abre a pergunta com as outras linhas da mesma
+regra e o capital que elas carregam: *não valeu só nesta linha* (a regra segue, aquele registro vira
+exceção) ou *a regra não vale* (cai, e todas as linhas que ela decidiu voltam para revisão, listadas na
+hora). As decisões saem em `.jsonl` no formato de `aprendido_sugestoes.jsonl`, que o
+`18_curar_aprendizado.py` consome.
+
+```bash
+uv run --no-project --with pandas --with openpyxl python scripts/22_regras_ia.py
 ```
 
 Três decisões de projeto:
@@ -273,8 +327,8 @@ servico/
   treina.py api.py exemplos_curl.sh
 backend/                    API, banco, estruturação da base, cadastro, testes
 frontend/                   cadastro real, fila de intervenção, junção/NCM, tema e teste de ponta a ponta
-  cadastro.js intervencao.js juncao.js radar.js
-  dados/{fila_intervencao,juncao_ncm,radar}.json
+  cadastro.js intervencao.js juncao.js regras_ia.js radar.js
+  dados/{fila_intervencao,juncao_ncm,regras_ia,radar}.json
 src/saneamento/             pipeline de saneamento (caixas, BERT, junção, catálogo)
 plataforma.html      casca da interface
 rodar.sh                    sobe tudo
