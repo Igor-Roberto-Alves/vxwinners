@@ -114,10 +114,12 @@ nenhum dos dois. Agora são duas abas, as duas completas:
 
 - **Códigos juntados** — os 1.991 grupos de identidade. Em cada um, o código que **fica** em verde e os
   que **saem** riscados, com saldo somado, capital liberado, centros e o que diverge entre eles (NCM,
-  unidade, saldo no código que sai, LLM na chave). A comparação é campo a campo contra o código que
-  fica; o rádio no cabeçalho troca quem fica e a troca vai na decisão exportada. Não há percentual de
-  confiança por grupo porque o pipeline não produz um: no lugar dele, a precisão da junção medida no
-  gabarito (98,5%), que vale para o conjunto.
+  unidade, saldo no código que sai, LLM na chave). Clicar na linha abre as **linhas originais da
+  base**, uma por código, com as colunas do ERP — incluindo data de criação e última movimentação, que
+  é o que de fato decide qual código fica — e, abaixo, a mesma informação virada em comparação campo a
+  campo contra o código que fica. O rádio no cabeçalho troca quem fica e a troca vai na decisão
+  exportada. Não há percentual de confiança por grupo porque o pipeline não produz um: no lugar dele, a
+  precisão da junção medida no gabarito (98,5%), que vale para o conjunto.
 - **NCM trocado** — toda alteração de NCM com o valor antigo riscado ao lado do novo, separada pelo que
   a mudança significa: **1.104 trocados** (dígitos diferentes — muda a tributação e exige o tributário,
   R$ 2,94 mi em estoque), **597 preenchidos** (entraram vazios, derivados da classe), **8.063

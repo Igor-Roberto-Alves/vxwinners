@@ -316,10 +316,65 @@
       nunca_diff: true },
   ];
 
+  /* As linhas originais, uma por código, na ordem das colunas da base_materiais.
+   * A comparação campo a campo (abaixo) serve para achar a divergência; esta
+   * tabela serve para reconhecer o item — é o registro como o ERP tem hoje, que
+   * é o que o almoxarifado e o tributário conferem. */
+  function linhasOriginais(g, escolhido) {
+    const ref = g.codigos.find((c) => c.codigo === escolhido) || g.codigos[0];
+    const difere = (c, campo) => (c[campo] || "") !== (ref[campo] || "");
+    const colunas = [
+      ["CODIGO_MATERIAL", (c) => el("span", { class: "mono " + (c.acao === "mantem" ? "fica" : "saem") }, c.codigo)],
+      ["DECISÃO", (c) => c.acao === "mantem"
+        ? el("span", { class: "badge b-green" }, "FICA")
+        : el("span", { class: "badge b-err", title: "bloqueado, apontando para " + escolhido },
+          "SAI → " + escolhido)],
+      ["DESCRICAO_LONGA", (c) => el("span", { class: "mono", style: "font-size:10.5px" },
+        c.descricao || c.curta || "")],
+      ["UN", (c) => troca(c.unidade_de, c.unidade_para), (c) => difere(c, "unidade_de")],
+      ["NCM", (c) => troca(c.ncm_de, c.ncm_para),
+        (c) => digitos(c.ncm_de) !== digitos(ref.ncm_de)],
+      ["STATUS", (c) => el("span", {
+        class: "badge " + (c.status === "ATIVO" ? "b-green"
+          : c.status === "BLOQUEADO" ? "b-err" : "b-warn"),
+      }, c.status || "—")],
+      ["ESTOQUE", (c) => el("span", { class: "mono" },
+        qtd(c.estoque) + " " + (c.unidade_para || c.unidade_de || "")), null, "num"],
+      ["CAPITAL", (c) => el("span", { class: "mono" }, brl(c.capital)), null, "num"],
+      ["CENTRO", (c) => el("span", { class: "mono", style: "font-size:11.5px" }, c.centro || "")],
+      ["GRUPO", (c) => el("span", { class: "mono" }, c.grupo_mercadoria || ""),
+        (c) => difere(c, "grupo_mercadoria")],
+      ["FABRICANTE", (c) => vazio(c.fabricante), (c) => difere(c, "fabricante")],
+      ["REFERENCIA", (c) => vazio(c.referencia), (c) => difere(c, "referencia")],
+      ["PRECO_MEDIO", (c) => el("span", { class: "mono" }, brl(c.preco)), null, "num"],
+      ["CRIADO", (c) => el("span", { class: "mono faint", style: "font-size:11px" },
+        c.criado || "—")],
+      ["ÚLT. MOV.", (c) => el("span", { class: "mono faint", style: "font-size:11px" },
+        c.movimentado || "—")],
+    ];
+
+    const thead = el("thead", {}, el("tr", {}, colunas.map(([rotulo, , , classe]) =>
+      el("th", { class: classe === "num" ? "num" : "" }, rotulo))));
+    const tbody = el("tbody", {}, g.codigos.map((c) => el("tr", {
+      class: c.acao === "mantem" ? "sel" : "",
+    }, colunas.map(([rotulo, valor, divergiu, classe]) => el("td", {
+      class: [classe === "num" ? "num" : "",
+        rotulo === "DESCRICAO_LONGA" ? "wrap" : "",
+        divergiu && divergiu(c) ? "diff" : ""].filter(Boolean).join(" "),
+      style: rotulo === "DESCRICAO_LONGA" ? "max-width:300px" : null,
+    }, valor(c))))));
+
+    $("#jn-d-linhas").replaceChildren(thead, tbody);
+    const sub = $("#jn-d-linhas-sub");
+    if (sub) sub.textContent =
+      ` · ${g.n} linhas · ${brl(g.capital_total)} somando o grupo inteiro`;
+  }
+
   function abreDetalhe() {
     const lista = filtraGrupos();
     if (!lista.length) {
       $("#jn-d-titulo").textContent = "Nada com esse filtro";
+      $("#jn-d-linhas").replaceChildren();
       $("#jn-d-cmp").replaceChildren();
       $("#jn-d-por-que").replaceChildren();
       $("#jn-d-imp").replaceChildren();
@@ -336,6 +391,7 @@
       `${brl(g.capital_liberado)} liberados`;
     $("#jn-d-chave").textContent = g.chave;
     $("#jn-d-por-que").replaceChildren(porQue(g, cod));
+    linhasOriginais(g, escolhido);
 
     // cabeçalho: o rádio deixa trocar qual código fica, e a troca vai na decisão
     const thead = el("thead", {}, el("tr", {},

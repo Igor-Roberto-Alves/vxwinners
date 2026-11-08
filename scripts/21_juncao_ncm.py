@@ -130,6 +130,11 @@ def main():
             "referencia": r["REFERENCIA_FABRICANTE"], "centro": r["CENTRO"],
             "status": r["STATUS"], "estoque": estoque, "preco": preco,
             "capital": round(estoque * preco, 2),
+            # as duas datas decidem qual codigo fica melhor que qualquer heuristica
+            # de texto: o mais antigo tem historico, e o que movimentou por ultimo
+            # e o que a operacao usa de fato
+            "criado": (r["DATA_CRIACAO"] or "")[:10],
+            "movimentado": (r["DATA_ULTIMA_MOVIMENTACAO"] or "")[:10],
         }
 
     san = {r["CODIGO_MATERIAL"]: r for r in le_csv(ART / "saneado_base.csv")}
@@ -162,6 +167,9 @@ def main():
                 "acao": "mantem" if r["ACAO"] == "MANTER ATIVO" else "bloqueia",
                 "usar": r["USAR"],
                 "descricao": e.get("descricao", ""),
+                "curta": e.get("curta", ""),
+                "criado": e.get("criado", ""),
+                "movimentado": e.get("movimentado", ""),
                 "unidade_de": s.get("UNIDADE_ORIGINAL", e.get("unidade", "")),
                 "unidade_para": s.get("UNIDADE_PDM", ""),
                 "unidade_motivo": s.get("UNIDADE_MOTIVO", ""),

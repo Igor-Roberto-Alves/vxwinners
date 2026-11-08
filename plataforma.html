@@ -563,7 +563,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
         <p>Tabela da base como está hoje, com filtros por status, centro e grupo. A coluna <b>Qualidade</b> marca NCM fora do formato, unidade fora do PDM, falta de fabricante e códigos remissivos ("NAO UTILIZAR").</p>
         <h3>Códigos juntados e NCM trocado</h3>
         <p>Vem de <code>artefatos/juncao_ncm.json</code>, gerado por <code>scripts/21_juncao_ncm.py</code> a partir do plano de junção e do saneado. Duas abas:</p>
-        <p><b>Códigos juntados</b> — um grupo por chave de identidade do PDM (classe, substantivo, fabricante, part number). Em cada grupo, o código que <b>fica</b> aparece em verde e os que <b>saem</b> riscados em vermelho; os que saem são bloqueados e passam a apontar para o que fica, nunca apagados. Células em vermelho na comparação divergem do código que fica. O rádio no cabeçalho troca qual código fica, e a troca vai na decisão exportada. Não há percentual de confiança por grupo: o pipeline não produz um. O que existe é a <b>precisão da junção medida no gabarito</b>, no cartão do topo, que vale para o conjunto.</p>
+        <p><b>Códigos juntados</b> — um grupo por chave de identidade do PDM (classe, substantivo, fabricante, part number). Em cada grupo, o código que <b>fica</b> aparece em verde e os que <b>saem</b> riscados em vermelho; os que saem são bloqueados e passam a apontar para o que fica, nunca apagados. Clicar na linha abre, embaixo, <b>as linhas originais da base</b> — uma por código, com as colunas do ERP (descrição longa, UN, NCM, status, estoque, capital, centro, grupo, fabricante, referência, preço, data de criação e última movimentação) — e, abaixo delas, a mesma informação virada em comparação campo a campo. Células em vermelho divergem do código que fica. O rádio no cabeçalho troca qual código fica, e a troca vai na decisão exportada. Não há percentual de confiança por grupo: o pipeline não produz um. O que existe é a <b>precisão da junção medida no gabarito</b>, no cartão do topo, que vale para o conjunto.</p>
         <p><b>NCM trocado</b> — toda alteração de NCM com o valor antigo riscado ao lado do novo, separada pelo que a mudança significa: <b>trocado</b> (dígitos diferentes, muda a tributação e exige o tributário), <b>preenchido</b> (entrou vazio, derivado da classe) e <b>reformatado</b> (mesmos dígitos, só a pontuação — publicado por amostra de maior capital, com a contagem total ao lado).</p>
       </section>
 
@@ -702,6 +702,15 @@ input[type=range]{accent-color:var(--brand);width:100%}
         <div class="r"><span class="mono faint" id="jn-d-chave" style="font-size:11px"></span></div></div>
       <div class="card-b">
         <div id="jn-d-por-que" style="margin-bottom:14px"></div>
+        <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">
+          As linhas da <b>base_materiais</b> que entraram neste grupo, uma por código, como estão hoje
+          <span class="faint" id="jn-d-linhas-sub"></span>
+        </div>
+        <div style="overflow:auto"><table class="tbl" id="jn-d-linhas"></table></div>
+        <div class="divider"></div>
+        <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">
+          Campo a campo, contra o código que fica — em vermelho, o que diverge
+        </div>
         <div style="overflow:auto"><table class="tbl cmp" id="jn-d-cmp"></table></div>
         <div class="divider"></div>
         <div style="font-size:12px;color:var(--text-2);margin-bottom:8px">Resultado se unificar</div>
