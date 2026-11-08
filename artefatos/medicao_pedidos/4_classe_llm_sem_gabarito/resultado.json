@@ -1,0 +1,369 @@
+{
+ "gerado_em": "2026-11-08T10:32:46",
+ "artefatos": "artefatos/medicao_pedidos/4_classe_llm_sem_gabarito",
+ "pedidos": 120,
+ "rotulos_caixa": 562,
+ "camadas_ligadas": "regras, gazetteer, gramatica, dominio, dicionario aprendido",
+ "camadas_desligadas": "BERT (artefatos/modelo_bert vazio), LLM (custo)",
+ "classe": {
+  "geral": {
+   "k": 111,
+   "n": 120,
+   "p": 0.925,
+   "ic": [
+    0.8636,
+    0.96
+   ]
+  },
+  "por_estilo": {
+   "catalogo": {
+    "k": 10,
+    "n": 19,
+    "p": 0.5263,
+    "ic": [
+     0.3171,
+     0.7267
+    ]
+   },
+   "email_longo": {
+    "k": 18,
+    "n": 18,
+    "p": 1.0,
+    "ic": [
+     0.8241,
+     1.0
+    ]
+   },
+   "ficha": {
+    "k": 32,
+    "n": 32,
+    "p": 1.0,
+    "ic": [
+     0.8928,
+     1.0
+    ]
+   },
+   "telegrafico": {
+    "k": 51,
+    "n": 51,
+    "p": 1.0,
+    "ic": [
+     0.93,
+     1.0
+    ]
+   }
+  },
+  "erros": 9,
+  "erros_no_catalogo": 9
+ },
+ "caixas": {
+  "precisao": {
+   "k": 492,
+   "n": 497,
+   "p": 0.9899,
+   "ic": [
+    0.9767,
+    0.9957
+   ]
+  },
+  "cobertura": {
+   "k": 497,
+   "n": 546,
+   "p": 0.9103,
+   "ic": [
+    0.8833,
+    0.9315
+   ]
+  },
+  "cobertura_classe_certa": {
+   "k": 497,
+   "n": 505,
+   "p": 0.9842,
+   "ic": [
+    0.9691,
+    0.992
+   ]
+  },
+  "por_estilo_cobertura": {
+   "catalogo": {
+    "k": 50,
+    "n": 98,
+    "p": 0.5102,
+    "ic": [
+     0.4127,
+     0.6069
+    ]
+   },
+   "email_longo": {
+    "k": 90,
+    "n": 91,
+    "p": 0.989,
+    "ic": [
+     0.9403,
+     0.9981
+    ]
+   },
+   "ficha": {
+    "k": 153,
+    "n": 153,
+    "p": 1.0,
+    "ic": [
+     0.9755,
+     1.0
+    ]
+   },
+   "telegrafico": {
+    "k": 204,
+    "n": 204,
+    "p": 1.0,
+    "ic": [
+     0.9815,
+     1.0
+    ]
+   }
+  }
+ },
+ "invencao": {
+  "estrita": {
+   "k": 3,
+   "n": 16,
+   "p": 0.1875,
+   "ic": [
+    0.0659,
+    0.4301
+   ]
+  },
+  "permissiva": {
+   "k": 3,
+   "n": 16,
+   "p": 0.1875,
+   "ic": [
+    0.0659,
+    0.4301
+   ]
+  },
+  "vazias_no_gabarito": 16,
+  "fracao_vazias": 0.0285
+ },
+ "perdidas": {
+  "total": 49,
+  "por_classe_errada": 41,
+  "pendente": 8,
+  "ambiguo": 0,
+  "referencia_fabricante": 1,
+  "terminais_ambiguos": 4
+ },
+ "por_fonte": {
+  "-": {
+   "precisao": {
+    "k": 0,
+    "n": 0,
+    "p": NaN,
+    "ic": [
+     NaN,
+     NaN
+    ]
+   },
+   "n_gold": 22
+  },
+  "acordo": {
+   "precisao": {
+    "k": 307,
+    "n": 307,
+    "p": 1.0,
+    "ic": [
+     0.9876,
+     1.0
+    ]
+   },
+   "n_gold": 308
+  },
+  "bert": {
+   "precisao": {
+    "k": 25,
+    "n": 26,
+    "p": 0.9615,
+    "ic": [
+     0.8111,
+     0.9932
+    ]
+   },
+   "n_gold": 26
+  },
+  "dominio": {
+   "precisao": {
+    "k": 9,
+    "n": 9,
+    "p": 1.0,
+    "ic": [
+     0.7008,
+     1.0
+    ]
+   },
+   "n_gold": 9
+  },
+  "gazetteer": {
+   "precisao": {
+    "k": 68,
+    "n": 69,
+    "p": 0.9855,
+    "ic": [
+     0.9224,
+     0.9974
+    ]
+   },
+   "n_gold": 70
+  },
+  "gramatica": {
+   "precisao": {
+    "k": 3,
+    "n": 3,
+    "p": 1.0,
+    "ic": [
+     0.4385,
+     1.0
+    ]
+   },
+   "n_gold": 3
+  },
+  "llm": {
+   "precisao": {
+    "k": 13,
+    "n": 13,
+    "p": 1.0,
+    "ic": [
+     0.7719,
+     1.0
+    ]
+   },
+   "n_gold": 14
+  },
+  "ordem_pdm": {
+   "precisao": {
+    "k": 0,
+    "n": 3,
+    "p": 0.0,
+    "ic": [
+     0.0,
+     0.5615
+    ]
+   },
+   "n_gold": 3
+  },
+  "rotulo": {
+   "precisao": {
+    "k": 63,
+    "n": 63,
+    "p": 1.0,
+    "ic": [
+     0.9425,
+     1.0
+    ]
+   },
+   "n_gold": 63
+  },
+  "sem_decisao": {
+   "precisao": {
+    "k": 0,
+    "n": 0,
+    "p": NaN,
+    "ic": [
+     NaN,
+     NaN
+    ]
+   },
+   "n_gold": 40
+  },
+  "sinonimo": {
+   "precisao": {
+    "k": 4,
+    "n": 4,
+    "p": 1.0,
+    "ic": [
+     0.5101,
+     1.0
+    ]
+   },
+   "n_gold": 4
+  }
+ },
+ "erros_de_valor": [
+  {
+   "pedido": "SC-202600033",
+   "classe": "PDM030",
+   "campo": "REFERENCIA",
+   "gold": "A157",
+   "pipeline": "4038MM",
+   "fonte": "ordem_pdm",
+   "evidencia": ""
+  },
+  {
+   "pedido": "SC-202600034",
+   "classe": "PDM030",
+   "campo": "REFERENCIA",
+   "gold": "B146",
+   "pipeline": "3777MM",
+   "fonte": "ordem_pdm",
+   "evidencia": "b146"
+  },
+  {
+   "pedido": "SC-202600217",
+   "classe": "PDM011",
+   "campo": "TERMINAL B",
+   "gold": "FEMEA RETA ORFS",
+   "pipeline": "FEMEA CURVA 90 GRAUS ORFS",
+   "fonte": "gazetteer",
+   "evidencia": "ORFS female"
+  },
+  {
+   "pedido": "SC-202600239",
+   "classe": "PDM110",
+   "campo": "REFERENCIA FABRICANTE",
+   "gold": "561-7310",
+   "pipeline": "561-7310 PARA A",
+   "fonte": "bert",
+   "evidencia": ""
+  },
+  {
+   "pedido": "SC-202600500",
+   "classe": "PDM030",
+   "campo": "REFERENCIA",
+   "gold": "SPB 3650",
+   "pipeline": "3672MM",
+   "fonte": "ordem_pdm",
+   "evidencia": ""
+  }
+ ],
+ "invencoes": [
+  {
+   "pedido": "SC-202600078",
+   "classe": "PDM011",
+   "campo": "TERMINAL B",
+   "pipeline": "FEMEA RETA JIC",
+   "permissivo": "",
+   "fonte": "gazetteer"
+  },
+  {
+   "pedido": "SC-202600325",
+   "classe": "PDM001",
+   "campo": "ACABAMENTO",
+   "pipeline": "SEM ACABAMENTO",
+   "permissivo": "",
+   "fonte": "llm"
+  },
+  {
+   "pedido": "SC-202600495",
+   "classe": "PDM031",
+   "campo": "DIAMETRO INTERNO",
+   "pipeline": "2,5MM",
+   "permissivo": "",
+   "fonte": "acordo"
+  }
+ ],
+ "concordancia": {
+  "acordo_bruto": 0.9838,
+  "kappa": 0.9837,
+  "divergencias": 11,
+  "aviso": "A e B sao duas passadas do MESMO anotador (um LLM) sob regras de decisao diferentes, NAO dois anotadores independentes. O kappa mede quanto a regra muda o rotulo, nao concordancia entre duas cabecas. A salvaguarda e revisao_humana_pedidos.csv."
+ }
+}

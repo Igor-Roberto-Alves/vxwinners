@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Pipeline de saneamento · camadas ligadas</title>
+<meta name="viewport" content="width=1334"><style>
+:root{--navy:#17202a;--teal:#1d6a73;--surface:#f2f4f3;--card:#fefefe;--track:#e0e6e5;
+ --green:#2d794b;--cream:#f5ead2;--amber:#7e5200;--pink:#f4dedb;--red:#8d2d29;--cyan:#5cb7c0;
+ --tit:"Archivo Narrow","Oswald","Roboto Condensed","Ubuntu Sans","Liberation Sans Narrow","Nimbus Sans Narrow",system-ui,sans-serif;
+ --txt:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+ --mono:ui-monospace,"JetBrains Mono","SF Mono","DejaVu Sans Mono",Menlo,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;background:#8a9098;font-family:var(--txt);color:var(--navy)}
+.deck{display:flex;flex-direction:column;align-items:center;gap:22px;padding:22px}
+.slide{position:relative;width:1334px;height:750px;flex:0 0 auto;background:var(--surface);padding:72px 90px 64px;overflow:hidden}
+.rot{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--teal);text-transform:uppercase;margin:0 0 14px}
+h2{font-family:var(--tit);font-weight:800;font-stretch:condensed;font-size:44px;line-height:1.04;margin:0 0 10px}
+.corpo{margin-top:12px}
+.fonte{position:absolute;left:90px;right:90px;bottom:28px;font-family:var(--mono);font-size:12px;color:rgba(23,32,42,.45)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+thead th{background:var(--track);font-weight:600;font-size:13px;padding:8px 10px;text-align:left;border:1px solid rgba(23,32,42,.10);line-height:1.25}
+tbody td{padding:7px 10px;border:1px solid rgba(23,32,42,.10);background:var(--card);vertical-align:middle;line-height:1.3}
+td.n{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+tr.final td{background:#dcebe9}
+.nota{font-size:12.5px;color:rgba(23,32,42,.62);font-weight:400}
+code{font-family:var(--mono);font-size:.9em;background:rgba(23,32,42,.055);padding:1px 5px;border-radius:3px}
+.tres{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.tres p{margin:0;font-size:14px;line-height:1.42;background:var(--card);border:1px solid rgba(23,32,42,.09);border-radius:8px;padding:11px 14px}
+.obs{font-size:14.5px;line-height:1.45;margin:12px 0 0}
+.obs.ressalva{background:var(--card);border-left:3px solid var(--teal);padding:10px 16px;color:rgba(23,32,42,.82)}
+.duas{display:grid;grid-template-columns:1.25fr 1fr;gap:18px;align-items:start}
+.duas tbody td{padding:6px 10px;font-size:14.5px}
+.selo{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;background:#dcebe9;color:var(--teal);
+  padding:1px 5px;border-radius:3px;margin-left:8px;white-space:nowrap}
+.lado{display:flex;flex-direction:column;gap:12px}
+.caixa{background:var(--card);border:1px solid rgba(23,32,42,.09);border-radius:8px;padding:12px 16px}
+.caixa p{margin:4px 0 0;font-size:14px;line-height:1.42}
+.caixa .mini{font-size:12.5px;color:rgba(23,32,42,.7);margin-top:8px}
+.caixa ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.35}
+.caixa li{margin-bottom:6px} .caixa li span{color:var(--red);font-size:12.5px}
+.crot{font-size:13px;color:rgba(23,32,42,.62);font-weight:600}
+@media print{@page{size:1334px 750px;margin:0} html,body{background:#fff} .deck{gap:0;padding:0}
+ .slide{page-break-after:always;break-after:page}}
+</style></head>
+<body><div class="deck">
+<section class="slide">
+  <div class="rot">PEDIDOS · LIGANDO O BERT E O LLM</div>
+  <h2>Classe de 86,7% para 97,5%, com US$ 0,30 de LLM</h2>
+  <div class="corpo"><table><thead><tr><th style="width:30%">configuração</th><th>classe</th><th>classe · catálogo em inglês</th>
+  <th>precisão das caixas</th><th>cobertura</th><th>invenção</th><th>custo de LLM</th><th>tempo · 520 pedidos</th></tr></thead>
+  <tbody><tr><td><b>Só regras</b><div class="nota">medição oficial · o piso</div></td>
+      <td class="n">86,7%</td><td class="n">15,8%</td>
+      <td class="n">99,1%</td><td class="n">77,7%</td>
+      <td class="n">2/16</td><td class="n">US$ 0,00</td>
+      <td class="n">2 s</td></tr><tr><td><b>+ BERT</b><div class="nota">modelo local, sem custo por chamada</div></td>
+      <td class="n">86,7%</td><td class="n">15,8%</td>
+      <td class="n">99,1%</td><td class="n">82,2%</td>
+      <td class="n">2/16</td><td class="n">US$ 0,00</td>
+      <td class="n">28 s</td></tr><tr><td><b>+ LLM no resíduo</b><div class="nota">37 pedidos em dúvida, escolhendo da lista do PDM</div></td>
+      <td class="n">86,7%</td><td class="n">15,8%</td>
+      <td class="n">99,1%</td><td class="n">84,2%</td>
+      <td class="n">3/16</td><td class="n">US$ 0,17</td>
+      <td class="n">76 s</td></tr><tr><td><b>+ classes pelo LLM</b><div class="nota">5 regras aprendidas sem ver o gabarito</div></td>
+      <td class="n">92,5%</td><td class="n">52,6%</td>
+      <td class="n">99,0%</td><td class="n">91,0%</td>
+      <td class="n">3/16</td><td class="n">US$ 0,24</td>
+      <td class="n">27 s</td></tr><tr class="final"><td><b>+ classes pelo LLM</b><div class="nota">11 regras, todos os pedidos (operação real)</div></td>
+      <td class="n">97,5%</td><td class="n">84,2%</td>
+      <td class="n">99,1%</td><td class="n">96,2%</td>
+      <td class="n">3/16</td><td class="n">US$ 0,30</td>
+      <td class="n">28 s</td></tr></tbody></table><div class="tres">
+  <p><b>BERT:</b> não mexe na classe, que é decidida pelo substantivo. Preenche as caixas que as regras deixaram vazias:
+  cobertura de 77,7% para 82,2%, sem perder precisão.</p>
+  <p><b>LLM no resíduo:</b> resolve as ambíguas e os conflitos entre regra e BERT, escolhendo só da lista do PDM.
+  As caixas ambíguas perdidas vão de 10 para 0.</p>
+  <p><b>Classes pelo LLM:</b> ataca o catálogo em inglês, de onde vinham os 16 erros.
+  Mesmo aprendendo sem ver o gabarito, a classe vai a 92,5%.</p>
+</div>
+<p class="obs ressalva"><b>O custo total é de US$ 0,30 para os 520 pedidos</b>, menos de um décimo de centavo de dólar por pedido.
+A invenção subiu de 2 para 3 em 16: o LLM preencheu um acabamento
+que o pedido não informava. O gabarito é o mesmo da medição oficial e continua provisório até a revisão humana.</p></div>
+  <div class="fonte">fonte: artefatos/medicao_pedidos/*/resultado.json e execucao.log · evaluate_pedidos.py · Haiku 4.5 no Bedrock</div>
+</section>
+<section class="slide">
+  <div class="rot">PEDIDOS · O LLM ESCREVEU AS REGRAS</div>
+  <h2>O LLM traduziu 11 nomes de classe e gravou cada um como regra</h2>
+  <div class="corpo"><div class="duas">
+  <div><table><thead><tr><th>termo do catálogo</th><th>sujeito do PDM</th><th>classe</th><th>pedidos</th></tr></thead>
+    <tbody><tr><td><code>HEX HEAD BOLT</code><span class="selo">sem gabarito</span></td><td>PARAFUSO SEXTAVADO</td><td class='n'>PDM001</td><td class='n'>5</td></tr><tr><td><code>HYDRAULIC HOSE ASSEMBLY</code><span class="selo">sem gabarito</span></td><td>MANGUEIRA HIDRAULICA MONTADA</td><td class='n'>PDM011</td><td class='n'>4</td></tr><tr><td><code>BALL VALVE</code><span class="selo">sem gabarito</span></td><td>VALVULA ESFERA</td><td class='n'>PDM040</td><td class='n'>2</td></tr><tr><td><code>GATE VALVE</code><span class="selo">sem gabarito</span></td><td>VALVULA GAVETA</td><td class='n'>PDM041</td><td class='n'>2</td></tr><tr><td><code>CHECK VALVE</code></td><td>VALVULA RETENCAO</td><td class='n'>PDM043</td><td class='n'>1</td></tr><tr><td><code>ELECTRIC CABLE FLEXIVEL</code></td><td>CABO ELETRICO</td><td class='n'>PDM060</td><td class='n'>1</td></tr><tr><td><code>FLAT GASKET</code></td><td>JUNTA PLANA</td><td class='n'>PDM034</td><td class='n'>1</td></tr><tr><td><code>OIL SEAL</code></td><td>RETENTOR</td><td class='n'>PDM032</td><td class='n'>1</td></tr><tr><td><code>PRESSURE GAUGE</code><span class="selo">sem gabarito</span></td><td>MANOMETRO</td><td class='n'>PDM067</td><td class='n'>1</td></tr><tr><td><code>SPHERICAL ROLLER BEARING</code></td><td>ROLAMENTO AUTOCOMPENSADOR ROLOS</td><td class='n'>PDM021</td><td class='n'>1</td></tr><tr><td><code>TWIST DRILL HSS</code></td><td>BROCA HELICOIDAL</td><td class='n'>PDM082</td><td class='n'>1</td></tr></tbody></table></div>
+  <div class="lado">
+    <div class="caixa"><div class="crot">Como funciona</div>
+      <p>O LLM é chamado <b>uma vez por texto recusado</b>, lê a expressão inteira (<code>BALL VALVE</code> é
+      VALVULA ESFERA, não "bola") e escolhe só da lista fechada de sujeitos do PDM. A resposta vira regra em
+      <code>sujeito_aprendido.json</code>. Na rodada seguinte: <b>0 chamadas</b>, o dicionário resolve.</p></div>
+    <div class="caixa"><div class="crot">Travas: barradas antes de virar regra</div>
+      <ul><li><code>SOCKET WELD</code> → ADAPTADOR<br><span>aparece em 94 textos da base</span></li><li><code>SOCKET WELD</code> → ADAPTADOR ou NIPLE<br><span>o mesmo termo recebeu sujeitos diferentes</span></li></ul>
+      <p class="mini">Também barra regra que não reproduz a classe no próprio texto ou que não está escrita nele.
+      15 pedidos foram confirmados como fora do PDM (serviço, café, móvel).</p></div>
+  </div>
+</div>
+<p class="obs ressalva"><b>Erros que sobraram (3 de 120):</b> <code>Pipe fitting</code> foi barrado pela trava e ficou para revisão humana;
+o LLM respondeu "nenhuma classe" para <code>Safety glove</code>, que é LUVA SEGURANCA; e <code>Socket head cap screw</code> já caía em CAP no piso,
+porque a palavra inglesa "cap" casa com o tampão de tubo. Nenhuma regra nova causou erro.</p></div>
+  <div class="fonte">fonte: artefatos/medicao_pedidos/sujeito_aprendido_*.json · scripts/24_aprender_classes_llm.py · 38 perguntas, US$ 0,13</div>
+</section>
+</div></body></html>

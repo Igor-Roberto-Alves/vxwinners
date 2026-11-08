@@ -1,0 +1,82 @@
+Loading weights:   0%|          | 0/102 [00:00<?, ?it/s]Loading weights: 100%|██████████| 102/102 [00:00<00:00, 7571.08it/s]
+==============================================================================
+                            PIPELINE DE SANEAMENTO                            
+==============================================================================
+Fonte ................................. pedidos de cadastro (520 registros)
+Camada 1 regras lexicas ............... ativa
+Camada 2 BERT ......................... ativa
+Camada 3 arbitro ...................... limiar de discordancia 0.3
+Camada 4 LLM .......................... us.anthropic.claude-haiku-4-5-20251001-v1:0
+Dicionario aprendido .................. 487 termos (261 confiaveis, 226 a revisar)
+
+
+==============================================================================
+                             ESTADO DOS REGISTROS                             
+==============================================================================
+SANEADO                     450   86.5%
+PENDENTE                      1    0.2%
+REVISAO_HUMANA                7    1.3%
+FORA_DO_PDM                  62   11.9%
+  saneado completo          348   66.9%   (todo obrigatorio cheio e chave fechada)
+  saneado incompleto        102   19.6%   (falta dado que o texto nao traz -> enriquecimento)
+tempo total                76.5s  (7 registros/s)
+
+==============================================================================
+                        DISCORDANCIA ENTRE AS CAMADAS                         
+==============================================================================
+Registros que o arbitro escalaria .....       37    7.1%
+Efetivamente enviados ao LLM ..........       37
+Indice de discordancia  mediana .......    0.000
+                        p90 ...........    0.000
+
+Motivos de escalada:
+   ambiguidade de dicionario                                 18
+   conflito em atributo obrigatorio                          18
+   indice de discordancia 0.35                                2
+   sujeito incerto (confianca 0.55)                           1
+   indice de discordancia 0.40                                1
+
+==============================================================================
+                        DE ONDE VEIO CADA VALOR ACEITO                        
+==============================================================================
+   acordo                    1,301   59.6%
+   gazetteer                   288   13.2%
+   rotulo                      279   12.8%
+   bert                        156    7.1%
+   llm                         108    4.9%
+   dominio                      21    1.0%
+   gramatica                    20    0.9%
+   ordem_pdm                     7    0.3%
+   regra_pdm_2                   2    0.1%
+
+Completude media dos obrigatorios .....    0.940
+
+==============================================================================
+                            IDENTIDADE (REGRA 10)                             
+==============================================================================
+Registros com chave fechada ...........      380
+Chaves distintas ......................      380
+Chaves com mais de um codigo ..........        0
+Codigos redundantes (duplicidade) .....        0
+
+LLM (us.anthropic.claude-haiku-4-5-20251001-v1:0): 37 chamadas, 0 do cache, 0 erros, 0 truncados, 125402 tokens entrada, 9284 tokens saida
+  custo estimado: US$ 0.17
+  evidencias uteis (viram termo de dicionario): 215
+  evidencias descartadas: {'fora_do_texto': 5}
+  vetados: 0 por subcadeia ambigua, 0 por palavra ambigua, 0 por gemeo numerico
+    (salvos pelo texto: 1, valor sem evidencia: 4)
+
+==============================================================================
+                             DICIONARIO APRENDIDO                             
+==============================================================================
+Termos no dicionario ..................      487  (261 confiaveis)
+  aprendidos nesta execucao ...........        0
+  confirmados (vistos de novo) ........        0
+  rejeitados (termo ruim/conflito) ....        0
+Caixas resolvidas pelo aprendido ......        1  <- chamadas de LLM evitadas
+  recusados pelo enum da classe .......        2  (protecao contra vazamento entre classes)
+Arquivo ............................... /home/igor-alves/clas/hack/vxwinners/artefatos/aprendizado.json
+
+Gravado: /home/igor-alves/clas/hack/vxwinners/artefatos/saneado_pedidos.csv
+Gravado: /home/igor-alves/clas/hack/vxwinners/artefatos/decisoes_pedidos.jsonl  (trilha de auditoria por atributo)
+82.69 s

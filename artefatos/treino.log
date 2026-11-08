@@ -1,0 +1,66 @@
+==============================================================================
+                           TREINO DO EXTRATOR BERT                            
+==============================================================================
+Modelo base ........................... distilbert-base-multilingual-cased
+Exemplos de treino ....................  10,359
+Exemplos de validacao .................   1,152
+Rotulos BIO ...........................     187
+Epocas / lote / lr .................... 3 / 32 / 5e-05
+
+Dispositivo: cpu
+Loading weights:   0%|          | 0/100 [00:00<?, ?it/s]Loading weights: 100%|██████████| 100/100 [00:00<00:00, 16483.80it/s]
+[transformers] [1mDistilBertForTokenClassification LOAD REPORT[0m from: distilbert-base-multilingual-cased
+Key                     | Status     | 
+------------------------+------------+-
+vocab_layer_norm.weight | UNEXPECTED | 
+vocab_transform.bias    | UNEXPECTED | 
+vocab_layer_norm.bias   | UNEXPECTED | 
+vocab_projector.bias    | UNEXPECTED | 
+vocab_transform.weight  | UNEXPECTED | 
+classifier.weight       | MISSING    | 
+classifier.bias         | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+  epoca 1/3  passo 50/972  perda 4.5142
+  epoca 1/3  passo 100/972  perda 3.3184
+  epoca 1/3  passo 150/972  perda 2.5495
+  epoca 1/3  passo 200/972  perda 2.0664
+  epoca 1/3  passo 250/972  perda 1.7491
+  epoca 1/3  passo 300/972  perda 1.5193
+  epoca 1: perda 1.4294  F1 token 0.962  exato 0.773
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  7.57it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  7.56it/s]
+  checkpoint da epoca 1 gravado em /home/igor-alves/clas/hack/vxwinners/artefatos/modelo_bert
+  epoca 2/3  passo 350/972  perda 0.2945
+  epoca 2/3  passo 400/972  perda 0.2494
+  epoca 2/3  passo 450/972  perda 0.2283
+  epoca 2/3  passo 500/972  perda 0.2122
+  epoca 2/3  passo 550/972  perda 0.1989
+  epoca 2/3  passo 600/972  perda 0.1857
+  epoca 2: perda 0.1755  F1 token 0.980  exato 0.867
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  4.70it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  4.69it/s]
+  checkpoint da epoca 2 gravado em /home/igor-alves/clas/hack/vxwinners/artefatos/modelo_bert
+  epoca 3/3  passo 650/972  perda 0.0831
+  epoca 3/3  passo 700/972  perda 0.1099
+  epoca 3/3  passo 750/972  perda 0.1032
+  epoca 3/3  passo 800/972  perda 0.1014
+  epoca 3/3  passo 850/972  perda 0.0962
+  epoca 3/3  passo 900/972  perda 0.0953
+  epoca 3/3  passo 950/972  perda 0.0941
+  epoca 3: perda 0.0933  F1 token 0.985  exato 0.886
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  5.35it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  5.34it/s]
+  checkpoint da epoca 3 gravado em /home/igor-alves/clas/hack/vxwinners/artefatos/modelo_bert
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.36it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.34it/s]
+
+==============================================================================
+                                  RESULTADO                                   
+==============================================================================
+Tempo de treino .......................    40.0 min
+Acuracia por token ....................   0.977
+Precisao (tokens de atributo) .........   1.000
+Recall (tokens de atributo) ...........   0.969
+F1 ....................................   0.985
+Sequencia 100% correta ................   0.886
+
+Modelo gravado em /home/igor-alves/clas/hack/vxwinners/artefatos/modelo_bert
