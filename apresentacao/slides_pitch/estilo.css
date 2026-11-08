@@ -344,39 +344,40 @@ body {
 }
 .sub-fluxo strong { color: #ffffff; font-weight: 600; }
 
-/* =========================================================== S5 evidência */
+/* ============================================== S5 evidência (2 fileiras:
+   pipeline oficial em cima, benchmark de preenchimento embaixo) */
 .grade-medidores {
-  margin-top: 56px;
+  margin-top: 30px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 26px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
   max-width: 1600px;
 }
-.medidor { padding: 32px 30px; }
+.medidor { padding: 20px 28px; }
 .medidor .campo {
-  font-size: 24px;
+  font-size: 23px;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--texto-suave);
 }
 .medidor .valor {
-  margin-top: 14px;
-  font-size: 84px;
+  margin-top: 8px;
+  font-size: 60px;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #ffffff;
   line-height: 1;
 }
 .medidor .nota {
-  margin-top: 12px;
-  font-size: 23px;
+  margin-top: 6px;
+  font-size: 22px;
   color: var(--texto-corpo);
-  min-height: 32px;
+  min-height: 30px;
 }
 .medidor .trilho {
-  margin-top: 22px;
-  height: 9px;
+  margin-top: 12px;
+  height: 8px;
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.13);
   overflow: hidden;
@@ -406,21 +407,11 @@ body {
   align-items: baseline;
   gap: 14px;
 }
-.linha-barra .nota-risco {
+.linha-barra .nota-barra {
   font-size: 24px;
   font-weight: 400;
   color: var(--texto-corpo);
   font-style: italic;
-}
-/* a última linha cai sobre a faixa clara do horizonte: pílula escura
-   atrás do rótulo (mesma linguagem da faixa-rodapé) garante contraste */
-.linha-barra.risco .rotulo {
-  width: fit-content;
-  background: rgba(16, 6, 36, 0.62);
-  border: 1px solid var(--fio-cartao);
-  border-radius: 12px;
-  padding: 8px 20px;
-  margin-bottom: 10px;
 }
 .linha-barra .trilho-barra {
   display: flex;
@@ -433,26 +424,11 @@ body {
   background: linear-gradient(90deg, #8a4fd0 0%, #a46edb 100%);
   min-width: 14px;
 }
-.linha-barra .barra.risco {
-  background: linear-gradient(90deg, rgba(215, 195, 241, 0.8) 0%, #e4d4f7 100%);
-  outline: 1.5px dashed rgba(244, 236, 253, 0.85);
-  outline-offset: 3px;
-}
 .linha-barra .valor-barra {
   font-size: 28px;
   font-weight: 600;
   color: #ffffff;
   white-space: nowrap;
-}
-.marcador-risco {
-  flex: none;
-  width: 14px;
-  height: 14px;
-  transform: rotate(45deg);
-  border: 2px solid #f1e8fc;
-  background: rgba(215, 195, 241, 0.4);
-  border-radius: 2px;
-  margin-right: 2px;
 }
 .destaque-lateral {
   background: var(--fundo-cartao);
@@ -497,6 +473,26 @@ body {
   width: 1150px;
   z-index: 4;
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.45));
+}
+/* moldura do MacBook (janela de tela transparente) por cima do vídeo */
+.mockup-demo .moldura-mockup {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+/* vídeo encaixado na janela da tela — moldura 1604x972, tela
+   x 163–1443 e y 33–865; parado, mostra o poster (mesma imagem
+   que o mockup estático) */
+.mockup-demo .video-demo {
+  position: absolute;
+  left: 10.162%;
+  top: 3.395%;
+  width: 79.801%;
+  height: 85.597%;
+  object-fit: cover;
+  background: #0b0418;
 }
 
 /* ============================================================= S8 mercado */

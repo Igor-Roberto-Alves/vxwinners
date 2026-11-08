@@ -30,6 +30,7 @@ PASTA_PNG = os.path.join(AQUI, "png")
 PASTA_IMG = os.path.join(AQUI, "img")
 MOCKUP_BASE = os.path.join(AQUI, "..", "estilo_figma", "demo", "raw_1.png")
 MOCKUP_SAIDA = os.path.join(PASTA_IMG, "mockup_demo.png")
+POSTER_SAIDA = os.path.join(PASTA_IMG, "poster_demo.png")
 PDF_SAIDA = os.path.join(AQUI, "slides_pitch.pdf")
 URLS_DEMO = ("http://127.0.0.1:8082/plataforma.html",
              "http://127.0.0.1:8081/plataforma.html")
@@ -98,6 +99,16 @@ def compor_mockup(tela_im):
         (base.width // 2, base.height // 2), Image.LANCZOS)
     composto.save(MOCKUP_SAIDA)
     print(f"[demo] mockup composto em {MOCKUP_SAIDA} {composto.size}")
+    poster_do_mockup(composto)
+
+
+def poster_do_mockup(mockup_im=None):
+    """Recorta a área da tela do mockup: vira o poster do vídeo da demo."""
+    if mockup_im is None:
+        mockup_im = Image.open(MOCKUP_SAIDA)
+    lx, ty, rx, by = (v // 2 for v in TELA)  # mockup salvo à metade
+    mockup_im.crop((lx, ty, rx, by)).save(POSTER_SAIDA)
+    print(f"[demo] poster do vídeo em {POSTER_SAIDA}")
 
 
 def gerar_mockup(pw):
@@ -120,6 +131,9 @@ def renderizar_slides(pw):
     pagina.goto("file://" + os.path.join(AQUI, "index.html"),
                 wait_until="networkidle")
     pagina.evaluate("document.fonts.ready.then(() => true)")
+    # o vídeo da demo fica parado no poster: sem controles no PNG
+    pagina.add_style_tag(
+        content="video::-webkit-media-controls{display:none !important}")
     pagina.wait_for_timeout(600)
     slides = pagina.query_selector_all("section.slide")
     if len(slides) != 10:
@@ -173,6 +187,8 @@ def main():
         origem = None
         if forca_demo or not os.path.exists(MOCKUP_SAIDA):
             origem = gerar_mockup(pw)
+        elif not os.path.exists(POSTER_SAIDA):
+            poster_do_mockup()
         arquivos = renderizar_slides(pw)
     montar_pdf(arquivos)
     validar(arquivos)

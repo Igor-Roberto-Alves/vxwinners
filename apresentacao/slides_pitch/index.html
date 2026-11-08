@@ -81,10 +81,11 @@
     <h2 class="titulo titulo-menor" data-texto="dinheiro.titulo"></h2>
     <div class="painel-dinheiro">
       <div class="grafico-barras" id="grafico-barras" role="img"
-           aria-label="Gráfico de barras: valores destravados em R$ milhões"></div>
+           aria-label="Gráfico de barras: capital consolidável em R$ milhões"></div>
       <aside class="destaque-lateral" id="destaque-lateral"></aside>
     </div>
   </div>
+  <div class="faixa-rodape" data-texto="dinheiro.rodape"></div>
 </section>
 
 <!-- ============================= S7 · DEMO ============================= -->
@@ -97,7 +98,12 @@
     <h2 class="titulo titulo-menor" data-texto="demo.titulo"></h2>
     <p class="subtitulo" data-texto="demo.sub"></p>
   </div>
-  <img class="mockup-demo" id="mockup-demo" src="img/mockup_demo.png" alt="Plataforma rodando num MacBook">
+  <!-- vídeo da demo embutido na tela do MacBook; no PNG/PDF fica o poster -->
+  <div class="mockup-demo">
+    <video class="video-demo" src="../demo_mvp_v2.mp4" poster="img/poster_demo.png"
+           controls muted playsinline preload="none"></video>
+    <img class="moldura-mockup" src="img/moldura_macbook.png" alt="Plataforma rodando num MacBook">
+  </div>
 </section>
 
 <!-- ============================ S8 · MERCADO =========================== -->
@@ -228,13 +234,12 @@
   var max = Math.max.apply(null, C.dinheiro.barras.map(function (b) { return b.valor; }));
   C.dinheiro.barras.forEach(function (b) {
     var pct = (b.valor / max) * 100;
-    var linha = el("div", "linha-barra" + (b.risco ? " risco" : ""));
-    var rot = '<div class="rotulo">' + escapa(b.rotulo) +
-      (b.risco ? ' <span class="nota-risco">' + escapa(C.dinheiro.riscoNota) + "</span>" : "") + "</div>";
-    var marcador = b.risco ? '<span class="marcador-risco"></span>' : "";
-    linha.innerHTML = rot +
-      '<div class="trilho-barra">' + marcador +
-      '<div class="barra' + (b.risco ? " risco" : "") + '" style="width:' + pct.toFixed(1) + '%"></div>' +
+    var linha = el("div", "linha-barra");
+    linha.innerHTML =
+      '<div class="rotulo">' + escapa(b.rotulo) +
+      (b.nota ? ' <span class="nota-barra">' + escapa(b.nota) + "</span>" : "") + "</div>" +
+      '<div class="trilho-barra">' +
+      '<div class="barra" style="width:' + pct.toFixed(1) + '%"></div>' +
       '<span class="valor-barra">' + escapa(b.texto) + "</span></div>";
     gb.appendChild(linha);
   });

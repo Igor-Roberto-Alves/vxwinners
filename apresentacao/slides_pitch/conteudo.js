@@ -67,11 +67,14 @@ window.CONTEUDO = {
   evidencia: {
     etiqueta: "03 · Evidência",
     titulo: "Medido, auditado e com barra de erro",
+    // linha 1: pipeline oficial (gabaritos) · linha 2: benchmark de preenchimento
     medidores: [
-      { campo: "Grupo", valor: "96,5%", pct: 96.5, nota: "teto do gabarito" },
+      { campo: "Classe", valor: "90,8%", pct: 90.8, nota: "acerto · 218 de 240 itens" },
+      { campo: "Atributos", valor: "97,5%", pct: 97.5, nota: "precisão · IC 96–98% · 1.131 rótulos" },
+      { campo: "Junção", valor: "98,5%", pct: 98.5, nota: "precisão · recall 97,0%" },
       { campo: "NCM", valor: "91,1%", pct: 91.1, nota: "top-1 · 99,0% top-3" },
       { campo: "Fabricante", valor: "84,3%", pct: 84.3, nota: "acerto exato" },
-      { campo: "Part number", valor: "84,4%", pct: 84.4, nota: "acerto exato" },
+      { campo: "Referência", valor: "84,4%", pct: 84.4, nota: "part number · acerto exato" },
     ],
     faixa:
       "Conjunto-ouro com dupla anotação: precisão 96,2% [94–98%] · 24.575 campos preenchidos por US$ 21 · Fable 5 (modelo mais caro) testado e não lidera nenhum campo",
@@ -79,21 +82,36 @@ window.CONTEUDO = {
 
   dinheiro: {
     etiqueta: "04 · Dinheiro na mesa",
-    titulo: "R$ 101,2 mi destravados para deduplicação",
+    titulo: "R$ 30,24 mi consolidáveis no estoque",
     // valores em R$ milhões — barra horizontal, uma matiz lavanda
+    // fonte: artefatos/radar.json (hero: consolidavel, fila, consolidado)
     barras: [
-      { rotulo: "Estoque travado", valor: 31.4, texto: "R$ 31,4 mi" },
-      { rotulo: "Capital em código duplicado", valor: 3.9, texto: "R$ 3,9 mi" },
-      { rotulo: "Dispersão de preço", valor: 1.2, texto: "R$ 1,2 mi" },
-      { rotulo: "Negociável em conjunto", valor: 12.0, texto: "R$ 12,0 mi" },
-      { rotulo: "Exposição fiscal", valor: 9.5, texto: "R$ 9,5 mi", risco: true },
+      {
+        rotulo: "Capital consolidável",
+        nota: "15,1% dos R$ 200,87 mi · 2.676 códigos em 1.991 grupos",
+        valor: 30.24,
+        texto: "R$ 30,24 mi",
+      },
+      {
+        rotulo: "Na fila de intervenção",
+        nota: "3.482 itens · 1.478 resolvem com um clique",
+        valor: 10.84,
+        texto: "R$ 10,84 mi",
+      },
+      {
+        rotulo: "Já consolidado",
+        nota: "o plano está pronto; nenhuma unificação executada no ERP",
+        valor: 0,
+        texto: "R$ 0,00",
+      },
     ],
-    riscoNota: "risco, não economia direta",
     destaque: {
-      titulo: "Economia recorrente",
-      valor: "R$ 5,7–27 mi/ano",
-      nota: "empresa com estoque MRO de R$ 200 mi",
+      titulo: "Identidade destravada",
+      valor: "R$ 101,2 mi",
+      nota: "estoque que ganhou chave de identidade e entra na comparação de duplicatas",
     },
+    rodape:
+      "Fonte: artefatos/radar.json · plano_juncao.csv · fila_intervencao.json — valores medidos na base do desafio, não projetados",
   },
 
   demo: {
