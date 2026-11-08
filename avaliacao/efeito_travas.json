@@ -1,0 +1,58 @@
+{
+ "rotulos_do_dicionario": 70,
+ "mudam": 35,
+ "antes": {
+  "ACERTO": 945,
+  "ERRO": 24,
+  "ABSTEVE": 78,
+  "INVENCAO": 19,
+  "ABSTENCAO_CORRETA": 65
+ },
+ "depois": {
+  "ACERTO": 935,
+  "ERRO": 12,
+  "ABSTEVE": 100,
+  "INVENCAO": 6,
+  "ABSTENCAO_CORRETA": 78
+ },
+ "metricas_antes": {
+  "precisao": "97.5% [96%–98%]",
+  "cobertura": "92.6%",
+  "invencao": "19/84 (23%)",
+  "acertos": 945,
+  "erros": 24,
+  "absteve": 78
+ },
+ "metricas_depois": {
+  "precisao": "98.7% [98%–99%]",
+  "cobertura": "90.4%",
+  "invencao": "6/84 (7%)",
+  "acertos": 935,
+  "erros": 12,
+  "absteve": 100
+ },
+ "removidos": 25,
+ "acertos_perdidos": 10,
+ "resistentes": [
+  {
+   "codigo": "29700768",
+   "campo": "TERMINAL B",
+   "veredito": "ERRO"
+  },
+  {
+   "codigo": "25059059",
+   "campo": "TERMINAL B",
+   "veredito": "INVENCAO"
+  },
+  {
+   "codigo": "28718449",
+   "campo": "TERMINAL A",
+   "veredito": "INVENCAO"
+  }
+ ],
+ "dicionario": {
+  "entradas": 487,
+  "aplicaveis": 166,
+  "sugestoes": 321
+ }
+}
