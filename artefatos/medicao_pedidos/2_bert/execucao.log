@@ -1,0 +1,74 @@
+Loading weights:   0%|          | 0/102 [00:00<?, ?it/s]Loading weights: 100%|██████████| 102/102 [00:00<00:00, 1833.40it/s]
+==============================================================================
+                            PIPELINE DE SANEAMENTO                            
+==============================================================================
+Fonte ................................. pedidos de cadastro (520 registros)
+Camada 1 regras lexicas ............... ativa
+Camada 2 BERT ......................... ativa
+Camada 3 arbitro ...................... limiar de discordancia 0.3
+Camada 4 LLM .......................... DESLIGADA
+Dicionario aprendido .................. 487 termos (261 confiaveis, 226 a revisar)
+
+
+==============================================================================
+                             ESTADO DOS REGISTROS                             
+==============================================================================
+SANEADO                     419   80.6%
+PENDENTE                      1    0.2%
+REVISAO_HUMANA               38    7.3%
+FORA_DO_PDM                  62   11.9%
+  saneado completo          318   61.2%   (todo obrigatorio cheio e chave fechada)
+  saneado incompleto        101   19.4%   (falta dado que o texto nao traz -> enriquecimento)
+tempo total                28.1s  (19 registros/s)
+
+==============================================================================
+                        DISCORDANCIA ENTRE AS CAMADAS                         
+==============================================================================
+Registros que o arbitro escalaria .....       37    7.1%
+Efetivamente enviados ao LLM ..........        0
+Indice de discordancia  mediana .......    0.000
+                        p90 ...........    0.000
+
+Motivos de escalada:
+   ambiguidade de dicionario                                 18
+   conflito em atributo obrigatorio                          18
+   indice de discordancia 0.35                                2
+   sujeito incerto (confianca 0.55)                           1
+   indice de discordancia 0.40                                1
+
+==============================================================================
+                        DE ONDE VEIO CADA VALOR ACEITO                        
+==============================================================================
+   acordo                    1,301   60.5%
+   rotulo                      317   14.7%
+   gazetteer                   313   14.5%
+   bert                        158    7.3%
+   gramatica                    30    1.4%
+   dominio                      22    1.0%
+   ordem_pdm                     9    0.4%
+   regra_pdm_2                   2    0.1%
+
+Completude media dos obrigatorios .....    0.929
+
+==============================================================================
+                            IDENTIDADE (REGRA 10)                             
+==============================================================================
+Registros com chave fechada ...........      363
+Chaves distintas ......................      363
+Chaves com mais de um codigo ..........        0
+Codigos redundantes (duplicidade) .....        0
+
+==============================================================================
+                             DICIONARIO APRENDIDO                             
+==============================================================================
+Termos no dicionario ..................      487  (261 confiaveis)
+  aprendidos nesta execucao ...........        0
+  confirmados (vistos de novo) ........        0
+  rejeitados (termo ruim/conflito) ....        0
+Caixas resolvidas pelo aprendido ......        1  <- chamadas de LLM evitadas
+  recusados pelo enum da classe .......        2  (protecao contra vazamento entre classes)
+Arquivo ............................... /home/igor-alves/clas/hack/vxwinners/artefatos/aprendizado.json
+
+Gravado: /home/igor-alves/clas/hack/vxwinners/artefatos/saneado_pedidos.csv
+Gravado: /home/igor-alves/clas/hack/vxwinners/artefatos/decisoes_pedidos.jsonl  (trilha de auditoria por atributo)
+35.72 s

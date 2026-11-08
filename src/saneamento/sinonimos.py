@@ -304,10 +304,42 @@ SINONIMO_SUJEITO = {
 }
 
 
+# Sinonimos de SUJEITO aprendidos pelo LLM (scripts/24_aprender_classes_llm.py),
+# separados dos curados acima para a origem de cada regra ficar visivel: o
+# catalogo do fornecedor chega em ingles ('Ball valve', 'Hex head bolt') e
+# nenhuma classe casava. O LLM traduz o TERMO uma vez, a regra e validada
+# (o classificador tem que cair na classe que ele escolheu) e grava em
+# artefatos/sujeito_aprendido.json; dai em diante resolve de graca.
+# Vazio ate carregar_sujeitos_aprendidos() ser chamado: sem o arquivo, o
+# pipeline se comporta exatamente como antes.
+SUJEITO_APRENDIDO: dict[str, str] = {}
+
+
+def carregar_sujeitos_aprendidos(caminho) -> int:
+    """Carrega as regras de sujeito aprendidas. Devolve quantas entraram."""
+    import json
+    from pathlib import Path
+
+    SUJEITO_APRENDIDO.clear()
+    p = Path(caminho)
+    if not p.exists():
+        return 0
+    regras = json.loads(p.read_text(encoding="utf-8")).get("regras", {})
+    for termo, r in regras.items():
+        SUJEITO_APRENDIDO[normalizar(termo)] = r["para"]
+    return len(SUJEITO_APRENDIDO)
+
+
 def expandir_sujeito(texto: str) -> str:
-    """Troca expressoes de substantivo por frase, antes de classificar."""
+    """Troca expressoes de substantivo por frase, antes de classificar.
+
+    Curados primeiro, aprendidos depois: uma regra aprendida nunca reescreve o
+    que a curadoria ja resolveu.
+    """
     t = f" {normalizar(texto)} "
     for de, para in SINONIMO_SUJEITO.items():
+        t = t.replace(f" {de} ", f" {para} ")
+    for de, para in SUJEITO_APRENDIDO.items():
         t = t.replace(f" {de} ", f" {para} ")
     return t.strip()
 

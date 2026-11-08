@@ -1,0 +1,300 @@
+{
+ "gerado_em": "2026-11-08T10:33:17",
+ "modelo": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+ "versao_prompt": "classe-v1",
+ "aprendido_de": "artefatos/medicao_pedidos/3_bert_llm/decisoes_pedidos.jsonl",
+ "excluiu_gabarito": false,
+ "uso": {
+  "chamadas": 16,
+  "cache": 22,
+  "entrada": 46958,
+  "saida": 1611,
+  "custo_usd": 0.055
+ },
+ "regras": {
+  "BALL VALVE": {
+   "para": "VALVULA ESFERA",
+   "id_pdm": "PDM040",
+   "origens": [
+    "SC-202600016",
+    "SC-202600463"
+   ],
+   "motivo": "Válvula esfera de 1 polegada, classe 150, corpo em bronze, flangeada com comando de alavanca",
+   "exemplo": "NOVO ITEM LINHA DO CATALOGO ABAIXO GENERIC BALL VALVE 1POL 150# A216 WCB RF FLANGED REDUCED BORE METAL-METAL LEVER"
+  },
+  "GATE VALVE": {
+   "para": "VALVULA GAVETA",
+   "id_pdm": "PDM041",
+   "origens": [
+    "SC-202600055",
+    "SC-202600305"
+   ],
+   "motivo": "Gate valve é uma válvula de gaveta usada para controle de fluxo",
+   "exemplo": "CADASTRAR CONFORME CATALOGO DO FORNECEDOR GENERIC GATE VALVE 2.1/2POL 150# A351 CF8M RF FLANGED APARAFUSADO VOLANTE"
+  },
+  "ELECTRIC CABLE FLEXIVEL": {
+   "para": "CABO ELETRICO",
+   "id_pdm": "PDM060",
+   "origens": [
+    "SC-202600065"
+   ],
+   "motivo": "Cabo elétrico flexível para transmissão de energia elétrica",
+   "exemplo": "ITEM DO CATALOGO EM ANEXO POR FAVOR CADASTRAR COBRECOM ELECTRIC CABLE FLEXIVEL 95MM2 1 450/750V PVC AZUL"
+  },
+  "OIL SEAL": {
+   "para": "RETENTOR",
+   "id_pdm": "PDM032",
+   "origens": [
+    "SC-202600096"
+   ],
+   "motivo": "Vedação de eixo tipo retentor",
+   "exemplo": "CADASTRAR CONFORME CATALOGO DO FORNECEDOR SKF OIL SEAL 35MM 50MM 7MM BA NBR"
+  },
+  "HYDRAULIC HOSE ASSEMBLY": {
+   "para": "MANGUEIRA HIDRAULICA MONTADA",
+   "id_pdm": "PDM011",
+   "origens": [
+    "SC-202600141",
+    "SC-202600217",
+    "SC-202600279",
+    "SC-202600461"
+   ],
+   "motivo": "Conjunto completo de mangueira hidráulica com conectores montados (JIC female swivel e JIC female 90 elbow)",
+   "exemplo": "NOVO ITEM LINHA DO CATALOGO ABAIXO SEMPERIT HYDRAULIC HOSE ASSEMBLY EN 856 4SH 1.1/2POL 290BAR 1200MM JIC FEMALE SWIVEL JIC FEMALE 90 ELBOW ACO CARBONO ZINCADO"
+  },
+  "HEX HEAD BOLT": {
+   "para": "PARAFUSO SEXTAVADO",
+   "id_pdm": "PDM001",
+   "origens": [
+    "SC-202600147",
+    "SC-202600286",
+    "SC-202600453",
+    "SC-202600473",
+    "SC-202600511"
+   ],
+   "motivo": "Parafuso com cabeça sextavada conforme especificação",
+   "exemplo": "ITEM DO CATALOGO EM ANEXO POR FAVOR CADASTRAR GENERIC HEX HEAD BOLT UNC 1/4POL 6POL SAE GRAU 5 CARBON STEEL ZINC PLATED ASME B18.2.1"
+  },
+  "PRESSURE GAUGE": {
+   "para": "MANOMETRO",
+   "id_pdm": "PDM067",
+   "origens": [
+    "SC-202600172"
+   ],
+   "motivo": "Instrumento de medição de pressão, correspondente a manômetro",
+   "exemplo": "ITEM DO CATALOGO EM ANEXO POR FAVOR CADASTRAR WIKA PRESSURE GAUGE 63MM 0-6BAR 1/4POL NPT TRASEIRA SS304 SECO"
+  },
+  "TWIST DRILL HSS": {
+   "para": "BROCA HELICOIDAL",
+   "id_pdm": "PDM082",
+   "origens": [
+    "SC-202600175"
+   ],
+   "motivo": "Broca helicoidal de aço rápido para furação",
+   "exemplo": "CADASTRAR CONFORME CATALOGO DO FORNECEDOR DORMER TWIST DRILL HSS COBALTO 1,5MM CILINDRICA DIN 340"
+  },
+  "SPHERICAL ROLLER BEARING": {
+   "para": "ROLAMENTO AUTOCOMPENSADOR ROLOS",
+   "id_pdm": "PDM021",
+   "origens": [
+    "SC-202600291"
+   ],
+   "motivo": "Rolamento de rolos autocompensador conforme item do catálogo",
+   "exemplo": "ITEM DO CATALOGO EM ANEXO POR FAVOR CADASTRAR KOYO SPHERICAL ROLLER BEARING 22213E 65MM 120MM 31MM CILINDRICO NORMAL"
+  },
+  "CHECK VALVE": {
+   "para": "VALVULA RETENCAO",
+   "id_pdm": "PDM043",
+   "origens": [
+    "SC-202600330"
+   ],
+   "motivo": "Check valve corresponde a válvula de retenção, que permite fluxo em uma única direção",
+   "exemplo": "CADASTRAR CONFORME CATALOGO DO FORNECEDOR GENERIC CHECK VALVE 1/4POL PN 25 LATAO ROSCA BSP ESFERA"
+  },
+  "FLAT GASKET": {
+   "para": "JUNTA PLANA",
+   "id_pdm": "PDM034",
+   "origens": [
+    "SC-202600468"
+   ],
+   "motivo": "Identificado como vedação plana tipo gasket de catálogo industrial",
+   "exemplo": "NOVO ITEM LINHA DO CATALOGO ABAIXO TEADIT FLAT GASKET 10POL 300# EPDM 1,6MM RF"
+  }
+ },
+ "fora_do_pdm_confirmado": [
+  {
+   "termo": "CADEIRA DE ESCRITORIO GIRATORIA COM BRACO",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600021",
+    "SC-202600307",
+    "SC-202600363",
+    "SC-202600442"
+   ],
+   "motivo": "Item de mobiliário, não é material industrial de processo ou equipamento",
+   "texto": "CADEIRA DE ESCRITORIO GIRATORIA COM BRACO PARA A SALA DE CONTROLE"
+  },
+  {
+   "termo": "SERVICO DE CALIBRACAO DE MANOMETROS",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600052",
+    "SC-202600168",
+    "SC-202600169"
+   ],
+   "motivo": "Trata-se de um serviço de manutenção, não de um material industrial",
+   "texto": "SERVICO DE CALIBRACAO DE MANOMETROS DA CASA DE BOMBAS"
+  },
+  {
+   "termo": "CAMISA POLO",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600063",
+    "SC-202600098",
+    "SC-202600187"
+   ],
+   "motivo": "Item de uniforme, não é componente industrial",
+   "texto": "CAMISA POLO DO UNIFORME TAMANHO G"
+  },
+  {
+   "termo": "MESA DE REUNIAO PARA 8 LUGARES",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600066",
+    "SC-202600205",
+    "SC-202600420"
+   ],
+   "motivo": "Item é móvel, não é material industrial",
+   "texto": "MESA DE REUNIAO PARA 8 LUGARES"
+  },
+  {
+   "termo": "CAMINHAO MUNCK",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600079",
+    "SC-202600151",
+    "SC-202600454"
+   ],
+   "motivo": "Serviço de aluguel de equipamento, não é material industrial da lista PDM",
+   "texto": "CONTRATACAO DE CAMINHAO MUNCK POR 3 DIAS"
+  },
+  {
+   "termo": "TONER PARA IMPRESSORA",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600094",
+    "SC-202600394",
+    "SC-202600482"
+   ],
+   "motivo": "Insumo de informatica, nao e componente industrial mecanico",
+   "texto": "TONER PARA IMPRESSORA DA PORTARIA"
+  },
+  {
+   "termo": "BEBEDOURO INDUSTRIAL",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600106",
+    "SC-202600266"
+   ],
+   "motivo": "Bebedouro é equipamento para consumo humano, não é componente industrial.",
+   "texto": "FAVOR CADASTRAR BEBEDOURO INDUSTRIAL INOX 100 LITROS"
+  },
+  {
+   "termo": "MANUTENCAO CORRETIVA DO AR-CONDICIONADO",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600129"
+   ],
+   "motivo": "Serviço de manutenção, não é material/componente industrial",
+   "texto": "FAVOR CADASTRAR MANUTENCAO CORRETIVA DO AR-CONDICIONADO DA SUBESTACAO"
+  },
+  {
+   "termo": "NOTEBOOK",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600170",
+    "SC-202600253",
+    "SC-202600364",
+    "SC-202600437"
+   ],
+   "motivo": "Item de informática, não é material industrial da lista PDM",
+   "texto": "NOTEBOOK 16GB RAM PARA O TECNICO DE AUTOMACAO"
+  },
+  {
+   "termo": "MANUTENCAO CORRETIVA DO AR-CONDICIONADO",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600209",
+    "SC-202600267"
+   ],
+   "motivo": "Serviço de manutenção, não é material industrial",
+   "texto": "MANUTENCAO CORRETIVA DO AR-CONDICIONADO DA SUBESTACAO"
+  },
+  {
+   "termo": "CAFE EM PO",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600236",
+    "SC-202600270",
+    "SC-202600478"
+   ],
+   "motivo": "Item é alimento, não é material industrial",
+   "texto": "CAFE EM PO 500G PARA O REFEITORIO DA MINA"
+  },
+  {
+   "termo": "BEBEDOURO INDUSTRIAL",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600250"
+   ],
+   "motivo": "Equipamento de uso geral, não é componente ou parte industrial listada no PDM",
+   "texto": "BEBEDOURO INDUSTRIAL INOX 100 LITROS"
+  },
+  {
+   "termo": "LICENCA DE SOFTWARE DE CAD",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600263",
+    "SC-202600264",
+    "SC-202600309"
+   ],
+   "motivo": "Software é serviço de informatica, não está na lista de materiais industriais",
+   "texto": "LICENCA DE SOFTWARE DE CAD POR 12 MESES"
+  },
+  {
+   "termo": "SAFETY GLOVE",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600269"
+   ],
+   "motivo": "Equipamento de proteção individual (EPI), não é componente ou material industrial para manutenção",
+   "texto": "ITEM DO CATALOGO EM ANEXO POR FAVOR CADASTRAR GENERIC SAFETY GLOVE MALHA REVESTIDA PU 9 17131"
+  },
+  {
+   "termo": "GALAO DE AGUA MINERAL 20L",
+   "sujeito": "NENHUMA",
+   "origens": [
+    "SC-202600458",
+    "SC-202600487",
+    "SC-202600507"
+   ],
+   "motivo": "Item é alimento/bebida, não é material industrial",
+   "texto": "GALAO DE AGUA MINERAL 20L"
+  }
+ ],
+ "descartadas": [
+  {
+   "termo": "SOCKET WELD",
+   "sujeito": [
+    "ADAPTADOR",
+    "NIPLE"
+   ],
+   "origens": [
+    "SC-202600087",
+    "SC-202600375",
+    "SC-202600401"
+   ],
+   "trava": "o mesmo termo recebeu sujeitos diferentes"
+  }
+ ]
+}

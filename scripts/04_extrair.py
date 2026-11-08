@@ -50,6 +50,8 @@ p.add_argument("--congelar-aprendizado", action="store_true",
 p.add_argument("--sem-aprendizado", action="store_true",
                help="nao le nem alimenta artefatos/aprendizado.json")
 p.add_argument("--saida", default=None)
+p.add_argument("--sem-classe-aprendida", action="store_true",
+               help="ignora artefatos/sujeito_aprendido.json (regras de classe do LLM)")
 p.add_argument("--aplicar-desempates", nargs="?", const="", default=None, metavar="JSONL",
                help="aplica as respostas que scripts/10_desempatar_llm.py gravou "
                     "(padrao: artefatos/desempate_llm.jsonl), sem chamar o LLM")
@@ -61,6 +63,12 @@ a = p.parse_args()
 
 ART = Path(a.artefatos)
 pdm = Pdm.carregar(ART / "pdm.json")
+
+# Regras de classe aprendidas pelo LLM (24_aprender_classes_llm.py). Sem o
+# arquivo, nada muda.
+from saneamento.sinonimos import carregar_sujeitos_aprendidos  # noqa: E402
+
+n_sujeitos = 0 if a.sem_classe_aprendida else carregar_sujeitos_aprendidos(ART / "sujeito_aprendido.json")
 
 bert = None
 if not a.sem_bert:
@@ -115,6 +123,7 @@ print(f"Camada 1 regras lexicas ............... ativa")
 print(f"Camada 2 BERT ......................... {'ativa' if bert else 'DESLIGADA'}")
 print(f"Camada 3 arbitro ...................... limiar de discordancia {a.limiar}")
 print(f"Camada 4 LLM .......................... {a.modelo_llm if llm else 'DESLIGADA'}")
+print(f"Classes aprendidas pelo LLM ........... {n_sujeitos} regras")
 if aprendizado is not None:
     e = aprendizado.estatisticas()
     print(f"Dicionario aprendido .................. {e['entradas']} termos "
