@@ -1,0 +1,1209 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo MRO — Serra Azul</title>
+<style>
+/* ===== Tokens — aço e minério (modo claro único) =====
+   Cores com significado fixo:
+   azul   = motor de sugestão · verde = ok/economia · vermelho = risco · âmbar = atenção */
+:root{
+  --plano:#edf0f2;         /* fundo da página */
+  --cartao:#fafbfc;        /* superfície de cartão */
+  --poco:#f1f4f6;          /* poço/inset */
+  --tinta:#18222b;         /* texto principal (15,6:1) */
+  --tinta-2:#44525d;       /* texto secundário (7,8:1) */
+  --tinta-3:#5c6a75;       /* texto apagado (5,4:1) */
+  --fio:#d5dce1;           /* bordas hairline */
+  --grade:#e3e8ec;         /* linhas de grade de gráfico */
+  --motor:#2a78d6;         /* marca do motor (preenchimentos) */
+  --motor-texto:#1b5fad;   /* texto/foco do motor (6,2:1) */
+  --motor-trilho:#cde2fb;  /* trilho de medidor do motor */
+  --motor-agua:rgba(42,120,214,.09);
+  --ok:#0ca30c;            /* marca economia/ok */
+  --ok-texto:#006300;      /* texto economia (7,3:1) */
+  --risco:#d03b3b;         /* marca risco */
+  --risco-texto:#b42b2b;   /* texto risco (6,1:1) */
+  --risco-trilho:#f3d8d8;
+  --risco-agua:#faeded;
+  --atencao:#fab219;       /* selo atenção (sempre com ícone+texto) */
+  --atencao-texto:#8a5600; /* texto atenção (5,9:1) */
+  --atencao-agua:#fdf3dc;
+  --neutro-feito:#68798a;  /* "já estava preenchido" */
+  --fonte:system-ui,"Segoe UI",Roboto,Ubuntu,Cantarell,sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,"Liberation Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font:400 15px/1.55 var(--fonte);
+  color:var(--tinta);
+  background:var(--plano);
+  min-width:1000px;
+}
+::selection{background:var(--motor-trilho)}
+:focus-visible{outline:2px solid var(--motor-texto);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  html{scroll-behavior:auto}
+}
+
+/* ===== Esqueleto ===== */
+.pular{position:absolute;left:-9999px;top:0;background:var(--cartao);color:var(--motor-texto);
+  padding:10px 16px;border:1px solid var(--fio);border-radius:0 0 8px 0;z-index:60}
+.pular:focus{left:0}
+.contem{max-width:1180px;margin:0 auto;padding:0 32px}
+header.topo{position:sticky;top:0;z-index:40;background:var(--cartao);border-bottom:1px solid var(--fio)}
+.topo-linha{display:flex;align-items:center;gap:28px;height:60px}
+.marca{display:flex;align-items:center;gap:11px;font-weight:650;font-size:16px;letter-spacing:-.01em}
+.marca small{display:block;font-weight:400;font-size:12px;color:var(--tinta-3);letter-spacing:0;line-height:1.2}
+.marca svg{flex:none}
+nav.abas{display:flex;gap:4px;margin-left:auto}
+.aba{appearance:none;border:0;background:none;font:inherit;font-weight:500;color:var(--tinta-2);
+  padding:9px 14px;border-radius:8px;cursor:pointer;position:relative}
+.aba:hover{background:var(--poco);color:var(--tinta)}
+.aba[aria-selected="true"]{color:var(--motor-texto);font-weight:650}
+.aba[aria-selected="true"]::after{content:"";position:absolute;left:12px;right:12px;bottom:-10px;
+  height:3px;border-radius:2px 2px 0 0;background:var(--motor)}
+
+/* faixa discreta de serviço offline */
+.faixa-off{display:none;background:var(--atencao-agua);border-bottom:1px solid var(--fio);color:var(--tinta-2);font-size:13.5px}
+.faixa-off.visivel{display:block}
+.faixa-off .contem{display:flex;align-items:center;gap:10px;padding-top:8px;padding-bottom:8px}
+.faixa-off svg{color:var(--atencao-texto);flex:none}
+.faixa-off code{font-family:var(--mono);font-size:12.5px;background:var(--cartao);border:1px solid var(--fio);
+  border-radius:5px;padding:1px 7px;color:var(--tinta)}
+.faixa-off button{margin-left:auto;appearance:none;border:1px solid var(--fio);background:var(--cartao);
+  font:inherit;font-size:13px;color:var(--motor-texto);font-weight:550;padding:4px 12px;border-radius:7px;cursor:pointer}
+.faixa-off button:hover{border-color:var(--motor-texto)}
+
+main{padding:34px 0 48px}
+section[role="tabpanel"]{display:none}
+section[role="tabpanel"].ativa{display:block}
+h1{font-size:28px;font-weight:750;letter-spacing:-.015em;line-height:1.2}
+.chamada{color:var(--tinta-2);max-width:72ch;margin-top:8px;font-size:15.5px}
+.chamada strong{color:var(--tinta);font-weight:650}
+
+/* ===== Cartões ===== */
+.cartao{background:var(--cartao);border:1px solid var(--fio);border-radius:12px;padding:22px 24px}
+.cartao h2{font-size:17px;font-weight:650;letter-spacing:-.01em}
+.sub{color:var(--tinta-3);font-size:13px;margin-top:2px}
+
+/* ===== Visão geral ===== */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+.tile{background:var(--cartao);border:1px solid var(--fio);border-radius:12px;padding:16px 18px 15px}
+.tile .rotulo{font-size:13px;color:var(--tinta-2)}
+.tile .numero{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-top:4px}
+.tile .apoio{font-size:12.5px;color:var(--tinta-3);margin-top:3px}
+.medidor{height:8px;border-radius:999px;background:var(--grade);margin-top:10px;overflow:hidden}
+.medidor>i{display:block;height:100%;border-radius:999px}
+.medidor.fino{height:5px;margin-top:6px}
+.medidor .m-risco{background:var(--risco)}
+.medidor .m-motor{background:var(--motor)}
+.rotulo-medidor{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--tinta-2);margin-top:7px}
+.rotulo-medidor svg{flex:none}
+.cor-risco{color:var(--risco-texto)}
+.cor-ok{color:var(--ok-texto)}
+.cor-atencao{color:var(--atencao-texto)}
+.cor-motor{color:var(--motor-texto)}
+
+.grade-visao{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+#cartao-dinheiro .heroi{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:14px}
+#cartao-dinheiro .heroi .valor{font-size:56px;font-weight:800;letter-spacing:-.025em;line-height:1}
+#cartao-dinheiro .heroi .contexto{font-size:15px;color:var(--tinta-2);max-width:46ch}
+.legenda{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--tinta-2)}
+.legenda span{display:inline-flex;align-items:center;gap:7px}
+.chave{width:14px;height:14px;border-radius:4px;flex:none}
+.chave.ok{background:var(--ok)}
+.chave.risco{background:var(--risco)}
+.chave.feito{background:var(--neutro-feito)}
+.chave.motor{background:var(--motor)}
+.chave.trilho{background:var(--grade);border:1px solid var(--fio)}
+#grafico-dinheiro{display:block;width:100%;margin-top:6px}
+.faixa-identidade{display:flex;align-items:center;gap:14px;border-top:1px solid var(--fio);margin-top:18px;padding-top:16px}
+.faixa-identidade .num{font-size:22px;font-weight:750;letter-spacing:-.01em;white-space:nowrap}
+.faixa-identidade p{font-size:13.5px;color:var(--tinta-2);max-width:66ch}
+.ver-tabela{margin-top:14px;font-size:13.5px;color:var(--tinta-2)}
+.ver-tabela summary{cursor:pointer;color:var(--motor-texto);font-weight:550;width:fit-content;border-radius:4px}
+.ver-tabela table{margin-top:10px;border-collapse:collapse;width:100%;max-width:640px}
+.ver-tabela th{text-align:left;font-size:12.5px;font-weight:600;color:var(--tinta-3);padding:6px 10px;border-bottom:1px solid var(--fio)}
+.ver-tabela td{padding:6px 10px;border-bottom:1px solid var(--grade);font-variant-numeric:tabular-nums}
+.ver-tabela td:last-child,.ver-tabela th:last-child{text-align:right}
+
+.medidores-motor{margin-top:16px;display:flex;flex-direction:column;gap:14px}
+.linha-medidor{display:grid;grid-template-columns:150px 1fr 290px;gap:14px;align-items:center}
+.linha-medidor .campo{font-size:14px;font-weight:600}
+.linha-medidor .campo small{display:block;font-weight:400;font-size:12px;color:var(--tinta-3)}
+.trilho-grande{height:14px;border-radius:999px;background:var(--grade);overflow:hidden;display:flex}
+.trilho-grande .antes{background:var(--neutro-feito);height:100%}
+.trilho-grande .ganho{background:var(--motor);height:100%;border-left:2px solid var(--cartao)}
+.linha-medidor .leitura{font-size:13.5px;color:var(--tinta-2);font-variant-numeric:tabular-nums}
+.linha-medidor .leitura strong{color:var(--tinta);font-weight:650}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.chip-fato{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--fio);background:var(--poco);
+  border-radius:999px;padding:5px 13px;font-size:13px;color:var(--tinta-2)}
+.chip-fato strong{color:var(--tinta);font-weight:650}
+.chip-fato svg{flex:none}
+
+/* ===== Cadastrar ===== */
+.fluxo{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:16px;margin-top:24px;align-items:start}
+.rotulo-campo{display:block;font-size:14px;font-weight:600;margin-bottom:8px}
+.rotulo-campo small{font-weight:400;color:var(--tinta-3)}
+#entrada{width:100%;min-height:128px;resize:vertical;font:500 16px/1.5 var(--mono);color:var(--tinta);
+  background:var(--cartao);border:1px solid var(--fio);border-radius:12px;padding:16px 18px}
+#entrada::placeholder{color:var(--tinta-3);font-weight:400}
+#entrada:focus{outline:2px solid var(--motor-texto);outline-offset:1px}
+.exemplos{margin-top:12px;font-size:13px;color:var(--tinta-2)}
+.exemplos-lista{display:flex;flex-direction:column;gap:6px;margin-top:7px}
+.chip-exemplo{appearance:none;text-align:left;font-family:var(--mono);font-size:12.5px;color:var(--tinta-2);
+  background:var(--poco);border:1px solid var(--fio);border-radius:8px;padding:7px 12px;cursor:pointer;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.chip-exemplo:hover{border-color:var(--motor);color:var(--tinta)}
+.chip-exemplo em{font-style:normal;color:var(--motor-texto);font-weight:600;font-family:var(--fonte);font-size:12px;margin-right:8px}
+
+.ficha{margin-top:16px}
+.ficha h2{display:flex;align-items:center;gap:10px}
+.ficha dl{margin-top:12px;display:grid;grid-template-columns:130px 1fr;row-gap:0;border-top:1px solid var(--grade)}
+.ficha dt{font-size:13px;color:var(--tinta-2);padding:9px 0;border-bottom:1px solid var(--grade)}
+.ficha dd{font-size:14px;font-weight:600;padding:9px 0;border-bottom:1px solid var(--grade);font-family:var(--mono)}
+.ficha dd.vazio{color:var(--tinta-3);font-weight:400;font-family:var(--fonte)}
+.ficha dd .conf-mini{font-family:var(--fonte);font-weight:500;color:var(--tinta-3);font-size:12px;margin-left:8px}
+.acoes-ficha{display:flex;gap:10px;align-items:center;margin-top:14px}
+.botao{appearance:none;font:inherit;font-weight:600;font-size:14px;border-radius:9px;cursor:pointer;
+  padding:9px 16px;border:1px solid var(--motor-texto);background:var(--motor-texto);color:#fff;
+  display:inline-flex;align-items:center;gap:8px}
+.botao:hover{background:#174f90}
+.botao[disabled]{background:var(--poco);border-color:var(--fio);color:var(--tinta-3);cursor:not-allowed}
+.botao-claro{appearance:none;font:inherit;font-size:13px;font-weight:550;color:var(--motor-texto);
+  background:var(--cartao);border:1px solid var(--fio);border-radius:7px;padding:4px 11px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px}
+.botao-claro:hover{border-color:var(--motor-texto)}
+.dica-ficha{font-size:12.5px;color:var(--tinta-3)}
+
+.painel-motor{border-left:3px solid var(--motor);min-height:200px}
+.painel-motor>header{display:flex;align-items:center;gap:10px}
+.painel-motor .lat{margin-left:auto;font-size:12.5px;color:var(--tinta-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.selo-motor{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:650;color:var(--motor-texto);
+  background:var(--motor-agua);border-radius:999px;padding:2px 9px;white-space:nowrap}
+.estado-vazio{color:var(--tinta-2);font-size:14px;padding:26px 8px;text-align:center}
+.estado-vazio svg{color:var(--tinta-3);display:block;margin:0 auto 10px}
+.aviso-exemplo{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--atencao-texto);
+  background:var(--atencao-agua);border:1px solid var(--fio);border-radius:8px;padding:6px 11px;margin-top:12px}
+.grupo-sugestao{margin-top:16px}
+.grupo-sugestao>.titulo{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:650;color:var(--tinta-2)}
+.grupo-sugestao>.titulo .origem{font-weight:500;color:var(--tinta-3);font-size:12px}
+.grupo-sugestao>.titulo .alerta-conf{display:inline-flex;align-items:center;gap:5px;color:var(--atencao-texto);font-size:12px;font-weight:600;margin-left:auto}
+.opcoes{display:flex;flex-direction:column;gap:6px;margin-top:7px}
+.opcao{appearance:none;font:inherit;text-align:left;display:grid;grid-template-columns:1fr 64px 44px;gap:10px;
+  align-items:center;background:var(--cartao);border:1px solid var(--fio);border-radius:9px;padding:8px 12px;cursor:pointer}
+.opcao:hover{border-color:var(--motor)}
+.opcao .valor{font-family:var(--mono);font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.opcao .trilho{height:7px;border-radius:999px;background:var(--motor-trilho);overflow:hidden}
+.opcao .trilho i{display:block;height:100%;background:var(--motor);border-radius:999px}
+.opcao .pct{font-size:12.5px;color:var(--tinta-2);text-align:right;font-variant-numeric:tabular-nums}
+.opcao[aria-pressed="true"]{background:var(--motor-agua);border-color:var(--motor-texto)}
+.opcao[aria-pressed="true"] .valor{color:var(--motor-texto)}
+.opcao .check{display:none;color:var(--motor-texto)}
+.opcao[aria-pressed="true"] .check{display:inline}
+.nota-recalculo{font-size:12px;color:var(--tinta-3);margin-top:8px}
+
+.cartao-similares{margin-top:16px}
+.alerta-dup{display:none;align-items:flex-start;gap:12px;border:1px solid var(--risco);border-left-width:4px;
+  background:var(--risco-agua);border-radius:10px;padding:13px 16px;margin-top:14px}
+.alerta-dup.visivel{display:flex}
+.alerta-dup svg{color:var(--risco-texto);flex:none;margin-top:2px}
+.alerta-dup .texto{font-size:14px}
+.alerta-dup .texto strong{font-weight:700}
+.alerta-dup .texto code{font-family:var(--mono);font-weight:700;background:var(--cartao);border:1px solid var(--fio);
+  border-radius:5px;padding:0 6px}
+.alerta-dup .botao-claro{margin-left:auto;flex:none}
+.lista-similares{margin-top:12px;display:flex;flex-direction:column}
+.item-similar{display:grid;grid-template-columns:120px 1fr 92px 160px;gap:14px;align-items:center;
+  padding:11px 10px;border-top:1px solid var(--grade)}
+.item-similar:first-child{border-top:0}
+.item-similar.dup{border-left:3px solid var(--risco);background:var(--risco-agua);border-radius:8px}
+.item-similar .codigo{font-family:var(--mono);font-weight:650;font-size:13.5px}
+.item-similar .codigo button{display:block;margin-top:2px}
+.item-similar .descr{font-size:13px;color:var(--tinta-2);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.item-similar .meta{display:flex;flex-direction:column;gap:4px;font-size:12.5px}
+.chip-grupo{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--tinta-2);background:var(--poco);
+  border:1px solid var(--fio);border-radius:6px;padding:0 7px;width:fit-content}
+.status{display:inline-flex;align-items:center;gap:6px;color:var(--tinta-2)}
+.status .ponto{width:8px;height:8px;border-radius:50%;flex:none}
+.status.ativo .ponto{background:var(--ok)}
+.status.inativo .ponto{background:none;border:2px solid var(--tinta-3);width:7px;height:7px}
+.similaridade{display:flex;align-items:center;gap:9px}
+.similaridade .trilho{flex:1;height:8px;border-radius:999px;background:var(--motor-trilho);overflow:hidden}
+.similaridade .trilho i{display:block;height:100%;background:var(--motor);border-radius:999px}
+.similaridade.alta .trilho{background:var(--risco-trilho)}
+.similaridade.alta .trilho i{background:var(--risco)}
+.similaridade .pct{font-size:13px;font-weight:650;font-variant-numeric:tabular-nums;width:44px;text-align:right}
+.similaridade svg{flex:none;color:var(--risco-texto)}
+.rodape-similar{font-size:12.5px;color:var(--tinta-3);margin-top:10px}
+
+/* ===== Buscar ===== */
+.caixa-busca{position:relative;max-width:860px;margin-top:22px}
+.caixa-busca svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--tinta-3)}
+#busca{width:100%;font:500 16px/1.4 var(--fonte);color:var(--tinta);background:var(--cartao);
+  border:1px solid var(--fio);border-radius:12px;padding:14px 18px 14px 46px}
+#busca::placeholder{color:var(--tinta-3);font-weight:400}
+#busca:focus{outline:2px solid var(--motor-texto);outline-offset:1px}
+#busca-estado{font-size:13.5px;color:var(--tinta-2);margin-top:14px;max-width:860px}
+#busca-resultados{max-width:980px;margin-top:6px}
+#busca-resultados .cartao{padding:8px 18px;margin-top:10px}
+.carregando{opacity:.55;transition:opacity .15s}
+
+/* ===== Rodapé ===== */
+footer{border-top:1px solid var(--fio);background:var(--cartao);margin-top:10px}
+footer .contem{display:flex;gap:28px;align-items:flex-start;padding-top:16px;padding-bottom:18px;font-size:12.5px;color:var(--tinta-2)}
+#estado-servico{display:flex;align-items:center;gap:8px;white-space:nowrap;flex:none}
+#estado-servico .ponto{width:9px;height:9px;border-radius:50%;background:var(--tinta-3);flex:none}
+#estado-servico.online .ponto{background:var(--ok)}
+#estado-servico.offline .ponto{background:none;border:2px solid var(--atencao-texto);width:8px;height:8px}
+#estado-servico code{font-family:var(--mono);font-size:11.5px;background:var(--poco);border:1px solid var(--fio);border-radius:4px;padding:0 5px}
+.creditos{margin-left:auto;text-align:right;max-width:72ch;color:var(--tinta-3)}
+.creditos strong{color:var(--tinta-2);font-weight:600}
+
+/* ===== Toast ===== */
+#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);opacity:0;pointer-events:none;
+  background:var(--tinta);color:#fff;font-size:13.5px;border-radius:9px;padding:9px 18px;z-index:70;
+  transition:opacity .18s,transform .18s}
+#toast.mostra{opacity:1;transform:translate(-50%,0)}
+
+/* ===== Responsivo (notebook) ===== */
+@media (max-width:1140px){
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .linha-medidor{grid-template-columns:130px 1fr 250px}
+  .item-similar{grid-template-columns:104px 1fr 84px 140px}
+}
+</style>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-raio" viewBox="0 0 16 16"><path d="M9 1 3 9h3.5L7 15l6-8H9.5L9 1z" fill="currentColor"/></symbol>
+  <symbol id="i-alerta" viewBox="0 0 16 16"><path d="M8 1.5 15 14H1L8 1.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 6v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="12" r=".9" fill="currentColor"/></symbol>
+  <symbol id="i-check" viewBox="0 0 16 16"><path d="m2.5 8.5 3.5 3.5 7-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-busca" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m10.5 10.5 3.5 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <symbol id="i-copiar" viewBox="0 0 16 16"><rect x="5" y="5" width="8" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 11V3.5A1.5 1.5 0 0 1 4.5 2H10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-caixa" viewBox="0 0 20 20"><path d="M3 6.5 10 3l7 3.5v7L10 17l-7-3.5v-7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 6.5 10 10l7-3.5M10 10v7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="topo">
+  <div class="contem topo-linha">
+    <span class="marca">
+      <svg width="30" height="26" viewBox="0 0 30 26" aria-hidden="true">
+        <path d="M1 25 10 6l4 8 3-5 11 16H1z" fill="#1b5fad"/>
+        <path d="M1 25h28" stroke="#18222b" stroke-width="1.6"/>
+        <path d="m10 6 4 8-2.2 4H7l3-6z" fill="#2a78d6"/>
+      </svg>
+      <span>Catálogo MRO<small>Serra Azul Mineração e Energia</small></span>
+    </span>
+    <nav class="abas" role="tablist" aria-label="Áreas da plataforma">
+      <button class="aba" id="aba-visao" role="tab" aria-selected="true" aria-controls="painel-visao">Visão geral</button>
+      <button class="aba" id="aba-cadastrar" role="tab" aria-selected="false" aria-controls="painel-cadastrar" tabindex="-1">Cadastrar item</button>
+      <button class="aba" id="aba-buscar" role="tab" aria-selected="false" aria-controls="painel-buscar" tabindex="-1">Buscar na base</button>
+    </nav>
+  </div>
+</header>
+
+<div class="faixa-off" id="faixa-off">
+  <div class="contem">
+    <svg width="15" height="15" aria-hidden="true"><use href="#i-alerta"/></svg>
+    <span>Motor de sugestão offline — a página segue navegável com exemplos reais. Para ligar o serviço:
+    <code>cd servico &amp;&amp; python -m uvicorn api:app --port 8700</code></span>
+    <button type="button" id="tentar-denovo">Tentar de novo</button>
+  </div>
+</div>
+
+<main id="conteudo" class="contem">
+
+  <!-- ===================== VISÃO GERAL ===================== -->
+  <section id="painel-visao" role="tabpanel" aria-labelledby="aba-visao" class="ativa">
+    <h1>Uma base de 23.554 materiais com dinheiro parado</h1>
+    <p class="chamada">A Serra Azul guarda <strong>R$ 200,9 mi</strong> em estoque, mas 79% das descrições
+      fogem do padrão PDM — e sem fabricante nem part number o sistema não enxerga duplicatas, não compara
+      preço entre plantas e erra imposto. Os números abaixo mostram o tamanho do problema e o que o motor
+      de sugestão já recupera.</p>
+
+    <div class="tiles">
+      <div class="tile">
+        <div class="rotulo">Itens na base</div>
+        <div class="numero">23.554</div>
+        <div class="apoio">materiais cadastrados em seis plantas</div>
+      </div>
+      <div class="tile">
+        <div class="rotulo">Valor em estoque</div>
+        <div class="numero">R$ 200,9 mi</div>
+        <div class="apoio">parados em almoxarifado</div>
+      </div>
+      <div class="tile">
+        <div class="rotulo">Descrições fora do padrão</div>
+        <div class="numero">79%</div>
+        <div class="medidor" role="img" aria-label="79% das descrições fora do padrão PDM"><i class="m-risco" style="width:79%"></i></div>
+        <div class="rotulo-medidor cor-risco"><svg width="13" height="13" aria-hidden="true"><use href="#i-alerta"/></svg>não seguem o padrão PDM</div>
+      </div>
+      <div class="tile">
+        <div class="rotulo">Identidade do item vazia</div>
+        <div class="numero">66,5%</div>
+        <div class="medidor" role="img" aria-label="66,5% dos itens sem fabricante"><i class="m-risco" style="width:66.5%"></i></div>
+        <div class="rotulo-medidor cor-risco"><svg width="13" height="13" aria-hidden="true"><use href="#i-alerta"/></svg>sem fabricante — e 78,5% sem part number</div>
+        <div class="medidor fino" role="img" aria-label="78,5% dos itens sem part number"><i class="m-risco" style="width:78.5%"></i></div>
+      </div>
+    </div>
+
+    <div class="grade-visao">
+      <div class="cartao" id="cartao-dinheiro">
+        <h2>Dinheiro na mesa</h2>
+        <p class="sub">quanto o saneamento do cadastro devolve — valores estimados sobre a base real</p>
+        <div class="heroi">
+          <span class="valor">R$ 36,6 mi</span>
+          <span class="contexto">de ganho endereçável ao sanear o cadastro — 18% do valor parado em estoque.
+            Abaixo, cada alavanca em separado.</span>
+        </div>
+        <div id="grafico-dinheiro-caixa">
+          <svg id="grafico-dinheiro" role="img" aria-label="Gráfico de barras: estoque travado R$ 31,4 milhões, capital em códigos duplicados R$ 3,9 milhões, dispersão de preço R$ 1,2 milhão, volume negociável em conjunto R$ 12 milhões e exposição fiscal por NCM errado R$ 9,5 milhões"></svg>
+        </div>
+        <div class="legenda" aria-hidden="true">
+          <span><span class="chave ok"></span>economia possível</span>
+          <span><span class="chave risco"></span><svg width="12" height="12" class="cor-risco"><use href="#i-alerta"/></svg>risco se nada mudar</span>
+        </div>
+        <div class="faixa-identidade">
+          <svg width="20" height="20" class="cor-motor" aria-hidden="true"><use href="#i-caixa"/></svg>
+          <span class="num">R$ 101,2 mi</span>
+          <p>do estoque ganhou identidade completa com o preenchimento do motor — 5.055 de 5.290 itens de
+            sobressalentes e filtros prontos para a deduplicação que o PDM exige.</p>
+        </div>
+        <details class="ver-tabela">
+          <summary>Ver os números em tabela</summary>
+          <table>
+            <thead><tr><th scope="col">Alavanca</th><th scope="col">Direção</th><th scope="col">Valor</th></tr></thead>
+            <tbody>
+              <tr><td>Estoque travado por falta de identidade</td><td>economia</td><td>R$ 31,4 mi</td></tr>
+              <tr><td>Volume negociável em conjunto</td><td>economia</td><td>R$ 12,0 mi</td></tr>
+              <tr><td>Capital preso em códigos duplicados</td><td>economia</td><td>R$ 3,9 mi</td></tr>
+              <tr><td>Dispersão de preço entre plantas</td><td>economia</td><td>R$ 1,2 mi</td></tr>
+              <tr><td>Exposição fiscal por NCM errado</td><td>risco</td><td>R$ 9,5 mi</td></tr>
+            </tbody>
+          </table>
+        </details>
+      </div>
+
+      <div class="cartao" id="cartao-motor">
+        <h2>O que o motor já preencheu</h2>
+        <p class="sub">campos de identidade antes e depois do preenchimento automático — 24.575 campos por US$ 21</p>
+        <div class="legenda">
+          <span><span class="chave feito"></span>já estava preenchido</span>
+          <span><span class="chave motor"></span>o motor preencheu</span>
+          <span><span class="chave trilho"></span>segue vazio — pendência honesta</span>
+        </div>
+        <div class="medidores-motor">
+          <div class="linha-medidor">
+            <div class="campo">Fabricante<small>15.674 nomes preenchidos</small></div>
+            <div class="trilho-grande" role="img" aria-label="Fabricante: 33,5% preenchido antes, 100% depois do motor">
+              <i class="antes" style="width:33.5%"></i><i class="ganho" style="width:66.5%"></i>
+            </div>
+            <div class="leitura">33,5% antes → <strong>100% com o motor</strong></div>
+          </div>
+          <div class="linha-medidor">
+            <div class="campo">Referência<small>7.728 part numbers extraídos</small></div>
+            <div class="trilho-grande" role="img" aria-label="Referência: 21,5% preenchida antes, 54,3% depois do motor; 10.760 pendências">
+              <i class="antes" style="width:21.5%"></i><i class="ganho" style="width:32.8%"></i>
+            </div>
+            <div class="leitura">21,5% antes → <strong>54,3%</strong> — 10.760 sem evidência no texto</div>
+          </div>
+          <div class="linha-medidor">
+            <div class="campo">NCM<small>1.173 códigos preenchidos</small></div>
+            <div class="trilho-grande" role="img" aria-label="NCM: 95% preenchido antes, 100% depois do motor">
+              <i class="antes" style="width:95%"></i><i class="ganho" style="width:5%"></i>
+            </div>
+            <div class="leitura">95,0% antes → <strong>100% com o motor</strong></div>
+          </div>
+        </div>
+        <div class="chips">
+          <span class="chip-fato"><svg width="13" height="13" class="cor-motor"><use href="#i-raio"/></svg>sugestão em <strong>~19 ms</strong></span>
+          <span class="chip-fato"><svg width="13" height="13" class="cor-ok"><use href="#i-check"/></svg>precisão de <strong>96,2%</strong> no conjunto-ouro verificado</span>
+          <span class="chip-fato"><svg width="13" height="13" class="cor-atencao"><use href="#i-alerta"/></svg><strong>363 grupos suspeitos</strong> sinalizados para revisão</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CADASTRAR ITEM ===================== -->
+  <section id="painel-cadastrar" role="tabpanel" aria-labelledby="aba-cadastrar" hidden>
+    <h1>Cadastrar item</h1>
+    <p class="chamada">Cole o pedido do jeito que ele chegou. O motor lê o texto e sugere grupo, NCM,
+      fabricante e referência — clique nas sugestões para montar a ficha e confira antes se o item já existe.</p>
+
+    <div class="fluxo">
+      <div>
+        <label class="rotulo-campo" for="entrada">Descrição do pedido <small>— texto livre, como veio do solicitante</small></label>
+        <textarea id="entrada" rows="5" spellcheck="false"
+          placeholder="Cole o pedido como ele chegou. Exemplo: ROLAMENTO RIGIDO DE ESFERAS SKF 6205-2Z 25X52X15MM"></textarea>
+        <div class="exemplos">
+          Ou comece por um pedido real da base:
+          <div class="exemplos-lista" id="exemplos-lista"></div>
+        </div>
+
+        <div class="cartao ficha" id="ficha">
+          <h2>Ficha do item <span class="dica-ficha" id="ficha-dica">— clique nas sugestões ao lado para preencher</span></h2>
+          <dl>
+            <dt>Grupo</dt><dd id="ficha-grupo" class="vazio">—</dd>
+            <dt>NCM</dt><dd id="ficha-ncm" class="vazio">—</dd>
+            <dt>Fabricante</dt><dd id="ficha-fabricante" class="vazio">—</dd>
+            <dt>Referência</dt><dd id="ficha-referencia" class="vazio">—</dd>
+          </dl>
+          <div class="acoes-ficha">
+            <button type="button" class="botao" id="copiar-ficha" disabled>
+              <svg width="15" height="15" aria-hidden="true"><use href="#i-copiar"/></svg>Copiar ficha</button>
+            <span class="dica-ficha">a ficha copiada sai pronta para colar no ERP</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cartao painel-motor" aria-live="polite">
+        <header>
+          <h2>Sugestões do motor</h2>
+          <span class="selo-motor"><svg width="11" height="11" aria-hidden="true"><use href="#i-raio"/></svg>motor</span>
+          <span class="lat" id="lat-sugestao"></span>
+        </header>
+        <div id="sugestoes-corpo">
+          <div class="estado-vazio">
+            <svg width="26" height="26" aria-hidden="true"><use href="#i-raio"/></svg>
+            As sugestões aparecem aqui enquanto você digita.<br>Cada cartão é clicável e preenche a ficha.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cartao cartao-similares">
+      <h2>Já existe na base?</h2>
+      <p class="sub">os cinco itens mais parecidos com o pedido — confira antes de criar um código novo</p>
+      <div class="alerta-dup" id="alerta-dup" role="alert"></div>
+      <div class="lista-similares" id="lista-similares" aria-live="polite">
+        <div class="estado-vazio">Digite um pedido acima para comparar com os 23.554 itens da base.</div>
+      </div>
+      <p class="rodape-similar">Semelhança acima de 90% quase sempre é o mesmo item escrito de outro jeito —
+        criar outro código espalha estoque e preço. Hoje há R$ 3,9 mi presos em duplicatas.</p>
+    </div>
+  </section>
+
+  <!-- ===================== BUSCAR NA BASE ===================== -->
+  <section id="painel-buscar" role="tabpanel" aria-labelledby="aba-buscar" hidden>
+    <h1>Buscar na base</h1>
+    <p class="chamada">Descreva o material com as palavras que você tem — a busca entende texto livre e devolve
+      os itens mais parecidos entre os 23.554 cadastrados.</p>
+
+    <div class="caixa-busca">
+      <svg width="16" height="16" aria-hidden="true"><use href="#i-busca"/></svg>
+      <input id="busca" type="search" autocomplete="off" spellcheck="false"
+        placeholder="Exemplo: botina segurança cadarço 41, rolamento 6205, cabo elétrico 4mm">
+    </div>
+    <div id="busca-estado">Digite pelo menos 3 letras para buscar.</div>
+    <div id="busca-resultados" aria-live="polite"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="contem">
+    <span id="estado-servico"><span class="ponto"></span><span id="estado-servico-texto">Conferindo o serviço de sugestão…</span></span>
+    <p class="creditos"><strong>Motor auditado na base real:</strong> grupo 96,5% (teto do gabarito), NCM 91,1%
+      (99,0% no top-3), fabricante 84,3%, referência 84,4% — 24.575 campos preenchidos por US$ 21,
+      precisão de 96,2% no conjunto-ouro.</p>
+  </div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   Catálogo MRO — Serra Azul · interface única, sem dependências.
+   API local: http://127.0.0.1:8700 (GET /saude, POST /sugerir, POST /similares).
+   Offline: a página segue navegável com os exemplos reais embutidos.
+   ============================================================ */
+var API = "http://127.0.0.1:8700";
+var LIMIAR_DUP = 0.90;
+
+/* Respostas reais da API, capturadas uma vez — viram o conteúdo offline. */
+var RESPALDO = {"sugerir":{"ROLAMENTO RIGIDO DE ESFERAS SKF 6205-2Z 25X52X15MM":{"grupo":{"sugestoes":[{"valor":"ROL01","conf":0.9139},{"valor":"SOB01","conf":0.0145},{"valor":"ELE01","conf":0.0094}]},"ncm":{"sugestoes":[{"valor":"84821010","valor_formatado":"8482.10.10","conf":0.8986},{"valor":"84821090","valor_formatado":"8482.10.90","conf":0.0127},{"valor":"84749000","valor_formatado":"8474.90.00","conf":0.0035}]},"fabricante":{"origem":"lexico","sugestoes":[{"valor":"SKF","conf":0.999}]},"referencia":{"valor":"62052Z","conf":0.6,"origem":"extracao"},"similares":[{"codigo":"10978103","descricao":"ROLAMENTO RIGIDO DE ESFERAS, REF.: 6205-2RS, DIAMETRO: 25MM, L: 15MM, VEDACAO: 2 VEDACOES BORRACHA, FOLGA INTERNA: NORMAL","grupo":"ROL01","status":"ATIVO","similaridade":0.509},{"codigo":"19692019","descricao":"ROLAMENTO RIGIDO DE ESFERAS 6313C3 140,0MM 33MM SEM VEDACAO C3","grupo":"ROL01","status":"ATIVO","similaridade":0.4581},{"codigo":"16656962","descricao":"ROLAMENTO RIGIDO DE ESFERAS, REF:6204ZZC3, D.I.:20MM, DE:47MM, L:14 MM, 2 PLACAS METALICAS, FOLGA:C3","grupo":"ROL01","status":"ATIVO","similaridade":0.4447},{"codigo":"26705738","descricao":"ROLAMENTO RIGIDO DE ESFERAS;DI:90MM;DIAMETRO EXTERNO:160MM;LARGURA:30MM;2 VEDACOES BORRACHA;C3 CONFORME CATALOGO","grupo":"ROL01","status":"ATIVO","similaridade":0.4334},{"codigo":"21612595","descricao":"ROLAMENTO RIGIDO DE ESFERAS 6212 60MM 110MM 22MM ABERTO NORMAL","grupo":"ROL01","status":"ATIVO","similaridade":0.4251}]},"FILTRO SEPARADOR AR/OLEO - COMPRESSOR - FAB:DONALDSON - PART NUMBER:P242209":{"grupo":{"sugestoes":[{"valor":"FIL01","conf":0.9176},{"valor":"SOB01","conf":0.0169},{"valor":"VED01","conf":0.0113}]},"ncm":{"sugestoes":[{"valor":"84213990","valor_formatado":"8421.39.90","conf":0.8938},{"valor":"84213100","valor_formatado":"8421.31.00","conf":0.0246},{"valor":"84212300","valor_formatado":"8421.23.00","conf":0.0201}]},"fabricante":{"origem":"lexico","sugestoes":[{"valor":"DONALDSON","conf":0.999}]},"referencia":{"valor":"P242209","conf":0.85,"origem":"extracao"},"similares":[{"codigo":"27336212","descricao":"FILTRO SEPARADOR AR/OLEO - COMPRESSOR - FAB:DONALDSON - PART NUMBER:P242209","grupo":"FIL01","status":"ATIVO","similaridade":0.9311},{"codigo":"12994594","descricao":"FILTRO SEPARADOR AR/OLEO COMPRESSOR FAB MANN P/N LE 4198","grupo":"FIL01","status":"OBSOLETO","similaridade":0.7568},{"codigo":"18424581","descricao":"FILTRO SEPARADOR AR/OLEO; PART NUMBER: P834508; MARCA: DONALDSON; USO: COMPRESSOR","grupo":"FIL01","status":"ATIVO","similaridade":0.6851},{"codigo":"17981626","descricao":"FILTRO SEPARADOR AR/OLEO COMPRESSOR DONALDSON P272952","grupo":"FIL01","status":"ATIVO","similaridade":0.6799},{"codigo":"19437394","descricao":"FILTRO SEPARADOR AR/OLEO; COMPRESSOR; MANN; PART NUMBER:LE 4102","grupo":"FIL01","status":"ATIVO","similaridade":0.6412}]},"BOTINA SEGURANCA, TIPO:BOTINA CADARCO, TAMANHO:41, ACO, SOLADO:POLIURETANO BIDENSIDADE, C.A.:15872":{"grupo":{"sugestoes":[{"valor":"EPI01","conf":0.9218},{"valor":"SOB01","conf":0.0121},{"valor":"MAN01","conf":0.0087}]},"ncm":{"sugestoes":[{"valor":"64034000","valor_formatado":"6403.40.00","conf":0.607},{"valor":"64039990","valor_formatado":"6403.99.90","conf":0.1832},{"valor":"64029990","valor_formatado":"6402.99.90","conf":0.0085}]},"fabricante":{"origem":"modelo","sugestoes":[{"valor":"WEG","conf":0.0486},{"valor":"METSO","conf":0.041},{"valor":"SANDVIK","conf":0.0343}]},"referencia":{"valor":"15872","conf":0.45,"origem":"extracao"},"similares":[{"codigo":"27087071","descricao":"BOTINA SEGURANCA, TIPO:BOTINA CADARCO, TAMANHO:41, ACO, SOLADO:POLIURETANO BIDENSIDADE, C.A.:15872","grupo":"EPI01","status":"BLOQUEADO","similaridade":0.9019},{"codigo":"24864171","descricao":"CALCADO SEGURANCA; TIPO:BOTINA CADARCO; TAMANHO:42; BICO:COMPOSITO; SOLADO:POLIURETANO BIDENSIDADE; CA:28908","grupo":"EPI01","status":"ATIVO","similaridade":0.5483},{"codigo":"28239498","descricao":"CALCADO SEG, TIPO:BOTINA CADARCO, TAM.:41, BICO:ACO, SOLADO:POLIURETANO BIDENSIDADE, C.A.:15872","grupo":"EPI01","status":"ATIVO","similaridade":0.5299},{"codigo":"13135715","descricao":"CALCADO SEGURANCA, TIPO:BOTINA CADARCO, TAM:41, ACO, SOLADO:PU BIDENSIDADE, CA NR:15872","grupo":"EPI01","status":"BLOQUEADO","similaridade":0.4982},{"codigo":"26532072","descricao":"BOTINA SEGURANCA, TIPO:BOTINA CADARCO, TAM.:44, BIQUEIRA:ACO, SOLADO:POLIURETANO BIDENSIDADE, COR:PRETA, C.A.:47510 - COMPRA LOCAL","grupo":"EPI01","status":"BLOQUEADO","similaridade":0.4911}]}},"busca":{"consulta":"botina seguranca cadarco 41","resultado":{"similares":[{"codigo":"15811364","descricao":"CALCADO SEGURANCA BOTINA CADARCO 41 PU BIDENSIDADE","grupo":"EPI01","status":"OBSOLETO","similaridade":0.6577},{"codigo":"21962838","descricao":"CALCADO SEGURANCA BOTIAN CADARCO 41 COMPOSITE PU BID MARROM","grupo":"EPI01","status":"ATIVO","similaridade":0.5539},{"codigo":"24590467","descricao":"CALCADO SEGURANCA BOTINA CADARCO 41 PLASTICO PU BID PRETA","grupo":"EPI01","status":"OBSOLETO","similaridade":0.5322},{"codigo":"15240814","descricao":"CALCADO  PROTECAO BOTINA CADARCO 41 PLASTICO BIDENSIDADE PRETA","grupo":"EPI01","status":"ATIVO","similaridade":0.5155},{"codigo":"27087071","descricao":"BOTINA SEGURANCA, TIPO:BOTINA CADARCO, TAMANHO:41, ACO, SOLADO:POLIURETANO BIDENSIDADE, C.A.:15872","grupo":"EPI01","status":"BLOQUEADO","similaridade":0.3992}]}}};
+
+var EXEMPLOS = [
+  { nome: "rolamento", descricao: "ROLAMENTO RIGIDO DE ESFERAS SKF 6205-2Z 25X52X15MM" },
+  { nome: "filtro (duplicata na base)", descricao: "FILTRO SEPARADOR AR/OLEO - COMPRESSOR - FAB:DONALDSON - PART NUMBER:P242209" },
+  { nome: "botina (motor em dúvida)", descricao: "BOTINA SEGURANCA, TIPO:BOTINA CADARCO, TAMANHO:41, ACO, SOLADO:POLIURETANO BIDENSIDADE, C.A.:15872" }
+];
+
+/* ---------- utilidades ---------- */
+function $(id){ return document.getElementById(id); }
+function el(tag, cls, texto){
+  var n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (texto !== undefined && texto !== null) n.textContent = texto; /* nunca innerHTML com dado da API */
+  return n;
+}
+function icone(nome, tam){
+  var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("width", tam || 14); svg.setAttribute("height", tam || 14);
+  svg.setAttribute("aria-hidden", "true");
+  var use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+  use.setAttribute("href", "#i-" + nome);
+  svg.appendChild(use);
+  return svg;
+}
+function pctBR(x){
+  var v = x * 100;
+  var txt = (v >= 99.05 && v < 100) ? v.toFixed(1) : Math.round(v).toString();
+  return txt.replace(".", ",") + "%";
+}
+function pctSim(x){
+  /* piso, para 89,9% nunca aparecer como "90%" sem o alerta de duplicata */
+  return Math.floor(x * 100) + "%";
+}
+function debounce(fn, ms){
+  var t = null;
+  return function(){
+    var args = arguments, self = this;
+    clearTimeout(t);
+    t = setTimeout(function(){ fn.apply(self, args); }, ms);
+  };
+}
+var toastT = null;
+function toast(msg){
+  var tt = $("toast");
+  tt.textContent = msg;
+  tt.classList.add("mostra");
+  clearTimeout(toastT);
+  toastT = setTimeout(function(){ tt.classList.remove("mostra"); }, 2600);
+}
+function copiar(texto, aviso){
+  function antigo(){
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = texto; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      toast(aviso);
+    }catch(e){ toast("Não deu para copiar — selecione o texto manualmente."); }
+  }
+  try{
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(texto).then(function(){ toast(aviso); }, antigo);
+    } else { antigo(); }
+  }catch(e){ antigo(); }
+}
+
+/* ---------- estado do serviço ---------- */
+var servico = { online: null, latencia: null, linhas: 23554 };
+function pintaServico(){
+  var caixa = $("estado-servico"), txt = $("estado-servico-texto"), faixa = $("faixa-off");
+  caixa.classList.remove("online", "offline");
+  if (servico.online === true){
+    caixa.classList.add("online");
+    txt.textContent = "Serviço de sugestão online — respondeu em " + servico.latencia + " ms, base com " +
+      servico.linhas.toLocaleString("pt-BR") + " linhas";
+    faixa.classList.remove("visivel");
+  } else if (servico.online === false){
+    caixa.classList.add("offline");
+    txt.textContent = "Serviço offline — conteúdo de exemplo ativo";
+    faixa.classList.add("visivel");
+  } else {
+    txt.textContent = "Conferindo o serviço de sugestão…";
+  }
+}
+function confereSaude(){
+  var ctl = new AbortController();
+  var cron = setTimeout(function(){ ctl.abort(); }, 2500);
+  var t0 = performance.now();
+  return fetch(API + "/saude", { signal: ctl.signal })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      clearTimeout(cron);
+      servico.online = !!(d && d.ok);
+      servico.latencia = Math.max(1, Math.round(performance.now() - t0));
+      if (d && d.linhas_base) servico.linhas = d.linhas_base;
+      pintaServico();
+    })
+    .catch(function(e){
+      clearTimeout(cron);
+      servico.online = false;
+      pintaServico();
+    });
+}
+
+/* ---------- abas ---------- */
+var ABAS = [
+  { aba: "aba-visao", painel: "painel-visao", rota: "#/visao" },
+  { aba: "aba-cadastrar", painel: "painel-cadastrar", rota: "#/cadastrar" },
+  { aba: "aba-buscar", painel: "painel-buscar", rota: "#/buscar" }
+];
+function ativaAba(rota, focar){
+  var alvo = ABAS[0];
+  for (var i = 0; i < ABAS.length; i++) if (ABAS[i].rota === rota) alvo = ABAS[i];
+  ABAS.forEach(function(a){
+    var ehEla = a === alvo;
+    var btn = $(a.aba), painel = $(a.painel);
+    btn.setAttribute("aria-selected", ehEla ? "true" : "false");
+    btn.tabIndex = ehEla ? 0 : -1;
+    painel.hidden = !ehEla;
+    painel.classList.toggle("ativa", ehEla);
+  });
+  if (location.hash !== alvo.rota){
+    try{ history.replaceState(null, "", alvo.rota); }catch(e){ location.hash = alvo.rota; }
+  }
+  if (focar) $(alvo.aba).focus();
+  if (alvo.painel === "painel-visao") desenhaGrafico();
+}
+function ligaAbas(){
+  ABAS.forEach(function(a, idx){
+    $(a.aba).addEventListener("click", function(){ ativaAba(a.rota, false); });
+    $(a.aba).addEventListener("keydown", function(ev){
+      var prox = null;
+      if (ev.key === "ArrowRight") prox = ABAS[(idx + 1) % ABAS.length];
+      if (ev.key === "ArrowLeft") prox = ABAS[(idx + ABAS.length - 1) % ABAS.length];
+      if (ev.key === "Home") prox = ABAS[0];
+      if (ev.key === "End") prox = ABAS[ABAS.length - 1];
+      if (prox){ ev.preventDefault(); ativaAba(prox.rota, true); }
+    });
+  });
+  window.addEventListener("hashchange", function(){ ativaAba(location.hash, false); });
+}
+
+/* ---------- gráfico de barras SVG: dinheiro na mesa ---------- */
+var GRUPOS_DINHEIRO = [
+  { titulo: "Como o ganho de R$ 36,6 mi se divide", cor: "ok", itens: [
+      { nome: "Estoque travado por falta de identidade", valor: 31.4, rotulo: "R$ 31,4 mi" },
+      { nome: "Capital preso em códigos duplicados", valor: 3.9, rotulo: "R$ 3,9 mi" },
+      { nome: "Dispersão de preço entre plantas", valor: 1.2, rotulo: "R$ 1,2 mi" }
+  ]},
+  { titulo: "Depois do saneamento", cor: "ok", itens: [
+      { nome: "Volume negociável em conjunto", valor: 12.0, rotulo: "R$ 12,0 mi" }
+  ]},
+  { titulo: "Risco se nada mudar", cor: "risco", itens: [
+      { nome: "Exposição fiscal por NCM errado", valor: 9.5, rotulo: "R$ 9,5 mi", risco: true }
+  ]}
+];
+function svgNo(tag, attrs){
+  var n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (var k in attrs) if (Object.prototype.hasOwnProperty.call(attrs, k)) n.setAttribute(k, attrs[k]);
+  return n;
+}
+function barraCaminho(x, y, w, h, r){
+  /* base reta à esquerda, ponta de dado arredondada à direita */
+  if (w < r + 1) r = Math.max(0, w - 1);
+  return "M" + x + " " + y +
+    " h" + (w - r) + " a" + r + " " + r + " 0 0 1 " + r + " " + r +
+    " v" + (h - 2 * r) + " a" + r + " " + r + " 0 0 1 " + (-r) + " " + r +
+    " h" + (-(w - r)) + " z";
+}
+var ultimaLargura = 0;
+function desenhaGrafico(){
+  var caixa = $("grafico-dinheiro-caixa"), svg = $("grafico-dinheiro");
+  if (!caixa || caixa.clientWidth === 0) return;
+  var W = caixa.clientWidth;
+  if (W === ultimaLargura && svg.childNodes.length) return;
+  ultimaLargura = W;
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+  var compacto = W < 860;
+  var xRotulo = 16, wRotulo = compacto ? 248 : 300;
+  var x0 = xRotulo + wRotulo + 14;           /* início das barras */
+  var xFim = W - 100;                         /* reserva para o rótulo da ponta */
+  var escala = (xFim - x0) / 31.4;
+  var alturaBarra = 18, passo = 32, passoTitulo = 34, respiro = 10;
+
+  var css = getComputedStyle(document.documentElement);
+  var cores = {
+    ok: css.getPropertyValue("--ok").trim(),
+    risco: css.getPropertyValue("--risco").trim(),
+    tinta: css.getPropertyValue("--tinta").trim(),
+    tinta2: css.getPropertyValue("--tinta-2").trim(),
+    tinta3: css.getPropertyValue("--tinta-3").trim(),
+    grade: css.getPropertyValue("--grade").trim(),
+    riscoTexto: css.getPropertyValue("--risco-texto").trim()
+  };
+
+  /* altura total */
+  var H = 8;
+  GRUPOS_DINHEIRO.forEach(function(g){ H += passoTitulo + g.itens.length * passo + respiro; });
+  H += 24; /* eixo */
+  svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+  svg.setAttribute("width", W);
+  svg.setAttribute("height", H);
+
+  /* grade recessiva: hairlines a cada R$ 10 mi */
+  for (var g10 = 0; g10 <= 30; g10 += 10){
+    var gx = x0 + g10 * escala;
+    svg.appendChild(svgNo("line", { x1: gx, y1: 6, x2: gx, y2: H - 22, stroke: cores.grade, "stroke-width": 1 }));
+    var tick = svgNo("text", { x: gx, y: H - 7, "text-anchor": "middle", "font-size": 11.5, fill: cores.tinta3 });
+    tick.textContent = g10 === 30 ? "R$ 30 mi" : String(g10);
+    svg.appendChild(tick);
+  }
+
+  var y = 8;
+  GRUPOS_DINHEIRO.forEach(function(grupo){
+    var tTitulo = svgNo("text", { x: xRotulo, y: y + 16, "font-size": 12.5, "font-weight": 650, fill: cores.tinta2 });
+    tTitulo.textContent = grupo.titulo;
+    svg.appendChild(tTitulo);
+    y += passoTitulo;
+    grupo.itens.forEach(function(item){
+      var yBarra = y + (passo - alturaBarra) / 2;
+      var w = Math.max(2, item.valor * escala);
+      var cor = grupo.cor === "risco" ? cores.risco : cores.ok;
+
+      var nome = svgNo("text", { x: xRotulo + (item.risco ? 19 : 0), y: y + passo / 2 + 4, "font-size": 13, fill: cores.tinta });
+      nome.textContent = item.nome;
+      svg.appendChild(nome);
+      if (item.risco){
+        var tri = svgNo("path", { d: "M" + (xRotulo + 6.5) + " " + (y + 7) + " l6 11 h-12 z",
+          fill: "none", stroke: cores.riscoTexto, "stroke-width": 1.5, "stroke-linejoin": "round" });
+        svg.appendChild(tri);
+      }
+
+      var barra = svgNo("path", { d: barraCaminho(x0, yBarra, w, alturaBarra, 4), fill: cor });
+      var dica = svgNo("title", {});
+      dica.textContent = item.nome + ": " + item.rotulo + (item.risco ? " (risco)" : " (economia)");
+      barra.appendChild(dica);
+      svg.appendChild(barra);
+
+      var valor = svgNo("text", { x: x0 + w + 9, y: y + passo / 2 + 4.5, "font-size": 13.5, "font-weight": 700, fill: cores.tinta });
+      valor.textContent = item.rotulo;
+      svg.appendChild(valor);
+      y += passo;
+    });
+    y += respiro;
+  });
+}
+window.addEventListener("resize", debounce(function(){
+  if (!$("painel-visao").hidden) desenhaGrafico();
+}, 180));
+
+/* ---------- cadastrar: sugestões ---------- */
+var ficha = { grupo: null, ncm: null, fabricante: null, referencia: null, descricao: "" };
+var ultimaResposta = null;
+var grupoFixado = null;
+var ctlSugestao = null;
+
+function limpaFicha(){
+  ficha.grupo = null; ficha.ncm = null; ficha.fabricante = null; ficha.referencia = null;
+  grupoFixado = null;
+  pintaFicha();
+}
+function pintaFicha(){
+  var campos = ["grupo", "ncm", "fabricante", "referencia"];
+  var algum = false;
+  campos.forEach(function(c){
+    var dd = $("ficha-" + c);
+    while (dd.firstChild) dd.removeChild(dd.firstChild);
+    var sel = ficha[c];
+    if (sel){
+      algum = true;
+      dd.classList.remove("vazio");
+      dd.appendChild(document.createTextNode(sel.texto));
+      if (sel.conf !== null && sel.conf !== undefined){
+        dd.appendChild(el("span", "conf-mini", "confiança " + pctBR(sel.conf)));
+      }
+    } else {
+      dd.classList.add("vazio");
+      dd.textContent = "—";
+    }
+  });
+  $("copiar-ficha").disabled = !algum;
+  $("ficha-dica").textContent = algum ? "" : "— clique nas sugestões ao lado para preencher";
+}
+function textoFicha(){
+  var linhas = ["DESCRIÇÃO: " + ficha.descricao];
+  if (ficha.grupo) linhas.push("GRUPO: " + ficha.grupo.texto);
+  if (ficha.ncm) linhas.push("NCM: " + ficha.ncm.texto);
+  if (ficha.fabricante) linhas.push("FABRICANTE: " + ficha.fabricante.texto);
+  if (ficha.referencia) linhas.push("REFERÊNCIA: " + ficha.referencia.texto);
+  return linhas.join("\n");
+}
+
+function tituloGrupoSugestao(rotulo, origem, confBaixa){
+  var t = el("div", "titulo");
+  t.appendChild(el("span", null, rotulo));
+  if (origem) t.appendChild(el("span", "origem", origem));
+  if (confBaixa){
+    var a = el("span", "alerta-conf");
+    a.appendChild(icone("alerta", 12));
+    a.appendChild(document.createTextNode("confiança baixa — confirme"));
+    t.appendChild(a);
+  }
+  return t;
+}
+function botaoOpcao(campo, valorTexto, conf, aoEscolher){
+  var b = el("button", "opcao");
+  b.type = "button";
+  b.setAttribute("aria-pressed", ficha[campo] && ficha[campo].texto === valorTexto ? "true" : "false");
+  var v = el("span", "valor", valorTexto);
+  b.appendChild(v);
+  if (conf !== null && conf !== undefined){
+    var trilho = el("span", "trilho");
+    var fill = el("i");
+    fill.style.width = Math.max(2, Math.round(conf * 100)) + "%";
+    trilho.appendChild(fill);
+    b.appendChild(trilho);
+    b.appendChild(el("span", "pct", pctBR(conf)));
+  } else {
+    b.appendChild(el("span"));
+    b.appendChild(el("span", "pct", "—"));
+  }
+  var ck = el("span", "check");
+  ck.appendChild(icone("check", 12));
+  v.appendChild(document.createTextNode(" "));
+  v.appendChild(ck);
+  b.addEventListener("click", function(){ aoEscolher(valorTexto, conf, b); });
+  return b;
+}
+function escolhe(campo, texto, conf){
+  ficha[campo] = { texto: texto, conf: conf };
+  pintaFicha();
+  if (campo === "grupo" && servico.online && (!grupoFixado || grupoFixado !== texto)){
+    grupoFixado = texto;
+    pedirSugestoes($("entrada").value, true);
+  } else {
+    pintaSugestoes(ultimaResposta, ultimaResposta && ultimaResposta.__exemplo);
+  }
+}
+
+function pintaSugestoes(resp, ehExemplo){
+  ultimaResposta = resp;
+  if (resp) resp.__exemplo = !!ehExemplo;
+  var corpo = $("sugestoes-corpo");
+  while (corpo.firstChild) corpo.removeChild(corpo.firstChild);
+  if (!resp){
+    var vazio = el("div", "estado-vazio");
+    vazio.appendChild(icone("raio", 26));
+    vazio.appendChild(document.createTextNode("As sugestões aparecem aqui enquanto você digita."));
+    vazio.appendChild(document.createElement("br"));
+    vazio.appendChild(document.createTextNode("Cada cartão é clicável e preenche a ficha."));
+    corpo.appendChild(vazio);
+    return;
+  }
+  if (ehExemplo){
+    var aviso = el("div", "aviso-exemplo");
+    aviso.appendChild(icone("alerta", 13));
+    aviso.appendChild(document.createTextNode("Serviço offline — estas são sugestões reais gravadas para este exemplo."));
+    corpo.appendChild(aviso);
+  }
+
+  /* grupo */
+  var gr = el("div", "grupo-sugestao");
+  gr.appendChild(tituloGrupoSugestao("Grupo de mercadoria", grupoFixado ? "recalculado para " + grupoFixado : null, false));
+  var ops = el("div", "opcoes");
+  resp.grupo.sugestoes.forEach(function(s){
+    ops.appendChild(botaoOpcao("grupo", s.valor, s.conf, function(v, c){ escolhe("grupo", v, c); }));
+  });
+  gr.appendChild(ops);
+  corpo.appendChild(gr);
+
+  /* ncm */
+  var nc = el("div", "grupo-sugestao");
+  nc.appendChild(tituloGrupoSugestao("NCM — classificação fiscal", null, false));
+  var ops2 = el("div", "opcoes");
+  resp.ncm.sugestoes.forEach(function(s){
+    var mostrado = s.valor_formatado || s.valor;
+    ops2.appendChild(botaoOpcao("ncm", mostrado, s.conf, function(v, c){ escolhe("ncm", v, c); }));
+  });
+  nc.appendChild(ops2);
+  corpo.appendChild(nc);
+
+  /* fabricante */
+  var melhorFab = resp.fabricante.sugestoes.length ? resp.fabricante.sugestoes[0] : null;
+  var fabBaixa = !!(melhorFab && melhorFab.conf < 0.5);
+  var fb = el("div", "grupo-sugestao");
+  fb.appendChild(tituloGrupoSugestao("Fabricante",
+    resp.fabricante.origem === "lexico" ? "achado no texto (léxico)" : "palpite do modelo", fabBaixa));
+  var ops3 = el("div", "opcoes");
+  if (resp.fabricante.sugestoes.length){
+    resp.fabricante.sugestoes.forEach(function(s){
+      ops3.appendChild(botaoOpcao("fabricante", s.valor, s.conf, function(v, c){ escolhe("fabricante", v, c); }));
+    });
+  } else {
+    ops3.appendChild(el("div", "estado-vazio", "O texto não cita fabricante — o motor prefere não chutar."));
+  }
+  fb.appendChild(ops3);
+  corpo.appendChild(fb);
+
+  /* referência */
+  var rf = el("div", "grupo-sugestao");
+  rf.appendChild(tituloGrupoSugestao("Referência (part number)",
+    resp.referencia.valor ? "extraída do texto" : null,
+    !!(resp.referencia.valor && resp.referencia.conf !== null && resp.referencia.conf < 0.5)));
+  var ops4 = el("div", "opcoes");
+  if (resp.referencia.valor){
+    ops4.appendChild(botaoOpcao("referencia", resp.referencia.valor, resp.referencia.conf, function(v, c){ escolhe("referencia", v, c); }));
+  } else {
+    ops4.appendChild(el("div", "estado-vazio", "Nenhuma referência no texto — o motor não inventa part number. 10.760 itens da base estão nessa mesma situação, como pendência honesta."));
+  }
+  rf.appendChild(ops4);
+  corpo.appendChild(rf);
+}
+
+/* ---------- similares (cadastrar e buscar compartilham) ---------- */
+function linhaSimilar(s){
+  var linha = el("div", "item-similar");
+  var ehDup = s.similaridade >= LIMIAR_DUP;
+  if (ehDup) linha.classList.add("dup");
+
+  var cod = el("div", "codigo", s.codigo);
+  var bCop = el("button", "botao-claro");
+  bCop.type = "button";
+  bCop.appendChild(icone("copiar", 12));
+  bCop.appendChild(document.createTextNode("copiar"));
+  bCop.setAttribute("aria-label", "Copiar código " + s.codigo);
+  bCop.addEventListener("click", function(){ copiar(s.codigo, "Código " + s.codigo + " copiado"); });
+  cod.appendChild(bCop);
+  linha.appendChild(cod);
+
+  var de = el("div", "descr", s.descricao);
+  de.title = s.descricao;
+  linha.appendChild(de);
+
+  var meta = el("div", "meta");
+  meta.appendChild(el("span", "chip-grupo", s.grupo));
+  var ativo = String(s.status).toUpperCase() === "ATIVO";
+  var st = el("span", "status " + (ativo ? "ativo" : "inativo"));
+  st.appendChild(el("span", "ponto"));
+  st.appendChild(document.createTextNode(ativo ? "ativo" : String(s.status).toLowerCase()));
+  meta.appendChild(st);
+  linha.appendChild(meta);
+
+  var sim = el("div", "similaridade" + (ehDup ? " alta" : ""));
+  sim.setAttribute("role", "img");
+  sim.setAttribute("aria-label", "semelhança de " + pctSim(s.similaridade) + (ehDup ? " — provável duplicata" : ""));
+  if (ehDup) sim.appendChild(icone("alerta", 13));
+  var trilho = el("span", "trilho");
+  var fill = el("i");
+  fill.style.width = Math.floor(s.similaridade * 100) + "%";
+  trilho.appendChild(fill);
+  sim.appendChild(trilho);
+  sim.appendChild(el("span", "pct", pctSim(s.similaridade)));
+  linha.appendChild(sim);
+  return linha;
+}
+function pintaSimilares(similares, ehExemplo){
+  var lista = $("lista-similares"), alerta = $("alerta-dup");
+  while (lista.firstChild) lista.removeChild(lista.firstChild);
+  alerta.classList.remove("visivel");
+  while (alerta.firstChild) alerta.removeChild(alerta.firstChild);
+
+  if (!similares){
+    lista.appendChild(el("div", "estado-vazio", "Digite um pedido acima para comparar com os 23.554 itens da base."));
+    return;
+  }
+  if (!similares.length){
+    lista.appendChild(el("div", "estado-vazio", "Nenhum item parecido — este cadastro parece inédito na base."));
+    return;
+  }
+  var melhor = similares[0];
+  similares.forEach(function(s){ if (s.similaridade > melhor.similaridade) melhor = s; });
+  if (melhor.similaridade >= LIMIAR_DUP){
+    alerta.appendChild(icone("alerta", 18));
+    var txt = el("div", "texto");
+    var p1 = el("div");
+    p1.appendChild(el("strong", null, "Provável duplicata — não crie um código novo. "));
+    p1.appendChild(document.createTextNode("Use o código "));
+    var c = el("code", null, melhor.codigo);
+    p1.appendChild(c);
+    p1.appendChild(document.createTextNode(" (" + pctSim(melhor.similaridade) + " igual ao pedido)."));
+    txt.appendChild(p1);
+    alerta.appendChild(txt);
+    var b = el("button", "botao-claro");
+    b.type = "button";
+    b.appendChild(icone("copiar", 12));
+    b.appendChild(document.createTextNode("Copiar código"));
+    b.addEventListener("click", function(){ copiar(melhor.codigo, "Código " + melhor.codigo + " copiado"); });
+    alerta.appendChild(b);
+    alerta.classList.add("visivel");
+  }
+  if (ehExemplo){
+    var aviso = el("div", "aviso-exemplo");
+    aviso.appendChild(icone("alerta", 13));
+    aviso.appendChild(document.createTextNode("Serviço offline — comparação gravada para este exemplo."));
+    lista.appendChild(aviso);
+  }
+  similares.forEach(function(s){ lista.appendChild(linhaSimilar(s)); });
+}
+
+/* ---------- cadastrar: chamada à API com debounce + abort ---------- */
+function respaldoPara(texto){
+  var limpo = texto.trim().toUpperCase();
+  for (var k in RESPALDO.sugerir){
+    if (Object.prototype.hasOwnProperty.call(RESPALDO.sugerir, k) && k.toUpperCase() === limpo) return RESPALDO.sugerir[k];
+  }
+  return null;
+}
+function pintaOffline(texto){
+  var r = respaldoPara(texto);
+  if (r){
+    pintaSugestoes(r, true);
+    pintaSimilares(r.similares, true);
+    $("lat-sugestao").textContent = "exemplo gravado";
+  } else {
+    var corpo = $("sugestoes-corpo");
+    while (corpo.firstChild) corpo.removeChild(corpo.firstChild);
+    var vazio = el("div", "estado-vazio");
+    vazio.appendChild(icone("alerta", 24));
+    vazio.appendChild(document.createTextNode("Sem conexão com o motor. Use um dos exemplos ao lado, ou suba o serviço:"));
+    vazio.appendChild(document.createElement("br"));
+    var cod = el("span", null, "cd servico && python -m uvicorn api:app --port 8700");
+    cod.style.fontFamily = "var(--mono)"; cod.style.fontSize = "12.5px";
+    vazio.appendChild(cod);
+    corpo.appendChild(vazio);
+    pintaSimilares(null);
+    $("lat-sugestao").textContent = "";
+  }
+}
+function pedirSugestoes(texto, manterGrupo){
+  if (!manterGrupo) grupoFixado = null;
+  if (ctlSugestao) ctlSugestao.abort();
+  if (texto.trim().length < 6){
+    pintaSugestoes(null);
+    pintaSimilares(null);
+    $("lat-sugestao").textContent = "";
+    return;
+  }
+  ctlSugestao = new AbortController();
+  var corpoReq = JSON.stringify({ descricao: texto.trim(), grupo: grupoFixado });
+  fetch(API + "/sugerir", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: corpoReq,
+    signal: ctlSugestao.signal
+  })
+  .then(function(r){ if (!r.ok) throw new Error("http " + r.status); return r.json(); })
+  .then(function(d){
+    servico.online = true; pintaServico();
+    pintaSugestoes(d, false);
+    pintaSimilares(d.similares, false);
+    var lat = $("lat-sugestao");
+    lat.textContent = d.latencia_ms + " ms";
+    lat.title = "o motor respondeu em " + d.latencia_ms + " ms";
+  })
+  .catch(function(e){
+    if (e && e.name === "AbortError") return; /* troca de texto — silencioso */
+    servico.online = false; pintaServico();
+    pintaOffline(texto);
+  });
+}
+var pedirDevagar = debounce(function(texto){ pedirSugestoes(texto, false); }, 420);
+
+function ligaCadastro(){
+  var entrada = $("entrada");
+  entrada.addEventListener("input", function(){
+    ficha.descricao = entrada.value.trim();
+    limpaFicha();
+    if (servico.online === false){
+      /* offline: responde na hora com o exemplo gravado, sem rede */
+      if (entrada.value.trim().length < 6){ pintaSugestoes(null); pintaSimilares(null); }
+      else pintaOffline(entrada.value);
+    } else {
+      pedirDevagar(entrada.value);
+    }
+  });
+  var listaEx = $("exemplos-lista");
+  EXEMPLOS.forEach(function(ex, i){
+    var b = el("button", "chip-exemplo");
+    b.type = "button";
+    b.title = ex.descricao;
+    var tagNome = el("em", null, ex.nome);
+    b.appendChild(tagNome);
+    b.appendChild(document.createTextNode(ex.descricao));
+    b.addEventListener("click", function(){
+      entrada.value = ex.descricao;
+      ficha.descricao = ex.descricao;
+      limpaFicha();
+      if (servico.online === false) pintaOffline(ex.descricao);
+      else pedirSugestoes(ex.descricao, false);
+      entrada.focus();
+    });
+    listaEx.appendChild(b);
+  });
+  $("copiar-ficha").addEventListener("click", function(){
+    copiar(textoFicha(), "Ficha copiada — pronta para colar no ERP");
+  });
+}
+
+/* ---------- buscar ---------- */
+var ctlBusca = null;
+function pintaResultados(similares, ehExemplo, consulta){
+  var caixa = $("busca-resultados"), estado = $("busca-estado");
+  while (caixa.firstChild) caixa.removeChild(caixa.firstChild);
+  caixa.classList.remove("carregando");
+  if (!similares){ return; }
+  if (!similares.length){
+    estado.textContent = "Nenhum item parecido com “" + consulta + "”. Tente outras palavras — marca, medida ou aplicação ajudam.";
+    return;
+  }
+  estado.textContent = (ehExemplo
+    ? "Serviço offline — resultado gravado para “" + consulta + "”. "
+    : "") + similares.length + " itens parecidos, os mais próximos primeiro.";
+  var cartao = el("div", "cartao");
+  similares.forEach(function(s){ cartao.appendChild(linhaSimilar(s)); });
+  caixa.appendChild(cartao);
+}
+function buscar(texto){
+  var estado = $("busca-estado");
+  if (ctlBusca) ctlBusca.abort();
+  if (texto.trim().length < 3){
+    estado.textContent = "Digite pelo menos 3 letras para buscar.";
+    pintaResultados(null);
+    return;
+  }
+  if (servico.online === false){
+    var r = RESPALDO.busca.resultado.similares;
+    pintaResultados(r, true, RESPALDO.busca.consulta);
+    return;
+  }
+  $("busca-resultados").classList.add("carregando");
+  estado.textContent = "Buscando…";
+  ctlBusca = new AbortController();
+  fetch(API + "/similares", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ descricao: texto.trim() }),
+    signal: ctlBusca.signal
+  })
+  .then(function(r){ if (!r.ok) throw new Error("http " + r.status); return r.json(); })
+  .then(function(d){
+    servico.online = true; pintaServico();
+    pintaResultados(d.similares, false, texto.trim());
+  })
+  .catch(function(e){
+    if (e && e.name === "AbortError") return;
+    servico.online = false; pintaServico();
+    var r = RESPALDO.busca.resultado.similares;
+    pintaResultados(r, true, RESPALDO.busca.consulta);
+  });
+}
+var buscarDevagar = debounce(buscar, 420);
+function ligaBusca(){
+  $("busca").addEventListener("input", function(){ buscarDevagar($("busca").value); });
+}
+
+/* ---------- arranque ---------- */
+function init(){
+  ligaAbas();
+  ligaCadastro();
+  ligaBusca();
+  $("tentar-denovo").addEventListener("click", function(){
+    $("estado-servico-texto").textContent = "Conferindo o serviço de sugestão…";
+    confereSaude().then(function(){
+      if (servico.online) toast("Serviço online de novo");
+      else toast("Serviço ainda offline — confira o comando na faixa acima");
+    });
+  });
+  ativaAba(location.hash || "#/visao", false);
+  desenhaGrafico();
+  confereSaude();
+  setInterval(confereSaude, 25000);
+}
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
