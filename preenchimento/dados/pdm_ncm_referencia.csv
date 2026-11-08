@@ -1,0 +1,60 @@
+ID_PDM,NCM,REGRA
+PDM001,7318.15.00,único para a classe
+PDM002,7318.15.00,único para a classe
+PDM003,7318.16.00,único para a classe
+PDM004,7318.22.00,único para a classe
+PDM005,7318.21.00,único para a classe
+PDM006,7318.15.00,único para a classe
+PDM010,4009.21.10,"mangueira hidráulica reforçada com metal, sem acessórios, com pressão de ruptura de pelo menos 17,3 MPa (ruptura = 4 vezes a pressão de trabalho; vale para todas as do padrão)"
+PDM011,4009.22.10,"mangueira hidráulica reforçada com metal, com acessórios (terminais), com pressão de ruptura de pelo menos 17,3 MPa (vale para todas as do padrão)"
+PDM012,"3917.39.00, 4009.31.00, 4009.41.00","PVC = 3917.39.00; borracha (EPDM, NBR, SBR) com lonas têxteis = 4009.31.00; borracha com espiral de aço e lonas têxteis = 4009.41.00"
+PDM013,3917.32.90,único para a classe
+PDM014,"3917.39.00, 4009.41.00",borracha = 4009.41.00; PVC = 3917.39.00
+PDM020,8482.10.10,único para a classe
+PDM021,8482.30.00,único para a classe
+PDM022,8482.20.90,único para a classe
+PDM023,8483.20.00,único para a classe
+PDM030,"4010.32.00, 4010.34.00, 4010.39.00",pela circunferência externa: até 60 cm ou acima de 240 cm = 4010.39.00; acima de 60 até 180 cm = 4010.32.00; acima de 180 até 240 cm = 4010.34.00
+PDM031,4016.93.00,único para a classe
+PDM032,4016.93.00,único para a classe
+PDM033,8484.10.00,único para a classe
+PDM034,"3926.90.90, 4016.93.00","PTFE = 3926.90.90; borracha (EPDM, NBR) = 4016.93.00"
+PDM040,8481.80.95,único para a classe
+PDM041,8481.80.93,único para a classe
+PDM042,8481.80.94,único para a classe
+PDM043,8481.30.00,único para a classe
+PDM044,8481.80.97,único para a classe
+PDM050,"7307.19.90, 7307.21.00, 7307.22.00, 7307.23.00, 7307.29.00, 7307.91.00, 7307.92.00, 7307.93.00, 7307.99.00","depende do material (carbono, inox, maleável), do tipo (flange ou conexão) e da forma de ligação. Roscadas: cotovelos e luvas = 7307.92.00 (carbono) ou 7307.22.00 (inox); demais roscadas (tê, niple, união, cap, bucha) = 7307.99.00 ou 7307.29.00. Encaixe (SW) = 7307.99.00 ou 7307.29.00. Topo (BW) = 7307.93.00 ou 7307.23.00. Flanges = 7307.91.00 ou 7307.21.00. Ferro maleável = 7307.19.90"
+PDM051,"7304.19.00, 7304.39.10, 7304.39.90, 7306.30.00, 7306.40.00",A106 sem costura até 8 pol (diâmetro externo até 229 mm) = 7304.39.10; A106 de 10 e 12 pol = 7304.39.90; API 5L = 7304.19.00; galvanizado NBR 5580 (com costura) = 7306.30.00; inox A312 com costura = 7306.40.00
+PDM060,8544.49.00,único para a classe
+PDM061,8536.90.90,único para a classe
+PDM062,8536.20.00,único para a classe
+PDM063,8536.49.00,único para a classe
+PDM064,8536.10.00,único para a classe
+PDM065,8539.52.00,único para a classe
+PDM066,8536.50.90,único para a classe
+PDM067,9026.20.10,único para a classe
+PDM070,"4015.19.00, 4203.29.00, 6116.10.00","couro (vaqueta, raspa) = 4203.29.00; borracha (nitrílica, látex) = 4015.19.00; malha revestida = 6116.10.00"
+PDM071,"6403.40.00, 6403.99.90",biqueira de aço = 6403.40.00; biqueira composite = 6403.99.90
+PDM072,9004.90.20,único para a classe
+PDM080,8311.10.00,único para a classe
+PDM081,"6804.22.11, 6805.10.00",corte e desbaste = 6804.22.11; flap = 6805.10.00
+PDM082,8207.50.11,"brocas helicoidais até 52 mm, de qualquer material = 8207.50.11"
+PDM090,2710.19.32,único para a classe
+PDM100,"8421.23.00, 8421.29.90, 8421.31.00, 8421.39.90",óleo e combustível = 8421.23.00; ar = 8421.31.00; hidráulico = 8421.29.90; separador ar/óleo = 8421.39.90
+PDM110,"8410.90.00, 8413.91.90, 8414.90.39, 8431.39.00, 8431.43.90, 8431.49.29, 8474.90.00, 8483.90.00, 8708.30.11, 8708.30.90, 8708.99.90",segue o equipamento de aplicação (ver tabela abaixo); exceções por substantivo
+PDM110,8474.90.00,sobressalente de BRITADOR CONICO
+PDM110,8474.90.00,sobressalente de BRITADOR MANDIBULA
+PDM110,8474.90.00,sobressalente de PENEIRA VIBRATORIA
+PDM110,8474.90.00,sobressalente de MOINHO BOLAS
+PDM110,8413.91.90,sobressalente de BOMBA CENTRIFUGA
+PDM110,8413.91.90,sobressalente de BOMBA POLPA
+PDM110,8431.39.00,sobressalente de CORREIA TRANSPORTADORA
+PDM110,8431.49.29,sobressalente de ESCAVADEIRA HIDRAULICA
+PDM110,8708.99.90,sobressalente de CAMINHAO FORA DE ESTRADA
+PDM110,8431.43.90,sobressalente de PERFURATRIZ
+PDM110,8414.90.39,sobressalente de COMPRESSOR
+PDM110,8483.90.00,sobressalente de REDUTOR
+PDM110,8410.90.00,sobressalente de TURBINA HIDRAULICA
+PDM110,8708.30.11,exceção: substantivo PASTILHA FREIO
+PDM110,8708.30.90,exceção: substantivo DISCO FREIO
