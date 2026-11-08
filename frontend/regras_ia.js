@@ -343,11 +343,38 @@
     alvo.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
+  /* O trecho do texto com o termo destacado.
+   *
+   * Esta coluna existe porque a DESCRICAO_CURTA do ERP tem 40 caracteres e corta
+   * justo o termo: 'COTOVELO 90 GRAUS DIAM 10" SCHEDULE SCH' não mostra o
+   * 'INOX 316' que a regra leu, e a aplicação legítima passa a parecer palpite.
+   * Com o trecho, ou o termo está ali, ou a tela diz que não achou. */
+  function provaNoTexto(r, x) {
+    if (!x.trecho) {
+      return el("span", {
+        class: "badge b-err",
+        title: "a regra gravou o valor e o termo não foi localizado no texto deste item",
+      }, "termo não achado no texto");
+    }
+    const rx = new RegExp(r.termo.split(/\s+/).map((p) =>
+      p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("[^0-9A-Za-z]*"), "i");
+    const m = x.trecho.match(rx);
+    if (!m) return el("span", { class: "mono faint", style: "font-size:11px" }, x.trecho);
+    const i = m.index;
+    return el("span", { class: "mono", style: "font-size:11px" },
+      el("span", { class: "faint" }, x.trecho.slice(0, i)),
+      el("span", { class: "para", style: "background:var(--brand-bg);padding:0 2px" },
+        x.trecho.substr(i, m[0].length)),
+      el("span", { class: "faint" }, x.trecho.slice(i + m[0].length)));
+  }
+
   function tabelaUsos(r) {
     const j = julgamento(r.id);
     const thead = el("thead", {}, el("tr", {},
       el("th", {}, "CÓDIGO"), el("th", {}, "CLASSE"), el("th", {}, "DESCRIÇÃO"),
-      el("th", {}, "ATRIBUTO"), el("th", {}, "VALOR QUE A REGRA GRAVOU"),
+      el("th", { title: "o pedaço da descrição longa onde o termo da regra aparece" },
+        "O QUE A REGRA LEU NO TEXTO"),
+      el("th", {}, "VALOR QUE A REGRA GRAVOU"),
       el("th", { class: "num" }, "CONF."), el("th", { class: "num" }, "CAPITAL"),
       el("th", {}, "ESTADO"), el("th", {}, "")));
 
@@ -357,9 +384,9 @@
       return el("tr", { class: ex || derrubada ? "dup-row" : "" },
         el("td", { class: "mono" }, x.codigo),
         el("td", { class: "mono faint", style: "font-size:11px" }, x.id_pdm || ""),
-        el("td", { class: "wrap", style: "font-size:11.5px;max-width:280px" },
+        el("td", { class: "wrap", style: "font-size:11.5px;max-width:230px" },
           x.descricao || ""),
-        el("td", { class: "mono faint", style: "font-size:11px" }, x.atributo || ""),
+        el("td", { class: "wrap", style: "max-width:320px" }, provaNoTexto(r, x)),
         el("td", { class: "mono" }, x.valor || ""),
         el("td", { class: "num mono", style: "font-size:11.5px" },
           x.confianca != null ? String(x.confianca) : "—"),
