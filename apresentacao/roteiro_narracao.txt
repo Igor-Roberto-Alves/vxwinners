@@ -1,0 +1,41 @@
+ROTEIRO DE NARRAÇÃO — demo_mvp.mp4 (1:08)
+Pitch do MVP · Catálogo de Materiais MRO · Hackathon VX, Desafio 01
+Leia por cima do vídeo em tom de pitch: calmo, confiante, ~150 palavras em ~70 s.
+Os tempos abaixo são o que está NA TELA em cada faixa.
+
+[0:00–0:04] TELA: página inicial, "Catálogo de Materiais MRO".
+  Uma mineradora, 23.554 materiais e 22 anos de deriva no cadastro: descrição
+  mal escrita vira estoque parado e compra duplicada. Esta é a nossa plataforma.
+
+[0:04–0:15] TELA: Radar — R$ 30,24 mi consolidáveis, R$ 10,84 mi na fila; depois
+            a tabela "Eficácia medida contra o gabarito".
+  O Radar devolve o saneamento em dinheiro, e cada número declara a origem:
+  medido, estimado ou premissa. R$ 30 milhões já consolidáveis — e a eficácia
+  é auditada contra gabarito: 97% de precisão nas características extraídas.
+
+[0:15–0:29] TELA: Fila de intervenção — 3.482 itens, 1.478 campos a um clique;
+            duas decisões reais acontecem (✓ verde, contador sobe).
+  Onde a máquina não decide sozinha, ela pede ajuda do jeito certo: a fila de
+  intervenção ordena 3.482 itens pelo capital em risco e já traz o valor pronto.
+  A analista confirma com um clique — duas decisões em dez segundos.
+
+[0:29–0:40] TELA: base_materiais — 9.653 NCM fora do formato; busca "filtro oleo"
+            filtrando ao vivo; registro aberto com alerta de qualidade.
+  A base como ela está hoje, sem maquiagem: cada registro aponta os próprios
+  problemas, que o saneamento corrige.
+
+[0:40–0:52] TELA: Clusters de duplicidade — comparação lado a lado, "Unificar
+            no código escolhido", R$ 11,5 mil consolidados no exemplo.
+  Duplicatas viram clusters com confiança calculada. Compara lado a lado,
+  unifica — e é reversível: códigos são bloqueados, nunca apagados.
+
+[0:52–1:02] TELA: o motor de sugestão ao vivo — POST /sugerir; grupo, NCM,
+            fabricante e referência com confiança; similares; alerta de duplicata.
+  Por baixo, nosso motor de sugestão, treinado na própria base: descrição livre
+  entra; grupo, NCM, fabricante e part number saem em milissegundos — 19 ms de
+  mediana, sem GPU. No benchmark: 96% de acerto em grupo, 91% em NCM, 84% em
+  fabricante. E a duplicata é barrada antes de nascer.
+
+[1:02–1:08] TELA: fecho no Radar, números em tela.
+  Resultado: R$ 101,2 milhões em identidade de itens destravada para
+  deduplicação. Um cadastro que se mantém limpo. Obrigado.
