@@ -578,20 +578,27 @@ def test_aprendizado_evita_rechamada_do_mesmo_problema(pdm):
 
     E a diferenca em relacao ao cache do llm.py, que e indexado por hash do
     texto inteiro e so evita rechamada no registro identico.
+
+    O exemplo e TERMINAL A de mangueira montada de proposito: e um atributo
+    onde a camada curada (`sinonimos.py`) nao chega e as travas de `consultar`
+    aprovam, porque 'FEMEA 90 JIC' aponta um unico valor do enum. Em MATERIAL
+    nao daria: '316' ja esta em sinonimos.py, e qualquer termo que aponte um
+    unico valor do enum passa por lá primeiro.
     """
     from saneamento.aprendizado import Aprendizado
     from saneamento import ExtratorLexico
 
     ap = Aprendizado(None)
-    a = next(x for x in pdm.classes["PDM001"].atributos if x.nome == "MATERIAL")
-    # termo que NAO esta em sinonimos.py, senao a camada curada resolveria antes
-    assert ap.aprender(a, "INOX MARINHO", "ACO INOX 316", "llm", "PDM001") is True
+    a = next(x for x in pdm.classes["PDM011"].atributos if x.nome == "TERMINAL A")
+    assert ap.aprender(a, "FEMEA 90 JIC", "FEMEA CURVA 90 GRAUS JIC",
+                       "llm", "PDM011") is True
 
     ext = ExtratorLexico(pdm, aprendizado=ap)
     # texto completamente diferente do que originou o aprendizado
-    c = ext.extrair("PARAFUSO SEXTAVADO M20X80 A4-70 INOX MARINHO NATURAL DIN 931",
-                    pdm.classes["PDM001"], "PARAFUSO")["MATERIAL"]
-    assert c.valor == "ACO INOX 316"
+    c = ext.extrair("MANGUEIRA HIDRAULICA MONTADA EN 853 2SN DI 1/2POL C 800MM "
+                    "TERM A FEMEA 90 JIC TERM B MACHO BSP ACO ZINCADO",
+                    pdm.classes["PDM011"], "MANGUEIRA")["TERMINAL A"]
+    assert c.valor == "FEMEA CURVA 90 GRAUS JIC"
     assert c.fonte == "aprendido", "a camada curada nao devia ter resolvido este termo"
 
 
@@ -639,11 +646,11 @@ def test_aprendizado_so_confia_apos_confirmacao(pdm):
     from saneamento.aprendizado import Aprendizado
 
     ap = Aprendizado(None, confirmacoes_para_confiar=2)
-    a = next(x for x in pdm.classes["PDM032"].atributos if x.nome == "MATERIAL")
-    ap.aprender(a, "BORRACHA NITRILICA", "NBR", "llm", "PDM032")
-    assert ap.confiavel("MATERIAL", "BORRACHA NITRILICA") is False
-    ap.aprender(a, "BORRACHA NITRILICA", "NBR", "llm", "PDM032")
-    assert ap.confiavel("MATERIAL", "BORRACHA NITRILICA") is True
+    a = next(x for x in pdm.classes["PDM001"].atributos if x.nome == "ACABAMENTO")
+    ap.aprender(a, "ACAB ZINCADO BRANCO", "ZINCADO BRANCO", "llm", "PDM001")
+    assert ap.confiavel("ACABAMENTO", "ACAB ZINCADO BRANCO") is False
+    ap.aprender(a, "ACAB ZINCADO BRANCO", "ZINCADO BRANCO", "llm", "PDM001")
+    assert ap.confiavel("ACABAMENTO", "ACAB ZINCADO BRANCO") is True
 
 
 def test_confiavel_responde_pelo_valor_canonico(pdm):
@@ -655,12 +662,12 @@ def test_confiavel_responde_pelo_valor_canonico(pdm):
     from saneamento.aprendizado import Aprendizado
 
     ap = Aprendizado(None, confirmacoes_para_confiar=2)
-    a = next(x for x in pdm.classes["PDM032"].atributos if x.nome == "MATERIAL")
-    ap.aprender(a, "BORRACHA NITRILICA", "NBR", "llm", "PDM032")
-    assert ap.confiavel("MATERIAL", "NBR") is False     # uma confirmacao so
-    ap.aprender(a, "BORRACHA NITRILICA", "NBR", "llm", "PDM032")
-    assert ap.confiavel("MATERIAL", "NBR") is True
-    assert ap.confiavel("MATERIAL", "EPDM") is False    # nunca aprendido
+    a = next(x for x in pdm.classes["PDM001"].atributos if x.nome == "ACABAMENTO")
+    ap.aprender(a, "ACAB ZINCADO BRANCO", "ZINCADO BRANCO", "llm", "PDM001")
+    assert ap.confiavel("ACABAMENTO", "ZINCADO BRANCO") is False   # uma confirmacao so
+    ap.aprender(a, "ACAB ZINCADO BRANCO", "ZINCADO BRANCO", "llm", "PDM001")
+    assert ap.confiavel("ACABAMENTO", "ZINCADO BRANCO") is True
+    assert ap.confiavel("ACABAMENTO", "NATURAL") is False          # nunca aprendido
 
 
 def test_consultar_prefere_o_termo_mais_longo(pdm):
@@ -669,13 +676,13 @@ def test_consultar_prefere_o_termo_mais_longo(pdm):
 
     ap = Aprendizado(None)
     a = next(x for x in pdm.classes["PDM001"].atributos if x.nome == "MATERIAL")
-    ap.aprender(a, "INOX MARINHO", "ACO INOX 316", "llm", "PDM001")
+    ap.aprender(a, "INOX MARINHO 316", "ACO INOX 316", "llm", "PDM001")
     ap.aprender(a, "AISI 304", "ACO INOX 304", "llm", "PDM001")
-    assert ap.consultar(a, "PARAFUSO INOX MARINHO") == "ACO INOX 316"
+    assert ap.consultar(a, "PARAFUSO INOX MARINHO 316") == "ACO INOX 316"
     assert ap.consultar(a, "PARAFUSO AISI 304") == "ACO INOX 304"
     # entrada nova nao pode ficar invisivel atras do indice em cache
-    ap.aprender(a, "A2 70", "ACO INOX 304", "llm", "PDM001")
-    assert ap.consultar(a, "PARAFUSO A2 70") == "ACO INOX 304"
+    ap.aprender(a, "INOX ESTRUTURAL 304", "ACO INOX 304", "llm", "PDM001")
+    assert ap.consultar(a, "PARAFUSO INOX ESTRUTURAL 304") == "ACO INOX 304"
 
 
 def test_aprendizado_nao_aprende_caixa_numerica(pdm):
@@ -1565,3 +1572,57 @@ def test_deteccao_nao_sobrescreve_caixa_ja_preenchida(pdm):
     r = p.processar({"CODIGO_MATERIAL": "T13", "GRUPO_MERCADORIA": "FIX01",
                      "DESCRICAO_LONGA": "PARAFUSO SEXTAVADO M12X50 8.8 DIN 933"})
     assert r.decisoes["NORMA"].valor == "DIN 933"
+
+
+def test_proveniencia_do_llm_fica_registrada(pdm):
+    # Toda conclusao do LLM tem de ser identificavel na saida: o desempate,
+    # o valor perdido recuperado e a caixa julgada generica.
+    p = Pipeline(pdm,
+                 desempates={"T14": ({"MATERIAL": "ACO INOX 304"}, {"MATERIAL": "ACO INOX 304"})},
+                 deteccoes={"T14": {"ACABAMENTO": ("PRESENTE_FORA_DO_PADRAO", "ZINCADO")}})
+    r = p.processar({"CODIGO_MATERIAL": "T14", "GRUPO_MERCADORIA": "FIX01",
+                     "DESCRICAO_LONGA": "PARAFUSO SEXTAVADO M12X50 8.8 DIN 933 "
+                                        "ACO INOX 304 OU ACO INOX 316 ZINCADO"})
+    assert "MATERIAL=llm" in r.decidido_por_llm
+    assert r.pendente_por_llm == ["ACABAMENTO"]
+    assert r.como_dict()["DECIDIDO_POR_LLM"] == "MATERIAL=llm"
+
+
+def test_congelado_consulta_mas_nao_aprende(pdm, tmp_path):
+    from saneamento.aprendizado import Aprendizado
+    arq = tmp_path / "ap.json"
+    a = Aprendizado(arq, pdm=pdm)
+    acab = next(x for x in pdm.classes["PDM001"].atributos if x.nome == "ACABAMENTO")
+    assert a.aprender(acab, "ZINC BRANCO", "ZINCADO BRANCO", "llm", "PDM001")
+    a.salvar()
+    c = Aprendizado(arq, pdm=pdm, congelado=True)
+    assert c.consultar(acab, "PARAFUSO ZINC BRANCO") == "ZINCADO BRANCO"
+    assert c.origem("ACABAMENTO", "ZINCADO BRANCO", "PARAFUSO ZINC BRANCO") == "llm"
+    assert not c.aprender(acab, "ZB2", "ZINCADO BRANCO", "llm", "PDM001")
+    antes = arq.read_text()
+    c.salvar()
+    assert arq.read_text() == antes
+
+
+def test_perdido_que_e_valor_de_outra_caixa_nao_vira_part_number(pdm):
+    # Caso real 10410458: a deteccao chamou de part number o modelo do equipamento.
+    p = Pipeline(pdm, deteccoes={"10410458": {
+        "REFERENCIA FABRICANTE": ("PERDIDO", "AHLSTAR A22 80")}})
+    r = p.processar({"CODIGO_MATERIAL": "10410458", "GRUPO_MERCADORIA": "",
+                     "DESCRICAO_LONGA": "ROTOR; APLIC:BOMBA CENTRIFUGA; MODELO:AHLSTAR A22 80; "
+                                        "FABRICANTE:SULZER"})
+    assert r.decisoes["REFERENCIA FABRICANTE"].valor in (None, "")
+    assert p.contador["perdidos_recusados"] == 1
+
+
+def test_bert_nao_desempata_ambiguidade(pdm):
+    # O texto traz dois valores validos: o BERT escolher um seria decisao. A caixa
+    # fica AMBIGUO (vai ao LLM) e a sugestao do BERT fica so como pista.
+    arb = Arbitro(Validador(pdm))
+    classe = pdm.classes["PDM001"]
+    regra = Candidato("MATERIAL", "ACO INOX 304", "gazetteer", 0.45, "ACO INOX 304",
+                      alternativas=("ACO INOX 304", "ACO INOX 316"), ambiguo=True)
+    bert = Candidato("MATERIAL", "ACO INOX 316", "bert", 0.95, "ACO INOX 316")
+    d = arb._decidir(classe, "MATERIAL", regra, bert)
+    assert d.estado == "AMBIGUO" and d.valor is None
+    assert "ACO INOX 316" in d.motivo and "pista" in d.motivo

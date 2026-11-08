@@ -1,0 +1,6363 @@
+{
+ "versao": 1,
+ "limiar_confianca": 2,
+ "entradas": [
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "ACABAMENTO NATURAL",
+   "valor": "NATURAL",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "ACABAMENTO SEM ACABAMENTO",
+   "valor": "SEM ACABAMENTO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "BICROMATIZADO",
+   "valor": "ZINCADO AMARELO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 2,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "GALV A FOGO",
+   "valor": "GALVANIZADO A FOGO",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "GALV FOGO",
+   "valor": "GALVANIZADO A FOGO",
+   "fonte": "llm",
+   "confirmacoes": 9,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004",
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "GALVANIZADO",
+   "valor": "GALVANIZADO A FOGO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "GEOMET",
+   "valor": "ZINCADO AMARELO",
+   "fonte": "llm+conflito+conflito+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "OXID",
+   "valor": "OXIDADO PRETO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 14,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "OXIDADO",
+   "valor": "OXIDADO PRETO",
+   "fonte": "llm",
+   "confirmacoes": 8,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "OXIDADO PARAF",
+   "valor": "OXIDADO PRETO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "PADRAO",
+   "valor": "SEM ACABAMENTO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "PRETO",
+   "valor": "OXIDADO PRETO",
+   "fonte": "llm",
+   "confirmacoes": 21,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004",
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "REVESTIMENTO PRETO",
+   "valor": "OXIDADO PRETO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "S/ACAB",
+   "valor": "SEM ACABAMENTO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 15,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "S/ACABAMENTO",
+   "valor": "SEM ACABAMENTO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "TRATAMENTO NATURAL",
+   "valor": "NATURAL",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "TRATAMENTO PRETO",
+   "valor": "OXIDADO PRETO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "ZA",
+   "valor": "ZINCADO AMARELO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "ZB",
+   "valor": "ZINCADO BRANCO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 25,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001",
+    "PDM004",
+    "PDM005"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "ZINC AMARELO",
+   "valor": "ZINCADO AMARELO",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001",
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACABAMENTO",
+   "termo": "ZINC BRANCO",
+   "valor": "ZINCADO BRANCO",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "ACIONAMENTO MANUAL",
+   "valor": "ALAVANCA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "ACIONAMENTO PNEUMATICO",
+   "valor": "ATUADOR PNEUMATICO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM044"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "ACIONAMENTO PNEUMATICO P",
+   "valor": "ATUADOR PNEUMATICO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "ATUADOR ELETRICCO",
+   "valor": "ATUADOR ELETRICO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM044"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "ATUADOR PNEUMATICA",
+   "valor": "ATUADOR PNEUMATICO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "ATUADOR PNEUMATICA EXTREMI",
+   "valor": "ATUADOR PNEUMATICO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "ATUADOR PNEUMATICA F",
+   "valor": "ATUADOR PNEUMATICO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "CAIXA REDUTORA",
+   "valor": "REDUTOR",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "DE PNEUMATICO",
+   "valor": "ATUADOR PNEUMATICO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "MANUAL",
+   "valor": "ALAVANCA",
+   "fonte": "llm+conflito+conflito+conflito+interpretacao",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "PNEUMATICO",
+   "valor": "ATUADOR PNEUMATICO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ACIONAMENTO",
+   "termo": "VOLANTE",
+   "valor": "ALAVANCA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ANEL INTERNO",
+   "termo": "SEM ANEL INTERRNO",
+   "valor": "SEM ANEL INTERNO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM033"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "- BRITADOR CONIO - FABRICANTE",
+   "valor": "BRITADOR CONICO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "AHLSTAR",
+   "valor": "BOMBA CENTRIFUGA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "APLIC DE COMPRESSOR",
+   "valor": "COMPRESSOR",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM100"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "APLIC PERFURATRIZ",
+   "valor": "PERFURATRIZ",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM100"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "BITADOR CONICO",
+   "valor": "BRITADOR CONICO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "BOMBA CENNTRIFUGA",
+   "valor": "BOMBA CENTRIFUGA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "BRIADOR MANDIBULA",
+   "valor": "BRITADOR MANDIBULA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "BRITADOR MAANDIBULA",
+   "valor": "BRITADOR MANDIBULA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "BRITADOR MANDDIBULA REF",
+   "valor": "BRITADOR MANDIBULA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "CAINHAO FORA DE ESTRADA MODELO",
+   "valor": "CAMINHAO FORA DE ESTRADA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "CAMIINHAO FORA DE ESTRADA",
+   "valor": "CAMINHAO FORA DE ESTRADA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "CAMINHAAO FORA DE ESTRADA",
+   "valor": "CAMINHAO FORA DE ESTRADA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "CAMINHAO FORA DE ETRADA",
+   "valor": "CAMINHAO FORA DE ESTRADA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "COMPRESSR",
+   "valor": "COMPRESSOR",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "CORREIA TRASNPORTADORA",
+   "valor": "CORREIA TRANSPORTADORA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "DENTADA",
+   "valor": "ENGRENAGEM",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM090"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "ESCAVADDEIRA HIDRAULICA",
+   "valor": "ESCAVADEIRA HIDRAULICA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "ESCAVAEIRA HIDRAULICA",
+   "valor": "ESCAVADEIRA HIDRAULICA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "HIDRAULICA",
+   "valor": "HIDRAULICO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM090"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "HIDRAULICO",
+   "valor": "UNIDADE HIDRAULICA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM100"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "MOOINHO BOLAS",
+   "valor": "MOINHO BOLAS",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "PEENIRA VIBRATORIA",
+   "valor": "PENEIRA VIBRATORIA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "PENEEIRA VIBRATORIA",
+   "valor": "PENEIRA VIBRATORIA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "PENEIIRA VIBRATORIA",
+   "valor": "PENEIRA VIBRATORIA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "PNEIRA VIBRATORIA",
+   "valor": "PENEIRA VIBRATORIA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "APLICACAO",
+   "termo": "USO DE HIDRULICO COM VISC",
+   "valor": "HIDRAULICO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM090"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BIQUEIRA",
+   "termo": "COMPOSITO",
+   "valor": "COMPOSITE",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1 1/4 POL",
+   "valor": "1.1/4POL",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1 1/8 POL",
+   "valor": "1.1/8POL",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1 IN",
+   "valor": "1POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1,25POL",
+   "valor": "1.1/4POL",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1-1/4",
+   "valor": "1.1/4POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1-1/8",
+   "valor": "1.1/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1.1/4",
+   "valor": "1.1/4POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1.1/8",
+   "valor": "1.1/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1.1/8 IN",
+   "valor": "1.1/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1/2",
+   "valor": "1/2POL",
+   "fonte": "llm",
+   "confirmacoes": 15,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1/4",
+   "valor": "1/4POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1/4 IN",
+   "valor": "1/4POL",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "1/4 POL",
+   "valor": "1/4POL",
+   "fonte": "llm",
+   "confirmacoes": 7,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "3/4",
+   "valor": "3/4POL",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "3/4 POL",
+   "valor": "3/4POL",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "3/8",
+   "valor": "3/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "3/8 IN",
+   "valor": "3/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "3/8 POL",
+   "valor": "3/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "4 IN",
+   "valor": "1/2POL",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "5/16",
+   "valor": "5/16POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "5/16 IN",
+   "valor": "5/16POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "5/16 POL",
+   "valor": "5/16POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "5/8",
+   "valor": "5/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "5/8 IN",
+   "valor": "5/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "5/8 POL",
+   "valor": "5/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "7/16",
+   "valor": "7/16POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "7/16 IN",
+   "valor": "7/16POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "7/16 POL",
+   "valor": "7/16POL",
+   "fonte": "llm",
+   "confirmacoes": 7,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "7/8",
+   "valor": "7/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "7/8 - C",
+   "valor": "7/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "7/8 IN",
+   "valor": "7/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "7/8 POL",
+   "valor": "7/8POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "BITOLA 1",
+   "valor": "1POL",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "BITOLA 1/4",
+   "valor": "1/4POL",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "BITOLA 5/8POL",
+   "valor": "5/8POL",
+   "fonte": "llm",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "BITOLA M 12",
+   "valor": "M12",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "DIAMETRO 1/2POL",
+   "valor": "1/2POL",
+   "fonte": "llm",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "DIAMETRO 7/8 POL",
+   "valor": "7/8POL",
+   "fonte": "llm",
+   "confirmacoes": 8,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M 12",
+   "valor": "M12",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M 12X1,5",
+   "valor": "M12X1,5",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M 14X1,5",
+   "valor": "M14X1,5",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M 20",
+   "valor": "M20",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M 22",
+   "valor": "M22",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M 30",
+   "valor": "M30",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M 6",
+   "valor": "M6",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M 8",
+   "valor": "M8",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM002"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-10",
+   "valor": "M10",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-12",
+   "valor": "M12",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-12X1,5",
+   "valor": "M12X1,5",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-12X65",
+   "valor": "M12",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-14",
+   "valor": "M14",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-16",
+   "valor": "M16",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-18",
+   "valor": "M18",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-18X1,5",
+   "valor": "M18X1,5",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-20",
+   "valor": "M20",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-22",
+   "valor": "M22",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-24X2",
+   "valor": "M24X2",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-30",
+   "valor": "M30",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-6",
+   "valor": "M6",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M-8",
+   "valor": "M8",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M10X60",
+   "valor": "M10",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M10X80",
+   "valor": "M10",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M12X50",
+   "valor": "M12",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M20X80",
+   "valor": "M20",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M24X90",
+   "valor": "M24",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M6X50",
+   "valor": "M6",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "BITOLA",
+   "termo": "M8X80",
+   "valor": "M8",
+   "fonte": "llm",
+   "confirmacoes": 2,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CLASSE PRESSAO",
+   "termo": "CLASSE PRESSAO PN 16",
+   "valor": "PN 16",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "CLASSE RESISTENCIA",
+   "termo": "GRAU 8.8",
+   "valor": "8.8",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 5,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "CLASSE RESISTENCIA",
+   "termo": "GRAU A4-70",
+   "valor": "A4-70",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "BSP",
+   "valor": "ROSCA BSP",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "BUTT WELD",
+   "valor": "SOLDA TOPO BW",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "BW",
+   "valor": "SOLDA TOPO BW",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "CONEXAO CABO 2M",
+   "valor": "CABO 2M",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "CONEXAO CABO 5M",
+   "valor": "CABO 5M",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "ENCAIXE SOLDA",
+   "valor": "SOLDA ENCAIXE SW",
+   "fonte": "llm",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM041",
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "FLANGEADA",
+   "valor": "FLANGE FF",
+   "fonte": "llm+conflito+conflito+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM041"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "FLANGES",
+   "valor": "FLANGE RF",
+   "fonte": "llm+conflito+conflito+conflito+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "FLG FF",
+   "valor": "FLANGE FF",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "FLG RF",
+   "valor": "FLANGE RF",
+   "fonte": "llm",
+   "confirmacoes": 9,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM042",
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "LIGACAO NPT",
+   "valor": "ROSCA NPT",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "NPT",
+   "valor": "ROSCA NPT",
+   "fonte": "llm",
+   "confirmacoes": 9,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "PONTAS CHANFRADAS",
+   "valor": "SOLDA TOPO BW",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM042",
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "ROSCA CONF ASME B16.11",
+   "valor": "ROSCA BSP",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "ROSCADA NPT",
+   "valor": "ROSCA NPT",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040",
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "RSC NPT",
+   "valor": "ROSCA NPT",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050",
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "SOCKET WELD",
+   "valor": "SOLDA ENCAIXE SW",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 7,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "SOLDA ENCAIXE",
+   "valor": "SOLDA ENCAIXE SW",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050",
+    "PDM043",
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "SOLDA TOPO",
+   "valor": "SOLDA TOPO BW",
+   "fonte": "llm",
+   "confirmacoes": 7,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "CONEXAO",
+   "termo": "SW",
+   "valor": "SOLDA ENCAIXE SW",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050",
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "COR",
+   "termo": "COR AZUL",
+   "valor": "AZUL",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM013"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "DUREZA",
+   "termo": "70 SHRE A",
+   "valor": "70 SHORE A",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM031"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ENCHIMENTO",
+   "termo": "ENCHIMENTO GRAFITE",
+   "valor": "GRAFITE FLEXIVEL",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM033"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ENCHIMENTO",
+   "termo": "GRAFITE",
+   "valor": "GRAFITE FLEXIVEL",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM033"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ENCHIMENTO",
+   "termo": "TEFLON",
+   "valor": "PTFE",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM033"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "FABRICANTE",
+   "termo": "FABR MANN",
+   "valor": "MANN",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM100"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "FABRICANTE",
+   "termo": "SANDVKI",
+   "valor": "SANDVIK",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "FABRICANTE",
+   "termo": "SANNDVIK",
+   "valor": "SANDVIK",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "FACE",
+   "termo": "FACE RF",
+   "valor": "RF",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "FOLGA",
+   "termo": "FOLGA C3",
+   "valor": "C3",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "FURO",
+   "termo": "FURO CONICO",
+   "valor": "CONICO",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM021"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "A105",
+   "valor": "ACO CARBONO FORJADO A105",
+   "fonte": "llm",
+   "confirmacoes": 7,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "A182 F316",
+   "valor": "ACO INOX FORJADO A182 F316",
+   "fonte": "llm",
+   "confirmacoes": 9,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "A234 WPB",
+   "valor": "ACO CARBONO A234 WPB",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "A403 WP316",
+   "valor": "ACO INOX A403 WP316",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "AC CARBONO",
+   "valor": "ACO CARBONO",
+   "fonte": "llm+conflito+conflito+conflito",
+   "confirmacoes": 45,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004",
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "ACO CARB",
+   "valor": "ACO CARBONO",
+   "fonte": "llm+conflito+conflito+conflito+interpretacao",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001",
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "ACO CARBOO API 5L GR B",
+   "valor": "ACO CARBONO API 5L GR B",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM051"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "ACO ESPECIAL",
+   "valor": "ACO CARBONO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "ACO LIGA",
+   "valor": "ACO CARBONO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 20,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "AISI 304",
+   "valor": "ACO INOX 304",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "AISI 316",
+   "valor": "ACO INOX 316",
+   "fonte": "llm",
+   "confirmacoes": 9,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001",
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "BORRACHA NITRILIAC",
+   "valor": "NBR",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM031"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "BORRACHA NITRILICA",
+   "valor": "NBR",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM031",
+    "PDM032"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "BUNA-N",
+   "valor": "NBR",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM032"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "CARBONO",
+   "valor": "ACO CARBONO",
+   "fonte": "llm",
+   "confirmacoes": 46,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004",
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "EPI ANTI-CORTE CA",
+   "valor": "ANTICORTE",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM070"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "F316",
+   "valor": "ACO INOX FORJADO A182 F316",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "FERRO MALEAVEL",
+   "valor": "FERRO MALEAVEL GALVANIZADO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "FKM",
+   "valor": "FKM (VITON)",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM031"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "FLUORELASTOMERO",
+   "valor": "FKM (VITON)",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 15,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM031",
+    "PDM032"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "FM GALVANIZADO",
+   "valor": "FERRO MALEAVEL GALVANIZADO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "FM GALVANIZADO LIGACAO DE",
+   "valor": "FERRO MALEAVEL GALVANIZADO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "INOX 304",
+   "valor": "ACO INOX 304",
+   "fonte": "llm",
+   "confirmacoes": 18,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001",
+    "PDM002",
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "INOX 316",
+   "valor": "ACO INOX A403 WP316",
+   "fonte": "llm+conflito+conflito+conflito+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MA",
+   "valor": "ACO CARBONO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MALEAVEL GALV",
+   "valor": "FERRO MALEAVEL GALVANIZADO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MAT A105",
+   "valor": "ACO CARBONO FORJADO A105",
+   "fonte": "llm",
+   "confirmacoes": 2,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MAT CARBONO",
+   "valor": "ACO CARBONO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MAT INOX 316",
+   "valor": "ACO INOX FORJADO A182 F316",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MAT NBR",
+   "valor": "NBR",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM034",
+    "PDM032"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MAT PU",
+   "valor": "POLIURETANO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM013"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MATERIAL A105",
+   "valor": "ACO CARBONO FORJADO A105",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MATERIAL ACO LIGA",
+   "valor": "ACO CARBONO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MATERIAL ANTI-CORTE TAM",
+   "valor": "ANTICORTE",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM070"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MATERIAL CARBONO",
+   "valor": "ACO CARBONO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MATERIAL INOX",
+   "valor": "ACO INOX 304",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MATERIAL NBR",
+   "valor": "NBR",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM032"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "MATERIAL NITRILO",
+   "valor": "NITRILICA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM070"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "NITRILICA",
+   "valor": "NBR",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM032"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "NITRILO",
+   "valor": "NITRILICA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM070"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "NITRILO - TAM",
+   "valor": "NITRILICA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM070"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "NITRILO COM NUMERO",
+   "valor": "NITRILICA",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM070"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "NITRRILICA",
+   "valor": "NBR",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM032"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "NYLON",
+   "valor": "POLIAMIDA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM013"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "PA",
+   "valor": "POLIAMIDA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM013"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "SS304",
+   "valor": "ACO INOX 304",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001",
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "SS316",
+   "valor": "ACO INOX 316",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110",
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "VITON",
+   "valor": "FKM (VITON)",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM031"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL",
+   "termo": "WPB",
+   "valor": "ACO CARBONO A234 WPB",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL CAIXA",
+   "termo": "ACO CARB",
+   "valor": "ACO CARBONO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM067"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL CAIXA",
+   "termo": "AISI 304",
+   "valor": "ACO INOX 304",
+   "fonte": "llm",
+   "confirmacoes": 9,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM067"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL CAIXA",
+   "termo": "CARBONO",
+   "valor": "ACO CARBONO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM067"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL CAIXA",
+   "termo": "INOX 304",
+   "valor": "ACO INOX 304",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM067"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL CAIXA",
+   "termo": "MATERIAL CAIXA ACO CARBONO",
+   "valor": "ACO CARBONO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM067"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL CAIXA",
+   "termo": "SS304",
+   "valor": "ACO INOX 304",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM067"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL CORPO",
+   "termo": "A105",
+   "valor": "ACO CARBONO FORJADO A105",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM043",
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL CORPO",
+   "termo": "A216 WCB",
+   "valor": "ACO CARBONO FUNDIDO A216 WCB",
+   "fonte": "llm",
+   "confirmacoes": 9,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040",
+    "PDM044"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL CORPO",
+   "termo": "ACO FUNDIDO CF8M",
+   "valor": "ACO INOX FUNDIDO A351 CF8M",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM044"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL CORPO",
+   "termo": "CF8M",
+   "valor": "ACO INOX FUNDIDO A351 CF8M",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL CORPO",
+   "termo": "CORPO INOX",
+   "valor": "ACO INOX FORJADO A182 F316",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL CORPO",
+   "termo": "FERRO NODULAR",
+   "valor": "FERRO FUNDIDO NODULAR",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL CORPO",
+   "termo": "INOX 316",
+   "valor": "ACO INOX FORJADO A182 F316",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL CORPO",
+   "termo": "MATERIAL CORPO DE INOX 316",
+   "valor": "ACO INOX FORJADO A182 F316",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL CORPO",
+   "termo": "WCB",
+   "valor": "ACO CARBONO FUNDIDO A216 WCB",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL FITA",
+   "termo": "AISI 304",
+   "valor": "ACO INOX 304",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM033"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL FITA",
+   "termo": "SS304",
+   "valor": "ACO INOX 304",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM033"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL TERMINAIS",
+   "termo": "ACO CARBONO",
+   "valor": "ACO CARBONO ZINCADO",
+   "fonte": "llm",
+   "confirmacoes": 19,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL TERMINAIS",
+   "termo": "ACO ZINCADO",
+   "valor": "ACO CARBONO ZINCADO",
+   "fonte": "llm",
+   "confirmacoes": 19,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL TERMINAIS",
+   "termo": "ACO ZNICADO",
+   "valor": "ACO CARBONO ZINCADO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MATERIAL TERMINAIS",
+   "termo": "AISI 316",
+   "valor": "ACO INOX 316",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL TERMINAIS",
+   "termo": "INOX 316",
+   "valor": "ACO INOX 316",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MATERIAL TERMINAIS",
+   "termo": "SS316",
+   "valor": "ACO INOX 316",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "AHLSTAR A22 80",
+   "valor": "AHLSTAR A22-80",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "AHLSTAR A22 80 APLICACAO",
+   "valor": "AHLSTAR A22-80",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "AHLSTAR A22 80 COM",
+   "valor": "AHLSTAR A22-80",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "AHLSTAR A2280",
+   "valor": "AHLSTAR A22-80",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "AHLSTAR A31 100",
+   "valor": "AHLSTAR A31-100",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "AHLSTAR A31 100 APLICACAO",
+   "valor": "AHLSTAR A31-100",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "AHLSTAR A31100",
+   "valor": "AHLSTAR A31-100",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "AHLTAR A31 100",
+   "valor": "AHLSTAR A31-100",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "ETANORM 65 200",
+   "valor": "ETANORM 65-200",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "ETANORM 65 200 - KSB - P/N",
+   "valor": "ETANORM 65-200",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "ETANORM 65200",
+   "valor": "ETANORM 65-200",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "F CLASS 2.4X6.1",
+   "valor": "F-CLASS 2.4X6.1",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "F CLASS 2.4X6.1 - FABRICANTE",
+   "valor": "F-CLASS 2.4X6.1",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "F CLASS 2.4X6.1 APLICACAO",
+   "valor": "F-CLASS 2.4X6.1",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "F CLASS 2.4X6.1 REFERENCIA",
+   "valor": "F-CLASS 2.4X6.1",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "FCLASS 2.4X6.1",
+   "valor": "F-CLASS 2.4X6.1",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "FCLASS 2.4X6.1 - P/N",
+   "valor": "F-CLASS 2.4X6.1",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "FCLASS 2.4X6.1 P/N",
+   "valor": "F-CLASS 2.4X6.1",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "FCLASS 2.4X6.1 REFERENCIA",
+   "valor": "F-CLASS 2.4X6.1",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "MEGANORM 100 315",
+   "valor": "MEGANORM 100-315",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "MEGANORM 100315",
+   "valor": "MEGANORM 100-315",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "MEGANORM 80 250",
+   "valor": "MEGANORM 80-250",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "MEGANORM 80250",
+   "valor": "MEGANORM 80-250",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "MEGANORM 80250 - FABRICANTE",
+   "valor": "MEGANORM 80-250",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "T CLASS 3.0X7.3",
+   "valor": "T-CLASS 3.0X7.3",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC 01",
+   "valor": "TC-01",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC 01 P/N",
+   "valor": "TC-01",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC 04",
+   "valor": "TC-04",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC 04 - FABRICANTE",
+   "valor": "TC-04",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC 04 - USO",
+   "valor": "TC-04",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC 12",
+   "valor": "TC-12",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC 12 - FABRICANTE",
+   "valor": "TC-12",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC 12 P/N",
+   "valor": "TC-12",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC 25",
+   "valor": "TC-25",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC 25 - PART",
+   "valor": "TC-25",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC01",
+   "valor": "TC-01",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC04",
+   "valor": "TC-04",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC04 - APLICACAO CORREIA",
+   "valor": "TC-04",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC04 - FABRICANTE",
+   "valor": "TC-04",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC04 - FABRICANTE FLEXCO",
+   "valor": "TC-04",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC12",
+   "valor": "TC-12",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC12 - APLICACAO CORREIA",
+   "valor": "TC-12",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC12 - FLEXCO - REFERENCIA",
+   "valor": "TC-12",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TC25",
+   "valor": "TC-25",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TCLASS 3.0X7.3",
+   "valor": "T-CLASS 3.0X7.3",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TCLASS 3.0X7.3 COM",
+   "valor": "T-CLASS 3.0X7.3",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "TCLASS 3.0X7.3 REFERENCIA",
+   "valor": "T-CLASS 3.0X7.3",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 10 8 F AH",
+   "valor": "WARMAN 10/8 F AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 10 8 F AH APLICACAO",
+   "valor": "WARMAN 10/8 F AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 10-8 F AH",
+   "valor": "WARMAN 10/8 F AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 10-8 F AH - FABRICANTE WEIR",
+   "valor": "WARMAN 10/8 F AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 6 4 D AH",
+   "valor": "WARMAN 6/4 D AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 6-4 D AH",
+   "valor": "WARMAN 6/4 D AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 6-4 D AH COD",
+   "valor": "WARMAN 6/4 D AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 6-4 D AH COM",
+   "valor": "WARMAN 6/4 D AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 64 D AH",
+   "valor": "WARMAN 6/4 D AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 8 6 AH",
+   "valor": "WARMAN 8/6 AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 8-6 AH",
+   "valor": "WARMAN 8/6 AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MODELO EQUIPAMENTO",
+   "termo": "WARMAN 8-6 AH COD",
+   "valor": "WARMAN 8/6 AH",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM110"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "MONTAGEM",
+   "termo": "MONTAGEM NAO FACEADO",
+   "valor": "NAO FACEADO",
+   "fonte": "llm",
+   "confirmacoes": 50,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "NORMA",
+   "termo": "NORMA ASME B16.11",
+   "valor": "ASME B16.11",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM050"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 12",
+   "valor": "M12",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM005"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 14",
+   "valor": "M14",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 16",
+   "valor": "M16",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 18",
+   "valor": "M18",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 20",
+   "valor": "M20",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 22",
+   "valor": "M22",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 24",
+   "valor": "M24",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 27",
+   "valor": "M27",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 30",
+   "valor": "M30",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 36",
+   "valor": "M36",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 6",
+   "valor": "M6",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M 8",
+   "valor": "M8",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-10",
+   "valor": "M10",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-12",
+   "valor": "M12",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-14",
+   "valor": "M14",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-16",
+   "valor": "M16",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM005"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-18",
+   "valor": "M18",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-20",
+   "valor": "M20",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-22",
+   "valor": "M22",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-24",
+   "valor": "M24",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-27",
+   "valor": "M27",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM005"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-30",
+   "valor": "M30",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-36",
+   "valor": "M36",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-6",
+   "valor": "M6",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PARA PARAFUSO",
+   "termo": "M-8",
+   "valor": "M8",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM004"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PASSAGEM",
+   "termo": "GAV",
+   "valor": "PLENA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PASSAGEM",
+   "termo": "PASSAGEM PLENA",
+   "valor": "PLENA",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PASSAGEM",
+   "termo": "PASSAGEM REDUZIDA",
+   "valor": "REDUZIDA",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PASSAGEM",
+   "termo": "PORTINHOLA",
+   "valor": "PLENA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PASSAGEM",
+   "termo": "STD",
+   "valor": "PLENA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PERFIL",
+   "termo": "PERFIL A",
+   "valor": "A",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM030"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PERFIL",
+   "termo": "PERFIL A DENTADA",
+   "valor": "A DENTADA",
+   "fonte": "llm",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM030"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PERFIL",
+   "termo": "PERFIL B",
+   "valor": "B",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 7,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM030"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "PERFIL",
+   "termo": "PERFIL B DENTADA",
+   "valor": "B DENTADA",
+   "fonte": "llm",
+   "confirmacoes": 47,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM030"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PERFIL",
+   "termo": "PERFIL DE B DENTADA",
+   "valor": "B DENTADA",
+   "fonte": "llm",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM030"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PERFIL",
+   "termo": "PERFIL SPA",
+   "valor": "SPA",
+   "fonte": "llm",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM030"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "PERFIL",
+   "termo": "PERFIL SPB",
+   "valor": "SPB",
+   "fonte": "llm",
+   "confirmacoes": 7,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM030"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "REFORCO",
+   "termo": "4 ESP ACO",
+   "valor": "4 ESPIRAIS ACO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM010"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "REFORCO",
+   "termo": "4 ESPIRAIS",
+   "valor": "4 ESPIRAIS ACO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM010"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "REFORCO",
+   "termo": "ESPIRAL ACO",
+   "valor": "4 ESPIRAIS ACO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM010"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "BITOLA M-4",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "BITOLA M12",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "BITOLA M14",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "BITOLA M16",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "BITOLA M20",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 5,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "DIAMETRO M 20",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "DIAMETRO M16",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 2,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M-12",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M-12X65",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M-14",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M-20",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M-6",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M-8",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M10X60",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M10X80",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M12",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M12X50",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M16",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 2,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M20X80",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M22X1,5",
+   "valor": "METRICA FINA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M24X2",
+   "valor": "METRICA FINA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M24X90",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M30",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M6X50",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M8X16",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "M8X80",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "MF",
+   "valor": "METRICA FINA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA DE M14",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA DE MA",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA DE MF",
+   "valor": "METRICA FINA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA FINA",
+   "valor": "METRICA FINA",
+   "fonte": "llm",
+   "confirmacoes": 15,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA GROSSA",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm",
+   "confirmacoes": 33,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA M",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA M14",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA M16",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 9,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA M5",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA MA",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 24,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA METRICA",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 18,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA METRICA FINA",
+   "valor": "METRICA FINA",
+   "fonte": "llm",
+   "confirmacoes": 18,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA METRICA GROSSA",
+   "valor": "METRICA GROSSA",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA MF",
+   "valor": "METRICA FINA",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 15,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA UNC",
+   "valor": "UNC",
+   "fonte": "llm",
+   "confirmacoes": 13,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ROSCA",
+   "termo": "ROSCA UNF",
+   "valor": "UNF",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM001"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ROSCA CORPO",
+   "termo": "CORPO M30",
+   "valor": "M30",
+   "fonte": "llm",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ROSCA CORPO",
+   "termo": "M-12",
+   "valor": "M12",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA CORPO",
+   "termo": "M-18",
+   "valor": "M18",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA CORPO",
+   "termo": "M-30",
+   "valor": "M30",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA CORPO",
+   "termo": "M-8",
+   "valor": "M8",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "ROSCA CORPO",
+   "termo": "ROSCA CORPO M12",
+   "valor": "M12",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "ROSCA CORPO",
+   "termo": "ROSCA M8",
+   "valor": "M8",
+   "fonte": "llm",
+   "confirmacoes": 8,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "SOLADO",
+   "termo": "BIDENSIDADE",
+   "valor": "PU BIDENSIDADE",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "SOLADO",
+   "termo": "POLIURETANO BIDENSIDADE",
+   "valor": "PU BIDENSIDADE",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "SOLADO",
+   "termo": "POLIURETANO BIDENSIDADE CERT",
+   "valor": "PU BIDENSIDADE",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "SOLADO",
+   "termo": "POLIURETANO BIDENSIDADE SEGURANCA",
+   "valor": "PU BIDENSIDADE",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "SOLADO",
+   "termo": "PU BID",
+   "valor": "PU BIDENSIDADE",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "SOLADO",
+   "termo": "PU BID -",
+   "valor": "PU BIDENSIDADE",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "SOLADO",
+   "termo": "PU BID BIQ",
+   "valor": "PU BIDENSIDADE",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "SOLADO",
+   "termo": "PU BID BIQUEIRA",
+   "valor": "PU BIDENSIDADE",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "SOLADO",
+   "termo": "SOLADO BIDENSIDADE",
+   "valor": "PU BIDENSIDADE",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "SOLADO",
+   "termo": "SOLADO DE BIDENSIDADE",
+   "valor": "PU BIDENSIDADE",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TENSAO",
+   "termo": "TENSAO 10-30VCC",
+   "valor": "10-30VCC",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM066"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TENSAO ISOLAMENTO",
+   "termo": "TENSAO ISOLAMENTO 0,6/1KV",
+   "valor": "0,6/1KV",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM060"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "BSP FEMEA",
+   "valor": "FEMEA RETA BSP",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "BSP MACHO",
+   "valor": "MACHO RETO BSP",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "CURVA 90 JIC JIC",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "DKO FEMEA 90",
+   "valor": "FEMEA CURVA 90 GRAUS DKO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEM CURVA 90 JIC",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEM CURVA 90 JIC PT",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEM RETA JIC",
+   "valor": "FEMEA RETA JIC",
+   "fonte": "llm",
+   "confirmacoes": 12,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA 45 JIC",
+   "valor": "FEMEA CURVA 45 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA 90 DKO",
+   "valor": "FEMEA CURVA 90 GRAUS DKO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA 90 DKO DIAMETRO INTERNO",
+   "valor": "FEMEA CURVA 90 GRAUS DKO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA 90 JIC",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA 90 ORFS",
+   "valor": "FEMEA CURVA 90 GRAUS ORFS",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA 90G JIC",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA 90G JIC - JIC",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA 90G JIC JIC",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA BSP",
+   "valor": "FEMEA RETA BSP",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA CURVA 90 GRAUS JIC TERM",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA RETA DKO TERMINAL A",
+   "valor": "FEMEA RETA DKO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA RETA JIC 37 GRAUS",
+   "valor": "FEMEA RETA JIC",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA RETA JIC COM TERMINAL B",
+   "valor": "FEMEA RETA JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FEMEA RETA JIC PRESSAO TRAB",
+   "valor": "FEMEA RETA JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FLANGE 3000PSI",
+   "valor": "FLANGE SAE 3000",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "FLANGE 6000PSI",
+   "valor": "FLANGE SAE 6000",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "JIC FEMEA 90",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "MACHO FIXO NPT",
+   "valor": "MACHO RETO NPT",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "MACHO JIC",
+   "valor": "MACHO RETO JIC",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "NPT MACHO",
+   "valor": "MACHO RETO NPT",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "TERMINAL A DKO FEMEA 90 TERMINAL B",
+   "valor": "FEMEA CURVA 90 GRAUS DKO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "TERMINAL A FEM CURVA 90 JIC TERMINAL B",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL A",
+   "termo": "TERMINAL A FEMEA 90 DKO LADO",
+   "valor": "FEMEA CURVA 90 GRAUS DKO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "BSP MACHO",
+   "valor": "MACHO RETO BSP",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "DKO FEMEA 90",
+   "valor": "FEMEA CURVA 90 GRAUS DKO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEM CURVA 90 JIC",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEM CURVA 90 JIC COM MATERIAL TERMINAIS",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEM CURVA 90 JIC MATERIAL",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEM CURVA 90 JIC TERMINAIS",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEM RETA JIC",
+   "valor": "FEMEA RETA JIC",
+   "fonte": "llm",
+   "confirmacoes": 9,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA 45 JIC",
+   "valor": "FEMEA CURVA 45 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA 45 JIC PRESSAO MAX",
+   "valor": "FEMEA CURVA 45 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA 90 DKO",
+   "valor": "FEMEA CURVA 90 GRAUS DKO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA 90 JIC",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA 90G JIC",
+   "valor": "FEMEA CURVA 90 GRAUS JIC",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA BSP",
+   "valor": "FEMEA RETA BSP",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA FEMMEA CURVA 90 GRAUS ORFS",
+   "valor": "FEMEA CURVA 90 GRAUS ORFS",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA GIRATORIA JIC",
+   "valor": "FEMEA RETA JIC",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA RETA DKO MAT",
+   "valor": "FEMEA RETA DKO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA RETA DKO MATERIAL TERMINAIS",
+   "valor": "FEMEA RETA DKO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FEMEA RETA DKOL",
+   "valor": "FEMEA RETA DKO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "FLANGE 3000PSI",
+   "valor": "FLANGE SAE 3000",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 4,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "JIC FEMEA 45",
+   "valor": "FEMEA CURVA 45 GRAUS JIC",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "MACHO JIC",
+   "valor": "MACHO RETO JIC",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "MACHO NPT",
+   "valor": "MACHO RETO NPT",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TERMINAL B",
+   "termo": "MACHO TERMINAL 2 NPT",
+   "valor": "MACHO RETO NPT",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM011"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "ACO RAPIDO",
+   "valor": "HSS",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM082"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "BOTIAN CADARCO",
+   "valor": "BOTINA CADARCO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "BOTINA CDAARCO",
+   "valor": "BOTINA CADARCO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "BOTINA ELAASTICO",
+   "valor": "BOTINA ELASTICO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM071"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "BULLBO",
+   "valor": "BULBO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM065"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "HSS-CO",
+   "valor": "HSS COBALTO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM082"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "HSS-CO - D",
+   "valor": "HSS COBALTO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM082"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "HSS-CO DIAMETRO",
+   "valor": "HSS COBALTO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM082"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "HSS-CO HASTE",
+   "valor": "HSS COBALTO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM082"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "MODELO B1",
+   "valor": "B1",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM032"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "MODELO PP",
+   "valor": "PP",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM060"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "T8",
+   "valor": "TUBULAR T8",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM065"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "TIPO B1",
+   "valor": "B1",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM032"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "TIPO BA",
+   "valor": "BA",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM032"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "TIPO BAB",
+   "valor": "BAB",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM032"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "TIPO DESBASTE",
+   "valor": "DESBASTE",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM081"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "TIPO FLEXIVEL",
+   "valor": "FLEXIVEL",
+   "fonte": "llm",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM060"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "TIPO",
+   "termo": "TIPO HSS-CO NORMA",
+   "valor": "HSS COBALTO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM082"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "2 VEDACOES BORRACHA",
+   "valor": "BORRACHA AMBOS LADOS",
+   "fonte": "llm",
+   "confirmacoes": 5,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "2RS",
+   "valor": "BORRACHA AMBOS LADOS",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 18,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "2Z",
+   "valor": "METALICA AMBOS LADOS",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "CILINDRICO",
+   "valor": "ABERTO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "FURO CILINDRICO",
+   "valor": "ABERTO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "PROTECAO 2Z",
+   "valor": "METALICA AMBOS LADOS",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "PROTECAO ABERTO",
+   "valor": "ABERTO",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "PROTECAO ZZ",
+   "valor": "METALICA AMBOS LADOS",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "SEM VEDACAO",
+   "valor": "ABERTO",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "VED 2 PLACAS METALICAS",
+   "valor": "METALICA AMBOS LADOS",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "VED 2 VEDACOES BORRACHA",
+   "valor": "BORRACHA AMBOS LADOS",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "VED 2Z",
+   "valor": "METALICA AMBOS LADOS",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "VEDACAO 2 VEDACOES BORRACHA",
+   "valor": "BORRACHA AMBOS LADOS",
+   "fonte": "llm",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": false
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "VEDACAO ABERTO",
+   "valor": "ABERTO",
+   "fonte": "llm",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO",
+   "termo": "ZZ",
+   "valor": "METALICA AMBOS LADOS",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 6,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM020"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO SEDE",
+   "termo": "CONE",
+   "valor": "METAL-METAL",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 2,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO SEDE",
+   "termo": "ETILENO PROPILENO",
+   "valor": "EPDM",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM044"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO SEDE",
+   "termo": "TEFLON",
+   "valor": "PTFE",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 3,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  },
+  {
+   "atributo": "VEDACAO SEDE",
+   "termo": "TEFLON REFORCADO",
+   "valor": "RPTFE",
+   "fonte": "llm+interpretacao",
+   "confirmacoes": 1,
+   "primeira_vez": "2026-11-07",
+   "ultima_vez": "2026-11-07",
+   "classes": [
+    "PDM040"
+   ],
+   "revisar": true
+  }
+ ]
+}

@@ -61,6 +61,117 @@ MAXIMO_TERMO = 40
 # barreira e aqui, que e o unico lado que eu posso editar.
 ROTULOS_INTERNOS = ("DICIONARIO APRENDIDO", "NOTACAO COMPACTA", "COLUNA ")
 
+# Marca gravada em `fonte` quando a entrada e interpretacao de dominio, nao
+# traducao de notacao (ver _aponta_um_valor). Vai no `fonte` em vez de um campo
+# novo de proposito: o arquivo e lido por `Entrada(**item)`, e campo novo
+# quebraria qualquer versao do codigo que ainda nao o conheca.
+MARCA_INTERPRETACAO = "+interpretacao"
+
+
+def _palavras_norm(s: str) -> list[str]:
+    return [p for p in normalizar(s).split() if p]
+
+
+def _parentes(a: str, b: str) -> bool:
+    """Duas palavras da mesma familia: FLANGES~FLANGE, REDUTORA~REDUTOR,
+    DISJUNTOR~MINIDISJUNTOR.
+
+    Tres criterios, do mais estrito ao mais frouxo, e o piso de 5 letras existe
+    para nao casar 'ACO'~'ACOPLAMENTO' nem '316'~'31600':
+      igualdade          '316' == '316' (numero curto so casa exato)
+      prefixo comum      FLANGES / FLANGE
+      palavra composta   DISJUNTOR dentro de MINIDISJUNTOR
+    """
+    if a == b:
+        return True
+    curto, longo = sorted((a, b), key=len)
+    if len(curto) < 5:
+        return False
+    return longo.startswith(curto[:5]) or curto in longo
+
+
+def _palavras_do_enum(atributo) -> set[str]:
+    return {p for v in atributo.valores for p in _palavras_norm(v)}
+
+
+def _termo_sem_ruido(atributo, termo: str) -> list[str]:
+    """Palavras do termo que existem no vocabulario do enum.
+
+    Descartar o resto e o que faz a diferenca entre reprovar e aprovar uma
+    traducao legitima: o LLM devolve como evidencia o trecho inteiro do texto,
+    que vem com o nome da caixa e com qualificadores que o enum nao usa -
+    'ROSCA METRICA FINA' (ROSCA nao esta no enum de ROSCA), 'MONTAGEM NAO
+    FACEADO', 'DIAMETRO 7/8 POL'. Comparando palavra a palavra sem limpar isso,
+    nenhuma delas casava inteira e todas caiam na regra do termo generico.
+    """
+    enum = _palavras_do_enum(atributo)
+    return [t for t in _palavras_norm(termo)
+            if any(_parentes(t, p) for p in enum)]
+
+
+def _valores_que_o_termo_alcanca(atributo, toks: list[str], todas: bool) -> list[str]:
+    """Valores do enum compativeis com as palavras uteis do termo.
+
+    todas=True  exige que TODA palavra util tenha parente no valor
+    todas=False basta UMA palavra util com parente no valor
+    """
+    if not toks:
+        return []
+    alcanca = []
+    for v in atributo.valores:
+        pv = _palavras_norm(v)
+        casa = [any(_parentes(t, p) for p in pv) for t in toks]
+        if (all(casa) if todas else any(casa)):
+            alcanca.append(v)
+    return alcanca
+
+
+def _aponta_um_valor(atributo, termo: str, valor: str) -> bool:
+    """O termo aponta lexicalmente para UM unico valor do enum?
+
+    E o teste que separa TRADUCAO de DECISAO, medido contra as 487 entradas
+    gravadas e contra o gold de caracteristicas:
+
+      traduz (passa)                         interpreta (reprova)
+      'FEMEA 90 JIC' -> FEMEA CURVA 90 ...   'FEMEA DKO' -> FEMEA RETA DKO
+      'AISI 316'     -> ACO INOX 316         'FLANGES'   -> FLANGE RF
+      'ACO ZINCADO'  -> ACO CARBONO ZINCADO  'ACO ESPECIAL' -> ACO CARBONO
+      'CAIXA REDUTORA' -> REDUTOR            'VOLANTE'   -> ALAVANCA
+      'BSP'          -> ROSCA BSP            'MANUAL'    -> ALAVANCA
+
+    Duas passadas porque enum composto e enum de sinonimo falham por motivos
+    opostos: em 'FEMEA CURVA 90 GRAUS JIC' nenhuma palavra e exclusiva (todas
+    aparecem em outro valor) e so o CONJUNTO identifica; em 'AISI 316' a
+    palavra do fabricante nao existe no enum e so '316' identifica. Exigir as
+    duas coisas ao mesmo tempo reprovaria uma das duas familias.
+
+    Reprovar nao apaga nada: a entrada fica como sugestao (`revisar=True`) e o
+    caminho de promocao e `exportar_para_curar` -> `sinonimos.py`, onde uma
+    pessoa decide. 'BUTT WELD' -> SOLDA TOPO BW, 'MANOPLA' -> ALAVANCA e as
+    siglas ('ZB', '2RS', 'BUNA-N') caem aqui: estao certas, mas nao se provam
+    pelo enum. Na pratica custa pouco, porque `sinonimos.py` - que e consultado
+    ANTES do dicionario - ja carrega as siglas que importam.
+
+    Isento atributo de grandeza (BITOLA, DIAMETRO, MODELO EQUIPAMENTO): ali
+    termo diferente do valor e o esperado, nao sinal de interpretacao. E a mesma
+    isencao que `revalidar` usa, pelo mesmo motivo.
+    """
+    from .llm import _vocabulario_puro
+
+    if normalizar(valor) not in atributo.chaves:
+        return False
+    if not _vocabulario_puro(atributo):
+        return True
+    canonico = atributo.chaves[normalizar(valor)]
+    toks = _termo_sem_ruido(atributo, termo)
+    por_todas = _valores_que_o_termo_alcanca(atributo, toks, todas=True)
+    if len(por_todas) == 1:
+        return normalizar(por_todas[0]) == normalizar(canonico)
+    if por_todas:
+        return False                      # alcanca dois ou mais: ambiguo
+    por_alguma = _valores_que_o_termo_alcanca(atributo, toks, todas=False)
+    return len(por_alguma) == 1 and normalizar(por_alguma[0]) == normalizar(canonico)
+
 
 @dataclass
 class Entrada:
@@ -84,10 +195,23 @@ class Aprendizado:
 
     def __init__(self, caminho: str | Path | None = None,
                  confirmacoes_para_confiar: int = 2, ativo: bool = True,
-                 pdm=None):
+                 pdm=None, congelado: bool = False, travas: bool = True):
         self.caminho = Path(caminho) if caminho else None
+        # Congelado: consulta normalmente, mas nao aprende nem grava. E o modo das
+        # execucoes que precisam ser reprodutiveis: sem ele, o 04_extrair aprende
+        # durante a execucao (com o que o BERT recorta) e grava no fim, e duas
+        # execucoes seguidas partem de dicionarios diferentes.
+        self.congelado = congelado
         self.limiar_confianca = confirmacoes_para_confiar
         self.ativo = ativo
+        # Travas de aplicacao (G1 a G5, descritas em consultar() e aprender()).
+        # Deixar desligavel e proposital: elas mudam o que o pipeline preenche, e
+        # uma execucao de comparacao precisa poder reproduzir o comportamento
+        # antigo sem editar codigo - `Aprendizado(..., travas=False)`.
+        self.travas = travas
+        # Candidato recusado por trava: vira fila de sugestao, nao vai para o
+        # lixo. Quem consome e scripts/18_curar_aprendizado.py.
+        self.bloqueados: list[dict] = []
         # Opcional. Com o PDM em maos, aprender() ja barra na ESCRITA o termo que
         # e o substantivo da classe; sem ele a mesma checagem so acontece em
         # revalidar(). Ver o comentario em revalidar() para por que isso importa.
@@ -120,6 +244,33 @@ class Aprendizado:
 
         O valor SEMPRE e revalidado contra o enum do atributo recebido - e isso
         que impede o aprendizado de vazar entre classes homonimas.
+
+        Com `travas=True` (padrao), mais duas recusas. As duas foram medidas
+        contra o conjunto-ouro (avaliacao/gold_caracteristicas.csv), onde esta
+        camada preenchia 70 rotulos e errava 28:
+
+        G1 traducao  o termo tem de apontar UM unico valor do enum DESTE
+                     atributo (ver `_aponta_um_valor`). Verificado na hora de
+                     aplicar, nao na de aprender, e por isso a entrada vale em
+                     qualquer classe onde continue verificavel - 'PRETO' ->
+                     OXIDADO PRETO, aprendido em PDM001, segue valendo em
+                     PDM002 - enquanto 'VOLANTE' -> 'ALAVANCA' e 'FLANGES' ->
+                     'FLANGE RF' nao valem em nenhuma.
+        G5 contexto  se o texto do item alcanca DOIS valores distintos do mesmo
+                     atributo, o dicionario se abstem. E o caso de TERMINAL A e
+                     TERMINAL B: `_por_gazetteer` recebe o texto inteiro, nao a
+                     caixa do atributo, e o casamento mais longo fazia o
+                     terminal B decidir o terminal A ('FEM CURVA 90 JIC'
+                     ganhando de 'FEMEA BSP').
+
+        O numero de confirmacoes deliberadamente NAO entra aqui: ele mede
+        repeticao, nao evidencia. Confirmar um sorteio ('FLANGES') quatro vezes
+        nao o torna leitura, e uma traducao vista uma vez ('PONTAS CHANFRADAS'
+        -> SOLDA TOPO BW) ja e verificavel. Ele continua governando a confianca
+        do candidato (0,93 x 0,80) via `confiavel`.
+
+        O que e recusado nao se perde: vai para `self.bloqueados`, que o
+        18_curar_aprendizado.py transforma em fila de sugestao.
         """
         if not self.ativo or not texto or not atributo.fechado:
             return None
@@ -127,6 +278,7 @@ class Aprendizado:
         t = f" {normalizar(texto)} "
 
         # casamento mais longo primeiro: 'ACO INOX 316' antes de 'INOX'
+        achados: list[tuple[Entrada, str]] = []
         for e in self._por_atributo(atributo.nome):
             if f" {e.termo} " not in t:
                 continue
@@ -135,8 +287,44 @@ class Aprendizado:
                 # aprendido para outro atributo homonimo: recusa e segue
                 self.contador["recusados_pelo_enum"] += 1
                 continue
-            self.contador["acertos"] += 1
-            return canonico
+            if self.travas and not _aponta_um_valor(atributo, e.termo, canonico):
+                self._bloquear(atributo, e, canonico,
+                               "termo nao aponta um unico valor do enum")
+                continue
+            achados.append((e, canonico))
+            if not self.travas:
+                break
+
+        if not achados:
+            return None
+        distintos = {c for _, c in achados}
+        if self.travas and len(distintos) > 1:
+            for e, canonico in achados:
+                self._bloquear(atributo, e, canonico,
+                               f"contexto alcanca {len(distintos)} valores")
+            return None
+        self.contador["acertos"] += 1
+        return achados[0][1]
+
+    def _bloquear(self, atributo, e: "Entrada", valor: str, motivo: str) -> None:
+        self.contador["bloqueados"] = self.contador.get("bloqueados", 0) + 1
+        self.bloqueados.append({"atributo": atributo.nome, "id_pdm": atributo.id_pdm,
+                                "termo": e.termo, "valor": valor,
+                                "confirmacoes": e.confirmacoes, "motivo": motivo})
+
+    def origem(self, atributo: str, valor: str, texto: str) -> str | None:
+        """De onde veio o termo que levou a este valor neste texto (llm, bert, manual).
+
+        Mesma regra de casamento de consultar() (termo mais longo primeiro). Serve
+        a proveniencia: o termo aprendido do LLM e aplicado como se fosse regra, e
+        sem isto o valor apareceria como 'aprendido' sem dizer que, na origem,
+        quem concluiu foi o LLM.
+        """
+        t = f" {normalizar(texto)} "
+        alvo = normalizar(valor)
+        for e in self._por_atributo(atributo):
+            if normalizar(e.valor) == alvo and f" {e.termo} " in t:
+                return e.fonte
         return None
 
     def confiavel(self, atributo: str, termo_ou_valor: str) -> bool:
@@ -206,7 +394,7 @@ class Aprendizado:
         validador do PDM: este modulo nao reinventa a validacao, so garante que
         o valor pertence ao enum do atributo em que esta sendo gravado.
         """
-        if not self.ativo or not atributo.fechado:
+        if self.congelado or not self.ativo or not atributo.fechado:
             return False
         t, v = normalizar(termo), normalizar(valor)
         if not (MINIMO_TERMO <= len(t) <= MAXIMO_TERMO) or not v:
@@ -226,13 +414,19 @@ class Aprendizado:
             self.contador["rejeitados"] += 1
             return False
 
+        # G1: traducao de notacao entra como regra; interpretacao de dominio
+        # entra como sugestao e nunca sai de `revisar` so por repeticao -
+        # confirmar um sorteio quatro vezes nao o transforma em leitura.
+        interpreta = self.travas and not _aponta_um_valor(atributo, t, valor)
+
         hoje = date.today().isoformat()
         chave = f"{atributo.nome}|{t}"
         e = self.entradas.get(chave)
         if e is None:
             self.entradas[chave] = Entrada(
                 atributo=atributo.nome, termo=t, valor=atributo.chaves[v],
-                fonte=fonte, primeira_vez=hoje, ultima_vez=hoje,
+                fonte=fonte + (MARCA_INTERPRETACAO if interpreta else ""),
+                primeira_vez=hoje, ultima_vez=hoje,
                 classes=[id_pdm] if id_pdm else [],
             )
             self._indice = None          # entrada nova muda a ordem do casamento
@@ -252,7 +446,10 @@ class Aprendizado:
         e.ultima_vez = hoje
         if id_pdm and id_pdm not in e.classes:
             e.classes.append(id_pdm)
-        if e.confirmacoes >= self.limiar_confianca:
+        if interpreta and MARCA_INTERPRETACAO not in e.fonte:
+            e.fonte += MARCA_INTERPRETACAO
+        if e.confirmacoes >= self.limiar_confianca \
+                and MARCA_INTERPRETACAO not in e.fonte:
             e.revisar = False
         self.contador["confirmados"] += 1
         return True
@@ -348,10 +545,54 @@ class Aprendizado:
                 fora.append((e, motivo))
         return fora
 
+    def curar(self, pdm) -> list[tuple["Entrada", str]]:
+        """Aplica G1 e G2 ao dicionario JA gravado, REBAIXANDO em vez de apagar.
+
+        Diferenca de `revalidar`, que deleta: ali o motivo e verificavel contra o
+        enum (numero trocado, rotulo interno) e a entrada nao serve a ninguem.
+        Aqui o motivo e "nao da para provar que e traducao" - a entrada pode
+        estar certa ('BUTT WELD' -> SOLDA TOPO BW esta), so nao pode virar regra
+        automatica. Rebaixada, ela continua no arquivo, para de ser aplicada
+        (G4 em consultar) e aparece em `exportar_para_curar` como candidata.
+
+        G2 e o caso 'VOLANTE' -> 'ALAVANCA': termo que E valor legitimo do mesmo
+        atributo em classe irma. A guarda de classe (G3) ja impede a aplicacao
+        fora da classe de origem, mas a entrada em si e um convite a erro e fica
+        marcada.
+
+        Devolve [(entrada, motivo)] do que foi rebaixado.
+        """
+        rebaixadas: list[tuple[Entrada, str]] = []
+        for e in self.entradas.values():
+            alvos, irmas = [], set()
+            for cid, classe in pdm.classes.items():
+                for x in classe.atributos:
+                    if x.nome != e.atributo or not x.fechado:
+                        continue
+                    if cid in e.classes:
+                        alvos.append(x)
+                    elif normalizar(e.termo) in x.chaves:
+                        irmas.add(cid)
+            motivo = ""
+            if irmas and not any(normalizar(e.termo) in a.chaves for a in alvos):
+                motivo = ("termo e valor valido deste atributo em "
+                          + ", ".join(sorted(irmas)))
+            elif alvos and not any(_aponta_um_valor(a, e.termo, e.valor)
+                                   for a in alvos):
+                motivo = "termo nao aponta um unico valor do enum (interpretacao)"
+            if not motivo:
+                continue
+            if MARCA_INTERPRETACAO not in e.fonte:
+                e.fonte += MARCA_INTERPRETACAO
+            if not e.revisar:
+                e.revisar = True
+                rebaixadas.append((e, motivo))
+        return rebaixadas
+
     # --------------------------------------------------------------- io
 
     def salvar(self) -> None:
-        if not self.caminho:
+        if not self.caminho or self.congelado:
             return
         self.caminho.parent.mkdir(parents=True, exist_ok=True)
         payload = {
