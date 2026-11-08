@@ -1721,7 +1721,14 @@ Produto: Retentor · Diametro eixo: 60 mm · Diametro alojamento: 80 mm · Largu
 
 <script>
 /* ---------- navegação ---------- */
-const titles={base:'base_materiais',clusters:'Clusters',inicio:'Início',manual:'Manual',radar:'Radar',busca:'Buscar material',cadastro:'Cadastrar novo item',requisicoes:'Requisições'};
+/* Uma entrada por tela. Faltando a entrada, o breadcrumb fica VAZIO (go() faz
+   crumb.textContent=titles[p]) - foi o que aconteceu com ia, intervencao,
+   cadastros, revisao e pedidos quando o desenho novo entrou. */
+const titles={base:'base_materiais',clusters:'Códigos juntados e NCM trocado',
+  ia:'Interferência de IA',intervencao:'Fila de intervenção',
+  pedidos:'Pedidos de cadastro',cadastros:'Cadastros',revisao:'Revisão de exceções',
+  inicio:'Início',manual:'Manual',radar:'Radar',busca:'Buscar material',
+  cadastro:'Cadastrar novo item',requisicoes:'Requisições'};
 const GROUP={inicio:'inicio',busca:'entrada',cadastro:'entrada',requisicoes:'sup',base:'base',clusters:'base',radar:'radar',manual:'manual'};
 function go(p){
   document.querySelectorAll('.page').forEach(e=>e.classList.toggle('active',e.id==='page-'+p));
