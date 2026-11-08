@@ -68,6 +68,29 @@ def num_f(v) -> float:
         return 0.0
 
 
+def recorte(texto: str, termo: str, volta: int = 34) -> str:
+    """O pedaco do texto em volta do termo, para a tela provar que leu.
+
+    Sem isto a tabela de aplicacoes mostra a DESCRICAO_CURTA do ERP, que tem 40
+    caracteres e corta justo o termo: 'COTOVELO 90 GRAUS DIAM 10" SCHEDULE SCH'
+    nao mostra o 'INOX 316' que a regra usou, e a aplicacao legitima passa a
+    parecer palpite. O trecho e o antidoto: ou o termo esta ali, ou nao esta.
+    """
+    if not texto or not termo:
+        return ""
+    alvo, base = termo.upper(), texto.upper()
+    i = base.find(alvo)
+    if i < 0:
+        # o texto pode usar pontuacao no meio ('MAT:INOX 316'): tenta sem ela
+        simples = "".join(c for c in base if c.isalnum() or c == " ")
+        i = simples.find(alvo)
+        if i < 0:
+            return ""
+        base, texto = simples, simples
+    ini, fim = max(0, i - volta), min(len(texto), i + len(alvo) + volta)
+    return ("…" if ini else "") + texto[ini:fim].strip() + ("…" if fim < len(texto) else "")
+
+
 def main():
     ap_cli = argparse.ArgumentParser()
     ap_cli.add_argument("--saida", default=str(ART / "regras_ia.json"))
@@ -165,12 +188,19 @@ def main():
                 if fonte == "aprendido":
                     e = entrada_que_casou(x["atributo"], x["valor"], texto)
                     if e is None:
+                        # Diz "dicionario aprendido" e nenhum termo do dicionario
+                        # ATUAL casa no texto. Em geral e rastro perdido (o termo
+                        # saiu na curadoria, ou casou por variacao), nao invencao:
+                        # a tela publica o texto para quem revisa julgar.
                         sem_ligacao.append(info(cod, atributo=x["atributo"],
-                                                valor=x["valor"]))
+                                                valor=x["valor"],
+                                                texto=(texto or "")[:160]))
                         continue
                     aplicacoes[e.chave].append(info(
                         cod, atributo=x["atributo"], valor=x["valor"],
-                        confianca=x.get("confianca"), estado=x.get("estado", "")))
+                        confianca=x.get("confianca"), estado=x.get("estado", ""),
+                        # a prova da leitura, por linha
+                        trecho=recorte(texto, e.termo)))
                 else:
                     linhas_ia.append(info(
                         cod, atributo=x["atributo"], valor=x["valor"], fonte=fonte,
@@ -206,6 +236,12 @@ def main():
         conta_origem[tipo] += 1
 
         c = curado.get(chave)
+        # Interpretacao x traducao, na definicao do proprio projeto (G1 em
+        # aprendizado.py): 'GALV FOGO' -> GALVANIZADO A FOGO e traducao de
+        # notacao; 'INOX 316' -> ACO INOX A403 WP316 acrescenta especificacao que
+        # o texto nao traz. Quem julga e o curador; a tela so precisa mostrar.
+        interpreta = "interpretacao" in e.fonte or "interpretacao" in (c or {}).get("fonte", "")
+        sem_trecho = sum(1 for x in usos if not x.get("trecho"))
         regras.append({
             "id": chave, "atributo": e.atributo, "termo": e.termo, "valor": e.valor,
             "fonte": e.fonte, "confirmacoes": e.confirmacoes, "classes": e.classes,
@@ -214,6 +250,10 @@ def main():
             # traducao: quando ele discorda do arquivo em uso, a tela mostra
             "curado_rebaixou": bool(c and c.get("revisar") and not e.revisar),
             "curado_fonte": (c or {}).get("fonte", ""),
+            "interpretacao": interpreta,
+            # aplicacao em que nem o trecho foi achado no texto: se aparecer, a
+            # regra decidiu sem o termo estar escrito, e a tela tem de gritar
+            "aplicacoes_sem_trecho": sem_trecho,
             "origem_tipo": tipo, "origens": origens, "n_origens": len(origens),
             "aplicacoes": usos, "n_aplicacoes": len(usos),
             "capital": round(sum(x["capital"] for x in usos), 2),
@@ -244,6 +284,8 @@ def main():
             "regras_uma_confirmacao": sum(1 for r in regras if r["confirmacoes"] == 1),
             "regras_com_conflito": sum(1 for r in regras if "conflito" in r["fonte"]),
             "regras_curado_rebaixou": sum(1 for r in regras if r["curado_rebaixou"]),
+            "regras_interpretacao": sum(1 for r in regras if r["interpretacao"]),
+            "aplicacoes_sem_trecho": sum(r["aplicacoes_sem_trecho"] for r in regras),
             "aplicacoes": sum(r["n_aplicacoes"] for r in regras),
             "aplicacoes_sem_ligacao": len(sem_ligacao),
             "capital_em_regras": round(sum(r["capital"] for r in regras), 2),
