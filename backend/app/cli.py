@@ -43,10 +43,23 @@ def _ingerir(args) -> None:
     with transacao() as c:
         v = repositorio.publica(c, s.pdm_xlsx)
         print(f"PDM publicado: versão {v}")
+    # A tabela oficial está versionada no repositório (1,3 MB, com vigência e ato
+    # nos metadados), e é dela que o pipeline de saneamento lê. Usar a versionada
+    # por padrão é o que faz o ./rodar.sh subir sem rede - e sem depender do
+    # Portal Único, que fica em parada programada todo dia entre 01:00 e 03:00.
+    # `--baixar-ncm` força a atualização.
+    versionada = RAIZ_BACKEND.parent / "dados" / "referencia" / "ncm_siscomex.json"
     cache = RAIZ_BACKEND / "artefatos" / "ncm_siscomex.json"
-    if args.baixar_ncm or not cache.exists():
+    if args.baixar_ncm:
         print("baixando a tabela oficial da NCM (Siscomex)...")
         tabela.baixa(cache)
+    elif not cache.exists():
+        if versionada.exists():
+            cache = versionada
+            print(f"tabela NCM versionada: {versionada.relative_to(RAIZ_BACKEND.parent)}")
+        else:
+            print("baixando a tabela oficial da NCM (Siscomex)...")
+            tabela.baixa(cache)
     with transacao() as c:
         print(f"tabela NCM importada: versão {tabela.importa(c, cache)}")
         print(f"base: {ingestao.importa_base(c, s.base_xlsx)} materiais")

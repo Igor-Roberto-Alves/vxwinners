@@ -18,11 +18,28 @@ URL="http://localhost:$PORTA/"
 porta_livre(){ ! (exec 3<>/dev/tcp/127.0.0.1/"$PORTA") 2>/dev/null; }
 
 # ---- ambiente ----------------------------------------------------------------
-if [[ ! -x "$PY" ]]; then
+if [[ ! -x "$PY" ]] || ! "$PY" -c "import fastapi" 2>/dev/null; then
   echo "[1/4] criando o ambiente em backend/.venv (Python 3.12)…"
   command -v python3.12 >/dev/null || { echo "ERRO: instale o Python 3.12."; exit 1; }
-  python3.12 -m venv backend/.venv
-  backend/.venv/bin/pip install --quiet -r backend/requirements.txt
+  rm -rf backend/.venv
+  # Em Debian/Ubuntu sem o pacote python3.12-venv, `python3.12 -m venv` cria um
+  # venv SEM pip (ensurepip indisponivel) e o install seguinte falha com
+  # "bin/pip: arquivo inexistente" - o venv fica pela metade e, na proxima
+  # execucao, o teste `-x $PY` passa e o script segue sem as dependencias. Por
+  # isso aqui: tenta o venv normal, confere se o pip veio, e cai para o uv
+  # quando nao veio. A condicao do if tambem passou a exigir `import fastapi`,
+  # para um venv pela metade ser refeito em vez de reaproveitado.
+  if python3.12 -m venv backend/.venv 2>/dev/null && [[ -x backend/.venv/bin/pip ]]; then
+    backend/.venv/bin/pip install --quiet -r backend/requirements.txt
+  elif command -v uv >/dev/null; then
+    echo "      sem ensurepip (instale python3.12-venv); usando o uv"
+    rm -rf backend/.venv
+    uv venv --quiet --python 3.12 backend/.venv
+    uv pip install --quiet --python backend/.venv/bin/python -r backend/requirements.txt
+  else
+    echo "ERRO: instale o pacote python3.12-venv (apt install python3.12-venv) ou o uv."
+    exit 1
+  fi
 else
   echo "[1/4] ambiente pronto"
 fi
