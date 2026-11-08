@@ -626,8 +626,11 @@ input[type=range]{accent-color:var(--accent)}
       <aside class="ax-result">
         <span class="ax-tag">RADAR · JUN–NOV 2026</span>
         <h3>O retorno da limpeza, em reais</h3>
-        <div class="ax-kpi"><strong>R$ 4,7 mi</strong><span>capital já consolidado <i style="font-style:normal;opacity:.7">(medido)</i></span></div>
-        <div class="ax-kpi"><strong>R$ 18,4 mi</strong><span>consolidável em 1.412 clusters abertos</span></div>
+        <!-- Preenchidos por frontend/radar.js a partir de artefatos/radar.json.
+             Nao escrever numero aqui: era isto que punha "R$ 4,7 mi · capital
+             ja consolidado (medido)" na home sem nenhuma unificacao executada. -->
+        <div class="ax-kpi"><strong id="home-consolidavel">—</strong><span id="home-consolidavel-d">capital consolidável</span></div>
+        <div class="ax-kpi"><strong id="home-consolidado">—</strong><span id="home-consolidado-d">capital já consolidado no ERP</span></div>
         <button class="ax-btn ax-btn-primary" onclick="go('radar')">Abrir o Radar</button>
       </aside>
     </div>
@@ -1585,44 +1588,40 @@ const fmtMi=v=>'R$ '+v.toFixed(2).replace('.',',')+' mi';
 function radarCalc(){
   const r=+document.getElementById('r-opp').value, pr=+document.getElementById('r-prem').value;
   document.getElementById('r-opp-l').textContent=r+'% a.a.';document.getElementById('r-prem-l').textContent=pr+'%';
-  document.getElementById('opp-rate').textContent=r+'%';
-  document.getElementById('opp-v').textContent=fmtMi(4.7*r/100);
-  document.getElementById('opp-pot').textContent=fmtMi((18.4-4.7)*r/100);
-  document.getElementById('buy-prem').textContent=pr+'%';
-  document.getElementById('buy-v').textContent=fmtMi(2.01*(1+pr/100));
+  // O capital vem de artefatos/radar.json (plano de juncao x base), nao de
+  // constante no HTML. Os cartoes que dependiam de premissa sem medicao sairam,
+  // por isso def() nao assume que o no existe.
+  const mi=window.RADAR ? RADAR.hero.consolidavel.valor/1e6 : 0;
+  const def=(id,v)=>{const n=document.getElementById(id); if(n) n.textContent=v;};
+  def('opp-rate', r+'%');
+  def('opp-v', fmtMi(mi*r/100));
+  def('opp-pot', fmtMi(mi*r/100));
+  def('buy-prem', pr+'%');
 }
 function trendChart(){
-  const m=['jun','jul','ago','set','out','nov'], v=[0.3,0.9,1.7,2.6,3.6,4.7];
-  const W=1100,H=240,L=40,R=50,T=14,B=26,max=6,x=i=>L+i*(W-L-R)/(m.length-1),y=d=>T+(H-T-B)*(1-d/max);
-  let g='';for(let t=0;t<=6;t+=2)g+=`<line class="grid-l" x1="${L}" x2="${W-R}" y1="${y(t)}" y2="${y(t)}"/><text x="${L-8}" y="${y(t)+3.5}" text-anchor="end">${t}</text>`;
-  m.forEach((k,i)=>g+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${k}</text>`);
-  const pts=v.map((d,i)=>x(i)+','+y(d)).join(' ');
-  g+=`<polygon points="${x(0)},${y(0)} ${pts} ${x(5)},${y(0)}" fill="var(--brand-bg)"/>`;
-  g+=`<polyline points="${pts}" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linejoin="round"/>`;
-  g+=`<line id="xh" y1="${T}" y2="${H-B}" stroke="var(--border-strong)" stroke-dasharray="3 3" style="display:none"/><circle id="xd" r="4.5" fill="var(--brand)" stroke="var(--panel)" stroke-width="2" style="display:none"/>`;
-  g+=`<circle cx="${x(5)}" cy="${y(4.7)}" r="4" fill="var(--brand)" stroke="var(--panel)" stroke-width="2"/><text x="${x(5)+8}" y="${y(4.7)+4}" style="fill:var(--text)">4,7</text>`;
-  g+=`<line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" stroke="var(--border-strong)"/>`;
-  const step=(W-L-R)/(m.length-1);
-  m.forEach((k,i)=>g+=`<rect x="${x(i)-step/2}" y="${T}" width="${step}" height="${H-T-B}" fill="transparent" data-i="${i}" class="hit"/>`);
-  const el=document.getElementById('trend');el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%">${g}</svg>`;
-  const inc=v.map((d,i)=>i?d-v[i-1]:d);
-  el.querySelectorAll('.hit').forEach(h=>{
-    h.addEventListener('mousemove',e=>{const i=+h.dataset.i;const xh=el.querySelector('#xh'),xd=el.querySelector('#xd');
-      xh.setAttribute('x1',x(i));xh.setAttribute('x2',x(i));xh.style.display='';xd.setAttribute('cx',x(i));xd.setAttribute('cy',y(v[i]));xd.style.display='';
-      showTT(e,`<b style="font-weight:500">${m[i]}/2026</b><br><span class="mono">${fmtMi(v[i])}</span> acumulado<br><span class="faint">+${inc[i].toFixed(1).replace('.',',')} mi no mês</span>`)});
-    h.addEventListener('mouseleave',()=>{el.querySelector('#xh').style.display='none';el.querySelector('#xd').style.display='none';hideTT()});
-  });
+  // Sem serie historica: esta e a primeira execucao do pipeline sobre a base, o
+  // marco zero. O mockup desenhava seis meses inventados ([0.3..4.7]).
+  const alvo=document.getElementById('trend');
+  if(!alvo) return;
+  if(!window.RADAR){ alvo.innerHTML=''; return; }
+  const h=RADAR.hero.consolidavel;
+  alvo.innerHTML=`<div style="padding:18px 4px;line-height:1.7">
+    <div class="mono" style="font-size:26px">${fmtMi(h.valor/1e6)}</div>
+    <div class="faint" style="font-size:12.5px;margin-top:6px">${h.detalhe}</div>
+    <div class="faint" style="font-size:11.5px;margin-top:10px;font-style:italic">
+      Sem série por mês: esta é a primeira execução sobre a base — o marco zero.
+      A próxima execução passa a comparar com esta.</div></div>`;
 }
 function healthTiles(){
-  const H=[['Aderência ao PDM',[21,27,36,44,51,58],'%','↑ melhor'],['Completude de identidade',[34,41,49,57,64,71],'%','↑ melhor'],['Duplicidades suspeitas',[14.2,12.9,10.8,9.1,7.4,6.1],'%','↓ melhor']];
-  document.getElementById('health').innerHTML=H.map(([n,d,u,dir])=>{
-    const W=140,Ht=40,mx=Math.max(...d)*1.1,mn=Math.min(...d)*0.85,px=i=>3+i*(W-6)/(d.length-1),py=v=>Ht-3-(Ht-6)*(v-mn)/(mx-mn);
-    const pts=d.map((v,i)=>px(i)+','+py(v)).join(' ');
-    const f=v=>String(v).replace('.',',');
-    return `<div class="spark-tile" data-tt="${n}: jun ${f(d[0])}${u} → nov ${f(d[5])}${u}|${dir}"><div class="faint" style="font-size:12px;min-height:34px">${n}</div>
-      <div style="display:flex;align-items:baseline;gap:6px;margin:4px 0"><span class="mono" style="font-size:20px">${f(d[5])}${u}</span><span class="faint mono" style="font-size:11px">era ${f(d[0])}${u}</span></div>
-      <svg viewBox="0 0 ${W} ${Ht}" width="100%" height="40" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>
-      <div class="faint" style="font-size:11px;margin-top:2px">${dir}</div></div>`}).join('');
+  // Medido na saida do pipeline (artefatos/saneado_base.csv), em vez da serie
+  // de seis meses do mockup, que nao existe em lugar nenhum.
+  const alvo=document.getElementById('health');
+  if(!alvo||!window.RADAR) return;
+  alvo.style.gridTemplateColumns='repeat(3,1fr)';
+  alvo.innerHTML=RADAR.saude.map(t=>`<div class="spark-tile" data-tt="${t.rotulo}|${t.detalhe}">
+    <div class="faint" style="font-size:12px;min-height:34px">${t.rotulo}</div>
+    <div class="mono" style="font-size:20px;margin-top:4px">${t.valor}</div>
+    <div class="faint" style="font-size:11px;margin-top:4px">${t.detalhe}</div></div>`).join('');
 }
 const TT=document.getElementById('tt');
 function showTT(e,h){TT.innerHTML=h;TT.style.display='block';const w=TT.offsetWidth;let x=e.clientX+14;if(x+w>innerWidth-8)x=e.clientX-w-14;TT.style.left=x+'px';TT.style.top=(e.clientY+14)+'px'}
