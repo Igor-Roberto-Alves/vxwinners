@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Pipeline de saneamento · mercado e modelo</title>
+<meta name="viewport" content="width=1334">
+<style>
+:root {
+  --navy:#17202a; --teal:#1d6a73; --surface:#f2f4f3; --card:#fefefe;
+  --track:#e0e6e5; --green:#2d794b; --cream:#f5ead2; --amber:#7e5200;
+  --pink:#f4dedb; --red:#8d2d29; --cyan:#5cb7c0; --onDark:#edf1f0;
+  --tit: "Archivo Narrow","Oswald","Roboto Condensed","Ubuntu Sans",
+         "Liberation Sans Narrow","Nimbus Sans Narrow",system-ui,sans-serif;
+  --txt: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono: ui-monospace,"JetBrains Mono","SF Mono","DejaVu Sans Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#8a9098;font-family:var(--txt);color:var(--navy)}
+.deck{display:flex;flex-direction:column;align-items:center;gap:22px;padding:22px}
+.slide{position:relative;width:1334px;height:750px;flex:0 0 auto;background:var(--surface);
+  padding:80px 90px 70px;overflow:hidden}
+.rot{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--teal);
+  text-transform:uppercase;margin:0 0 14px}
+h2{font-family:var(--tit);font-weight:800;font-stretch:condensed;font-size:46px;
+  line-height:1.04;letter-spacing:-.005em;margin:0 0 10px}
+.corpo{margin-top:14px}
+.fonte{position:absolute;left:90px;bottom:30px;right:90px;font-family:var(--mono);font-size:12px;
+  color:rgba(23,32,42,.45)}
+table{width:100%;border-collapse:collapse;font-size:17.5px;table-layout:fixed}
+thead th{background:var(--track);font-weight:600;font-size:14px;padding:10px 14px;text-align:left;
+  border:1px solid rgba(23,32,42,.10)}
+tbody td{padding:13px 15px;border:1px solid rgba(23,32,42,.10);background:var(--card);
+  vertical-align:top;line-height:1.35}
+tbody td:first-child{font-weight:600}
+tr.visao td{background:var(--cream);color:rgba(23,32,42,.85)}
+tr.visao td:first-child{color:var(--amber)}
+tr.nos td{background:#dcebe9}
+tr.nos td:first-child{color:var(--teal)}
+code{font-family:var(--mono);font-size:.92em;background:rgba(23,32,42,.055);padding:1px 5px;border-radius:3px}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grade.g2{margin-top:22px}
+.cartao{background:var(--card);border:1px solid rgba(23,32,42,.09);border-radius:8px;
+  padding:16px 20px 14px;min-height:150px;display:flex;flex-direction:column}
+.g2 .cartao{min-height:150px}
+.cartao.destaque{background:var(--cream);border-color:rgba(126,82,0,.18)}
+.crot{font-size:14px;color:rgba(23,32,42,.62);margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+.cnum{font-family:var(--tit);font-weight:800;font-stretch:condensed;font-size:40px;line-height:1;margin-bottom:auto}
+.cnum small,.nval small{font-size:.5em;font-weight:600;margin-left:3px}
+.cnota{font-size:13px;line-height:1.38;color:rgba(23,32,42,.72);margin-top:10px}
+.selo{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:2px 6px;border-radius:3px;height:fit-content;white-space:nowrap;margin-left:8px}
+.selo.medido{background:#dcebe9;color:var(--teal)}
+.selo.premissa{background:var(--cream);color:var(--amber)}
+.selo.externo{background:var(--track);color:rgba(23,32,42,.7)}
+.obs{font-size:17px;line-height:1.5;margin:16px 0 0;max-width:1150px}
+.obs.destaque-obs{background:var(--cream);border-left:3px solid var(--amber);padding:11px 16px;margin-top:12px}
+.obs.ressalva{background:var(--card);border-left:3px solid var(--teal);padding:11px 16px;font-size:14px;color:rgba(23,32,42,.8)}
+.funil{display:flex;flex-direction:column;gap:8px}
+.nivel{display:grid;grid-template-columns:70px 230px 1fr;align-items:center;gap:18px;
+  background:var(--card);border:1px solid rgba(23,32,42,.09);border-radius:8px;padding:16px 18px}
+.nivel.n2{margin-left:50px} .nivel.n3{margin-left:100px}
+.n1{border-left:6px solid var(--track)} .n2{border-left:6px solid var(--cyan)} .n3{border-left:6px solid var(--teal)}
+.ntag{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.1em;color:var(--teal)}
+.nval{font-family:var(--tit);font-weight:800;font-stretch:condensed;font-size:36px;line-height:1}
+.ntxt{font-size:14.5px;line-height:1.4;color:rgba(23,32,42,.78)}
+.ntxt .selo{margin-left:8px}
+@media print{
+  @page{size:1334px 750px;margin:0}
+  html,body{background:#fff}
+  .deck{gap:0;padding:0}
+  .slide{page-break-after:always;break-after:page}
+}
+</style></head>
+<body><div class="deck">
+<section class="slide">
+  <div class="rot">MODELO DE NEGÓCIO · O QUE O CLIENTE GANHA</div>
+  <h2>O cliente recupera 15× o que paga no primeiro ano</h2>
+  <div class="corpo"><div class="grade">
+  <div class="cartao">
+      <div class="crot">Capital consolidável<span class="selo medido">medido</span></div>
+      <div class="cnum" style="color:#1d6a73">R$ 30,24 mi</div>
+      <div class="cnota">15,1% dos R$ 200,87 mi em estoque, preso em códigos redundantes.</div>
+    </div>
+  <div class="cartao">
+      <div class="crot">Custo de oportunidade<span class="selo premissa">premissa</span></div>
+      <div class="cnum" style="color:#1d6a73">R$ 9,07 mi<small>/ano</small></div>
+      <div class="cnota">o que esse capital custa parado, a 30% a.a. (parâmetro do radar).</div>
+    </div>
+  <div class="cartao">
+      <div class="crot">Ponte entre plantas<span class="selo medido">medido</span></div>
+      <div class="cnum" style="color:#2d794b">R$ 1,1–2,3 mi</div>
+      <div class="cnota">74 itens parados há +2 anos numa planta e zerados noutra que os movimenta. Maior caso: Tambor Retorno Continental CT9903627, R$ 780,50 mil no CD com a mina zerada.</div>
+    </div>
+  <div class="cartao">
+      <div class="crot">Preço no ano 1<span class="selo premissa">premissa</span></div>
+      <div class="cnum">R$ 593 mil</div>
+      <div class="cnota">saneamento (23.554 registros × R$ 15) + assinatura de R$ 20 mil/mês.</div>
+    </div>
+  <div class="cartao destaque">
+      <div class="crot">Retorno no ano 1</div>
+      <div class="cnum" style="color:#7e5200">15×</div>
+      <div class="cnota">custo de oportunidade ÷ preço: o preço se paga em 0,8 mês de capital liberado.</div>
+    </div>
+  <div class="cartao">
+      <div class="crot">NCM corrigido<span class="selo medido">medido</span></div>
+      <div class="cnum" style="color:#1d6a73">1.104</div>
+      <div class="cnota">contra a tabela vigente: risco fiscal que sai da base sem projeto separado.</div>
+    </div>
+</div>
+<p class="obs ressalva"><b>Ressalva.</b> A Serra Azul é fictícia: todo número medido vale nesta base. O que se leva a outro cliente é o método,
+e a razão de 15,1% do estoque, que dimensiona o ganho de cada empresa com o estoque dela.</p></div>
+  <div class="fonte">fonte: artefatos/radar.json · plano_juncao.csv × 01_base_materiais.xlsx · premissas em 17_slides_mercado_html.py</div>
+</section>
+<section class="slide">
+  <div class="rot">MODELO DE NEGÓCIO · TRÊS RECEITAS</div>
+  <h2>O saneamento abre a porta; o cadastro sustenta o contrato</h2>
+  <div class="corpo"><table><colgroup><col style="width:20%"><col style="width:42%"><col style="width:20%"><col style="width:18%"></colgroup><thead><tr><th>camada</th><th>natureza</th><th>como cobra</th><th>na Serra Azul</th></tr></thead><tbody><tr><td>Saneamento</td><td>projeto, uma vez: limpa a base de 22 anos</td><td>por registro saneado (R$ 15)</td><td>R$ 353 mil uma vez</td></tr><tr><td>Modo de cadastro</td><td>operação contínua: 1.031 cadastros novos por ano, constante há 5 anos; inclui a ponte entre plantas</td><td>assinatura mensal</td><td>R$ 240 mil por ano</td></tr><tr class="visao"><td>Rede entre empresas · visão</td><td>a sobra de um cliente vira oferta para outro; a chave de identidade é o que torna os estoques comparáveis</td><td>comissão de 5% por transação</td><td>depende de vários clientes na mesma rede</td></tr></tbody></table><p class="obs">Sem o controle de entrada, a base volta a sujar a 1.031 itens por ano e o ganho do saneamento se perde. O saneamento vende,
+o cadastro mantém o cliente, e cada cliente novo deixa a rede mais valiosa para os outros.</p>
+<p class="obs destaque-obs"><b>Margem.</b> A IA quase não pesa no custo: os 12.909 fabricantes preenchidos por LLM custaram <b>US$ 20,45</b>,
+e as regras de custo zero resolvem o resto antes de chamar o modelo.</p></div>
+  <div class="fonte">fonte: docs/03-analise-mercado.md §5 e §9 · README.md · premissas em 17_slides_mercado_html.py</div>
+</section>
+<section class="slide">
+  <div class="rot">TAMANHO DE MERCADO · TAM, SAM E SOM</div>
+  <h2>Só a Petrobras tem 42 Serras Azuis em materiais</h2>
+  <div class="corpo"><div class="funil">
+  <div class="nivel n1"><div class="ntag">TAM</div><div class="nval">US$ 18,6 bi<small>/ano</small></div>
+    <div class="ntxt"><b>Mercado global de gestão de dados mestres (MDM), 2025.</b> É a categoria onde o produto compete. Os institutos divergem: US$ 5 a 23 bi conforme o instituto.<span class="selo externo">externo</span></div></div>
+  <div class="nivel n2"><div class="ntag">SAM</div><div class="nval">R$ 48 mi<small>/ano</small></div>
+    <div class="ntxt"><b>200 industriais multiplanta no Brasil</b> (mineração, energia, óleo e gás, siderurgia, celulose) × assinatura,
+      mais R$ 71 mi em projetos de saneamento. Piso: o preço é o de um cliente do porte da Serra Azul.<span class="selo premissa">premissa</span></div></div>
+  <div class="nivel n3"><div class="ntag">SOM</div><div class="nval">R$ 2,4 mi<small>/ano</small></div>
+    <div class="ntxt"><b>10 clientes no ano 3</b>, em receita recorrente, mais R$ 3,5 mi em projetos de saneamento acumulados.<span class="selo premissa">premissa</span></div></div>
+</div>
+<div class="grade g2">
+  <div class="cartao">
+      <div class="crot">Petrobras · materiais e suprimentos<span class="selo externo">externo</span></div>
+      <div class="cnum" style="color:#1d6a73">R$ 8,39 bi</div>
+      <div class="cnota">31/12/2024. A Serra Azul tem R$ 200,87 mi.</div>
+    </div>
+  <div class="cartao">
+      <div class="crot">Vale · estoque de consumo<span class="selo externo">externo</span></div>
+      <div class="cnum" style="color:#1d6a73">US$ 988 mi</div>
+      <div class="cnota">31/12/2024. Petróleo e mineração: dois setores do perfil, cada um com bilhões em materiais de manutenção.</div>
+    </div>
+  <div class="cartao destaque">
+      <div class="crot">Duplicidade · outros medidores<span class="selo externo">externo</span></div>
+      <div class="cnum" style="color:#7e5200">10 a 20%</div>
+      <div class="cnota">do estoque em operações multiplanta (Verusen) e 5 a 7% das compras de MRO (Verdantis). Aqui: 15,1%.</div>
+    </div>
+</div></div>
+  <div class="fonte">fonte: fortunebusinessinsights.com/master-data-management-market-114277 · Petrobras, DF 4T24 (6-K, SEC), nota de estoques · Vale, 20-F 2024, nota 13 · verusen.com · verdantis.com</div>
+</section>
+<section class="slide">
+  <div class="rot">CONCORRÊNCIA · POR QUE AGORA</div>
+  <h2>O mercado já paga por isso. Ninguém lê o texto em português</h2>
+  <div class="corpo"><table><colgroup><col style="width:27%"><col style="width:28%"><col style="width:45%"></colgroup><thead><tr><th>alternativa</th><th>o que faz</th><th>o que falta</th></tr></thead><tbody><tr><td>SAP MDG e módulos de ERP</td><td>fluxo de aprovação do cadastro</td><td>garante que o campo foi preenchido, não que está certo; não lê texto livre</td></tr><tr><td>Informatica, Stibo e plataformas de MDM</td><td>governam, versionam e casam registros</td><td>o casamento é por similaridade de texto, que acha 0 dos 2 grupos de duplicidade plantados no gabarito</td></tr><tr><td>Especialistas em MRO (Verdantis, Verusen, SPARETECH)</td><td>limpeza e enriquecimento de peças com IA</td><td>foco em inglês e catálogo global; não trazem NCM nem o PDM do cliente. Mostram que existe quem pague: a SPARETECH captou Série A com a Insight Partners</td></tr><tr><td>Consultoria e BPO de cadastro</td><td>equipe limpa a base em projeto</td><td>resolve o passivo e vai embora; a base volta a sujar</td></tr><tr class="nos"><td>vxwinners</td><td>lê texto industrial abreviado em português, contra o PDM</td><td>duplicidade por igualdade de chave, auditável; NCM; equivalência não é duplicidade; pendência em vez de palpite</td></tr></tbody></table><p class="obs"><b>Por que agora.</b> Ler <code>FILTRO P551808 DONALDSON</code> e separar part number de fabricante era trabalho de especialista.
+Com modelos de linguagem restritos à lista do PDM, custa centavos e dá para medir em gabarito. A reforma tributária (CBS/IBS) aumenta o custo de NCM errado.</p></div>
+  <div class="fonte">fonte: docs/03-analise-mercado.md §4, §7 e §8 · insightpartners.com (Série A da SPARETECH)</div>
+</section>
+</div></body></html>
