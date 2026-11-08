@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="455" viewBox="0 0 1240 455" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="s2" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#5b4b8a"/>
+    </marker>
+  </defs>
+  <style>
+    .caixa{fill:#f6f4fb;stroke:#5b4b8a;stroke-width:1.6}
+    .titulo{font-size:16px;font-weight:700;fill:#241b3a}
+    .sub{font-size:12px;fill:#4a4460}
+    .num{font-size:20px;font-weight:800;fill:#4f21a1}
+    .tag{font-size:11px;fill:#6b5fa8;font-weight:600;letter-spacing:.4px}
+    .fluxo{stroke:#5b4b8a;stroke-width:1.8;fill:none;marker-end:url(#s2)}
+    .faixa{fill:#efeaf9;stroke:#b9a8e0;stroke-width:1.2}
+    .ftxt{font-size:12px;fill:#44346b}
+  </style>
+
+  <text x="20" y="30" class="titulo" font-size="20">Pipeline de saneamento — mesmas caixas, mesmo item</text>
+
+  <!-- passos -->
+  <g>
+    <rect x="20"  y="60" width="215" height="130" class="caixa" rx="10"/>
+    <text x="36" y="88" class="titulo">1 · Base</text>
+    <text x="36" y="112" class="sub">texto livre, 22 anos de deriva,</text>
+    <text x="36" y="130" class="sub">seis plantas</text>
+    <text x="36" y="166" class="num">23.554 itens</text>
+
+    <rect x="266" y="60" width="215" height="130" class="caixa" rx="10"/>
+    <text x="282" y="88" class="titulo">2 · Classe</text>
+    <text x="282" y="112" class="sub">grupo reduz 44 classes a 1–3;</text>
+    <text x="282" y="130" class="sub">o substantivo decide</text>
+    <text x="282" y="166" class="num">90,8% acerto</text>
+
+    <rect x="512" y="60" width="215" height="130" class="caixa" rx="10"/>
+    <text x="528" y="88" class="titulo">3 · Caixas</text>
+    <text x="528" y="112" class="sub">regras, dicionários, gramática</text>
+    <text x="528" y="130" class="sub">e BERT preenchem atributos</text>
+    <text x="528" y="166" class="num">97,5% precisão</text>
+
+    <rect x="758" y="60" width="215" height="130" class="caixa" rx="10"/>
+    <text x="774" y="88" class="titulo">4 · Árbitro + LLM</text>
+    <text x="774" y="112" class="sub">validador do PDM em tudo;</text>
+    <text x="774" y="130" class="sub">LLM só na dúvida, nunca</text>
+    <text x="774" y="148" class="sub">no dado ausente</text>
+    <text x="774" y="176" class="num">3.482 p/ humano</text>
+
+    <rect x="1004" y="60" width="215" height="130" class="caixa" rx="10"/>
+    <text x="1020" y="88" class="titulo">5 · Junção</text>
+    <text x="1020" y="112" class="sub">chave de identidade igual =</text>
+    <text x="1020" y="130" class="sub">código redundante</text>
+    <text x="1020" y="166" class="num">98,5% precisão</text>
+  </g>
+
+  <path class="fluxo" d="M235,125 L264,125"/>
+  <path class="fluxo" d="M481,125 L510,125"/>
+  <path class="fluxo" d="M727,125 L756,125"/>
+  <path class="fluxo" d="M973,125 L1002,125"/>
+
+  <!-- faixa de camadas -->
+  <rect x="20" y="230" width="1199" height="92" class="faixa" rx="10"/>
+  <text x="36" y="256" class="tag">ONZE CAMADAS, DA EVIDÊNCIA MAIS FORTE À MAIS FRACA</text>
+  <text x="36" y="280" class="ftxt">rótulo no texto → lista do PDM → sinônimo curado → dicionário aprendido → gramática de grandeza → restrição de domínio</text>
+  <text x="36" y="302" class="ftxt">→ regra 2 do PDM → coluna do ERP → BERT → embedding com margem → LLM (só no resíduo; validador do PDM barra tudo)</text>
+
+  <!-- faixa de resultado -->
+  <rect x="20" y="342" width="1199" height="92" class="faixa" rx="10"/>
+  <text x="36" y="368" class="tag">SAÍDA</text>
+  <text x="36" y="392" class="ftxt">descrição no padrão PDM · plano de junção (um código fica, os outros apontam para ele) · NCM corrigido ou derivado</text>
+  <text x="36" y="414" class="ftxt">fila de intervenção humana com confiança por campo · cada valor com origem e evidência</text>
+</svg>

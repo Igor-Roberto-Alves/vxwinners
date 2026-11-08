@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="390" viewBox="0 0 1240 390" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="seta" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#5b4b8a"/>
+    </marker>
+  </defs>
+  <style>
+    .caixa{fill:#f6f4fb;stroke:#5b4b8a;stroke-width:1.6;rx:10}
+    .titulo{font-size:17px;font-weight:700;fill:#241b3a}
+    .sub{font-size:12.5px;fill:#4a4460}
+    .tag{font-size:11px;fill:#6b5fa8;font-weight:600;letter-spacing:.4px}
+    .fluxo{stroke:#5b4b8a;stroke-width:1.8;fill:none;marker-end:url(#seta)}
+    .rot{font-size:11.5px;fill:#5b4b8a}
+  </style>
+
+  <text x="20" y="30" class="titulo" font-size="20">Arquitetura da plataforma</text>
+
+  <!-- DADOS -->
+  <rect x="20" y="60" width="200" height="110" class="caixa" rx="10"/>
+  <text x="36" y="86" class="titulo">Dados do desafio</text>
+  <text x="36" y="108" class="sub">base de materiais (23.554)</text>
+  <text x="36" y="126" class="sub">pedidos de cadastro (520)</text>
+  <text x="36" y="144" class="sub">padrão PDM (44 classes)</text>
+
+  <!-- PIPELINE -->
+  <rect x="280" y="60" width="250" height="110" class="caixa" rx="10"/>
+  <text x="296" y="86" class="titulo">Pipeline de saneamento</text>
+  <text x="296" y="108" class="sub">src/saneamento · caixas, BERT,</text>
+  <text x="296" y="126" class="sub">árbitro, validador do PDM,</text>
+  <text x="296" y="144" class="sub">junção por chave de identidade</text>
+
+  <!-- ARTEFATOS -->
+  <rect x="590" y="60" width="220" height="110" class="caixa" rx="10"/>
+  <text x="606" y="86" class="titulo">artefatos/</text>
+  <text x="606" y="108" class="sub">radar.json · fila_intervencao</text>
+  <text x="606" y="126" class="sub">plano de junção · NCM trocado</text>
+  <text x="606" y="144" class="sub">dicionário aprendido (auditável)</text>
+
+  <!-- MOTOR DE SUGESTAO -->
+  <rect x="280" y="230" width="250" height="128" class="caixa" rx="10"/>
+  <text x="296" y="256" class="titulo">Serviço de sugestão</text>
+  <text x="296" y="278" class="sub">servico/api.py · FastAPI</text>
+  <text x="296" y="296" class="sub">léxico e regras · TF-IDF + RL</text>
+  <text x="296" y="314" class="sub">kNN de similares (anti-duplicata)</text>
+  <text x="296" y="342" class="tag">RESPOSTA EM ~19 MS</text>
+
+  <!-- BACKEND -->
+  <rect x="590" y="230" width="220" height="128" class="caixa" rx="10"/>
+  <text x="606" y="256" class="titulo">Backend de cadastro</text>
+  <text x="606" y="278" class="sub">backend/ · FastAPI + PostgreSQL</text>
+  <text x="606" y="296" class="sub">pedido → classe → atributos →</text>
+  <text x="606" y="314" class="sub">duplicidade → aprovação → ERP</text>
+  <text x="606" y="342" class="tag">AUDITORIA IMUTÁVEL · /api/v1</text>
+
+  <!-- INTERFACE -->
+  <rect x="890" y="130" width="320" height="180" class="caixa" rx="10"/>
+  <text x="906" y="156" class="titulo">Interface · plataforma.html</text>
+  <text x="906" y="180" class="sub">Buscar material · Cadastrar item</text>
+  <text x="906" y="198" class="sub">Pedidos · Revisão de exceções</text>
+  <text x="906" y="216" class="sub">Radar (procedência por número)</text>
+  <text x="906" y="234" class="sub">Fila de intervenção humana</text>
+  <text x="906" y="252" class="sub">Códigos juntados e NCM trocado</text>
+  <text x="906" y="270" class="sub">Interferência de IA (regras auditáveis)</text>
+  <text x="906" y="296" class="tag">UMA PESSOA DECIDE · NADA ENTRA SOZINHO</text>
+
+  <!-- BEDROCK -->
+  <rect x="20" y="230" width="200" height="128" class="caixa" rx="10" stroke-dasharray="6 3"/>
+  <text x="36" y="256" class="titulo">Amazon Bedrock</text>
+  <text x="36" y="278" class="sub">Claude (extração few-shot,</text>
+  <text x="36" y="296" class="sub">desempate no resíduo)</text>
+  <text x="36" y="314" class="sub">Cohere Embed (similaridade)</text>
+  <text x="36" y="342" class="tag">SÓ ONDE REGRAS NÃO ALCANÇAM</text>
+
+  <!-- fluxos -->
+  <path class="fluxo" d="M220,115 L278,115"/>
+  <path class="fluxo" d="M530,115 L588,115"/>
+  <path class="fluxo" d="M810,115 L888,160"/>
+  <path class="fluxo" d="M405,170 L405,228"/>
+  <path class="fluxo" d="M220,294 L278,294"/>
+  <path class="fluxo" d="M530,294 L588,294"/>
+  <path class="fluxo" d="M810,294 L888,268"/>
+  <path class="fluxo" d="M700,170 L700,228"/>
+
+  <text x="232" y="105" class="rot">ingestão</text>
+  <text x="541" y="105" class="rot">publica</text>
+  <text x="820" y="128" class="rot">telas leem</text>
+  <text x="412" y="205" class="rot">modelos treinados</text>
+  <text x="818" y="312" class="rot">API</text>
+  <text x="706" y="205" class="rot">ingestão + fila</text>
+</svg>
