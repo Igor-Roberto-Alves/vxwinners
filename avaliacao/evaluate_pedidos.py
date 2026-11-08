@@ -412,7 +412,81 @@ L.append(f"- **A anotação é de um LLM, em duas passadas não independentes.**
          f"conferir; até lá, provisório.\n")
 
 Path(a.saida).write_text("\n".join(L) + "\n", encoding="utf-8")
+
+# ------------------------------------------------------- metricas em JSON ----
+# Publicado para quem desenha (16_slides_pedidos_html.py) nao precisar digitar
+# numero nenhum: o slide le daqui. Mesma regra do 14_apresentacao_html.py.
+def _tri(k, n):
+    p, lo, hi = wilson(k, n)
+    return {"k": int(k), "n": int(n), "p": round(p, 4),
+            "ic": [round(lo, 4), round(hi, 4)]}
+
+
+met = {
+    "gerado_em": datetime.now().isoformat(timespec="seconds"),
+    "artefatos": str(ART),
+    "pedidos": int(gold_cls["ID_PEDIDO"].nunique()),
+    "rotulos_caixa": int(len(gold)),
+    "camadas_ligadas": "regras, gazetteer, gramatica, dominio, dicionario aprendido",
+    "camadas_desligadas": "BERT (artefatos/modelo_bert vazio), LLM (custo)",
+    "classe": {
+        "geral": _tri(int(cls["ok"].sum()), len(cls)),
+        "por_estilo": {k: _tri(int(g["ok"].sum()), len(g))
+                       for k, g in cls.groupby("estilo")},
+        "erros": int((~cls["ok"]).sum()),
+        "erros_no_catalogo": int((~cls[cls["estilo"] == "catalogo"]["ok"]).sum()),
+    },
+    "caixas": {
+        "precisao": _tri(int(ga["acerto"].sum()), len(ga)),
+        "cobertura": _tri(int(definidos["aceito"].sum()), len(definidos)),
+        "cobertura_classe_certa": _tri(int(dcls["aceito"].sum()), len(dcls)),
+        "por_estilo_cobertura": {
+            k: _tri(int(g[g["status"] == "DEFINIDO"]["aceito"].sum()),
+                    len(g[g["status"] == "DEFINIDO"]))
+            for k, g in cx.groupby("estilo")},
+    },
+    "invencao": {
+        "estrita": _tri(int(vazios["inv_estrita"].sum()), len(vazios)),
+        "permissiva": _tri(int(vazios["inv_permissiva"].sum()), len(vazios)),
+        "vazias_no_gabarito": int(len(vazios)),
+        "fracao_vazias": round(len(vazios) / max(len(cx), 1), 4),
+    },
+    "perdidas": {
+        "total": int(definidos["perdido"].sum()),
+        "por_classe_errada": int(definidos["perdido_classe_errada"].sum()),
+        "pendente": int(definidos["perdido_pendente"].sum()),
+        "ambiguo": int(definidos["perdido_ambiguo"].sum()),
+        "referencia_fabricante": int(
+            len(perd[perd["classe_ok"] & (perd["campo"] == "REFERENCIA FABRICANTE")])),
+        "terminais_ambiguos": int(
+            len(perd[perd["classe_ok"] & perd["campo"].str.startswith("TERMINAL")])),
+    },
+    "por_fonte": {
+        str(k): {"precisao": _tri(int(g[g["aceito"] & (g["status"] == "DEFINIDO")]["acerto"].sum()),
+                                  len(g[g["aceito"] & (g["status"] == "DEFINIDO")])),
+                 "n_gold": int(len(g))}
+        for k, g in cx.groupby("fonte")},
+    "erros_de_valor": [
+        {"pedido": r["ID_PEDIDO"], "classe": r["id_pdm"], "campo": r["campo"],
+         "gold": r["y_gold"], "pipeline": r["pred"], "fonte": r["fonte"],
+         "evidencia": r["evidencia"]}
+        for _, r in err.iterrows()],
+    "invencoes": [
+        {"pedido": r["ID_PEDIDO"], "classe": r["id_pdm"], "campo": r["campo"],
+         "pipeline": r["pred"], "permissivo": r["permissivo"], "fonte": r["fonte"]}
+        for _, r in inv.iterrows()],
+    "concordancia": {
+        "acordo_bruto": conc["global"]["acordo_bruto"],
+        "kappa": conc["global"]["kappa"],
+        "divergencias": conc["global"]["divergencias"],
+        "aviso": conc["aviso_independencia"],
+    },
+}
+_mj = Path(a.saida).with_suffix(".json")
+_mj.write_text(json.dumps(met, ensure_ascii=False, indent=1), encoding="utf-8")
+
 print(f"gravado {a.saida}")
+print(f"gravado {_mj}")
 print(f"  classe:   {pct(int(cls['ok'].sum()), len(cls))} em {len(cls)} pedidos")
 print(f"  caixas:   precisao {pct(int(ga['acerto'].sum()), len(ga))} em {len(ga)} afirmados")
 print(f"  cobertura {pct(int(definidos['aceito'].sum()), len(definidos))}")

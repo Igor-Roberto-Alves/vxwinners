@@ -1,6 +1,6 @@
 # Resultado: gabarito de PEDIDOS — classe e caixas
 
-Gerado por `avaliacao/evaluate_pedidos.py` em 2026-11-08 09:11, sobre `/home/igor-alves/clas/hack/vxwinners/artefatos`. Gabarito: `gold_pedidos.csv` (562 rótulos de caixa) e `gold_classe_pedidos.csv` (120 de classe), em 112 pedidos. Sorteio: `22_candidatos_pedidos.py` (semente 20261108); adjudicação: `23_adjudicar_pedidos.py`.
+Gerado por `avaliacao/evaluate_pedidos.py` em 2026-11-08 09:33, sobre `/home/igor-alves/clas/hack/vxwinners/artefatos`. Gabarito: `gold_pedidos.csv` (562 rótulos de caixa) e `gold_classe_pedidos.csv` (120 de classe), em 112 pedidos. Sorteio: `22_candidatos_pedidos.py` (semente 20261108); adjudicação: `23_adjudicar_pedidos.py`.
 
 IC = intervalo de confiança de 95% de Wilson.
 

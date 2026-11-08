@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<title>Pipeline de saneamento · slides de pedidos</title>
+<meta name="viewport" content="width=1334">
+<style>
+:root {
+  --navy:#17202a; --teal:#1d6a73; --surface:#f2f4f3; --card:#fefefe;
+  --track:#e0e6e5; --green:#2d794b; --cream:#f5ead2; --amber:#7e5200;
+  --pink:#f4dedb; --red:#8d2d29; --cyan:#5cb7c0; --onDark:#edf1f0;
+  --tit: "Archivo Narrow","Oswald","Roboto Condensed","Ubuntu Sans",
+         "Liberation Sans Narrow","Nimbus Sans Narrow",system-ui,sans-serif;
+  --txt: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono: ui-monospace,"JetBrains Mono","SF Mono","DejaVu Sans Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#8a9098;font-family:var(--txt);color:var(--navy)}
+.deck{display:flex;flex-direction:column;align-items:center;gap:22px;padding:22px}
+.slide{position:relative;width:1334px;height:750px;flex:0 0 auto;background:var(--surface);
+  padding:92px 90px 76px;overflow:hidden}
+.slide.escuro{background:var(--navy);color:var(--onDark)}
+.rot{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--teal);
+  text-transform:uppercase;margin:0 0 14px}
+.slide.escuro .rot{color:var(--cyan)}
+h2{font-family:var(--tit);font-weight:800;font-stretch:condensed;font-size:46px;
+  line-height:1.04;letter-spacing:-.005em;margin:0 0 10px}
+.sub{font-family:var(--mono);font-size:12.5px;color:rgba(23,32,42,.45);margin:0 0 20px}
+.corpo{margin-top:14px}
+.fonte{position:absolute;left:90px;bottom:34px;font-family:var(--mono);font-size:13px;
+  color:rgba(23,32,42,.45)}
+.slide.escuro .fonte{color:rgba(237,241,240,.45)}
+
+table{width:100%;border-collapse:collapse;font-size:16.5px}
+thead th{background:var(--track);font-weight:600;font-size:14.5px;padding:11px 14px;
+  border:1px solid rgba(23,32,42,.10)}
+tbody td{padding:11px 14px;border:1px solid rgba(23,32,42,.10);background:var(--card);
+  vertical-align:top;line-height:1.35}
+tbody td:first-child{font-weight:600}
+tr.ruim td{background:var(--pink)}
+tr.ruim td:first-child{color:var(--red)}
+code{font-family:var(--mono);font-size:.92em;background:rgba(23,32,42,.055);
+  padding:1px 5px;border-radius:3px}
+
+.barras{display:flex;flex-direction:column;gap:14px;margin:8px 0 26px}
+.linha{display:grid;grid-template-columns:270px 1fr 86px;align-items:center;gap:18px}
+.brot{font-size:17px;font-weight:600}
+.trilha{height:24px;background:var(--track);border-radius:4px;overflow:hidden}
+.fill{height:100%;border-radius:0 4px 4px 0}
+.bval{font-family:var(--tit);font-weight:800;font-stretch:condensed;font-size:24px;
+  text-align:right}
+
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cartao{background:var(--card);border:1px solid rgba(23,32,42,.09);border-radius:8px;
+  padding:20px 22px 18px;min-height:168px;display:flex;flex-direction:column}
+.cartao.destaque{background:var(--cream);border-color:rgba(126,82,0,.18)}
+.crot{font-size:14.5px;color:rgba(23,32,42,.62);margin-bottom:6px}
+.cnum{font-family:var(--tit);font-weight:800;font-stretch:condensed;font-size:42px;
+  line-height:1;margin-bottom:auto}
+.cnota{font-size:13.5px;line-height:1.4;color:rgba(23,32,42,.72);margin-top:12px}
+
+.obs{font-size:16px;line-height:1.5;margin:18px 0 0;max-width:1100px}
+.obs.destaque-obs{background:var(--cream);border-left:3px solid var(--amber);
+  padding:12px 16px;margin-top:14px}
+.obs.ressalva{background:var(--card);border-left:3px solid var(--teal);
+  padding:12px 16px;font-size:14.5px;color:rgba(23,32,42,.8)}
+
+@media print{
+  @page{size:1334px 750px;margin:0}
+  html,body{background:#fff}
+  .deck{gap:0;padding:0}
+  .slide{page-break-after:always;break-after:page}
+}
+</style></head>
+<body><div class="deck">
+<section class="slide">
+  <div class="rot">PEDIDOS · O QUE CHEGA, NÃO O QUE JÁ ESTÁ</div>
+  <h2>O gabarito mediu a base. O pedido é outra coisa.</h2>
+  
+  <div class="corpo"><table><thead><tr><th style="text-align:left"></th><th style="text-align:left">base</th><th style="text-align:left">pedido</th></tr></thead><tbody><tr><td style="text-align:left">registros</td><td style="text-align:left">23.554 materiais</td><td style="text-align:left">520 pedidos</td></tr><tr><td style="text-align:left">formato do texto</td><td style="text-align:left">uma coluna de descrição</td><td style="text-align:left">4 formatos · 3 canais de entrada</td></tr><tr><td style="text-align:left">caixa alta</td><td style="text-align:left">praticamente toda a base</td><td style="text-align:left">519 dos 520 têm minúscula</td></tr><tr><td style="text-align:left">onde está a informação</td><td style="text-align:left">na própria linha</td><td style="text-align:left">136 trazem o dado só no anexo</td></tr><tr><td style="text-align:left">língua</td><td style="text-align:left">português</td><td style="text-align:left">29 em inglês (catálogo do fornecedor)</td></tr><tr><td style="text-align:left">o problema</td><td style="text-align:left">campo vazio: 78,5% da referência do fabricante</td><td style="text-align:left">campo vazio é raro: 2,8% das caixas</td></tr></tbody></table><p class="obs">Medir na base não diz como o pipeline se comporta na <strong>entrada</strong>, que é onde o cadastro é decidido. Daí um gabarito próprio: 120 pedidos sorteados, 562 rótulos de caixa e 120 de classe, anotados só contra o texto cru e o PDM.</p></div>
+  <div class="fonte">fonte: avaliacao/GABARITO_PEDIDOS.md · dados/02_pedidos_cadastro.xlsx</div>
+</section>
+<section class="slide">
+  <div class="rot">ACERTO DE CLASSE · POR FORMATO DE ENTRADA</div>
+  <h2>Os erros de classe estão num canal só</h2>
+  <p class="sub">escala 0–100% · rótulo direto em cada barra · n e IC 95% no hover do HTML e em resultado_pedidos.md</p>
+  <div class="corpo"><div class="barras">
+<div class="linha" title="51 de 51 · IC 95% 93,0–100,0%">
+      <div class="brot">texto livre telegráfico</div>
+      <div class="trilha"><div class="fill" style="width:100.00%;background:#1d6a73"></div></div>
+      <div class="bval" style="color:#1d6a73">100,0%</div>
+    </div>
+<div class="linha" title="32 de 32 · IC 95% 89,3–100,0%">
+      <div class="brot">ficha técnica anexa</div>
+      <div class="trilha"><div class="fill" style="width:100.00%;background:#1d6a73"></div></div>
+      <div class="bval" style="color:#1d6a73">100,0%</div>
+    </div>
+<div class="linha" title="18 de 18 · IC 95% 82,4–100,0%">
+      <div class="brot">e-mail com lista</div>
+      <div class="trilha"><div class="fill" style="width:100.00%;background:#1d6a73"></div></div>
+      <div class="bval" style="color:#1d6a73">100,0%</div>
+    </div>
+<div class="linha" title="3 de 19 · IC 95% 5,5–37,6%">
+      <div class="brot">catálogo do fornecedor</div>
+      <div class="trilha"><div class="fill" style="width:15.79%;background:#8d2d29"></div></div>
+      <div class="bval" style="color:#8d2d29">15,8%</div>
+    </div>
+</div><p class="obs"><strong>Os três formatos em português dão 100%.</strong> O catálogo fica em 15,8% [5,5–37,6%], e é de onde vêm <strong>16 dos 16</strong> erros. A causa é a língua: essas linhas chegam em inglês (<code>Ball valve</code>, <code>Hex head bolt</code>, <code>Oil seal</code>), o pipeline não acha o substantivo do PDM e conclui FORA_DO_PDM. Os acertos do canal confirmam — são <code>O-ring</code>, que coincide com o qualificador do PDM, e um item com os atributos em português.</p><p class="obs destaque-obs">29 dos 520 pedidos (5,6%) entram por esse canal e seriam recusados por causa da língua. É conserto de vocabulário, não de modelo.</p></div>
+  <div class="fonte">fonte: avaliacao/resultado_pedidos.md §1 · gold_classe_pedidos.csv</div>
+</section>
+<section class="slide">
+  <div class="rot">PEDIDOS · MEDIDO EM GABARITO</div>
+  <h2>Afirma pouco, e erra quase nada</h2>
+  
+  <div class="corpo"><div class="grade"><div class="cartao">
+      <div class="crot">Acerto de classe</div>
+      <div class="cnum" style="color:#1d6a73">86,7%</div>
+      <div class="cnota">104 de 120 pedidos · IC 79,4–91,6%</div>
+    </div><div class="cartao">
+      <div class="crot">Precisão das caixas</div>
+      <div class="cnum" style="color:#2d794b">99,1%</div>
+      <div class="cnota">420 de 424 valores afirmados · IC 97,6–99,6%</div>
+    </div><div class="cartao">
+      <div class="crot">Cobertura, classe certa</div>
+      <div class="cnum" style="color:#1d6a73">92,0%</div>
+      <div class="cnota">77,7% no total; o resto se perde porque a classe errou</div>
+    </div><div class="cartao destaque">
+      <div class="crot">Invenção · estrita</div>
+      <div class="cnum" style="color:#7e5200">2/16</div>
+      <div class="cnota">caixas vazias preenchidas · IC 3,5–36,0%. Na leitura permissiva, 2/16</div>
+    </div><div class="cartao">
+      <div class="crot">Caixas perdidas</div>
+      <div class="cnum" style="color:#17202a">122</div>
+      <div class="cnota">85 por classe errada, 27 "não informado", 10 ambíguas</div>
+    </div><div class="cartao destaque">
+      <div class="crot">Concordância A×B · kappa</div>
+      <div class="cnum" style="color:#7e5200">0,984</div>
+      <div class="cnota">11 divergências adjudicadas — mas <strong>não</strong> são dois anotadores independentes</div>
+    </div></div><p class="obs ressalva"><strong>Ressalva de método.</strong> As duas passadas de anotação são do mesmo anotador — um LLM — sob regras de decisão diferentes, e não de duas pessoas. O kappa mede quanto a <em>regra</em> muda o rótulo, não concordância entre duas cabeças. Até <code>revisao_humana_pedidos.csv</code> voltar respondido, o gabarito é provisório. Execução medida sem BERT e sem LLM: são números do piso.</p></div>
+  <div class="fonte">fonte: avaliacao/resultado_pedidos.json · concordancia_pedidos.json</div>
+</section>
+<section class="slide">
+  <div class="rot">PEDIDOS · QUATRO DEFEITOS COM NOME E LINHA</div>
+  <h2>Cada número aponta um conserto</h2>
+  
+  <div class="corpo"><table><thead><tr><th style="text-align:left">defeito</th><th style="text-align:right">tamanho</th><th style="text-align:left">o que acontece</th></tr></thead><tbody><tr class="ruim"><td style="text-align:left">Vocabulário só em português</td><td style="text-align:right">16 erros de classe</td><td style="text-align:left">29 pedidos do canal de catálogo chegam em inglês e viram FORA_DO_PDM; cada recusa arrasta as caixas do item (85 das 122 perdidas)</td></tr><tr><td style="text-align:left">Referência do fabricante não é extraída</td><td style="text-align:right">25 caixas</td><td style="text-align:left">com a classe certa e o código visível no texto (<code>hb-467508</code>, <code>g2021</code>, <code>C 83 416</code>). Em PDM100 e PDM110 esse campo é metade da chave de identidade da regra 10</td></tr><tr><td style="text-align:left">Irmãos de grandeza</td><td style="text-align:right">2 invenções + 8 ambíguas</td><td style="text-align:left">caixa vazia recebe o valor da irmã (terminal A copiado para B; a seção virando também diâmetro interno); e o espelho, dois terminais no texto que o pipeline não sabe separar</td></tr><tr><td style="text-align:left">Camada <code>ordem_pdm</code></td><td style="text-align:right">0 de 3 certos</td><td style="text-align:left">nas correias, pôs o comprimento externo na caixa <code>REFERENCIA</code>, que devia levar a designação da correia (<code>A157</code>, <code>B146</code>, <code>SPB 3650</code>)</td></tr></tbody></table><p class="obs">Nenhum deles é "o modelo precisa melhorar". Os quatro têm arquivo, linha e teste possível — e o primeiro vale mais que os outros três somados.</p></div>
+  <div class="fonte">fonte: avaliacao/resultado_pedidos.md §3 a §5</div>
+</section>
+</div></body></html>
