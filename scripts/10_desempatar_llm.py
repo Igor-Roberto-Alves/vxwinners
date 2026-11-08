@@ -120,7 +120,9 @@ def tratar(alvo):
         aceitos.append((nome, v.valor, trecho))
         if trecho:
             with trava:
-                aprendizado.aprender(atributo, trecho, v.valor, "llm", cid)
+                # `cod` e a procedencia: a linha em que o LLM leu este trecho
+                aprendizado.aprender(atributo, trecho, v.valor, "llm", cid,
+                                     codigos=cod)
 
     with trava:
         cont["registros"] += 1

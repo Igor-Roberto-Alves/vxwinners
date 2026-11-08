@@ -36,7 +36,7 @@ RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ / "src"))
 
 from saneamento import Pdm, Validador  # noqa: E402
-from saneamento.aprendizado import Aprendizado  # noqa: E402
+from saneamento.aprendizado import MAXIMO_ORIGENS, Aprendizado  # noqa: E402
 from saneamento.llm import MODELO_PADRAO  # noqa: E402
 from saneamento.texto import normalizar  # noqa: E402
 
@@ -59,6 +59,11 @@ RX_MOTIVO = re.compile(r"BERT propos (.+?), recusado")
 print("Levantando os trechos recusados pelo enum...")
 freq: Counter = Counter()
 exemplo_classe: dict[tuple[str, str], str] = {}
+# Procedencia: os codigos em que o termo foi lido. Aqui a pergunta e por TERMO e
+# nao por registro, entao a regra nasce de VARIAS linhas - e sao essas linhas que
+# a revisao abre quando alguem derruba a regra. Guarda as primeiras
+# MAXIMO_ORIGENS; `freq` continua contando todas.
+codigos_do_termo: dict[tuple[str, str], list[str]] = {}
 with (ART / "decisoes_base.jsonl").open(encoding="utf-8") as fh:
     for linha in fh:
         d = json.loads(linha)
@@ -88,6 +93,9 @@ with (ART / "decisoes_base.jsonl").open(encoding="utf-8") as fh:
             chave = (x["atributo"], normalizar(termo))
             freq[chave] += 1
             exemplo_classe.setdefault(chave, d["id_pdm"])
+            origens = codigos_do_termo.setdefault(chave, [])
+            if len(origens) < MAXIMO_ORIGENS:
+                origens.append(d["codigo"])
 
 ordenado = freq.most_common(a.limite or None)
 ocorr = sum(freq.values())
@@ -198,7 +206,8 @@ def resolver(item):
             v = validador.valor(atributo, valor)
             if not v.ok:
                 cont["recusado_validador"] += 1
-            elif aprendizado.aprender(atributo, termo, v.valor, "llm", cid):
+            elif aprendizado.aprender(atributo, termo, v.valor, "llm", cid,
+                                      codigos=codigos_do_termo.get((attr, termo), ())):
                 cont["aprendido"] += 1
                 cont["ocorr_resolvidas"] += n
                 decisoes_llm.append({"atributo": attr, "termo": termo,

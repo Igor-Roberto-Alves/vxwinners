@@ -335,7 +335,8 @@ class Pipeline:
             valores = {k: v for k, v in valores.items() if k in em_duvida}
             if valores:
                 res = self.arbitro.incorporar_llm(
-                    classe, res, valores, evidencias=evidencias, aprendizado=self.aprendizado)
+                    classe, res, valores, evidencias=evidencias,
+                    aprendizado=self.aprendizado, codigo=codigo)
                 escalado = True
                 self.contador["desempates_aplicados"] += 1
         # Deteccao de ausente x perdido (scripts/12_detectar_ausentes.py). So
@@ -393,7 +394,8 @@ class Pipeline:
             if resposta.valores:
                 res = self.arbitro.incorporar_llm(
                     classe, res, resposta.valores,
-                    evidencias=resposta.evidencias, aprendizado=self.aprendizado)
+                    evidencias=resposta.evidencias, aprendizado=self.aprendizado,
+                    codigo=codigo)
                 escalado = True
                 self.contador["escalados"] += 1
             elif resposta.erro:
@@ -439,7 +441,7 @@ class Pipeline:
             d.evidencia = f"coluna {coluna}"
             d.motivo = f"preenchido pela coluna {coluna} do cadastro"
 
-    def _aprender_do_bert(self, classe, res) -> None:
+    def _aprender_do_bert(self, classe, res, codigo: str = "") -> None:
         """Guarda o que o BERT recortou e o validador aprovou.
 
         So caixa TEXTUAL (vocabulario fechado): em caixa NUMERICA o par
@@ -454,10 +456,10 @@ class Pipeline:
             atributo = por_nome.get(d.atributo)
             if atributo is not None and atributo.fechado:
                 self.aprendizado.aprender(atributo, d.evidencia, d.valor,
-                                          "bert", classe.id_pdm)
+                                          "bert", classe.id_pdm, codigos=codigo)
 
     def _montar(self, registro, classe, sujeito, res, escalado, texto, original, codigo, grupo):
-        self._aprender_do_bert(classe, res)
+        self._aprender_do_bert(classe, res, codigo)
         self._preencher_das_colunas(registro, classe, res)
         # Recontar e necessario porque _preencher_das_colunas acabou de encher
         # caixa (FABRICANTE, REFERENCIA FABRICANTE) depois de o arbitro medir.

@@ -419,6 +419,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
     <h6>Base</h6>
     <div class="side-item" data-nav="base" onclick="go('base')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>base_materiais<span class="count">23.554</span></div>
     <div class="side-item" data-nav="clusters" onclick="go('clusters')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg>Juntados e NCM<span class="count">1.991</span></div>
+    <div class="side-item" data-nav="ia" onclick="go('ia')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="5" width="16" height="14" rx="3"/><path d="M9 10h.01M15 10h.01M9 14h6"/><path d="M12 2v3"/></svg>Interferência de IA<span class="count" id="n-ia">487</span></div>
     <div class="side-item" data-nav="intervencao" onclick="go('intervencao')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h10M4 12h7M4 18h10"/><path d="M15.5 15.5 19 19M19 19l1.5-1.5-3.5-3.5-1.5 1.5z"/></svg>Fila de intervenção<span class="count" id="n-intervencao">—</span></div>
   </div>
 </aside>
@@ -758,6 +759,92 @@ input[type=range]{accent-color:var(--brand);width:100%}
   </div>
 </section>
 
+<!-- ========================================== INTERFERÊNCIA DE IA (dados reais) -->
+<section class="page" id="page-ia">
+  <div class="page-head">
+    <div>
+      <h1>Interferência de IA</h1>
+      <p>Cada regra que o LLM criou no dicionário, a linha de onde ela saiu e <b>todas</b> as linhas
+         em que ela decidiu. Uma pergunta respondida uma vez vira regra e passa a decidir sozinha:
+         se a resposta estava errada, estão erradas todas as linhas que a usaram. Por isso, derrubar
+         uma aplicação não derruba só ela — a tela mostra as outras e pergunta se a regra caiu ali
+         ou se não vale em lugar nenhum. <span class="faint" id="ia-gerado"></span></p>
+    </div>
+    <div class="actions">
+      <button class="btn sm" id="ia-exportar" title="Baixa as decisões desta sessão em .jsonl, no formato que o scripts/18_curar_aprendizado.py consome">Exportar decisões</button>
+      <button class="btn sm ghost" id="ia-limpar">Limpar sessão</button>
+    </div>
+  </div>
+
+  <div class="grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px" id="ia-kpis"></div>
+
+  <div style="display:flex;gap:6px;margin-bottom:14px" id="ia-abas">
+    <button class="seg-btn on" data-aba="regras">Regras do dicionário</button>
+    <button class="seg-btn" data-aba="decisoes">Decisões diretas de IA</button>
+  </div>
+
+  <!-- ------------------------------------------------- regras do dicionário -->
+  <div id="ia-aba-regras">
+    <div class="card">
+      <div class="card-h"><h3>Regras aprendidas</h3><span class="sub" id="ia-r-sub">—</span>
+        <div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="toolbar">
+        <input class="inp" id="ia-r-busca" placeholder="Buscar termo, valor, atributo, classe…" style="width:250px">
+        <select class="sel" id="ia-r-filtro">
+          <option value="usadas">só as que decidiram alguma linha</option>
+          <option value="">todas as regras</option>
+          <option value="revisao">em revisão</option>
+          <option value="uma">com uma confirmação só</option>
+          <option value="conflito">com conflito de valor</option>
+          <option value="rebaixada">o curador rebaixou</option>
+          <option value="decididas">já julgadas nesta sessão</option>
+        </select>
+        <select class="sel" id="ia-r-ordem">
+          <option value="linhas">ordenar por linhas afetadas</option>
+          <option value="capital">ordenar por capital afetado</option>
+          <option value="confirmacoes">ordenar por confirmações</option>
+        </select>
+        <span class="faint" id="ia-r-conta" style="margin-left:auto;font-size:12px"></span>
+      </div>
+      <div style="overflow:auto"><table class="tbl" id="ia-r-table"></table></div>
+      <div class="pager" id="ia-r-pager"></div>
+    </div>
+
+    <div class="card section-gap" id="ia-detalhe">
+      <div class="card-h"><h3 id="ia-d-titulo">—</h3><span class="sub" id="ia-d-sub"></span>
+        <div class="r" id="ia-d-selo"></div></div>
+      <div class="card-b">
+        <div id="ia-d-origem" style="margin-bottom:14px"></div>
+        <div id="ia-d-validacao"></div>
+        <div style="font-size:12px;color:var(--text-2);margin:14px 0 8px" id="ia-d-usos-tit"></div>
+        <div style="overflow:auto"><table class="tbl" id="ia-d-usos"></table></div>
+        <div class="divider"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap" id="ia-d-acoes"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- --------------------------------------------- decisões diretas de IA -->
+  <div id="ia-aba-decisoes" style="display:none">
+    <div class="card">
+      <div class="card-h"><h3>Decisões de IA sem regra por trás</h3>
+        <span class="sub" id="ia-d2-sub">—</span>
+        <div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="card-b" style="padding-bottom:0">
+        <div class="grid" style="grid-template-columns:repeat(5,1fr)" id="ia-d2-fontes"></div>
+        <div class="faint" style="font-size:11.5px;margin:10px 0 2px" id="ia-d2-nota"></div>
+      </div>
+      <div class="toolbar">
+        <input class="inp" id="ia-d2-busca" placeholder="Buscar código, atributo, valor, evidência…" style="width:250px">
+        <select class="sel" id="ia-d2-fonte"><option value="">toda decisão de IA</option></select>
+        <span class="faint" id="ia-d2-conta" style="margin-left:auto;font-size:12px"></span>
+      </div>
+      <div style="overflow:auto"><table class="tbl" id="ia-d2-table"></table></div>
+      <div class="pager" id="ia-d2-pager"></div>
+    </div>
+  </div>
+</section>
+
 <!-- ================================================================ INTERVENÇÃO -->
 <section class="page" id="page-intervencao">
   <div class="page-head">
@@ -1092,7 +1179,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
 
 <script>
 /* ---------- navegação ---------- */
-const titles={pedidos:'Pedidos de cadastro',cadastros:'Cadastros',revisao:'Revisão de exceções',base:'base_materiais',clusters:'Códigos juntados e NCM trocado',inicio:'Início',manual:'Manual',radar:'Radar',busca:'Buscar material',cadastro:'Cadastrar novo item',requisicoes:'Requisições',intervencao:'Fila de intervenção'};
+const titles={pedidos:'Pedidos de cadastro',cadastros:'Cadastros',revisao:'Revisão de exceções',base:'base_materiais',clusters:'Códigos juntados e NCM trocado',ia:'Interferência de IA',inicio:'Início',manual:'Manual',radar:'Radar',busca:'Buscar material',cadastro:'Cadastrar novo item',requisicoes:'Requisições',intervencao:'Fila de intervenção'};
 function go(p){
   document.querySelectorAll('.page').forEach(e=>e.classList.toggle('active',e.id==='page-'+p));
   document.querySelectorAll('[data-nav]').forEach(e=>e.classList.toggle('active',e.dataset.nav===p));

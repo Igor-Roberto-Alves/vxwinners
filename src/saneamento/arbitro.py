@@ -298,7 +298,7 @@ class Arbitro:
     def incorporar_llm(self, classe: Classe, res: Resultado,
                        proposto: dict[str, str | None],
                        evidencias: dict[str, str] | None = None,
-                       aprendizado=None) -> Resultado:
+                       aprendizado=None, codigo: str = "") -> Resultado:
         """Aplica a resposta do LLM, sempre sujeita ao validador.
 
         O LLM nao tem passe livre: valor fora da lista de valores permitidos e
@@ -335,8 +335,10 @@ class Arbitro:
             if aprendizado is not None and evidencia_llm:
                 atributo_alvo = next((x for x in classe.atributos if x.nome == nome), None)
                 if atributo_alvo is not None:
+                    # `codigo` e a procedencia da regra: a linha em que o LLM leu
+                    # este termo. Ver Entrada.origens em aprendizado.py.
                     aprendizado.aprender(atributo_alvo, evidencia_llm, v.valor,
-                                         "llm", classe.id_pdm)
+                                         "llm", classe.id_pdm, codigos=codigo)
 
         # Reusa o conjunto que arbitrar() ja apurou. Recalcular por
         # classe.obrigatorios aqui refazia o filtro quando=='sempre' e devolvia a

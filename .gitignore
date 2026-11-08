@@ -44,6 +44,12 @@ artefatos/treino.log
 # limpa nao tem o plano_juncao.csv para regerar)
 artefatos/juncao_ncm.json
 
+# mesma regra, mesmo motivo: 2,8 MB cada. A copia versionada e
+# frontend/dados/regras_ia.json, porque numa maquina limpa o
+# scripts/22_regras_ia.py nao tem aprendizado.json nem desempate_llm.jsonl para
+# regerar a tela de regras da IA
+artefatos/regras_ia.json
+
 # versionados de proposito: pdm.json, treino.jsonl e validacao.jsonl
 # tornam o treino em outra maquina um 'git clone' (ver docs/03-treinar-bert.md)
 

@@ -29,7 +29,7 @@ Duas salvaguardas, as duas vindas de bugs reais deste projeto:
 from __future__ import annotations
 
 import json
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, fields
 from datetime import date
 from pathlib import Path
 
@@ -39,6 +39,10 @@ from .texto import normalizar
 MINIMO_TERMO = 2
 # Termo longo demais e descricao inteira, nao termo: nao generaliza.
 MAXIMO_TERMO = 40
+# Quantos codigos de origem guardar por entrada. O que a auditoria precisa e
+# poder abrir A linha que originou a regra e algumas irmas; guardar as 255 seria
+# duplicar a lista de aplicacoes, que o publicador da tela ja reconstroi.
+MAXIMO_ORIGENS = 20
 
 # Rotulos que o PROPRIO pipeline grava no campo `evidencia` quando a camada que
 # resolveu a caixa nao recortou trecho nenhum do texto:
@@ -184,6 +188,11 @@ class Entrada:
     ultima_vez: str = ""
     classes: list[str] = field(default_factory=list)   # onde foi visto
     revisar: bool = True            # ate ser confirmado N vezes ou promovido
+    # Codigos de material de onde o termo veio. Sem isto, uma regra aprendida do
+    # LLM e aplicada em 255 registros sem que se possa voltar a linha que a
+    # provisionou - e e justo essa linha que diz se a regra era leitura ou
+    # palpite. Guarda os primeiros MAXIMO_ORIGENS; `confirmacoes` conta o total.
+    origens: list[str] = field(default_factory=list)
 
     @property
     def chave(self) -> str:
@@ -387,12 +396,16 @@ class Aprendizado:
         return ""
 
     def aprender(self, atributo, termo: str, valor: str, fonte: str,
-                 id_pdm: str = "") -> bool:
+                 id_pdm: str = "", codigos: str | tuple | list = ()) -> bool:
         """Registra termo -> valor. Devolve True se entrou ou foi confirmado.
 
         O chamador e responsavel por so chamar com valor JA APROVADO pelo
         validador do PDM: este modulo nao reinventa a validacao, so garante que
         o valor pertence ao enum do atributo em que esta sendo gravado.
+
+        `codigos` e a procedencia: o codigo (ou os codigos) de material em que o
+        termo foi lido. Opcional para nao quebrar chamador antigo, mas sem ele a
+        regra fica sem a linha que a provisionou.
         """
         if self.congelado or not self.ativo or not atributo.fechado:
             return False
@@ -420,6 +433,8 @@ class Aprendizado:
         interpreta = self.travas and not _aponta_um_valor(atributo, t, valor)
 
         hoje = date.today().isoformat()
+        novos = [codigos] if isinstance(codigos, str) else list(codigos)
+        novos = [str(c) for c in novos if c]
         chave = f"{atributo.nome}|{t}"
         e = self.entradas.get(chave)
         if e is None:
@@ -428,6 +443,7 @@ class Aprendizado:
                 fonte=fonte + (MARCA_INTERPRETACAO if interpreta else ""),
                 primeira_vez=hoje, ultima_vez=hoje,
                 classes=[id_pdm] if id_pdm else [],
+                origens=novos[:MAXIMO_ORIGENS],
             )
             self._indice = None          # entrada nova muda a ordem do casamento
             self.contador["aprendidos"] += 1
@@ -436,12 +452,15 @@ class Aprendizado:
         if normalizar(e.valor) != v:
             # mesmo termo, valor diferente: conflito. Marca para revisao e NAO
             # sobrescreve - duas respostas para a mesma pergunta e sinal de que
-            # o termo e ambiguo e nao devia estar no dicionario.
+            # o termo e ambiguo e nao devia estar no dicionario. A linha que
+            # discordou entra na procedencia: e ela que a revisao precisa abrir.
             e.revisar = True
             e.fonte = f"{e.fonte}+conflito"
+            self._anotar_origens(e, novos)
             self.contador["rejeitados"] += 1
             return False
 
+        self._anotar_origens(e, novos)
         e.confirmacoes += 1
         e.ultima_vez = hoje
         if id_pdm and id_pdm not in e.classes:
@@ -454,12 +473,24 @@ class Aprendizado:
         self.contador["confirmados"] += 1
         return True
 
-    def aprender_do_llm(self, classe, decisoes, evidencias: dict[str, str]) -> int:
+    @staticmethod
+    def _anotar_origens(e: "Entrada", codigos: list[str]) -> None:
+        for c in codigos:
+            if len(e.origens) >= MAXIMO_ORIGENS:
+                return
+            if c not in e.origens:
+                e.origens.append(c)
+
+    def aprender_do_llm(self, classe, decisoes, evidencias: dict[str, str],
+                        codigo: str = "") -> int:
         """Varre as decisoes de um registro e guarda o que veio do LLM/BERT.
 
         Usa a EVIDENCIA (o trecho do texto que originou o valor) como termo.
         Sem evidencia nao aprende: usar o texto inteiro como chave nao
         generaliza e seria apenas uma copia do cache que ja existe.
+
+        `codigo` e o registro de onde a evidencia foi lida: e a linha que a
+        regra vai citar como procedencia.
         """
         n = 0
         por_nome = {a.nome: a for a in classe.atributos}
@@ -473,7 +504,8 @@ class Aprendizado:
             if not termo:
                 continue
             if self.aprender(atributo, termo, d.valor,
-                             "llm" if d.fonte == "llm" else "bert", classe.id_pdm):
+                             "llm" if d.fonte == "llm" else "bert", classe.id_pdm,
+                             codigos=codigo):
                 n += 1
         return n
 
@@ -608,8 +640,14 @@ class Aprendizado:
         d = json.loads(self.caminho.read_text(encoding="utf-8"))
         self.entradas = {}
         self._indice = None
+        # Campo que esta versao nao conhece e ignorado em vez de estourar em
+        # TypeError. Era por esse risco que `+interpretacao` foi parar dentro de
+        # `fonte` em vez de virar campo proprio: um dicionario gravado por uma
+        # versao mais nova derrubava a mais antiga na leitura. Com o filtro, o
+        # arquivo volta a ser compativel nos dois sentidos.
+        conhecidos = {f.name for f in fields(Entrada)}
         for item in d.get("entradas", []):
-            e = Entrada(**item)
+            e = Entrada(**{k: v for k, v in item.items() if k in conhecidos})
             self.entradas[e.chave] = e
 
     # --------------------------------------------------------------- relatorio
