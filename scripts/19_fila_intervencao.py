@@ -58,7 +58,7 @@ def acao_de(veredito: str, banda: str, candidatos: list) -> str:
     if banda in ("UNICO",):
         return "um_clique"
     if banda == "PROVAVEL":
-        topo = candidatos[0][1] if candidatos else 0
+        topo = (candidatos[0][1] if candidatos else 0) or 0
         return "um_clique" if topo >= LIMIAR_PROVAVEL else "escolher"
     if banda in ("INCLINADA", "ABERTA"):
         return "escolher"
@@ -108,10 +108,15 @@ def main():
         cod, atr = str(r["codigo"]), r["atributo"]
         nota = r.get("nota") or ""
         m = RE_VALIDO.search(nota)
+        # PERDIDO traz o valor pronto na nota ('valido: 4MM2'), e nao uma
+        # distribuicao: aqui vai SEM probabilidade. Escrever 1.0 foi um erro da
+        # primeira versao desta fila - virava um selo de "100%" na tela que nao
+        # media nada, so dizia "eu converti o texto". A evidencia e o par
+        # trecho -> valor, e e isso que a interface mostra.
         campos[cod][atr] = {
             "atributo": atr, "veredito": r["veredito"], "trecho": r.get("trecho") or "",
             "nota": nota, "sinal": r.get("sinal") or "",
-            "candidatos": [[m.group(1).strip(), 1.0]] if m else [],
+            "candidatos": [[m.group(1).strip(), None]] if m else [],
             "banda": "", "suporte": 0, "pergunta": "",
         }
 
@@ -122,7 +127,8 @@ def main():
         cod, atr = str(r["codigo"]), r["atributo"]
         c = campos[cod].get(atr) or {"atributo": atr, "veredito": r["veredito"],
                                      "trecho": "", "nota": "", "sinal": ""}
-        cands = [[v, round(float(p), 3)] for v, p in (r.get("candidatos") or [])]
+        cands = [[v, (round(float(p), 3) if p is not None else None)]
+                 for v, p in (r.get("candidatos") or [])]
         c.update({"trecho": r.get("trecho") or c.get("trecho", ""),
                   "nota": r.get("nota") or c.get("nota", ""),
                   "candidatos": cands or c.get("candidatos", []),
@@ -178,6 +184,28 @@ def main():
             "capital": "dados/01_base_materiais.xlsx (estoque x preco medio)",
         },
         "limiar_provavel": LIMIAR_PROVAVEL,
+        # O que o numero ao lado do candidato E, e o que ele NAO e. A
+        # probabilidade e a fracao da distribuicao de candidatos daquele campo:
+        # com um unico candidato ela da 1,0 por construcao, e isso nao significa
+        # certeza. Quem mede acerto e o teste retroativo por faixa, em docs/12.
+        "calibracao": {
+            "o_que_e_a_probabilidade": "fracao da distribuicao de candidatos do campo, "
+                                       "normalizada; com um candidato unico da 1,0 por "
+                                       "construcao",
+            "acerto_medido": {
+                "PROVAVEL": {"acerto": 0.960, "casos": 6891,
+                             "nota": "faixa calibrada: diz >=90% e acerta 96%"},
+                "geral": {"acerto": 0.819, "casos": 11059,
+                          "nota": "o valor mais comum da classe acerta 68,2%"},
+                "INCLINADA": {"acerto": None, "nota": "faixa nao calibrada"},
+                "ABERTA": {"acerto": None, "nota": "faixa nao calibrada"},
+                "UNICO": {"acerto": None, "nota": "candidato unico: 1,0 e construcao, nao medida"},
+                "PERDIDO": {"acerto": None,
+                            "nota": "o valor vem do proprio texto (conversao de notacao), "
+                                    "sem probabilidade"},
+            },
+            "fonte": "docs/12-dado-generico.md (teste retroativo das completacoes)",
+        },
         "resumo": {
             "itens_na_fila": len(itens),
             "itens_exportados": len(exportados),

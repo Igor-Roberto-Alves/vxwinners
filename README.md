@@ -76,9 +76,22 @@ O frontend do time é a moldura, e a tela de cadastro é o painel, embutido nela
 à esquerda, o formulário no meio e, à direita, a descrição, os itens parecidos e a decisão. A etiqueta no topo diz se a
 tela usa **dados reais** ou é **demonstração**.
 
-- **Reais:** Buscar material, Cadastrar novo item, Pedidos de cadastro, Cadastros, Revisão de exceções
-  e **Fila de intervenção** (esta lê a saída do pipeline, não a API).
-- **Demonstração:** Início, Radar, Requisições, Base e Clusters.
+- **Reais:** Buscar material, Cadastrar novo item, Pedidos de cadastro, Cadastros, Revisão de exceções,
+  **Fila de intervenção** e **Radar** (as duas últimas leem a saída do pipeline, não a API).
+- **Demonstração:** Início, Requisições, Base e Clusters.
+
+**Radar** passou a sair de `artefatos/radar.json` (`scripts/20_radar.py`), e cada número leva a própria
+procedência: `medido` quando sai de um artefato ou de um gabarito, `estimado` quando é cálculo sobre a
+base, `premissa` quando é parâmetro ajustável, e **`não medido`** quando não existe medição — nesse caso
+a tela diz isso em vez de mostrar um número. Capital consolidável R$ 30,24 mi (15,1% dos R$ 200,87 mi em
+estoque, mesma definição do `valor_financeiro.md`, com a precisão de junção 98,5% medida no gabarito);
+capital já consolidado R$ 0,00, porque nenhuma unificação foi executada no ERP; e um cartão de eficácia
+com precisão, cobertura, invenção, classe, junção e determinismo, cada linha apontando o arquivo de onde
+veio.
+
+```bash
+uv run --no-project --with pandas --with openpyxl python scripts/20_radar.py
+```
 
 **Fila de intervenção** é onde o saneamento pede ajuda. Cada campo que ficou vazio chega classificado
 pela ação que pede, e não pelo erro que é: `confirmar` quando o valor já está decidido (o texto trazia
@@ -236,7 +249,7 @@ servico/
   treina.py api.py exemplos_curl.sh
 backend/                    API, banco, estruturação da base, cadastro, testes
 frontend/                   cadastro real, fila de intervenção, tema e teste de ponta a ponta
-  cadastro.js intervencao.js dados/fila_intervencao.json
+  cadastro.js intervencao.js radar.js dados/{fila_intervencao,radar}.json
 src/saneamento/             pipeline de saneamento (caixas, BERT, junção, catálogo)
 plataforma.html      casca da interface
 rodar.sh                    sobe tudo

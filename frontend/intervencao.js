@@ -59,8 +59,16 @@
   const pct = (p) => Math.round(p * 100) + "%";
   // mesmos limiares do confCls() da plataforma: >=80 verde, >=60 amarelo, abaixo vermelho
   const classeConf = (p) => (p * 100 >= 80 ? "hi" : p * 100 >= 60 ? "md" : "lo");
+  // O numero NAO e confianca: e a fatia da distribuicao de candidatos daquele
+  // campo. Com um candidato unico da 100% por construcao. Quem mede acerto e o
+  // teste retroativo por faixa, mostrado ao lado como nota. Sem isso, a primeira
+  // versao desta tela exibia "100%" em 68 campos e "100%" inventado por mim em
+  // outros 43 (os PERDIDO), tudo com a mesma cara de certeza.
   const pilulaConf = (p) =>
-    el("span", { class: "conf-pill " + classeConf(p) }, el("i", {}), pct(p));
+    el("span", {
+      class: "conf-pill " + classeConf(p),
+      title: pct(p) + " da distribuição de candidatos deste campo — não é taxa de acerto",
+    }, el("i", {}), pct(p), el("span", { style: "opacity:.75;margin-left:4px" }, "dos cand."));
 
   function carregaDecisoes() {
     try { decisoes = JSON.parse(localStorage.getItem(FI_CHAVE) || "{}"); }
@@ -173,7 +181,20 @@
       onclick: () => { gravaDecisao(item.codigo, campo.atributo, valor, "aceita"); render(); },
     },
       el("span", {}, valor),
-      prob ? el("span", { style: "margin-left:7px" }, pilulaConf(prob)) : null);
+      prob != null
+        ? el("span", { style: "margin-left:7px" }, pilulaConf(prob))
+        : el("span", { class: "badge", style: "margin-left:7px" }, "do texto"));
+  }
+
+  function notaCalibracao(campo) {
+    const cal = (fila.calibracao || {}).acerto_medido || {};
+    const chave = campo.veredito === "PERDIDO" ? "PERDIDO" : campo.banda;
+    const c = cal[chave];
+    if (!c) return null;
+    const txt = c.acerto
+      ? `faixa medida: acerta ${pct(c.acerto)} em ${inteiro(c.casos)} casos`
+      : c.nota;
+    return el("div", { class: "faint", style: "font-size:11px;margin-top:4px;font-style:italic" }, txt);
   }
 
   function linhaCampo(item, campo) {
@@ -197,6 +218,7 @@
         : null,
       porque ? el("div", { class: "faint", style: "font-size:11.5px;margin-top:4px" }, porque) : null,
       campo.pergunta ? el("div", { style: "font-size:12px;margin-top:6px" }, campo.pergunta) : null,
+      notaCalibracao(campo),
       el("div", { class: "chip-row", style: "margin-top:8px" },
         campo.candidatos.map(([v, p]) => chipCandidato(item, campo, v, p)),
         el("button", {

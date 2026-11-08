@@ -726,7 +726,13 @@ input[type=range]{accent-color:var(--brand);width:100%}
     Fonte: <span class="mono">artefatos/fila_intervencao.json</span>, de
     <span class="mono">scripts/19_fila_intervencao.py</span> sobre a saída do pipeline
     (<span class="mono">deteccao_ausentes.jsonl</span> e <span class="mono">completacoes_sugeridas.jsonl</span>)
-    — <span id="fi-gerado"></span>. As decisões ficam no navegador até você exportar.</p>
+    — <span id="fi-gerado"></span>. As decisões ficam no navegador até você exportar.<br>
+    O percentual ao lado de cada candidato é a <b>fatia da distribuição de candidatos daquele
+    campo</b>, não uma taxa de acerto: com um candidato único ele dá 100% por construção. O que
+    está medido é o acerto por faixa, em teste retroativo — a faixa provável diz ≥90% e acerta
+    96% em 6.891 casos; no geral, 81,9%. As outras faixas não estão calibradas, e o candidato
+    marcado <span class="badge">do texto</span> vem de conversão de notação
+    (<span class="mono">SECAO 4MM</span> → <span class="mono">4MM2</span>), sem probabilidade.</p>
 </section>
 
 <!-- ================================================================ APROVAR COMPRAS -->
@@ -743,39 +749,17 @@ input[type=range]{accent-color:var(--brand);width:100%}
     </div>
   </div>
 
-  <!-- hero row -->
-  <div class="grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px">
-    <div class="card hero" data-tt="Soma de saldo × custo médio dos códigos em clusters de duplicidade ainda abertos.|Base: R$ 200,9 mi em estoque (23.554 códigos)">
-      <div class="l">Capital consolidável <span class="src-tag src-est">estimado</span></div>
-      <div class="v">R$ 18,4 mi</div>
-      <div class="s"><b>9,2%</b> dos R$ 200,9 mi em estoque, em 1.412 clusters abertos</div>
-    </div>
-    <div class="card hero" data-tt="Códigos bloqueados após unificação aprovada; saldo transferido ao código mantido.|Fonte: log de unificações (assinadas)">
-      <div class="l">Capital já consolidado <span class="src-tag src-med">medido</span></div>
-      <div class="v" style="color:var(--brand)">R$ 4,7 mi</div>
-      <div class="s"><b>2.120</b> códigos bloqueados · <b>25%</b> do consolidável</div>
-    </div>
-    <div class="card hero">
-      <div class="l">Custo de oportunidade evitado <span class="src-tag src-pre">premissa</span></div>
-      <div class="v"><span id="opp-v">R$ 1,41 mi</span><span style="font-size:13px;color:var(--text-3)">/ano</span></div>
-      <div class="s">R$ 4,7 mi × <b id="opp-rate">30%</b> a.a. · potencial restante <b id="opp-pot">R$ 4,11 mi</b>/ano</div>
-    </div>
-    <div class="card hero" data-tt="Cada reserva/transferência originada de uma busca que encontrou a peça em outro centro.|Fonte: requisições com status TRANSFERÊNCIA">
-      <div class="l">Compras evitadas pela busca <span class="src-tag src-med">medido</span></div>
-      <div class="v"><span id="buy-v">R$ 2,31 mi</span></div>
-      <div class="s"><b>312</b> reservas · R$ 2,01 mi a custo médio + <b id="buy-prem">15%</b> de prêmio de emergência</div>
-    </div>
-    <div class="card hero" data-tt="NCMs corrigidos com aprovação do tributário; rejeições evitadas = notas que teriam o NCM antigo.|Fonte: validação NF-e × tabela NCM vigente">
-      <div class="l">NF-e que deixaram de travar <span class="src-tag src-med">medido</span></div>
-      <div class="v">87</div>
-      <div class="s"><b>1.146</b> NCMs corrigidos · <b>412</b> descontinuados na base antes</div>
-    </div>
+  <!-- hero row: preenchida por frontend/radar.js a partir de artefatos/radar.json -->
+  <div class="grid" id="rad-hero" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px"></div>
+  <div class="card" id="rad-naomedido-card" style="margin-bottom:16px;display:none">
+    <div class="card-h"><h3>O que não está medido</h3>
+      <span class="sub">dito aqui para não virar número bonito no slide</span></div>
+    <div style="padding:12px 16px" id="rad-naomedido"></div>
   </div>
-
   <!-- row 2: trend + health -->
   <div class="grid" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);margin-bottom:16px">
     <div class="card">
-      <div class="card-h"><h3>Capital consolidado acumulado</h3><span class="sub">R$ mi · por mês</span><div class="r"><span class="src-tag src-med">medido</span></div></div>
+      <div class="card-h"><h3>Capital a consolidar</h3><span class="sub">o plano de junção, em dinheiro</span><div class="r"><span class="src-tag src-med">medido</span></div></div>
       <div class="card-b chart" id="trend"></div>
     </div>
     <div class="card">
@@ -1079,13 +1063,28 @@ const fmtMi=v=>'R$ '+v.toFixed(2).replace('.',',')+' mi';
 function radarCalc(){
   const r=+document.getElementById('r-opp').value, pr=+document.getElementById('r-prem').value;
   document.getElementById('r-opp-l').textContent=r+'% a.a.';document.getElementById('r-prem-l').textContent=pr+'%';
-  document.getElementById('opp-rate').textContent=r+'%';
-  document.getElementById('opp-v').textContent=fmtMi(4.7*r/100);
-  document.getElementById('opp-pot').textContent=fmtMi((18.4-4.7)*r/100);
-  document.getElementById('buy-prem').textContent=pr+'%';
-  document.getElementById('buy-v').textContent=fmtMi(2.01*(1+pr/100));
+  // o capital vem de artefatos/radar.json (plano de juncao x base), nao de
+  // constante no HTML; os cartoes que dependiam de premissa sem medicao sairam
+  const mi=window.RADAR ? RADAR.hero.consolidavel.valor/1e6 : 0;
+  const def=(id,v)=>{const n=document.getElementById(id); if(n) n.textContent=v;};
+  def('opp-rate', r+'%');
+  def('opp-v', fmtMi(mi*r/100));
+  def('opp-pot', fmtMi(mi*r/100));
+  def('buy-prem', pr+'%');
 }
 function trendChart(){
+  // Sem serie historica: esta e a primeira execucao do pipeline sobre a base, o
+  // marco zero. A versao anterior desenhava seis meses inventados.
+  const alvo=document.getElementById('trend');
+  if(!window.RADAR){ if(alvo) alvo.innerHTML=''; return; }
+  const h=RADAR.hero.consolidavel;
+  alvo.innerHTML=`<div style="padding:18px 4px;line-height:1.7">
+    <div class="mono" style="font-size:26px">${fmtMi(h.valor/1e6)}</div>
+    <div class="faint" style="font-size:12.5px;margin-top:6px">${h.detalhe}</div>
+    <div class="faint" style="font-size:11.5px;margin-top:10px;font-style:italic">
+      Sem série por mês: esta é a primeira execução sobre a base — o marco zero.
+      A próxima execução passa a comparar com esta.</div></div>`;
+  return;
   const m=['jun','jul','ago','set','out','nov'], v=[0.3,0.9,1.7,2.6,3.6,4.7];
   const W=1100,H=240,L=40,R=50,T=14,B=26,max=6,x=i=>L+i*(W-L-R)/(m.length-1),y=d=>T+(H-T-B)*(1-d/max);
   let g='';for(let t=0;t<=6;t+=2)g+=`<line class="grid-l" x1="${L}" x2="${W-R}" y1="${y(t)}" y2="${y(t)}"/><text x="${L-8}" y="${y(t)+3.5}" text-anchor="end">${t}</text>`;
@@ -1108,7 +1107,17 @@ function trendChart(){
   });
 }
 function healthTiles(){
-  const H=[['Aderência ao PDM',[21,27,36,44,51,58],'%','↑ melhor'],['Completude de identidade',[34,41,49,57,64,71],'%','↑ melhor'],['Duplicidades suspeitas',[14.2,12.9,10.8,9.1,7.4,6.1],'%','↓ melhor']];
+  // Medido na saida do pipeline (artefatos/saneado_base.csv), em vez de uma
+  // serie de seis meses que nao existe.
+  if(!window.RADAR) return;
+  const alvo=document.getElementById('health');
+  alvo.style.gridTemplateColumns='repeat(3,1fr)';
+  alvo.innerHTML=RADAR.saude.map(t=>`<div class="spark-tile" data-tt="${t.rotulo}|${t.detalhe}">
+    <div class="faint" style="font-size:12px;min-height:34px">${t.rotulo}</div>
+    <div class="mono" style="font-size:20px;margin-top:4px">${t.valor}</div>
+    <div class="faint" style="font-size:11px;margin-top:4px">${t.detalhe}</div></div>`).join('');
+  return;
+  const H=[];
   document.getElementById('health').innerHTML=H.map(([n,d,u,dir])=>{
     const W=140,Ht=40,mx=Math.max(...d)*1.1,mn=Math.min(...d)*0.85,px=i=>3+i*(W-6)/(d.length-1),py=v=>Ht-3-(Ht-6)*(v-mn)/(mx-mn);
     const pts=d.map((v,i)=>px(i)+','+py(v)).join(' ');
@@ -1262,5 +1271,6 @@ function alternarMenu(){aplicarMenu(!document.body.classList.contains('menu-reco
 </script>
 <script src="frontend/cadastro.js"></script>
 <script src="frontend/intervencao.js"></script>
+<script src="frontend/radar.js"></script>
 </body>
 </html>

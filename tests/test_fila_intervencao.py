@@ -58,3 +58,31 @@ def test_nota_valido_virou_candidato_de_um_clique():
     """'valido: 4MM2' na deteccao e o valor pronto: a interface mostra um botao."""
     m = fila.RE_VALIDO.search("grandeza MM sobrando · valido: 4MM2")
     assert m and m.group(1).strip() == "4MM2"
+
+
+# ------------------------------------------------- honestidade da probabilidade
+def test_perdido_nao_ganha_probabilidade_inventada():
+    """Regressao: a primeira versao desta fila escrevia 1.0 no candidato vindo de
+    'valido: X', e a tela mostrava um selo de 100% que nao media nada.
+
+    PERDIDO e conversao de notacao ('SECAO 4MM' -> 4MM2): o candidato existe, a
+    probabilidade nao. Quem mede acerto e o teste retroativo por faixa.
+    """
+    import json
+    from pathlib import Path
+
+    arq = Path(__file__).resolve().parents[1] / "artefatos/fila_intervencao.json"
+    if not arq.exists():
+        pytest.skip("fila_intervencao.json nao gerado nesta arvore")
+    d = json.loads(arq.read_text(encoding="utf-8"))
+    perdidos = [c for i in d["itens"] for c in i["campos"] if c["veredito"] == "PERDIDO"]
+    assert perdidos, "a amostra exportada nao tem campo PERDIDO"
+    for c in perdidos:
+        for _valor, prob in c["candidatos"]:
+            assert prob is None, f"{c['atributo']}: PERDIDO com probabilidade {prob}"
+
+    # e o JSON tem de dizer o que o numero e, para a tela nao chamar de confianca
+    cal = d["calibracao"]
+    assert "fracao da distribuicao" in cal["o_que_e_a_probabilidade"]
+    assert cal["acerto_medido"]["PROVAVEL"]["acerto"] == 0.96
+    assert cal["acerto_medido"]["UNICO"]["acerto"] is None
