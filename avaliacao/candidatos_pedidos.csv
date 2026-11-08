@@ -1,0 +1,495 @@
+ordem_A,ordem_B,estrato,familia_prevista,estilo,armadilhas,ID_PEDIDO,DATA_SOLICITACAO,CENTRO,AREA_SOLICITANTE,CANAL,URGENCIA,TEXTO_SOLICITACAO,TIPO_ANEXO,CONTEUDO_ANEXO
+1,86,armadilha:unidade_nao_bar,mangueiras,email_longo,minuscula|ruido_cortesia|unidade_nao_bar|valor_indefinivel,SC-202600020,2026-06-04,1300 - TERMINAL PORTUARIO,PCM,EMAIL,NORMAL,"Boa tarde,
+
+Peço por favor cadastrar mangueira hidráulica montada, com as seguintes características:
+- Norma: EN 856 4SP
+- Diâmetro interno: 1/2 pol
+- Pressão de trabalho: 6.000 psi
+- Comprimento: 500 mm
+- Terminal a: femea curva 45 graus jic
+- Terminal b: FEMEA RETA ORFS
+- Material terminais: ACO CARBONO ZINCADO
+
+Grato,
+Juliana",,
+2,108,armadilha:rosca_fina,fixadores,email_longo,minuscula|rosca_fina|ruido_cortesia,SC-202600433,2026-07-02,2200 - PCH RIO CLARO,MANUTENCAO MECANICA,PORTAL,NORMAL,"Boa tarde,
+
+Preciso que seja cadastrado parafuso sextavado, com as seguintes características:
+- Rosca: metrica fina
+- Bitola: M10X1,25
+- Classe: 10.9
+- Material: aco carbono
+- Acabamento: zincado branco
+- Norma: DIN 933
+
+Grato,
+Aline",,
+3,101,armadilha:unidade_nao_bar,mangueiras,telegrafico,minuscula|unidade_nao_bar|valor_indefinivel,SC-202600028,2026-09-16,1300 - TERMINAL PORTUARIO,PCM,PORTAL,NORMAL,Cadastrar mangueira hidráulica montada en 853 2sn 5/8 pol 3.650 psi 1000mm femea curva 90 graus jic femea reta orfs aco carbono zincado,,
+4,120,familia:fixadores,fixadores,telegrafico,contexto_aplicacao|minuscula|rosca_fina,SC-202600300,2026-10-06,9000 - CD CENTRAL,PRODUCAO,EMAIL,ALTA,"Preciso cadastrar parafuso sextavado metrica fina m18x1,5 50 mm 10.9 aco carbono zincado branco din 933 para a parada programada",,
+5,119,anexo:ficha,fixadores,ficha,minuscula,SC-202600456,2026-08-04,1100 - MINA SERRA AZUL,PRODUCAO,PORTAL,NORMAL,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Parafuso Sextavado Interno
+Tipo cabeca: escareada
+Bitola: M3
+Comprimento: 8mm
+Classe: 12.9
+Material: aco liga
+Acabamento: oxidado preto"
+6,34,armadilha:virgula_decimal,vedacao,ficha,classe_pressao_hash|minuscula|virgula_decimal,SC-202600331,2026-06-14,2100 - UTE SERRA AZUL,PRODUCAO,EMAIL,NORMAL,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Junta Plana
+Diâmetro nominal: 2 pol
+Classe de pressão: 300#
+Material: epdm
+Espessura: 3,2mm
+Tipo face: rf"
+7,71,anexo:ficha,fixadores,ficha,minuscula|rosca_bitola_comp,SC-202600035,2026-09-15,1100 - MINA SERRA AZUL,UTILIDADES,PORTAL,EMERGENCIAL,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Parafuso Sextavado
+Rosca: METRICA FINA
+Bitola: M8X1
+Comprimento: 40 mm
+Classe: a2-70
+Material: aco inox 304
+Acabamento: natural
+Norma: din 933"
+8,80,anexo:ficha,fixadores,ficha,minuscula,SC-202600338,2026-06-17,1200 - USINA DE BENEFICIAMENTO,PRODUCAO,PORTAL,NORMAL,"Item novo, ficha do fornecedor anexa.",FICHA TECNICA,"FICHA TÉCNICA
+Produto: Parafuso Sextavado Interno
+Tipo cabeca: cilindrica
+Bitola: M16
+Comprimento: 100 mm
+Classe: A4-70
+Material: aco inox 316
+Acabamento: NATURAL"
+9,55,armadilha:ordem_sem_rotulo,rolamentos,catalogo,minuscula|ordem_sem_rotulo,SC-202600291,2026-09-10,1200 - USINA DE BENEFICIAMENTO,PRODUCAO,EMAIL,NORMAL,"Item do catálogo em anexo, por favor cadastrar.",CATALOGO FORNECEDOR,"KOYO | Spherical roller bearing | 22213E, 65MM, 120MM, 31MM, cilindrico, normal"
+10,87,familia:vedacao,vedacao,ficha,minuscula,SC-202600026,2026-07-01,1200 - USINA DE BENEFICIAMENTO,MANUTENCAO MECANICA,PORTAL,NORMAL,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Retentor
+Diametro eixo: 32 mm
+Diametro alojamento: 57mm
+Largura: 15mm
+Tipo: b1
+Material: nbr"
+11,45,armadilha:rosca_bitola_comp,fixadores,telegrafico,contexto_aplicacao|minuscula|rosca_bitola_comp,SC-202600355,2026-09-22,1300 - TERMINAL PORTUARIO,UTILIDADES,EMAIL,NORMAL,cadastrar parafuso sextavado metrica fina M30X2 180 mm 10.9 aco carbono ZINCADO BRANCO DIN 931 para a parada programada,,
+12,113,familia:rolamentos,rolamentos,email_longo,minuscula|ruido_cortesia|valor_indefinivel,SC-202600186,2026-06-04,9000 - CD CENTRAL,ALMOXARIFADO,PORTAL,NORMAL,"Bom dia,
+
+Solicito o cadastro de rolamento rígido esferas, com as seguintes características:
+- Referência: 6300-2RS
+- Diâmetro interno: 10mm
+- Diâmetro externo: 35 mm
+- Largura: 11 mm
+- Vedação: borracha ambos lados
+- Folga: NORMAL
+
+Att,
+Patrícia",,
+13,78,fora_pdm,nenhuma,telegrafico,minuscula,SC-202600437,2026-06-04,1300 - TERMINAL PORTUARIO,TI,EMAIL,ALTA,notebook 16gb ram para o técnico de automação,,
+14,29,anexo:ficha,transmissao,ficha,minuscula,SC-202600500,2026-06-16,1300 - TERMINAL PORTUARIO,PCM,EMAIL,ALTA,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Correia Trapezoidal
+Perfil: spb
+Referência: SPB 3650
+Comprimento externo: 3672mm"
+15,14,familia:conexoes_tubo,conexoes_tubo,email_longo,classe_pressao_hash|minuscula|polegada_aspas|ruido_cortesia,SC-202600342,2026-10-14,1200 - USINA DE BENEFICIAMENTO,PRODUCAO,PORTAL,NORMAL,"Bom dia,
+
+Preciso que seja cadastrado luva reducao, com as seguintes características:
+- Diâmetro nominal: 3/4""
+- Diametro reduzido: 1/2""
+- Classe de pressão: 3000#
+- Material: aco carbono forjado a105
+- Conexão: solda encaixe sw
+- Norma: asme b16.11
+
+Grato,
+Carlos",,
+16,13,anexo:catalogo,fixadores,catalogo,classe_pressao_hash|minuscula,SC-202600087,2026-08-04,9000 - CD CENTRAL,ALMOXARIFADO,EMAIL,NORMAL,"Novo item, linha do catálogo abaixo.",CATALOGO FORNECEDOR,"Generic | Pipe fitting | 3/8POL, 6000#, A105 forged, socket weld"
+17,7,armadilha:contexto_aplicacao,eletricos,telegrafico,contexto_aplicacao|minuscula|virgula_decimal,SC-202600005,2026-10-14,1200 - USINA DE BENEFICIAMENTO,PCM,PORTAL,NORMAL,"Favor cadastrar cabo elétrico flexivel 1,5mm2 1 450/750v pvc azul para o painel do ccm 3",,
+18,41,familia:conexoes_tubo,conexoes_tubo,telegrafico,minuscula,SC-202600400,2026-08-31,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,ALTA,Cadastrar luva segurança malha revestida pu 8 24382,,
+19,79,familia:fixadores,fixadores,telegrafico,minuscula,SC-202600251,2026-07-15,1100 - MINA SERRA AZUL,SUPRIMENTOS,PORTAL,NORMAL,Precisamos de barra tensora peneira vibratoria f-class 2.4x6.1 haver hb-467508,,
+20,65,fora_pdm,nenhuma,catalogo,ingles|minuscula,SC-202600286,2026-07-24,2200 - PCH RIO CLARO,ALMOXARIFADO,EMAIL,NORMAL,Cadastrar conforme catálogo do fornecedor.,CATALOGO FORNECEDOR,"Generic | Hex head bolt | unc, 1.1/8POL, 4.1/2POL, sae grau 8, carbon steel, HDG, asme b18.2.1"
+21,112,fora_pdm,nenhuma,telegrafico,minuscula,SC-202600168,2026-07-27,1100 - MINA SERRA AZUL,PCM,PLANILHA,ALTA,Serviço de calibração de manômetros da casa de bombas,,
+22,67,anexo:catalogo,epi,catalogo,minuscula,SC-202600104,2026-09-09,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,NORMAL,"Item do catálogo em anexo, por favor cadastrar.",CATALOGO FORNECEDOR,"Generic | Safety boot | botina elastico, 34, aco, pu bidensidade, preta, 14659"
+23,88,familia:valvulas,valvulas,telegrafico,classe_pressao_hash|contexto_aplicacao|minuscula|valor_indefinivel,SC-202600103,2026-06-29,1200 - USINA DE BENEFICIAMENTO,PRODUCAO,PORTAL,NORMAL,Precisamos de válvula esfera 2 pol 800# aco inox forjado a182 f316 solda encaixe sw plena ptfe alavanca para reposição de estoque,,
+24,102,armadilha:rosca_bitola_comp,fixadores,telegrafico,minuscula|rosca_bitola_comp,SC-202600370,2026-07-26,1100 - MINA SERRA AZUL,ALMOXARIFADO,EMAIL,NORMAL,favor cadastrar parafuso sextavado metrica fina M24X2 60 mm 8.8 aco carbono ZINCADO BRANCO DIN 933 para a unidade hidráulica da prensa,,
+25,21,familia:sobressalentes,sobressalentes,telegrafico,contexto_aplicacao|minuscula,SC-202600472,2026-06-01,9000 - CD CENTRAL,MANUTENCAO MECANICA,PORTAL,ALTA,precisamos de adaptador escavadeira hidraulica EX1200 hitachi para reposição de estoque,,
+26,91,anexo:catalogo,vedacao,catalogo,ingles|minuscula|virgula_decimal,SC-202600520,2026-09-02,1100 - MINA SERRA AZUL,UTILIDADES,PORTAL,NORMAL,"Novo item, linha do catálogo abaixo.",CATALOGO FORNECEDOR,"Generic | O-ring | 24MM, 2,5MM, nbr, 70 shore a"
+27,25,anexo:catalogo,epi,catalogo,minuscula,SC-202600269,2026-06-15,2200 - PCH RIO CLARO,SEGURANCA DO TRABALHO,PLANILHA,NORMAL,"Item do catálogo em anexo, por favor cadastrar.",CATALOGO FORNECEDOR,"Generic | Safety glove | malha revestida pu, 9, 17131"
+28,81,familia:sobressalentes,sobressalentes,telegrafico,minuscula,SC-202600366,2026-07-05,2100 - UTE SERRA AZUL,PCM,PORTAL,NORMAL,precisamos de anel vedacao BRITADOR CONICO HP400 metso N61196004,,
+29,116,familia:sobressalentes,sobressalentes,email_longo,minuscula|ruido_cortesia,SC-202600144,2026-08-31,2100 - UTE SERRA AZUL,SUPRIMENTOS,EMAIL,NORMAL,"Bom dia,
+
+Peço por favor cadastrar tampa succao, com as seguintes características:
+- Aplicação: compressor
+- Equipamento: GA160
+- Fabricante: atlas copco
+- Código do fabricante: 0956 2763 34
+
+Att,
+Fernanda",,
+30,3,familia:fixadores,fixadores,telegrafico,minuscula,SC-202600037,2026-09-14,1100 - MINA SERRA AZUL,PCM,PORTAL,ALTA,Preciso cadastrar parafuso sextavado metrica grossa m12 150 mm 5.8 aco carbono zincado branco din 933,,
+31,66,familia:sobressalentes,sobressalentes,ficha,minuscula,SC-202600081,2026-06-17,1100 - MINA SERRA AZUL,ALMOXARIFADO,PLANILHA,NORMAL,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Mandibula Movel
+Aplicação: BRITADOR MANDIBULA
+Equipamento: CJ615
+Fabricante: SANDVIK
+Código do fabricante: 575.2066-45"
+32,10,familia:sobressalentes,sobressalentes,ficha,minuscula,SC-202600195,2026-09-15,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,NORMAL,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Tampa Succao
+Aplicação: COMPRESSOR
+Equipamento: GA75
+Fabricante: atlas copco
+Código do fabricante: 1855 6303 27"
+33,111,anexo:ficha,sobressalentes,ficha,minuscula,SC-202600464,2026-10-03,1300 - TERMINAL PORTUARIO,ALMOXARIFADO,PORTAL,NORMAL,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Carcaca
+Aplicação: compressor
+Equipamento: GA90
+Fabricante: atlas copco
+Código do fabricante: 6214 5895 05"
+34,70,familia:fixadores,fixadores,ficha,minuscula,SC-202600489,2026-06-04,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,NORMAL,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Barra Tensora
+Aplicação: PENEIRA VIBRATORIA
+Equipamento: LUDOWICI 3.6X8.5
+Fabricante: flsmidth
+Código do fabricante: 9545985877"
+35,15,fora_pdm,nenhuma,catalogo,ingles|minuscula|valor_indefinivel,SC-202600453,2026-08-16,1200 - USINA DE BENEFICIAMENTO,PRODUCAO,PORTAL,NORMAL,"Item do catálogo em anexo, por favor cadastrar.",CATALOGO FORNECEDOR,"Generic | Hex head bolt | metrica grossa, M18, 100MM, 8.8, carbon steel, zinc plated, din 931"
+36,51,familia:fixadores,fixadores,email_longo,minuscula|ruido_cortesia,SC-202600038,2026-07-15,9000 - CD CENTRAL,PRODUCAO,PLANILHA,ALTA,"Boa tarde,
+
+Preciso que seja cadastrado parafuso sextavado, com as seguintes características:
+- Rosca: METRICA GROSSA
+- Bitola: M6
+- Comprimento: 80mm
+- Classe: 10.9
+- Material: aco carbono
+- Norma: DIN 933
+
+Grato,
+Sérgio",,
+37,31,familia:transmissao,transmissao,telegrafico,minuscula,SC-202600034,2026-09-28,1100 - MINA SERRA AZUL,PRODUCAO,EMAIL,NORMAL,Cadastrar correia trapezoidal b b146 3777 mm para a unidade hidráulica da prensa,,
+38,61,armadilha:ruido_cortesia,filtros,email_longo,minuscula|ruido_cortesia,SC-202600424,2026-07-27,9000 - CD CENTRAL,PCM,PLANILHA,NORMAL,"Olá,
+
+Solicito o cadastro de filtro separador ar/óleo, com as seguintes características:
+- Aplicação: compressor
+- Fabricante: MANN
+- Código do fabricante: LE 3269
+
+Att,
+Diego",,
+39,57,fora_pdm,nenhuma,telegrafico,minuscula,SC-202600267,2026-08-18,2100 - UTE SERRA AZUL,MANUTENCAO ELETRICA,EMAIL,NORMAL,manutenção corretiva do ar-condicionado da subestação,,
+40,2,familia:sobressalentes,sobressalentes,telegrafico,minuscula,SC-202600120,2026-10-11,1100 - MINA SERRA AZUL,SUPRIMENTOS,EMAIL,ALTA,"Preciso de eixo saida FLENDER T6593-468134 do H3SH 9, conforme manual do equipamento",,
+41,58,familia:sobressalentes,sobressalentes,telegrafico,minuscula,SC-202600335,2026-09-23,1100 - MINA SERRA AZUL,MANUTENCAO MECANICA,PORTAL,NORMAL,"Preciso de placa traseira WEIR N3966B38 do WARMAN 8/6 AH, conforme manual do equipamento",,
+42,49,fora_pdm,nenhuma,telegrafico,minuscula,SC-202600187,2026-10-12,2100 - UTE SERRA AZUL,RECURSOS HUMANOS,PLANILHA,ALTA,"camisa polo do uniforme, tamanho g",,
+43,64,anexo:ficha,vedacao,ficha,minuscula,SC-202600160,2026-10-16,1100 - MINA SERRA AZUL,PRODUCAO,EMAIL,NORMAL,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Retentor
+Diametro eixo: 80 mm
+Diametro alojamento: 95 mm
+Largura: 10mm
+Tipo: ba
+Material: NBR"
+44,95,anexo:ficha,sobressalentes,ficha,minuscula,SC-202600383,2026-09-23,1200 - USINA DE BENEFICIAMENTO,ALMOXARIFADO,PORTAL,NORMAL,"Item novo, ficha do fornecedor anexa.",FICHA TECNICA,"FICHA TÉCNICA
+Produto: Raspador Primario
+Aplicação: CORREIA TRANSPORTADORA
+Equipamento: TC-04
+Fabricante: CONTINENTAL
+Código do fabricante: CT8363160"
+45,40,anexo:ficha,filtros,ficha,minuscula,SC-202600345,2026-07-17,1100 - MINA SERRA AZUL,PCM,PORTAL,NORMAL,"Item novo, ficha do fornecedor anexa.",FICHA TECNICA,"FICHA TÉCNICA
+Produto: Filtro Combustivel
+Aplicação: gerador diesel
+Fabricante: FRAM
+Código do fabricante: G1892"
+46,118,armadilha:polegada_aspas,mangueiras,telegrafico,minuscula|polegada_aspas|polegada_mista|unidade_nao_bar|valor_indefinivel,SC-202600462,2026-09-17,2200 - PCH RIO CLARO,MANUTENCAO MECANICA,EMAIL,ALTA,"preciso cadastrar mangueira hidráulica montada en 856 4sh 1 1/2"" 4.200 psi 900 mm macho reto jic femea reta jic ACO CARBONO ZINCADO pro caminhão 793",,
+47,114,familia:sobressalentes,sobressalentes,telegrafico,contexto_aplicacao|minuscula,SC-202600239,2026-10-11,1200 - USINA DE BENEFICIAMENTO,SUPRIMENTOS,PORTAL,ALTA,favor cadastrar dente cacamba escavadeira hidraulica 6015B CATERPILLAR 561-7310 para a próxima preventiva,,
+48,39,armadilha:polegada_mista,valvulas,telegrafico,classe_pressao_hash|minuscula|polegada_aspas|polegada_mista|valor_indefinivel,SC-202600241,2026-08-30,1200 - USINA DE BENEFICIAMENTO,ALMOXARIFADO,PORTAL,ALTA,"Cadastrar válvula gaveta 2 1/2"" 600# aco inox fundido a351 cf8m flange rf roscado volante pro caminhão 793",,
+49,85,familia:filtros,filtros,ficha,minuscula,SC-202600466,2026-08-01,1200 - USINA DE BENEFICIAMENTO,PCM,PORTAL,ALTA,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Filtro Ar
+Aplicação: VEICULO LEVE
+Fabricante: mann
+Código do fabricante: C 65 343"
+50,32,anexo:catalogo,solda_ferramenta,catalogo,minuscula|virgula_decimal,SC-202600175,2026-07-07,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,EMERGENCIAL,Cadastrar conforme catálogo do fornecedor.,CATALOGO FORNECEDOR,"DORMER | Twist drill | hss cobalto, 1,5MM, cilindrica, din 340"
+51,24,familia:eletricos,eletricos,email_longo,minuscula|ruido_cortesia,SC-202600323,2026-07-09,1200 - USINA DE BENEFICIAMENTO,MANUTENCAO ELETRICA,PORTAL,ALTA,"Olá,
+
+Peço por favor cadastrar fusível, com as seguintes características:
+- Tipo: cartucho
+- Tamanho: 22X58MM
+- Corrente: 6A
+- Classe: GL/GG
+
+Obrigado,
+Roberto",,
+52,33,armadilha:pn_ambiguo,valvulas,telegrafico,contexto_aplicacao|minuscula|multi_item|pn_ambiguo|polegada_aspas,SC-202600163,2026-10-03,9000 - CD CENTRAL,MANUTENCAO MECANICA,EMAIL,NORMAL,"Precisamos de válvula esfera 2"" (dn 50) pn 16 ferro fundido nodular flange ff plena metal-metal alavanca pra bomba da barragem",,
+53,60,fora_pdm,nenhuma,telegrafico,minuscula,SC-202600169,2026-06-08,1100 - MINA SERRA AZUL,PCM,PORTAL,ALTA,Serviço de calibração de manômetros da casa de bombas,,
+54,16,armadilha:pn_ambiguo,valvulas,catalogo,minuscula|pn_ambiguo,SC-202600330,2026-10-06,9000 - CD CENTRAL,ALMOXARIFADO,PORTAL,EMERGENCIAL,Cadastrar conforme catálogo do fornecedor.,CATALOGO FORNECEDOR,"Generic | Check valve | 1/4POL, pn 25, latao, rosca bsp, esfera"
+55,82,familia:mangueiras,mangueiras,email_longo,minuscula|ruido_cortesia|valor_indefinivel,SC-202600078,2026-08-19,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,ALTA,"Bom dia,
+
+Peço por favor cadastrar mangueira hidráulica montada, com as seguintes características:
+- Norma: en 856 4sp
+- Diâmetro interno: 1/2 pol
+- Pressão de trabalho: 415BAR
+- Comprimento: 1200 mm
+- Terminal a: femea reta jic
+- Material terminais: aco carbono zincado
+
+Att,
+Luana",,
+56,72,familia:sobressalentes,sobressalentes,ficha,minuscula,SC-202600503,2026-08-12,1200 - USINA DE BENEFICIAMENTO,ALMOXARIFADO,PORTAL,NORMAL,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Tampa Pressao
+Aplicação: BOMBA CENTRIFUGA
+Equipamento: AHLSTAR A22-80
+Fabricante: sulzer
+Código do fabricante: 188126-242"
+57,74,armadilha:unidade_nao_bar,mangueiras,ficha,minuscula|polegada_aspas|unidade_nao_bar|valor_indefinivel,SC-202600152,2026-08-22,2100 - UTE SERRA AZUL,PRODUCAO,PLANILHA,NORMAL,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Mangueira Hidráulica Montada
+Norma: en 853 2sn
+Diâmetro interno: 1/2""
+Pressão de trabalho: 4.000 psi
+Comprimento: 2200 mm
+Terminal a: MACHO RETO BSP
+Terminal b: femea reta jic
+Material terminais: aco carbono zincado"
+58,103,anexo:ficha,eletricos,ficha,minuscula,SC-202600352,2026-07-20,1100 - MINA SERRA AZUL,PCM,PORTAL,NORMAL,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Disjuntor
+Tipo: MINIDISJUNTOR DIN
+Polos: 3p
+Corrente: 50A
+Curva: B
+Capacidade interrupcao: 10KA
+Fabricante: ABB"
+59,53,familia:transmissao,transmissao,ficha,minuscula,SC-202600033,2026-09-06,1100 - MINA SERRA AZUL,PCM,EMAIL,NORMAL,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Correia Trapezoidal
+Perfil: a
+Referência: A157
+Comprimento externo: 4038 mm
+Fabricante: OPTIBELT"
+60,94,anexo:catalogo,valvulas,catalogo,classe_pressao_hash|minuscula,SC-202600305,2026-09-15,1100 - MINA SERRA AZUL,UTILIDADES,PLANILHA,NORMAL,"Novo item, linha do catálogo abaixo.",CATALOGO FORNECEDOR,"Generic | Gate valve | 1.1/4POL, 150#, A216 WCB, butt weld, roscado, volante"
+61,11,armadilha:multi_item,sobressalentes,ficha,classe_pressao_hash|minuscula|multi_item|polegada_aspas|valor_indefinivel,SC-202600092,2026-09-03,1100 - MINA SERRA AZUL,PCM,PORTAL,ALTA,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Válvula Esfera
+Diâmetro nominal: 3/4"" (DN 20)
+Classe de pressão: 800#
+Material do corpo: aco inox forjado a182 f316
+Conexão: solda encaixe sw
+Passagem: reduzida
+Vedacao sede: ptfe
+Acionamento: ALAVANCA"
+62,93,armadilha:polegada_mista,fixadores,telegrafico,minuscula|polegada_aspas|polegada_mista,SC-202600101,2026-09-17,1100 - MINA SERRA AZUL,PRODUCAO,PORTAL,NORMAL,"precisamos de parafuso sextavado UNC 3/4"" 2 1/2"" sae grau 5 aco carbono ZINCADO BRANCO asme b18.2.1 para a casa de força",,
+63,1,familia:sobressalentes,sobressalentes,telegrafico,contexto_aplicacao|minuscula,SC-202600110,2026-10-01,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,NORMAL,preciso cadastrar chapa lateral britador mandibula CJ412 sandvik 340.4962-00 para a parada programada,,
+64,36,anexo:ficha,fixadores,ficha,minuscula,SC-202600519,2026-09-27,1100 - MINA SERRA AZUL,ALMOXARIFADO,PLANILHA,NORMAL,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Parafuso Sextavado Interno
+Tipo cabeca: ESCAREADA
+Bitola: M10
+Comprimento: 45mm
+Classe: 12.9
+Material: aco liga
+Acabamento: oxidado preto"
+65,42,armadilha:ordem_sem_rotulo,vedacao,telegrafico,minuscula|ordem_sem_rotulo,SC-202600382,2026-07-21,2100 - UTE SERRA AZUL,UTILIDADES,PLANILHA,NORMAL,cadastrar retentor 65 mm 77mm 12 mm ba nbr para a casa de força,,
+66,59,familia:epi,epi,telegrafico,minuscula,SC-202600173,2026-08-11,1100 - MINA SERRA AZUL,ALMOXARIFADO,EMAIL,NORMAL,cadastrar calçado segurança botina elastico 43 composite NBR 37918 para os novos contratados,,
+67,100,familia:fixadores,fixadores,email_longo,minuscula|ruido_cortesia,SC-202600237,2026-09-17,9000 - CD CENTRAL,UTILIDADES,EMAIL,NORMAL,"Olá,
+
+Peço por favor cadastrar parafuso sextavado, com as seguintes características:
+- Rosca: METRICA GROSSA
+- Bitola: M24
+- Comprimento: 80 mm
+- Classe: 10.9
+- Material: aco carbono
+- Acabamento: oxidado preto
+- Norma: DIN 931
+
+Obrigado,
+Fernanda",,
+68,90,fora_pdm,nenhuma,telegrafico,minuscula,SC-202600394,2026-09-04,1200 - USINA DE BENEFICIAMENTO,ADMINISTRATIVO,PLANILHA,NORMAL,toner para impressora da portaria,,
+69,22,anexo:catalogo,vedacao,catalogo,ingles|minuscula,SC-202600050,2026-06-11,9000 - CD CENTRAL,PCM,PORTAL,NORMAL,"Novo item, linha do catálogo abaixo.",CATALOGO FORNECEDOR,"Generic | O-ring | 65MM, 7MM, fkm (viton), 70 shore a"
+70,35,familia:valvulas,valvulas,telegrafico,classe_pressao_hash|contexto_aplicacao|minuscula|polegada_aspas,SC-202600196,2026-08-24,1100 - MINA SERRA AZUL,PRODUCAO,EMAIL,ALTA,"preciso cadastrar válvula retencao 4"" 150# aco carbono fundido a216 wcb solda topo bw esfera pra bomba da barragem",,
+71,63,armadilha:unidade_nao_bar,mangueiras,email_longo,minuscula|unidade_nao_bar|valor_indefinivel,SC-202600385,2026-06-12,1300 - TERMINAL PORTUARIO,PCM,EMAIL,NORMAL,Precisamos de mangueira hidráulica montada en 853 2sn 1/2 pol 4.000 psi 1800mm femea curva 90 graus jic femea reta bsp aco carbono zincado para a unidade hidráulica da prensa,,
+72,5,anexo:catalogo,fixadores,catalogo,minuscula,SC-202600480,2026-08-17,1200 - USINA DE BENEFICIAMENTO,PCM,PORTAL,NORMAL,Cadastrar conforme catálogo do fornecedor.,CATALOGO FORNECEDOR,"Generic | Socket head cap screw | cilindrica, M12, 25MM, a2-70, SS304, natural"
+73,109,familia:conexoes_tubo,conexoes_tubo,telegrafico,minuscula,SC-202600023,2026-08-27,2100 - UTE SERRA AZUL,SUPRIMENTOS,PLANILHA,NORMAL,"Peça bucha CATERPILLAR 879-7407 do 6030, conforme manual do equipamento",,
+74,92,fora_pdm,nenhuma,telegrafico,minuscula,SC-202600270,2026-09-10,1100 - MINA SERRA AZUL,SERVICOS GERAIS,PORTAL,NORMAL,café em pó 500g para o refeitório da mina,,
+75,17,familia:sobressalentes,sobressalentes,email_longo,minuscula|ruido_cortesia,SC-202600426,2026-07-23,1200 - USINA DE BENEFICIAMENTO,MANUTENCAO MECANICA,PORTAL,NORMAL,"Boa tarde,
+
+Peço por favor cadastrar pino, com as seguintes características:
+- Aplicação: britador conico
+- Equipamento: CH440
+- Fabricante: SANDVIK
+- Código do fabricante: 837.6620-54
+
+Att,
+Camila",,
+76,105,armadilha:rosca_fina,fixadores,telegrafico,minuscula|rosca_fina,SC-202600041,2026-09-29,1100 - MINA SERRA AZUL,PRODUCAO,PORTAL,NORMAL,"Cadastrar parafuso sextavado metrica fina m10x1,25 140mm a2-70 aco inox 304 natural din 933",,
+77,117,anexo:ficha,vedacao,ficha,ingles|minuscula|virgula_decimal,SC-202600495,2026-07-11,1200 - USINA DE BENEFICIAMENTO,PCM,PLANILHA,NORMAL,"Item novo, ficha do fornecedor anexa.",FICHA TECNICA,"FICHA TÉCNICA
+Produto: Anel O-Ring
+Seção: 2,5 mm
+Material: nbr
+Dureza: 70 shore a"
+78,44,anexo:catalogo,conexoes_tubo,catalogo,minuscula|valor_indefinivel,SC-202600141,2026-08-31,2100 - UTE SERRA AZUL,PRODUCAO,PORTAL,NORMAL,"Novo item, linha do catálogo abaixo.",CATALOGO FORNECEDOR,"SEMPERIT | Hydraulic hose assembly | en 856 4sh, 1.1/2POL, 290BAR, 1200MM, JIC female swivel, JIC female 90° elbow, aco carbono zincado"
+79,26,familia:vedacao,vedacao,catalogo,minuscula|ordem_sem_rotulo,SC-202600096,2026-06-14,9000 - CD CENTRAL,ALMOXARIFADO,PORTAL,NORMAL,Cadastrar conforme catálogo do fornecedor.,CATALOGO FORNECEDOR,"SKF | Oil seal | 35MM, 50MM, 7MM, ba, nbr"
+80,47,anexo:ficha,fixadores,ficha,minuscula,SC-202600380,2026-09-15,2100 - UTE SERRA AZUL,PCM,PLANILHA,NORMAL,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Barra Tensora
+Aplicação: peneira vibratoria
+Equipamento: TS 3.6X7.3
+Fabricante: metso
+Código do fabricante: MM8024131"
+81,106,familia:sobressalentes,sobressalentes,ficha,minuscula,SC-202600518,2026-08-09,2100 - UTE SERRA AZUL,PCM,PORTAL,NORMAL,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Amortecedor
+Aplicação: PENEIRA VIBRATORIA
+Equipamento: LH 8X20
+Fabricante: METSO
+Código do fabricante: N36213710"
+82,54,familia:conexoes_tubo,conexoes_tubo,telegrafico,contexto_aplicacao|minuscula,SC-202600516,2026-07-31,1200 - USINA DE BENEFICIAMENTO,ALMOXARIFADO,PORTAL,NORMAL,Favor cadastrar luva segurança raspa unico curto 29892 para reposição do almoxarifado,,
+83,83,anexo:catalogo,nenhuma,catalogo,ingles|minuscula|rosca_fina,SC-202600473,2026-10-07,9000 - CD CENTRAL,PRODUCAO,EMAIL,ALTA,"Item do catálogo em anexo, por favor cadastrar.",CATALOGO FORNECEDOR,"Generic | Hex head bolt | metrica fina, M16X1,5, 90MM, 8.8, carbon steel, black oxide, din 931"
+84,48,familia:eletricos,eletricos,telegrafico,contexto_aplicacao|minuscula|virgula_decimal,SC-202600165,2026-06-23,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,NORMAL,"Precisamos de disjuntor minidisjuntor din 3p 16a c 4,5ka para reposição de estoque",,
+85,89,familia:filtros,filtros,telegrafico,minuscula,SC-202600418,2026-07-20,1100 - MINA SERRA AZUL,PCM,EMAIL,EMERGENCIAL,"Peça filtro ar MANN C 83 416, peça nova, equipamento recém-chegado",,
+86,6,armadilha:rosca_fina,fixadores,email_longo,minuscula|rosca_fina|ruido_cortesia,SC-202600261,2026-06-08,9000 - CD CENTRAL,MANUTENCAO MECANICA,PORTAL,EMERGENCIAL,"Bom dia,
+
+Preciso que seja cadastrado parafuso sextavado, com as seguintes características:
+- Rosca: metrica fina
+- Bitola: M16X1,5
+- Comprimento: 90mm
+- Classe: A2-70
+- Material: aco inox 304
+- Acabamento: natural
+- Norma: din 933
+
+Obrigado,
+Eduardo",,
+87,37,familia:sobressalentes,sobressalentes,telegrafico,minuscula,SC-202600348,2026-07-31,1300 - TERMINAL PORTUARIO,ALMOXARIFADO,EMAIL,NORMAL,"Peça rolete retorno CONTINENTAL CT3546571 do TC-04, código na plaqueta da peça antiga",,
+88,73,armadilha:ordem_sem_rotulo,rolamentos,telegrafico,minuscula|ordem_sem_rotulo,SC-202600074,2026-10-06,1200 - USINA DE BENEFICIAMENTO,PRODUCAO,PLANILHA,NORMAL,precisamos de rolamento rígido esferas 6309 45mm 100 mm 25 mm aberto normal para a unidade hidráulica da prensa,,
+89,62,fora_pdm,nenhuma,telegrafico,minuscula,SC-202600052,2026-10-11,2100 - UTE SERRA AZUL,PCM,PLANILHA,NORMAL,Serviço de calibração de manômetros da casa de bombas,,
+90,50,familia:fixadores,fixadores,ficha,minuscula,SC-202600336,2026-07-23,2100 - UTE SERRA AZUL,ALMOXARIFADO,PORTAL,EMERGENCIAL,"Item novo, ficha do fornecedor anexa.",FICHA TECNICA,"FICHA TÉCNICA
+Produto: Parafuso Sextavado Interno
+Tipo cabeca: CILINDRICA
+Bitola: M4
+Comprimento: 20mm
+Classe: A2-70
+Material: ACO INOX 304
+Acabamento: natural"
+91,69,familia:fixadores,fixadores,telegrafico,minuscula,SC-202600252,2026-07-22,1100 - MINA SERRA AZUL,PCM,PLANILHA,ALTA,precisamos de parafuso sextavado interno M4 25 mm a4-70 aco inox 316 natural para a casa de força,,
+92,52,armadilha:polegada_mista,fixadores,ficha,minuscula|polegada_aspas|polegada_mista,SC-202600517,2026-07-17,1300 - TERMINAL PORTUARIO,MANUTENCAO MECANICA,PORTAL,ALTA,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Parafuso Sextavado
+Rosca: UNC
+Bitola: 3/8""
+Comprimento: 1 3/4""
+Classe: SAE GRAU 2
+Material: aco carbono
+Acabamento: zincado amarelo
+Norma: asme b18.2.1"
+93,30,armadilha:virgula_decimal,vedacao,catalogo,classe_pressao_hash|minuscula|virgula_decimal,SC-202600468,2026-09-02,1200 - USINA DE BENEFICIAMENTO,MANUTENCAO MECANICA,PORTAL,NORMAL,"Novo item, linha do catálogo abaixo.",CATALOGO FORNECEDOR,"TEADIT | Flat gasket | 10POL, 300#, epdm, 1,6MM, rf"
+94,19,armadilha:ordem_sem_rotulo,vedacao,telegrafico,minuscula|ordem_sem_rotulo,SC-202600259,2026-08-18,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,EMERGENCIAL,"favor cadastrar retentor 35 mm 60 mm 10mm bab fkm (viton) urgente, equipamento parado",,
+95,99,armadilha:ordem_sem_rotulo,vedacao,telegrafico,contexto_aplicacao|minuscula|ordem_sem_rotulo,SC-202600003,2026-08-31,2100 - UTE SERRA AZUL,ALMOXARIFADO,PORTAL,NORMAL,precisamos de retentor 75 mm 100 mm 13 mm ba nbr pra bomba da barragem,,
+96,20,armadilha:polegada_aspas,conexoes_tubo,ficha,classe_pressao_hash|minuscula|polegada_aspas|valor_indefinivel,SC-202600359,2026-08-19,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,NORMAL,"Item novo, ficha do fornecedor anexa.",FICHA TECNICA,"FICHA TÉCNICA
+Produto: Cap
+Diâmetro nominal: 1""
+Classe de pressão: 6000#
+Material: aco inox forjado a182 f316
+Conexão: rosca npt
+Norma: ASME B16.11"
+97,27,armadilha:polegada_mista,fixadores,ficha,minuscula|polegada_aspas|polegada_mista|virgula_decimal,SC-202600235,2026-10-15,1300 - TERMINAL PORTUARIO,PRODUCAO,EMAIL,EMERGENCIAL,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Parafuso Sextavado
+Rosca: unc
+Bitola: 5/16"" (7,9 mm)
+Comprimento: 1 1/4""
+Classe: SAE GRAU 8
+Material: aco carbono
+Acabamento: SEM ACABAMENTO
+Norma: ASME B18.2.1"
+98,76,familia:sobressalentes,sobressalentes,telegrafico,minuscula,SC-202600243,2026-08-10,1200 - USINA DE BENEFICIAMENTO,ALMOXARIFADO,EMAIL,ALTA,"Peça eixo SULZER 16812-820 do AHLSTAR A31-100, conforme manual do equipamento",,
+99,56,armadilha:polegada_aspas,valvulas,email_longo,minuscula|multi_item|polegada_aspas|ruido_cortesia|valor_indefinivel,SC-202600014,2026-09-27,9000 - CD CENTRAL,UTILIDADES,PLANILHA,NORMAL,"Boa tarde,
+
+Preciso que seja cadastrado válvula borboleta, com as seguintes características:
+- Diâmetro nominal: 10"" (DN 250)
+- Tipo corpo: wafer
+- Material do corpo: aco inox fundido a351 cf8m
+- Material disco: aco inox fundido a351 cf8m
+- Vedacao sede: epdm
+- Acionamento: ATUADOR ELETRICO
+
+Grato,
+Marcos",,
+100,110,armadilha:multi_item,valvulas,ficha,minuscula|multi_item|polegada_aspas|valor_indefinivel,SC-202600046,2026-07-02,1300 - TERMINAL PORTUARIO,PRODUCAO,PORTAL,NORMAL,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Válvula Borboleta
+Diâmetro nominal: 2"" (DN 50)
+Tipo corpo: lug
+Material do corpo: ACO INOX FUNDIDO A351 CF8M
+Material disco: ACO INOX FUNDIDO A351 CF8M
+Vedacao sede: ptfe
+Acionamento: ATUADOR PNEUMATICO"
+101,96,familia:sobressalentes,sobressalentes,ficha,classe_pressao_hash|minuscula|polegada_aspas|valor_indefinivel,SC-202600301,2026-06-21,1100 - MINA SERRA AZUL,PCM,PLANILHA,NORMAL,Segue ficha técnica em anexo.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Válvula Esfera
+Diâmetro nominal: 2""
+Classe de pressão: 800#
+Material do corpo: aco inox forjado a182 f316
+Conexão: ROSCA NPT
+Passagem: reduzida
+Vedacao sede: rptfe
+Acionamento: atuador pneumatico"
+102,97,familia:filtros,filtros,telegrafico,contexto_aplicacao|minuscula,SC-202600010,2026-10-05,1200 - USINA DE BENEFICIAMENTO,SUPRIMENTOS,PORTAL,NORMAL,Preciso cadastrar filtro combustivel perfuratriz fram g2021 para reposição de estoque,,
+103,115,armadilha:pn_ambiguo,valvulas,ficha,minuscula|pn_ambiguo|polegada_aspas|polegada_mista,SC-202600182,2026-07-02,2100 - UTE SERRA AZUL,PCM,PORTAL,NORMAL,Cadastrar conforme ficha técnica anexa.,FICHA TECNICA,"FICHA TÉCNICA
+Produto: Válvula Retencao
+Diâmetro nominal: 1 1/2""
+Classe de pressão: PN 25
+Conexão: rosca bsp
+Tipo: esfera"
+104,46,familia:mangueiras,mangueiras,catalogo,minuscula|valor_indefinivel,SC-202600217,2026-07-16,1100 - MINA SERRA AZUL,UTILIDADES,PORTAL,NORMAL,Cadastrar conforme catálogo do fornecedor.,CATALOGO FORNECEDOR,"EATON | Hydraulic hose assembly | en 853 1sn, 1/4POL, 225BAR, 3000MM, femea curva 90 graus orfs, ORFS female, aco carbono zincado"
+105,28,familia:epi,epi,telegrafico,contexto_aplicacao|minuscula,SC-202600158,2026-08-17,1100 - MINA SERRA AZUL,ALMOXARIFADO,PLANILHA,NORMAL,preciso cadastrar oculos segurança antirrisco AMPLA VISAO 33645 para reposição do almoxarifado,,
+106,8,anexo:ficha,valvulas,ficha,minuscula|multi_item|polegada_aspas|valor_indefinivel,SC-202600290,2026-08-17,1100 - MINA SERRA AZUL,UTILIDADES,PORTAL,NORMAL,"Item novo, ficha do fornecedor anexa.",FICHA TECNICA,"FICHA TÉCNICA
+Produto: Válvula Borboleta
+Diâmetro nominal: 6"" (DN 150)
+Tipo corpo: wafer
+Material do corpo: aco inox fundido a351 cf8m
+Material disco: ACO INOX FUNDIDO A351 CF8M
+Vedacao sede: nbr
+Acionamento: ALAVANCA"
+107,12,armadilha:rosca_fina,fixadores,telegrafico,contexto_aplicacao|minuscula|rosca_fina,SC-202600245,2026-09-16,1300 - TERMINAL PORTUARIO,PRODUCAO,PORTAL,ALTA,"Cadastrar parafuso sextavado metrica fina m16x1,5 50mm 8.8 aco carbono oxidado preto din 933 pra bomba da barragem",,
+108,9,familia:mangueiras,mangueiras,email_longo,minuscula|polegada_aspas|ruido_cortesia|valor_indefinivel,SC-202600232,2026-07-13,9000 - CD CENTRAL,PCM,PORTAL,NORMAL,"Bom dia,
+
+Peço por favor cadastrar mangueira hidráulica montada, com as seguintes características:
+- Norma: EN 853 2SN
+- Diâmetro interno: 3/4"" (19 mm)
+- Pressão de trabalho: 215BAR
+- Comprimento: 2000 mm
+- Terminal a: FEMEA CURVA 90 GRAUS JIC
+- Terminal b: MACHO RETO NPT
+- Material terminais: aco carbono zincado
+
+Obrigado,
+Thiago",,
+109,68,familia:fixadores,fixadores,telegrafico,minuscula,SC-202600403,2026-06-24,1300 - TERMINAL PORTUARIO,PRODUCAO,EMAIL,NORMAL,Favor cadastrar porca metrica grossa m22 8 aco carbono zincado branco para a unidade hidráulica da prensa,,
+110,18,familia:conexoes_tubo,conexoes_tubo,email_longo,classe_pressao_hash|minuscula|ruido_cortesia,SC-202600332,2026-08-02,1200 - USINA DE BENEFICIAMENTO,ALMOXARIFADO,PORTAL,ALTA,"Boa tarde,
+
+Solicito o cadastro de te, com as seguintes características:
+- Diâmetro nominal: 1.1/2 pol
+- Classe de pressão: 6000#
+- Material: aco carbono forjado a105
+- Conexão: solda encaixe sw
+- Norma: ASME B16.11
+
+Obrigado,
+Sérgio",,
+111,107,armadilha:polegada_aspas,fixadores,telegrafico,minuscula|polegada_aspas|virgula_decimal,SC-202600325,2026-10-14,1100 - MINA SERRA AZUL,PRODUCAO,PORTAL,NORMAL,"Precisamos de parafuso sextavado unc 3/4"" 2.1/4"" (57,1 mm) sae grau 5 aco carbono asme b18.2.1 pro britador primário",,
+112,84,familia:vedacao,vedacao,telegrafico,ingles|minuscula,SC-202600212,2026-07-14,1100 - MINA SERRA AZUL,MANUTENCAO MECANICA,EMAIL,NORMAL,Favor cadastrar anel o-ring 42 mm 2 mm epdm 70 shore a para a casa de força,,
+113,38,armadilha:pn_ambiguo,valvulas,telegrafico,minuscula|pn_ambiguo|polegada_aspas,SC-202600233,2026-06-06,9000 - CD CENTRAL,PRODUCAO,EMAIL,ALTA,"Cadastrar válvula esfera 3"" pn 16 ferro fundido nodular flange ff reduzida ptfe alavanca",,
+114,23,familia:valvulas,valvulas,telegrafico,classe_pressao_hash|minuscula|valor_indefinivel,SC-202600143,2026-07-01,1100 - MINA SERRA AZUL,ALMOXARIFADO,EMAIL,NORMAL,Favor cadastrar válvula gaveta 1 pol 150# aco inox fundido a351 cf8m solda topo bw aparafusado volante pro caminhão 793,,
+115,75,familia:fixadores,fixadores,email_longo,minuscula|ruido_cortesia,SC-202600337,2026-08-29,2100 - UTE SERRA AZUL,UTILIDADES,PORTAL,NORMAL,"Bom dia,
+
+Peço por favor cadastrar parafuso sextavado, com as seguintes características:
+- Rosca: metrica grossa
+- Bitola: M20
+- Comprimento: 55mm
+- Classe: a2-70
+- Material: ACO INOX 304
+- Acabamento: natural
+- Norma: DIN 933
+
+Obrigado,
+Luana",,
+116,43,familia:sobressalentes,sobressalentes,email_longo,minuscula|ruido_cortesia,SC-202600414,2026-08-19,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,NORMAL,"Olá,
+
+Solicito o cadastro de placa succao, com as seguintes características:
+- Aplicação: BOMBA POLPA
+- Equipamento: MM300
+- Fabricante: metso
+- Código do fabricante: MM0809137
+
+Obrigado,
+Juliana",,
+117,104,anexo:ficha,sobressalentes,ficha,classe_pressao_hash|minuscula,SC-202600410,2026-06-06,2100 - UTE SERRA AZUL,PCM,EMAIL,ALTA,"Item novo, ficha do fornecedor anexa.",FICHA TECNICA,"FICHA TÉCNICA
+Produto: Junta Espiralada
+Diâmetro nominal: 1.1/2 pol
+Classe de pressão: 900#
+Material fita: aco inox 316
+Enchimento: grafite flexivel
+Anel interno: sem anel interno
+Norma: asme b16.20"
+118,77,anexo:catalogo,eletricos,catalogo,minuscula,SC-202600065,2026-06-25,2200 - PCH RIO CLARO,ALMOXARIFADO,PORTAL,NORMAL,"Item do catálogo em anexo, por favor cadastrar.",CATALOGO FORNECEDOR,"COBRECOM | Electric cable | flexivel, 95MM2, 1, 450/750v, pvc, azul"
+119,98,familia:rolamentos,rolamentos,telegrafico,minuscula,SC-202600131,2026-06-25,1100 - MINA SERRA AZUL,ALMOXARIFADO,PORTAL,NORMAL,Cadastrar rolamento rígido esferas 6211-zz 55mm 21mm metalica ambos lados normal pro caminhão 793,,
+120,4,anexo:catalogo,mangueiras,catalogo,minuscula|valor_indefinivel,SC-202600279,2026-08-10,2200 - PCH RIO CLARO,ALMOXARIFADO,PLANILHA,NORMAL,"Novo item, linha do catálogo abaixo.",CATALOGO FORNECEDOR,"PARKER | Hydraulic hose assembly | en 856 4sp, 3/8POL, 3000MM, DKOL female, DKOL female, aco carbono zincado"
