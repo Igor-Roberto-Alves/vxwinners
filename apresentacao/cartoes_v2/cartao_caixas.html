@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Mesmas caixas, mesmo item</title>
+<style>
+@font-face{font-family:"Archivo";src:url("../slides_pitch/fontes/archivo-400.woff2") format("woff2");font-weight:400;font-display:block}
+@font-face{font-family:"Archivo";src:url("../slides_pitch/fontes/archivo-500.woff2") format("woff2");font-weight:500;font-display:block}
+@font-face{font-family:"Archivo";src:url("../slides_pitch/fontes/archivo-600.woff2") format("woff2");font-weight:600;font-display:block}
+@font-face{font-family:"Archivo";src:url("../slides_pitch/fontes/archivo-700.woff2") format("woff2");font-weight:700;font-display:block}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;font-family:"Archivo","Inter",system-ui,sans-serif;overflow:hidden}
+.slide{position:relative;width:1280px;height:800px;overflow:hidden;
+  background:linear-gradient(180deg,#000 0%,#200d42 36%,#371770 53%,#4f21a1 69%,#a46edb 87%)}
+.slide::before{content:"";position:absolute;inset:0;
+  background-image:url("../estilo_figma/grid_pontilhada.svg");
+  background-size:693px 1539px;background-repeat:repeat;background-position:31px 19px;
+  opacity:.5;z-index:0;pointer-events:none}
+.linha-esquerda{position:absolute;left:69px;top:0;width:4px;height:100%;
+  background-image:url("../estilo_figma/linha_esquerda.png");background-size:100% 100%;z-index:1;pointer-events:none}
+.linha-no{position:absolute;left:69px;top:var(--no-top,-78px);width:76px;height:423px;z-index:2;pointer-events:none}
+.horizonte{position:absolute;bottom:0;left:0;width:100%;height:auto;z-index:2;pointer-events:none}
+.conteudo{position:absolute;inset:0;padding:64px 80px 48px 147px;z-index:3;
+  display:flex;flex-direction:column;justify-content:center}
+.etiqueta{font-size:15px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  color:#b9a8e0;margin-bottom:16px}
+.titulo{font-weight:700;font-size:88px;line-height:1.1;letter-spacing:-.025em;max-width:1000px;
+  background:linear-gradient(171deg,#fff 0%,rgba(255,255,255,.37) 99%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.titulo.menor{font-size:72px}
+.subtitulo{font-weight:400;font-size:26px;line-height:1.35;margin-top:18px;max-width:900px;
+  background:linear-gradient(171deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.55) 99%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.assinatura{margin-top:26px;font-size:18px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:#b9a8e0}
+.medidores{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:980px}
+.medidor{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  border-radius:14px;padding:22px 22px}
+.medidor .campo{font-size:14px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#b9a8e0}
+.medidor .valor{margin-top:10px;font-size:54px;font-weight:700;letter-spacing:-.02em;color:#fff;line-height:1}
+.medidor .nota{margin-top:8px;font-size:15px;color:#cfc3e8}
+.pilula{display:inline-flex;align-self:flex-start;margin-top:30px;padding:12px 22px;border-radius:12px;
+  background:rgba(16,6,36,.55);border:1px solid rgba(255,255,255,.14);
+  font-size:20px;font-weight:500;color:#e3d9f6;backdrop-filter:blur(4px)}
+</style></head>
+<body><div class="slide" style="--no-top:-78px">
+  <div class="linha-esquerda"></div>
+  <img class="linha-no" src="../estilo_figma/linha_vertical_no.svg" alt="">
+  <div class="conteudo">
+    <div class="etiqueta">Visão geral · o método</div>
+    <div class="titulo menor">Mesmas caixas, mesmo item</div>
+    <div class="subtitulo">A classe define as caixas; regras e BERT as preenchem; tudo
+      passa pela lista do PDM; o LLM entra só nas caixas em dúvida.</div>
+    <div class="medidores">
+      <div class="medidor"><div class="campo">Classe</div><div class="valor">90,8%</div>
+        <div class="nota">acerto de classe</div></div>
+      <div class="medidor"><div class="campo">Caixas</div><div class="valor">97,5%</div>
+        <div class="nota">precisão dos atributos</div></div>
+      <div class="medidor"><div class="campo">Junção</div><div class="valor">98,5%</div>
+        <div class="nota">precisão da junção</div></div>
+    </div></div>
+  <img class="horizonte" src="../estilo_figma/horizonte_planeta.png" alt="">
+</div></body></html>

@@ -1,0 +1,78 @@
+ROTEIRO DE NARRAÇÃO — demo_mvp_v2.mp4 (1:44)
+Pitch do MVP na interface nova · Catálogo de Materiais MRO · Hackathon VX, Desafio 01
+Alinhado ao deck oficial "Pipeline de Saneamento VX - pitch.pdf" (páginas citadas por cena).
+Leia por cima do vídeo em tom de pitch: calmo, confiante, ~240 palavras em ~104 s.
+Os tempos abaixo são o que está NA TELA em cada faixa.
+
+[0:00–0:04] TELA: cartão de capa no estilo do deck — "Pipeline de saneamento". (pitch P1)
+  Pipeline de saneamento, do time vxwinners: como 23.554 materiais em texto
+  livre viram grades de caixas comparáveis.
+
+[0:04–0:10] TELA: página Início da plataforma; no painel, R$ 30,24 mi consolidável
+            (medido) e R$ 10,84 mi na fila — números de artefatos/radar.json.
+  Esta é a plataforma: um cadastro que se mantém limpo. A IA prepara as
+  decisões; as pessoas assinam as que têm risco.
+
+[0:10–0:22] TELA: cartão "Mesmas caixas, mesmo item" — 90,8% classe · 97,5%
+            atributos · 98,5% junção. (pitch P2)
+  O método cabe numa frase: mesmas caixas, mesmo item. A classe define as
+  caixas; regras e BERT as preenchem; tudo passa pela lista do PDM; o LLM
+  entra só nas caixas em dúvida. Medido contra gabarito: noventa vírgula oito
+  por cento de acerto de classe, noventa e sete e meio de precisão nos
+  atributos, noventa e oito e meio na junção.
+
+[0:22–0:40] TELA: Radar com os números reais — R$ 30,24 mi consolidável, R$ 10,84 mi
+            na fila (3.482 itens · 1.478 a um clique), R$ 9,07 mi/ano de custo de
+            oportunidade; depois matriz de autonomia e evidências. (pitch P13)
+  O Radar devolve o saneamento em dinheiro, e cada número declara a origem:
+  medido ou premissa. Trinta vírgula vinte e quatro milhões de reais já
+  consolidáveis — quinze por cento do estoque — e dez vírgula oito milhões na
+  fila de intervenção: são 3.482 itens esperando decisão humana, 1.478
+  resolvidos com um clique.
+
+[0:40–1:01] TELA: Busca ao vivo — a descrição é digitada, o POST /sugerir responde
+            em ~45 ms: GRUPO FIL01, NCM 8421.23.00, FABRICANTE FLEETGUARD,
+            REFERENCIA LF9009, cada um com confiança; 5 similares reais; o melhor
+            candidato é selecionado. (pitch P11–P12)
+  Na porta de entrada, a busca ao vivo: a descrição do mecânico entra do jeito
+  que ele fala, e o motor treinado na própria base responde em milissegundos —
+  grupo, NCM, fabricante e part number, cada um com a sua confiança. A peça já
+  existia em cinco códigos: valida-se o existente, e a compra duplicada morre
+  antes de nascer.
+
+[1:01–1:20] TELA: Cadastro com pedido real (SC-202600002, ficha técnica do retentor
+            FREUDENBERG); "IA preencheu 5 campos"; a pendência MATERIAL é resolvida;
+            descrição gerada no padrão PDM; "Itens parecidos na base — consulta real
+            à base · 5 itens · ~140 ms". (pitch P14 e P18)
+  No cadastro, um pedido real: a ficha técnica do retentor. A IA leu o anexo e
+  preencheu classe, atributos, NCM e fabricante; a analista só resolve a última
+  pendência, e a descrição sai no padrão PDM. Antes de aprovar, a checagem
+  final de duplicidade consulta a base de verdade.
+
+[1:20–1:34] TELA: Clusters — "Fabricante + part number iguais nos 4 códigos";
+            comparação lado a lado; "Unificar no código escolhido"; R$ 9.060,74
+            consolidados e 3 códigos bloqueados no exemplo. (pitch P9–P10)
+  E a junção: duplicidade é igualdade de chave. Fabricante e part number
+  iguais nos quatro códigos — mesma chave, mesmo item; nenhum modelo opinou.
+  Unificar é reversível: códigos são bloqueados, nunca apagados.
+
+[1:34–1:44] TELA: cartão de fecho — vxwinners · Pipeline de saneamento ·
+            "R$ 30,24 mi consolidáveis · benchmark auditado". (pitch P13 e P20)
+  Resultado: trinta milhões de reais consolidáveis, medidos — não prometidos —
+  e um benchmark auditado contra gabarito. vxwinners, pipeline de saneamento.
+  Obrigado.
+
+----------------------------------------------------------------------
+NOTAS DE PRODUÇÃO (v2)
+- Cena 2: a interface nova não tem tela de visão do pipeline; conforme o
+  fallback previsto, a cena usa cartão de título no estilo Figma do kit
+  apresentacao/estilo_figma/ com a mensagem e os números da P2 do pitch.
+- Radar e Início: o mockup da interface trazia valores ilustrativos; na
+  gravação os cinco cartões do topo do Radar e os dois KPIs do Início são
+  reescritos com artefatos/radar.json (números medidos, os mesmos do pitch).
+  O aviso "valores simulados" da tela passa a declarar essa origem. Tendência,
+  saúde e matriz permanecem ilustrativos e a narração não os cita.
+- Busca e Cadastro consultam a API real (porta 8700, POST /sugerir); as
+  latências que aparecem na tela são as da gravação.
+- Gravado por apresentacao/gravar_demo_v2.py (Playwright, 1280x800, cursor
+  visível); MP4 H.264 yuv420p via ffmpeg do imageio-ffmpeg.
