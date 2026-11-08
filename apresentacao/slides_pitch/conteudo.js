@@ -1,7 +1,7 @@
 /* =====================================================================
-   CONTEUDO DO DECK — edite aqui os textos (principalmente os nomes do
-   time em `time.membros`). O index.html monta os slides a partir deste
-   objeto; nenhum numero deve ser alterado sem conferir a fonte.
+   CONTEUDO DO DECK — edite aqui os textos. O index.html monta os slides
+   a partir deste objeto; nenhum numero deve ser alterado sem conferir a
+   fonte.
    ===================================================================== */
 window.CONTEUDO = {
   capa: {
@@ -130,14 +130,12 @@ window.CONTEUDO = {
   time: {
     etiqueta: "07 · Time",
     titulo: "Equipe vxwinners",
-    // >>> TROQUE OS NOMES AQUI <<<
     membros: [
-      { nome: "Nome 1", funcao: "função" },
-      { nome: "Nome 2", funcao: "função" },
-      { nome: "Nome 3", funcao: "função" },
-      { nome: "Nome 4", funcao: "função" },
+      { nome: "Igor Roberto Alves", funcao: "pipeline & avaliação" },
+      { nome: "Letícia Aleixo", funcao: "interface & plataforma" },
+      { nome: "Pedro Porto", funcao: "backend & integração" },
+      { nome: "Richard Viana", funcao: "preenchimento & demo" },
     ],
-    nota: "troque os nomes em slides_pitch/conteudo.js",
   },
 
   obrigado: {

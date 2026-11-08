@@ -122,7 +122,6 @@
     <p class="etiqueta" data-texto="time.etiqueta"></p>
     <h2 class="titulo titulo-menor" data-texto="time.titulo"></h2>
     <div class="grade-time" id="grade-time"></div>
-    <p class="nota-time" id="nota-time"></p>
   </div>
 </section>
 
@@ -229,7 +228,7 @@
   var max = Math.max.apply(null, C.dinheiro.barras.map(function (b) { return b.valor; }));
   C.dinheiro.barras.forEach(function (b) {
     var pct = (b.valor / max) * 100;
-    var linha = el("div", "linha-barra");
+    var linha = el("div", "linha-barra" + (b.risco ? " risco" : ""));
     var rot = '<div class="rotulo">' + escapa(b.rotulo) +
       (b.risco ? ' <span class="nota-risco">' + escapa(C.dinheiro.riscoNota) + "</span>" : "") + "</div>";
     var marcador = b.risco ? '<span class="marcador-risco"></span>' : "";
@@ -260,8 +259,6 @@
       '<div class="nome">' + escapa(m.nome) + "</div>" +
       '<div class="funcao">' + escapa(m.funcao) + "</div>"));
   });
-  document.getElementById("nota-time").innerHTML =
-    "troque os nomes em <code>slides_pitch/conteudo.js</code>";
 
   /* navegação: setas / PageUp / PageDown / espaço */
   var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
