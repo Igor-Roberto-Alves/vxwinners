@@ -1,0 +1,600 @@
+/* =====================================================================
+   DECK vxwinners — estilo extraído do template Figma
+   "Hackathon Presentation Slide Deck" (fundo roxo em degradê, grade
+   pontilhada, linha vertical com nó, horizonte-planeta, texto gradiente).
+   Fonte: Nohemi não está no catálogo do Fontshare — fallback oficial da
+   tarefa: Archivo (Fontshare, licença gratuita), arquivos locais.
+   ===================================================================== */
+
+@font-face {
+  font-family: "Archivo";
+  src: url("fontes/archivo-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("fontes/archivo-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("fontes/archivo-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("fontes/archivo-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  --lavanda: #a46edb;
+  --lavanda-clara: #d7c3f1;
+  --texto-corpo: #cfc3e8;
+  --texto-suave: #b9a8e0;
+  --fio-cartao: rgba(255, 255, 255, 0.14);
+  --fundo-cartao: rgba(255, 255, 255, 0.06);
+  --chip-lavanda: rgba(164, 110, 219, 0.24);
+  --margem-conteudo: 220px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: #000;
+  font-family: "Archivo", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  height: 100vh;
+}
+
+/* ---------------------------------------------------------------- slide */
+.slide {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  background: linear-gradient(
+    180deg,
+    #000000 0%,
+    #200d42 36%,
+    #371770 53%,
+    #4f21a1 69%,
+    #a46edb 87%
+  );
+}
+
+/* grade pontilhada cobrindo o slide (textura sutil) */
+.slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../estilo_figma/grid_pontilhada.svg");
+  background-size: 1040px 2309px;
+  background-repeat: repeat;
+  background-position: 46px 28px;
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* linha vertical fina à esquerda (x ~106px), altura total */
+.linha-esquerda {
+  position: absolute;
+  left: 104px;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  background-image: url("../estilo_figma/linha_esquerda.png");
+  background-size: 100% 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* traço orgânico com o nó/bolinha, sobreposto à linha esquerda.
+   top varia por slide via --no-top (nó fica a 317px do topo do SVG) */
+.linha-no {
+  position: absolute;
+  left: 104px;
+  top: var(--no-top, -117px);
+  width: 114px;
+  height: 635px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* horizonte-planeta ancorado no rodapé */
+.horizonte {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.conteudo {
+  position: absolute;
+  inset: 0;
+  padding: 96px 120px 72px var(--margem-conteudo);
+  z-index: 3;
+}
+
+/* ------------------------------------------------------------ tipografia */
+.etiqueta {
+  font-size: 23px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  margin-bottom: 22px;
+}
+
+.titulo {
+  font-weight: 700;
+  font-size: clamp(96px, 7.1vw, 137px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  background: linear-gradient(171deg, #ffffff 0%, rgba(255, 255, 255, 0.37) 99%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.titulo-menor { font-size: 104px; }
+
+.subtitulo {
+  font-weight: 400;
+  font-size: 38px;
+  line-height: 1.35;
+  margin-top: 26px;
+  background: linear-gradient(171deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.55) 99%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.corpo { color: var(--texto-corpo); }
+
+/* --------------------------------------------------------------- cartões */
+.cartao {
+  background: var(--fundo-cartao);
+  border: 1px solid var(--fio-cartao);
+  border-radius: 20px;
+  padding: 30px 32px;
+}
+
+.chip-icone {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  background: var(--chip-lavanda);
+  border: 1px solid rgba(215, 195, 241, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e9ddf9;
+  flex: none;
+}
+.chip-icone svg { width: 28px; height: 28px; }
+
+/* rodapé-faixa (pílula larga com dados) */
+.faixa-rodape {
+  position: absolute;
+  left: var(--margem-conteudo);
+  right: 120px;
+  bottom: 64px;
+  z-index: 3;
+  background: rgba(16, 6, 36, 0.55);
+  border: 1px solid var(--fio-cartao);
+  border-radius: 16px;
+  padding: 22px 34px;
+  font-size: 27px;
+  font-weight: 500;
+  color: #e3d9f6;
+  text-align: center;
+  backdrop-filter: blur(4px);
+}
+
+/* ================================================================ S1 capa */
+.s-capa .conteudo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 200px;
+}
+.s-capa .titulo { font-size: 150px; max-width: 1500px; }
+.s-capa .subtitulo { font-size: 44px; margin-top: 34px; }
+.s-capa .assinatura {
+  margin-top: 46px;
+  font-size: 29px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+}
+
+/* ============================================================== S2 índice */
+.lista-indice {
+  margin-top: 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 120px;
+  row-gap: 44px;
+  max-width: 1380px;
+}
+.item-indice {
+  display: flex;
+  align-items: baseline;
+  gap: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: 20px;
+}
+.item-indice .num {
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(171deg, #fff 0%, rgba(255, 255, 255, 0.35) 99%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  min-width: 86px;
+}
+.item-indice .rotulo {
+  font-size: 40px;
+  font-weight: 500;
+  color: #ebe2fa;
+}
+
+/* ============================================================ S3 problema */
+.grade-problema {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  max-width: 1580px;
+}
+.grade-problema .cartao {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  min-height: 150px;
+}
+.grade-problema h3 {
+  font-size: 33px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+.grade-problema p {
+  font-size: 26px;
+  line-height: 1.4;
+  color: var(--texto-corpo);
+}
+
+/* ======================================================== S4 como funciona */
+.fluxo {
+  margin-top: 56px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  max-width: 1600px;
+}
+.fluxo .passo {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.fluxo .seta {
+  flex: none;
+  width: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lavanda-clara);
+}
+.passo .num-passo {
+  width: 46px;
+  height: 46px;
+  border-radius: 8px;
+  background: var(--chip-lavanda);
+  border: 1px solid rgba(215, 195, 241, 0.3);
+  color: #f1e8fc;
+  font-size: 25px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.passo h3 {
+  font-size: 31px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+.passo p {
+  font-size: 24px;
+  line-height: 1.42;
+  color: var(--texto-corpo);
+}
+.fluxo .cartao { height: 100%; display: flex; flex-direction: column; gap: 14px; padding: 28px; }
+.sub-fluxo {
+  margin-top: 54px;
+  font-size: 30px;
+  font-weight: 500;
+  color: #e3d9f6;
+}
+.sub-fluxo strong { color: #ffffff; font-weight: 600; }
+
+/* =========================================================== S5 evidência */
+.grade-medidores {
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 26px;
+  max-width: 1600px;
+}
+.medidor { padding: 32px 30px; }
+.medidor .campo {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+.medidor .valor {
+  margin-top: 14px;
+  font-size: 84px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  line-height: 1;
+}
+.medidor .nota {
+  margin-top: 12px;
+  font-size: 23px;
+  color: var(--texto-corpo);
+  min-height: 32px;
+}
+.medidor .trilho {
+  margin-top: 22px;
+  height: 9px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.13);
+  overflow: hidden;
+}
+.medidor .preenchido {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #8a4fd0 0%, #c9a7ee 100%);
+}
+
+/* ============================================================ S6 dinheiro */
+.painel-dinheiro {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 430px;
+  gap: 48px;
+  align-items: start;
+  max-width: 1600px;
+}
+.grafico-barras { display: flex; flex-direction: column; gap: 21px; }
+.linha-barra .rotulo {
+  font-size: 26px;
+  font-weight: 500;
+  color: #e9e0f8;
+  margin-bottom: 7px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.linha-barra .nota-risco {
+  font-size: 21px;
+  font-weight: 400;
+  color: var(--texto-suave);
+  font-style: italic;
+}
+.linha-barra .trilho-barra {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.linha-barra .barra {
+  height: 36px;
+  border-radius: 3px 10px 10px 3px;
+  background: linear-gradient(90deg, #8a4fd0 0%, #a46edb 100%);
+  min-width: 14px;
+}
+.linha-barra .barra.risco {
+  background: linear-gradient(90deg, rgba(215, 195, 241, 0.8) 0%, #e4d4f7 100%);
+  outline: 1.5px dashed rgba(244, 236, 253, 0.85);
+  outline-offset: 3px;
+}
+.linha-barra .valor-barra {
+  font-size: 28px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+}
+.marcador-risco {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  transform: rotate(45deg);
+  border: 2px solid #f1e8fc;
+  background: rgba(215, 195, 241, 0.4);
+  border-radius: 2px;
+  margin-right: 2px;
+}
+.destaque-lateral {
+  background: var(--fundo-cartao);
+  border: 1px solid var(--fio-cartao);
+  border-radius: 22px;
+  padding: 40px 36px;
+}
+.destaque-lateral .titulo-destaque {
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+.destaque-lateral .valor-destaque {
+  margin-top: 20px;
+  font-size: 62px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  background: linear-gradient(171deg, #fff 0%, rgba(255, 255, 255, 0.45) 99%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.destaque-lateral .nota-destaque {
+  margin-top: 18px;
+  font-size: 24px;
+  line-height: 1.4;
+  color: var(--texto-corpo);
+}
+
+/* ================================================================ S7 demo */
+.s-demo .conteudo { padding-top: 84px; }
+.s-demo .subtitulo { font-size: 34px; margin-top: 18px; }
+.mockup-demo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 26px;
+  width: 1150px;
+  z-index: 4;
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.45));
+}
+
+/* ============================================================= S8 mercado */
+.grade-mercado {
+  margin-top: 52px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1600px;
+}
+.coluna-mercado { padding: 42px 36px; min-height: 380px; }
+.coluna-mercado .sigla {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  border-radius: 8px;
+  background: var(--chip-lavanda);
+  border: 1px solid rgba(215, 195, 241, 0.3);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #f1e8fc;
+}
+.coluna-mercado h3 {
+  margin-top: 24px;
+  font-size: 34px;
+  font-weight: 600;
+  color: #ffffff;
+}
+.coluna-mercado p {
+  margin-top: 14px;
+  font-size: 27px;
+  line-height: 1.42;
+  color: var(--texto-corpo);
+}
+
+/* ================================================================ S9 time */
+.grade-time {
+  margin-top: 64px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  max-width: 1600px;
+}
+.cartao-pessoa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 44px 24px;
+  gap: 20px;
+}
+.avatar {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background: var(--chip-lavanda);
+  border: 1px solid rgba(215, 195, 241, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e9ddf9;
+}
+.avatar svg { width: 52px; height: 52px; }
+.cartao-pessoa .nome {
+  font-size: 34px;
+  font-weight: 600;
+  color: #ffffff;
+}
+.cartao-pessoa .funcao {
+  font-size: 25px;
+  color: var(--texto-corpo);
+}
+.nota-time {
+  margin-top: 44px;
+  font-size: 24px;
+  color: var(--texto-suave);
+}
+.nota-time code {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  padding: 3px 10px;
+}
+
+/* ============================================================ S10 obrigado */
+.s-obrigado .conteudo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-bottom: 180px;
+}
+.s-obrigado .titulo { font-size: 210px; }
+.s-obrigado .assinatura {
+  margin-top: 42px;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+.s-obrigado .url {
+  margin-top: 20px;
+  font-size: 25px;
+  font-weight: 400;
+  color: var(--texto-corpo);
+}
