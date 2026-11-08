@@ -1,0 +1,322 @@
+{
+ "passadas": {
+  "A": "analista de cadastro (PDM ao pe da letra)",
+  "B": "suprimentos/almoxarifado (precisa comprar)"
+ },
+ "aviso_independencia": "A e B sao duas passadas do MESMO anotador (um LLM) sob regras de decisao diferentes, NAO dois anotadores independentes. O kappa mede quanto a regra muda o rotulo, nao concordancia entre duas cabecas. A salvaguarda e revisao_humana_pedidos.csv.",
+ "nota_consequencia": "4 rotulo(s) ficaram fora do kappa: sao caixas que uma passada nao anotou por ter dado outra classe ao item. Contar cada uma como discordancia multiplicaria uma unica decisao (a da classe).",
+ "por_campo": {
+  "ACABAMENTO": {
+   "n": 26,
+   "acordo_bruto": 0.9615,
+   "kappa": 0.9504
+  },
+  "ACIONAMENTO": {
+   "n": 11,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "ANEL INTERNO": {
+   "n": 1,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "APLICACAO": {
+   "n": 21,
+   "acordo_bruto": 0.7619,
+   "kappa": 0.7348
+  },
+  "BIQUEIRA": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "BITOLA": {
+   "n": 26,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "CA": {
+   "n": 6,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "CAPACIDADE INTERRUPCAO": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "CASTELO": {
+   "n": 3,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "CLASSE PRESSAO": {
+   "n": 17,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "CLASSE RESISTENCIA": {
+   "n": 26,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "COMPRIMENTO": {
+   "n": 35,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "CONEXAO": {
+   "n": 14,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "COR": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "CORRENTE NOMINAL": {
+   "n": 3,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "CURVA": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "DIAMETRO": {
+   "n": 1,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "DIAMETRO ALOJAMENTO": {
+   "n": 6,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "DIAMETRO EIXO": {
+   "n": 6,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "DIAMETRO INTERNO": {
+   "n": 14,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "DIAMETRO NOMINAL": {
+   "n": 20,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "DIAMETRO REDUZIDO": {
+   "n": 1,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "DUREZA": {
+   "n": 4,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "ENCHIMENTO": {
+   "n": 1,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "ESPESSURA": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "FABRICANTE": {
+   "n": 26,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "FOLGA": {
+   "n": 4,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "FURO": {
+   "n": 1,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "HASTE": {
+   "n": 1,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "ISOLACAO": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "LARGURA": {
+   "n": 6,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "LENTE": {
+   "n": 1,
+   "acordo_bruto": 0.0,
+   "kappa": 0.0
+  },
+  "MATERIAL": {
+   "n": 44,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "MATERIAL CORPO": {
+   "n": 14,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "MATERIAL DISCO": {
+   "n": 3,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "MATERIAL FITA": {
+   "n": 1,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "MATERIAL TERMINAIS": {
+   "n": 10,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "MODELO EQUIPAMENTO": {
+   "n": 21,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "NORMA": {
+   "n": 30,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "NUMERO CONDUTORES": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "PASSAGEM": {
+   "n": 5,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "PERFIL": {
+   "n": 3,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "POLOS": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "REFERENCIA": {
+   "n": 7,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "REFERENCIA FABRICANTE": {
+   "n": 26,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "ROSCA": {
+   "n": 20,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "SECAO": {
+   "n": 6,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "SOLADO": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "TAMANHO": {
+   "n": 6,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "TENSAO ISOLAMENTO": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "TERMINAL A": {
+   "n": 10,
+   "acordo_bruto": 0.9,
+   "kappa": 0.881
+  },
+  "TERMINAL B": {
+   "n": 10,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "TIPO": {
+   "n": 18,
+   "acordo_bruto": 0.9444,
+   "kappa": 0.9364
+  },
+  "TIPO CABECA": {
+   "n": 6,
+   "acordo_bruto": 0.8333,
+   "kappa": 0.7
+  },
+  "TIPO CORPO": {
+   "n": 3,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "TIPO FACE": {
+   "n": 2,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "TRATAMENTO": {
+   "n": 1,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "VEDACAO": {
+   "n": 3,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "VEDACAO SEDE": {
+   "n": 8,
+   "acordo_bruto": 1.0,
+   "kappa": 1.0
+  },
+  "_CLASSE": {
+   "n": 120,
+   "acordo_bruto": 0.9917,
+   "kappa": 0.9909
+  }
+ },
+ "global": {
+  "n": 678,
+  "acordo_bruto": 0.9838,
+  "kappa": 0.9837,
+  "divergencias": 11,
+  "adjudicadas": 11
+ },
+ "global_sem_classe": {
+  "n": 558,
+  "acordo_bruto": 0.9821,
+  "kappa": 0.982
+ }
+}

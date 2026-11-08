@@ -1,0 +1,328 @@
+"ID_PEDIDO","texto_do_pedido","id_pdm","campo","y_gold_proposto","status_proposto","permissivo","por_que_entrou","motivo_adjudicacao","confianca","CONCORDO_S_N","VALOR_CERTO","STATUS_CERTO","COMENTARIO"
+"SC-202600003","precisamos de retentor 75 mm 100 mm 13 mm ba nbr pra bomba da barragem","PDM032","_CLASSE","PDM032","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600010","Preciso cadastrar filtro combustivel perfuratriz fram g2021 para reposição de estoque","PDM100","FABRICANTE","FRAM","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600020","Boa tarde,
+
+Peço por favor cadastrar mangueira hidráulica montada, com as seguintes características:
+- Norma: EN 856 4SP
+- Diâmetro interno: 1/2 pol
+- Pressão de trabalho: 6.000 psi
+- Comprimento: 500 mm
+- Terminal a: femea curva 45 graus jic
+- Terminal b: FEMEA RETA ORFS
+- Material terminais: ACO C","PDM011","_CLASSE","PDM011","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600023","Peça bucha CATERPILLAR 879-7407 do 6030, conforme manual do equipamento","PDM110","APLICACAO","","AUSENTE","ESCAVADEIRA HIDRAULICA","adjudicada","mesma razao: '6030' e escavadeira Caterpillar pelo catalogo.","MEDIA","","","",""
+"SC-202600028","Cadastrar mangueira hidráulica montada en 853 2sn 5/8 pol 3.650 psi 1000mm femea curva 90 graus jic femea reta orfs aco carbono zincado","PDM011","MATERIAL TERMINAIS","ACO CARBONO ZINCADO","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600028","Cadastrar mangueira hidráulica montada en 853 2sn 5/8 pol 3.650 psi 1000mm femea curva 90 graus jic femea reta orfs aco carbono zincado","PDM011","TERMINAL B","FEMEA RETA ORFS","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600034","Cadastrar correia trapezoidal b b146 3777 mm para a unidade hidráulica da prensa","PDM030","_CLASSE","PDM030","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600038","Boa tarde,
+
+Preciso que seja cadastrado parafuso sextavado, com as seguintes características:
+- Rosca: METRICA GROSSA
+- Bitola: M6
+- Comprimento: 80mm
+- Classe: 10.9
+- Material: aco carbono
+- Norma: DIN 933
+
+Grato,
+Sérgio","PDM001","ACABAMENTO","","AUSENTE","","ausente","","ALTA","","","",""
+"SC-202600041","Cadastrar parafuso sextavado metrica fina m10x1,25 140mm a2-70 aco inox 304 natural din 933","PDM001","ROSCA","METRICA FINA","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600041","Cadastrar parafuso sextavado metrica fina m10x1,25 140mm a2-70 aco inox 304 natural din 933","PDM001","_CLASSE","PDM001","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600050","Novo item, linha do catálogo abaixo. || Generic | O-ring | 65MM, 7MM, fkm (viton), 70 shore a","PDM031","_CLASSE","PDM031","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600074","precisamos de rolamento rígido esferas 6309 45mm 100 mm 25 mm aberto normal para a unidade hidráulica da prensa","PDM020","REFERENCIA","6309","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600078","Bom dia,
+
+Peço por favor cadastrar mangueira hidráulica montada, com as seguintes características:
+- Norma: en 856 4sp
+- Diâmetro interno: 1/2 pol
+- Pressão de trabalho: 415BAR
+- Comprimento: 1200 mm
+- Terminal a: femea reta jic
+- Material terminais: aco carbono zincado
+
+Att,
+Luana","PDM011","TERMINAL B","","AUSENTE","","ausente","","ALTA","","","",""
+"SC-202600087","Novo item, linha do catálogo abaixo. || Generic | Pipe fitting | 3/8POL, 6000#, A105 forged, socket weld","PDM050","CLASSE PRESSAO","6000#","DEFINIDO","","amostra de 10%","a passada que nao anotou esta caixa deu outra classe ao item; adjudicada a classe PDM050, o rotulo vem com ela","ALTA","","","",""
+"SC-202600087","Novo item, linha do catálogo abaixo. || Generic | Pipe fitting | 3/8POL, 6000#, A105 forged, socket weld","PDM050","_CLASSE","PDM050","DEFINIDO","","adjudicada","'pipe fitting ... socket weld, 6000#, A105' e inequivocamente uma conexao de tubulacao, e PDM050 e justamente a classe cujo substantivo vem de outra aba. O que falta e o SUBSTANTIVO, nao a classe - e substantivo nao e campo deste gabarito. B esta certo que nao da para cotar, mas isso e pendencia de cadastro, nao classe indefinivel.","MEDIA","","","",""
+"SC-202600096","Cadastrar conforme catálogo do fornecedor. || SKF | Oil seal | 35MM, 50MM, 7MM, ba, nbr","PDM032","DIAMETRO ALOJAMENTO","50MM","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600120","Preciso de eixo saida FLENDER T6593-468134 do H3SH 9, conforme manual do equipamento","PDM110","APLICACAO","","AUSENTE","REDUTOR","adjudicada","o PDM nao liga modelo a tipo de equipamento em nenhuma aba, entao do texto + PDM a aplicacao esta ausente; H3SH 9 ser redutor Flender e conhecimento de frota, e fica como permissivo.","MEDIA","","","",""
+"SC-202600120","Preciso de eixo saida FLENDER T6593-468134 do H3SH 9, conforme manual do equipamento","PDM110","FABRICANTE","FLENDER","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600131","Cadastrar rolamento rígido esferas 6211-zz 55mm 21mm metalica ambos lados normal pro caminhão 793","PDM020","REFERENCIA","6211-ZZ","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600141","Novo item, linha do catálogo abaixo. || SEMPERIT | Hydraulic hose assembly | en 856 4sh, 1.1/2POL, 290BAR, 1200MM, JIC female swivel, JIC female 90° elbow, aco carbono zincado","PDM011","TERMINAL A","FEMEA RETA JIC","DEFINIDO","","adjudicada","'swivel' qualifica a porca giratoria, nao a geometria; a lista do PDM so separa RETA de CURVA, e sem angulo declarado e reta. Linha marcada para a conferencia humana.","MEDIA","","","",""
+"SC-202600143","Favor cadastrar válvula gaveta 1 pol 150# aco inox fundido a351 cf8m solda topo bw aparafusado volante pro caminhão 793","PDM041","CLASSE PRESSAO","150#","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600152","Cadastrar conforme ficha técnica anexa. || FICHA TÉCNICA
+Produto: Mangueira Hidráulica Montada
+Norma: en 853 2sn
+Diâmetro interno: 1/2""
+Pressão de trabalho: 4.000 psi
+Comprimento: 2200 mm
+Terminal a: MACHO RETO BSP
+Terminal b: femea reta jic
+Material terminais: aco carbono zincado","PDM011","TERMINAL A","MACHO RETO BSP","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600158","preciso cadastrar oculos segurança antirrisco AMPLA VISAO 33645 para reposição do almoxarifado","PDM072","LENTE","","AUSENTE","INCOLOR","adjudicada","'AMPLA VISAO' e modelo comercial. O incolor e o mais provavel, mas oculos de ampla visao existem com lente cinza; confianca BAIXA e linha marcada para a conferencia humana.","BAIXA","","","",""
+"SC-202600173","cadastrar calçado segurança botina elastico 43 composite NBR 37918 para os novos contratados","PDM071","SOLADO","NBR","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600173","cadastrar calçado segurança botina elastico 43 composite NBR 37918 para os novos contratados","PDM071","TAMANHO","43","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600182","Cadastrar conforme ficha técnica anexa. || FICHA TÉCNICA
+Produto: Válvula Retencao
+Diâmetro nominal: 1 1/2""
+Classe de pressão: PN 25
+Conexão: rosca bsp
+Tipo: esfera","PDM043","MATERIAL CORPO","","AUSENTE","","ausente","","ALTA","","","",""
+"SC-202600186","Bom dia,
+
+Solicito o cadastro de rolamento rígido esferas, com as seguintes características:
+- Referência: 6300-2RS
+- Diâmetro interno: 10mm
+- Diâmetro externo: 35 mm
+- Largura: 11 mm
+- Vedação: borracha ambos lados
+- Folga: NORMAL
+
+Att,
+Patrícia","PDM020","REFERENCIA","6300-2RS","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600187","camisa polo do uniforme, tamanho g","FORA_DO_PDM","_CLASSE","FORA_DO_PDM","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600217","Cadastrar conforme catálogo do fornecedor. || EATON | Hydraulic hose assembly | en 853 1sn, 1/4POL, 225BAR, 3000MM, femea curva 90 graus orfs, ORFS female, aco carbono zincado","PDM011","TERMINAL A","FEMEA CURVA 90 GRAUS ORFS","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600232","Bom dia,
+
+Peço por favor cadastrar mangueira hidráulica montada, com as seguintes características:
+- Norma: EN 853 2SN
+- Diâmetro interno: 3/4"" (19 mm)
+- Pressão de trabalho: 215BAR
+- Comprimento: 2000 mm
+- Terminal a: FEMEA CURVA 90 GRAUS JIC
+- Terminal b: MACHO RETO NPT
+- Material terminais: aco c","PDM011","MATERIAL TERMINAIS","ACO CARBONO ZINCADO","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600233","Cadastrar válvula esfera 3"" pn 16 ferro fundido nodular flange ff reduzida ptfe alavanca","PDM040","ACIONAMENTO","ALAVANCA","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600239","favor cadastrar dente cacamba escavadeira hidraulica 6015B CATERPILLAR 561-7310 para a próxima preventiva","PDM110","MODELO EQUIPAMENTO","6015B","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600239","favor cadastrar dente cacamba escavadeira hidraulica 6015B CATERPILLAR 561-7310 para a próxima preventiva","PDM110","_CLASSE","PDM110","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600243","Peça eixo SULZER 16812-820 do AHLSTAR A31-100, conforme manual do equipamento","PDM110","APLICACAO","","AUSENTE","BOMBA CENTRIFUGA","adjudicada","mesma razao: AHLSTAR e a linha de bomba centrifuga da Sulzer.","MEDIA","","","",""
+"SC-202600245","Cadastrar parafuso sextavado metrica fina m16x1,5 50mm 8.8 aco carbono oxidado preto din 933 pra bomba da barragem","PDM001","ACABAMENTO","OXIDADO PRETO","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600245","Cadastrar parafuso sextavado metrica fina m16x1,5 50mm 8.8 aco carbono oxidado preto din 933 pra bomba da barragem","PDM001","NORMA","DIN 933","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600245","Cadastrar parafuso sextavado metrica fina m16x1,5 50mm 8.8 aco carbono oxidado preto din 933 pra bomba da barragem","PDM001","ROSCA","METRICA FINA","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600252","precisamos de parafuso sextavado interno M4 25 mm a4-70 aco inox 316 natural para a casa de força","PDM002","TIPO CABECA","","AUSENTE","CILINDRICA","adjudicada","DIN 912 (cabeca cilindrica) e o default de catalogo do sextavado interno, mas o pedido nao cita norma nem cabeca.","MEDIA","","","",""
+"SC-202600259","favor cadastrar retentor 35 mm 60 mm 10mm bab fkm (viton) urgente, equipamento parado","PDM032","DIAMETRO EIXO","35MM","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600259","favor cadastrar retentor 35 mm 60 mm 10mm bab fkm (viton) urgente, equipamento parado","PDM032","LARGURA","10MM","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600261","Bom dia,
+
+Preciso que seja cadastrado parafuso sextavado, com as seguintes características:
+- Rosca: metrica fina
+- Bitola: M16X1,5
+- Comprimento: 90mm
+- Classe: A2-70
+- Material: aco inox 304
+- Acabamento: natural
+- Norma: din 933
+
+Obrigado,
+Eduardo","PDM001","COMPRIMENTO","90MM","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600261","Bom dia,
+
+Preciso que seja cadastrado parafuso sextavado, com as seguintes características:
+- Rosca: metrica fina
+- Bitola: M16X1,5
+- Comprimento: 90mm
+- Classe: A2-70
+- Material: aco inox 304
+- Acabamento: natural
+- Norma: din 933
+
+Obrigado,
+Eduardo","PDM001","NORMA","DIN 933","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600279","Novo item, linha do catálogo abaixo. || PARKER | Hydraulic hose assembly | en 856 4sp, 3/8POL, 3000MM, DKOL female, DKOL female, aco carbono zincado","PDM011","DIAMETRO INTERNO","3/8POL","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600279","Novo item, linha do catálogo abaixo. || PARKER | Hydraulic hose assembly | en 856 4sp, 3/8POL, 3000MM, DKOL female, DKOL female, aco carbono zincado","PDM011","NORMA","EN 856 4SP","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600279","Novo item, linha do catálogo abaixo. || PARKER | Hydraulic hose assembly | en 856 4sp, 3/8POL, 3000MM, DKOL female, DKOL female, aco carbono zincado","PDM011","TERMINAL B","FEMEA RETA DKO","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600300","Preciso cadastrar parafuso sextavado metrica fina m18x1,5 50 mm 10.9 aco carbono zincado branco din 933 para a parada programada","PDM001","MATERIAL","ACO CARBONO","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600300","Preciso cadastrar parafuso sextavado metrica fina m18x1,5 50 mm 10.9 aco carbono zincado branco din 933 para a parada programada","PDM001","NORMA","DIN 933","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600301","Segue ficha técnica em anexo. || FICHA TÉCNICA
+Produto: Válvula Esfera
+Diâmetro nominal: 2""
+Classe de pressão: 800#
+Material do corpo: aco inox forjado a182 f316
+Conexão: ROSCA NPT
+Passagem: reduzida
+Vedacao sede: rptfe
+Acionamento: atuador pneumatico","PDM040","PASSAGEM","REDUZIDA","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600325","Precisamos de parafuso sextavado unc 3/4"" 2.1/4"" (57,1 mm) sae grau 5 aco carbono asme b18.2.1 pro britador primário","PDM001","ACABAMENTO","","AUSENTE","","ausente","","ALTA","","","",""
+"SC-202600330","Cadastrar conforme catálogo do fornecedor. || Generic | Check valve | 1/4POL, pn 25, latao, rosca bsp, esfera","PDM043","DIAMETRO NOMINAL","1/4POL","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600332","Boa tarde,
+
+Solicito o cadastro de te, com as seguintes características:
+- Diâmetro nominal: 1.1/2 pol
+- Classe de pressão: 6000#
+- Material: aco carbono forjado a105
+- Conexão: solda encaixe sw
+- Norma: ASME B16.11
+
+Obrigado,
+Sérgio","PDM050","CLASSE PRESSAO","6000#","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600335","Preciso de placa traseira WEIR N3966B38 do WARMAN 8/6 AH, conforme manual do equipamento","PDM110","APLICACAO","","AUSENTE","BOMBA POLPA","adjudicada","mesma razao: WARMAN 8/6 AH e bomba de polpa pelo catalogo Weir, nao pelo texto do pedido nem pelo PDM.","MEDIA","","","",""
+"SC-202600336","Item novo, ficha do fornecedor anexa. || FICHA TÉCNICA
+Produto: Parafuso Sextavado Interno
+Tipo cabeca: CILINDRICA
+Bitola: M4
+Comprimento: 20mm
+Classe: A2-70
+Material: ACO INOX 304
+Acabamento: natural","PDM002","CLASSE RESISTENCIA","A2-70","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600342","Bom dia,
+
+Preciso que seja cadastrado luva reducao, com as seguintes características:
+- Diâmetro nominal: 3/4""
+- Diametro reduzido: 1/2""
+- Classe de pressão: 3000#
+- Material: aco carbono forjado a105
+- Conexão: solda encaixe sw
+- Norma: asme b16.11
+
+Grato,
+Carlos","PDM050","_CLASSE","PDM050","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600345","Item novo, ficha do fornecedor anexa. || FICHA TÉCNICA
+Produto: Filtro Combustivel
+Aplicação: gerador diesel
+Fabricante: FRAM
+Código do fabricante: G1892","PDM100","FABRICANTE","FRAM","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600348","Peça rolete retorno CONTINENTAL CT3546571 do TC-04, código na plaqueta da peça antiga","PDM110","APLICACAO","","AUSENTE","CORREIA TRANSPORTADORA","adjudicada","mesma razao: TC-04 e correia pela nomenclatura da planta. Este e o caso mais defensavel de B, porque TC-xx aparece na lista de modelos do PDM junto de outras correias - mas a lista nao declara o tipo.","MEDIA","","","",""
+"SC-202600348","Peça rolete retorno CONTINENTAL CT3546571 do TC-04, código na plaqueta da peça antiga","PDM110","REFERENCIA FABRICANTE","CT3546571","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600352","Cadastrar conforme ficha técnica anexa. || FICHA TÉCNICA
+Produto: Disjuntor
+Tipo: MINIDISJUNTOR DIN
+Polos: 3p
+Corrente: 50A
+Curva: B
+Capacidade interrupcao: 10KA
+Fabricante: ABB","PDM062","POLOS","3P","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600355","cadastrar parafuso sextavado metrica fina M30X2 180 mm 10.9 aco carbono ZINCADO BRANCO DIN 931 para a parada programada","PDM001","BITOLA","M30X2","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600355","cadastrar parafuso sextavado metrica fina M30X2 180 mm 10.9 aco carbono ZINCADO BRANCO DIN 931 para a parada programada","PDM001","_CLASSE","PDM001","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600359","Item novo, ficha do fornecedor anexa. || FICHA TÉCNICA
+Produto: Cap
+Diâmetro nominal: 1""
+Classe de pressão: 6000#
+Material: aco inox forjado a182 f316
+Conexão: rosca npt
+Norma: ASME B16.11","PDM050","_CLASSE","PDM050","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600370","favor cadastrar parafuso sextavado metrica fina M24X2 60 mm 8.8 aco carbono ZINCADO BRANCO DIN 933 para a unidade hidráulica da prensa","PDM001","ACABAMENTO","ZINCADO BRANCO","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600370","favor cadastrar parafuso sextavado metrica fina M24X2 60 mm 8.8 aco carbono ZINCADO BRANCO DIN 933 para a unidade hidráulica da prensa","PDM001","CLASSE RESISTENCIA","8.8","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600380","Cadastrar conforme ficha técnica anexa. || FICHA TÉCNICA
+Produto: Barra Tensora
+Aplicação: peneira vibratoria
+Equipamento: TS 3.6X7.3
+Fabricante: metso
+Código do fabricante: MM8024131","PDM110","REFERENCIA FABRICANTE","MM8024131","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600380","Cadastrar conforme ficha técnica anexa. || FICHA TÉCNICA
+Produto: Barra Tensora
+Aplicação: peneira vibratoria
+Equipamento: TS 3.6X7.3
+Fabricante: metso
+Código do fabricante: MM8024131","PDM110","_CLASSE","PDM110","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600382","cadastrar retentor 65 mm 77mm 12 mm ba nbr para a casa de força","PDM032","TIPO","BA","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600382","cadastrar retentor 65 mm 77mm 12 mm ba nbr para a casa de força","PDM032","_CLASSE","PDM032","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600403","Favor cadastrar porca metrica grossa m22 8 aco carbono zincado branco para a unidade hidráulica da prensa","PDM003","TIPO","","AUSENTE","SEXTAVADA","adjudicada","'porca' sozinha nao diz o tipo; que a sextavada seja o padrao de linha e pratica de compra, nao conteudo do pedido.","MEDIA","","","",""
+"SC-202600410","Item novo, ficha do fornecedor anexa. || FICHA TÉCNICA
+Produto: Junta Espiralada
+Diâmetro nominal: 1.1/2 pol
+Classe de pressão: 900#
+Material fita: aco inox 316
+Enchimento: grafite flexivel
+Anel interno: sem anel interno
+Norma: asme b16.20","PDM033","DIAMETRO NOMINAL","1.1/2POL","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600410","Item novo, ficha do fornecedor anexa. || FICHA TÉCNICA
+Produto: Junta Espiralada
+Diâmetro nominal: 1.1/2 pol
+Classe de pressão: 900#
+Material fita: aco inox 316
+Enchimento: grafite flexivel
+Anel interno: sem anel interno
+Norma: asme b16.20","PDM033","MATERIAL FITA","ACO INOX 316","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600414","Olá,
+
+Solicito o cadastro de placa succao, com as seguintes características:
+- Aplicação: BOMBA POLPA
+- Equipamento: MM300
+- Fabricante: metso
+- Código do fabricante: MM0809137
+
+Obrigado,
+Juliana","PDM110","REFERENCIA FABRICANTE","MM0809137","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600426","Boa tarde,
+
+Peço por favor cadastrar pino, com as seguintes características:
+- Aplicação: britador conico
+- Equipamento: CH440
+- Fabricante: SANDVIK
+- Código do fabricante: 837.6620-54
+
+Att,
+Camila","PDM110","APLICACAO","BRITADOR CONICO","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600426","Boa tarde,
+
+Peço por favor cadastrar pino, com as seguintes características:
+- Aplicação: britador conico
+- Equipamento: CH440
+- Fabricante: SANDVIK
+- Código do fabricante: 837.6620-54
+
+Att,
+Camila","PDM110","_CLASSE","PDM110","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600433","Boa tarde,
+
+Preciso que seja cadastrado parafuso sextavado, com as seguintes características:
+- Rosca: metrica fina
+- Bitola: M10X1,25
+- Classe: 10.9
+- Material: aco carbono
+- Acabamento: zincado branco
+- Norma: DIN 933
+
+Grato,
+Aline","PDM001","COMPRIMENTO","","AUSENTE","","ausente","","ALTA","","","",""
+"SC-202600433","Boa tarde,
+
+Preciso que seja cadastrado parafuso sextavado, com as seguintes características:
+- Rosca: metrica fina
+- Bitola: M10X1,25
+- Classe: 10.9
+- Material: aco carbono
+- Acabamento: zincado branco
+- Norma: DIN 933
+
+Grato,
+Aline","PDM001","MATERIAL","ACO CARBONO","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600453","Item do catálogo em anexo, por favor cadastrar. || Generic | Hex head bolt | metrica grossa, M18, 100MM, 8.8, carbon steel, zinc plated, din 931","PDM001","ACABAMENTO","","INDEFINIVEL","","adjudicada","'zinc plated' nao escolhe entre ZINCADO BRANCO e ZINCADO AMARELO, que sao dois valores da lista. Fechar no mais vendido e exatamente a invencao que este gabarito existe para pegar: nao ha permissivo.","ALTA","","","",""
+"SC-202600466","Cadastrar conforme ficha técnica anexa. || FICHA TÉCNICA
+Produto: Filtro Ar
+Aplicação: VEICULO LEVE
+Fabricante: mann
+Código do fabricante: C 65 343","PDM100","_CLASSE","PDM100","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600472","precisamos de adaptador escavadeira hidraulica EX1200 hitachi para reposição de estoque","PDM110","REFERENCIA FABRICANTE","","AUSENTE","","ausente","","ALTA","","","",""
+"SC-202600495","Item novo, ficha do fornecedor anexa. || FICHA TÉCNICA
+Produto: Anel O-Ring
+Seção: 2,5 mm
+Material: nbr
+Dureza: 70 shore a","PDM031","DIAMETRO INTERNO","","AUSENTE","","ausente","","ALTA","","","",""
+"SC-202600495","Item novo, ficha do fornecedor anexa. || FICHA TÉCNICA
+Produto: Anel O-Ring
+Seção: 2,5 mm
+Material: nbr
+Dureza: 70 shore a","PDM031","_CLASSE","PDM031","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600518","Segue ficha técnica em anexo. || FICHA TÉCNICA
+Produto: Amortecedor
+Aplicação: PENEIRA VIBRATORIA
+Equipamento: LH 8X20
+Fabricante: METSO
+Código do fabricante: N36213710","PDM110","FABRICANTE","METSO","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600518","Segue ficha técnica em anexo. || FICHA TÉCNICA
+Produto: Amortecedor
+Aplicação: PENEIRA VIBRATORIA
+Equipamento: LH 8X20
+Fabricante: METSO
+Código do fabricante: N36213710","PDM110","MODELO EQUIPAMENTO","LH 8X20","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600519","Segue ficha técnica em anexo. || FICHA TÉCNICA
+Produto: Parafuso Sextavado Interno
+Tipo cabeca: ESCAREADA
+Bitola: M10
+Comprimento: 45mm
+Classe: 12.9
+Material: aco liga
+Acabamento: oxidado preto","PDM002","ACABAMENTO","OXIDADO PRETO","DEFINIDO","","amostra de 10%","","ALTA","","","",""
+"SC-202600520","Novo item, linha do catálogo abaixo. || Generic | O-ring | 24MM, 2,5MM, nbr, 70 shore a","PDM031","DUREZA","70 SHORE A","DEFINIDO","","amostra de 10%","","ALTA","","","",""

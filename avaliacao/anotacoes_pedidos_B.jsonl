@@ -1,0 +1,678 @@
+{"ID_PEDIDO": "SC-202600020", "id_pdm": "PDM011", "campo": "_CLASSE", "y_gold": "PDM011", "status": "DEFINIDO", "evidencia": "mangueira hidráulica montada", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600020", "id_pdm": "PDM011", "campo": "NORMA", "y_gold": "EN 856 4SP", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600020", "id_pdm": "PDM011", "campo": "DIAMETRO INTERNO", "y_gold": "1/2POL", "status": "DEFINIDO", "evidencia": "1/2 pol", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600020", "id_pdm": "PDM011", "campo": "COMPRIMENTO", "y_gold": "500MM", "status": "DEFINIDO", "evidencia": "500 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600020", "id_pdm": "PDM011", "campo": "TERMINAL A", "y_gold": "FEMEA CURVA 45 GRAUS JIC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600020", "id_pdm": "PDM011", "campo": "TERMINAL B", "y_gold": "FEMEA RETA ORFS", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600020", "id_pdm": "PDM011", "campo": "MATERIAL TERMINAIS", "y_gold": "ACO CARBONO ZINCADO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600433", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600433", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA FINA", "status": "DEFINIDO", "evidencia": "metrica fina", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600433", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M10X1,25", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600433", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "", "status": "AUSENTE", "evidencia": "", "justificativa": "o pedido não traz comprimento"}
+{"ID_PEDIDO": "SC-202600433", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "10.9", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600433", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "aco carbono", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600433", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "ZINCADO BRANCO", "status": "DEFINIDO", "evidencia": "zincado branco", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600433", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 933", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600028", "id_pdm": "PDM011", "campo": "_CLASSE", "y_gold": "PDM011", "status": "DEFINIDO", "evidencia": "mangueira hidráulica montada", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600028", "id_pdm": "PDM011", "campo": "NORMA", "y_gold": "EN 853 2SN", "status": "DEFINIDO", "evidencia": "en 853 2sn", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600028", "id_pdm": "PDM011", "campo": "DIAMETRO INTERNO", "y_gold": "5/8POL", "status": "DEFINIDO", "evidencia": "5/8 pol", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600028", "id_pdm": "PDM011", "campo": "COMPRIMENTO", "y_gold": "1000MM", "status": "DEFINIDO", "evidencia": "1000mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600028", "id_pdm": "PDM011", "campo": "TERMINAL A", "y_gold": "FEMEA CURVA 90 GRAUS JIC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600028", "id_pdm": "PDM011", "campo": "TERMINAL B", "y_gold": "FEMEA RETA ORFS", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600028", "id_pdm": "PDM011", "campo": "MATERIAL TERMINAIS", "y_gold": "ACO CARBONO ZINCADO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600300", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600300", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA FINA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600300", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M18X1,5", "status": "DEFINIDO", "evidencia": "m18x1,5", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600300", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "50MM", "status": "DEFINIDO", "evidencia": "50 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600300", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "10.9", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600300", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600300", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "ZINCADO BRANCO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600300", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 933", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600456", "id_pdm": "PDM002", "campo": "_CLASSE", "y_gold": "PDM002", "status": "DEFINIDO", "evidencia": "Produto: Parafuso Sextavado Interno", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600456", "id_pdm": "PDM002", "campo": "TIPO CABECA", "y_gold": "ESCAREADA", "status": "DEFINIDO", "evidencia": "escareada", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600456", "id_pdm": "PDM002", "campo": "BITOLA", "y_gold": "M3", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600456", "id_pdm": "PDM002", "campo": "COMPRIMENTO", "y_gold": "8MM", "status": "DEFINIDO", "evidencia": "8mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600456", "id_pdm": "PDM002", "campo": "CLASSE RESISTENCIA", "y_gold": "12.9", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600456", "id_pdm": "PDM002", "campo": "MATERIAL", "y_gold": "ACO LIGA", "status": "DEFINIDO", "evidencia": "aco liga", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600456", "id_pdm": "PDM002", "campo": "ACABAMENTO", "y_gold": "OXIDADO PRETO", "status": "DEFINIDO", "evidencia": "oxidado preto", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600331", "id_pdm": "PDM034", "campo": "_CLASSE", "y_gold": "PDM034", "status": "DEFINIDO", "evidencia": "Produto: Junta Plana", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600331", "id_pdm": "PDM034", "campo": "DIAMETRO NOMINAL", "y_gold": "2POL", "status": "DEFINIDO", "evidencia": "2 pol", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600331", "id_pdm": "PDM034", "campo": "CLASSE PRESSAO", "y_gold": "300#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600331", "id_pdm": "PDM034", "campo": "MATERIAL", "y_gold": "EPDM", "status": "DEFINIDO", "evidencia": "epdm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600331", "id_pdm": "PDM034", "campo": "ESPESSURA", "y_gold": "3,2MM", "status": "DEFINIDO", "evidencia": "3,2mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600331", "id_pdm": "PDM034", "campo": "TIPO FACE", "y_gold": "RF", "status": "DEFINIDO", "evidencia": "rf", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600035", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "Produto: Parafuso Sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600035", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA FINA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600035", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M8X1", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600035", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "40MM", "status": "DEFINIDO", "evidencia": "40 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600035", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "A2-70", "status": "DEFINIDO", "evidencia": "a2-70", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600035", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO INOX 304", "status": "DEFINIDO", "evidencia": "aco inox 304", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600035", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "NATURAL", "status": "DEFINIDO", "evidencia": "natural", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600035", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 933", "status": "DEFINIDO", "evidencia": "din 933", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600338", "id_pdm": "PDM002", "campo": "_CLASSE", "y_gold": "PDM002", "status": "DEFINIDO", "evidencia": "Produto: Parafuso Sextavado Interno", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600338", "id_pdm": "PDM002", "campo": "TIPO CABECA", "y_gold": "CILINDRICA", "status": "DEFINIDO", "evidencia": "cilindrica", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600338", "id_pdm": "PDM002", "campo": "BITOLA", "y_gold": "M16", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600338", "id_pdm": "PDM002", "campo": "COMPRIMENTO", "y_gold": "100MM", "status": "DEFINIDO", "evidencia": "100 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600338", "id_pdm": "PDM002", "campo": "CLASSE RESISTENCIA", "y_gold": "A4-70", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600338", "id_pdm": "PDM002", "campo": "MATERIAL", "y_gold": "ACO INOX 316", "status": "DEFINIDO", "evidencia": "aco inox 316", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600338", "id_pdm": "PDM002", "campo": "ACABAMENTO", "y_gold": "NATURAL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600291", "id_pdm": "PDM021", "campo": "_CLASSE", "y_gold": "PDM021", "status": "DEFINIDO", "evidencia": "Spherical roller bearing", "justificativa": "rolamento autocompensador de rolos"}
+{"ID_PEDIDO": "SC-202600291", "id_pdm": "PDM021", "campo": "REFERENCIA", "y_gold": "22213E", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600291", "id_pdm": "PDM021", "campo": "FURO", "y_gold": "CILINDRICO", "status": "DEFINIDO", "evidencia": "cilindrico", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600291", "id_pdm": "PDM021", "campo": "FOLGA", "y_gold": "NORMAL", "status": "DEFINIDO", "evidencia": "normal", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600026", "id_pdm": "PDM032", "campo": "_CLASSE", "y_gold": "PDM032", "status": "DEFINIDO", "evidencia": "Produto: Retentor", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600026", "id_pdm": "PDM032", "campo": "DIAMETRO EIXO", "y_gold": "32MM", "status": "DEFINIDO", "evidencia": "32 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600026", "id_pdm": "PDM032", "campo": "DIAMETRO ALOJAMENTO", "y_gold": "57MM", "status": "DEFINIDO", "evidencia": "57mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600026", "id_pdm": "PDM032", "campo": "LARGURA", "y_gold": "15MM", "status": "DEFINIDO", "evidencia": "15mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600026", "id_pdm": "PDM032", "campo": "TIPO", "y_gold": "B1", "status": "DEFINIDO", "evidencia": "b1", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600026", "id_pdm": "PDM032", "campo": "MATERIAL", "y_gold": "NBR", "status": "DEFINIDO", "evidencia": "nbr", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600355", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600355", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA FINA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600355", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M30X2", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600355", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "180MM", "status": "DEFINIDO", "evidencia": "180 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600355", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "10.9", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600355", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600355", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "ZINCADO BRANCO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600355", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 931", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600186", "id_pdm": "PDM020", "campo": "_CLASSE", "y_gold": "PDM020", "status": "DEFINIDO", "evidencia": "rolamento rígido esferas", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600186", "id_pdm": "PDM020", "campo": "REFERENCIA", "y_gold": "6300-2RS", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600186", "id_pdm": "PDM020", "campo": "VEDACAO", "y_gold": "BORRACHA AMBOS LADOS", "status": "DEFINIDO", "evidencia": "borracha ambos lados", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600186", "id_pdm": "PDM020", "campo": "FOLGA", "y_gold": "NORMAL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600437", "id_pdm": "FORA_DO_PDM", "campo": "_CLASSE", "y_gold": "FORA_DO_PDM", "status": "DEFINIDO", "evidencia": "notebook 16gb ram", "justificativa": "equipamento de TI: nenhuma classe do PDM cobre"}
+{"ID_PEDIDO": "SC-202600500", "id_pdm": "PDM030", "campo": "_CLASSE", "y_gold": "PDM030", "status": "DEFINIDO", "evidencia": "Produto: Correia Trapezoidal", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600500", "id_pdm": "PDM030", "campo": "PERFIL", "y_gold": "SPB", "status": "DEFINIDO", "evidencia": "spb", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600500", "id_pdm": "PDM030", "campo": "REFERENCIA", "y_gold": "SPB 3650", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600342", "id_pdm": "PDM050", "campo": "_CLASSE", "y_gold": "PDM050", "status": "DEFINIDO", "evidencia": "luva reducao", "justificativa": "luva redução: DIAMETRO REDUZIDO se aplica; não é flange nem BW"}
+{"ID_PEDIDO": "SC-202600342", "id_pdm": "PDM050", "campo": "DIAMETRO NOMINAL", "y_gold": "3/4POL", "status": "DEFINIDO", "evidencia": "3/4\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600342", "id_pdm": "PDM050", "campo": "DIAMETRO REDUZIDO", "y_gold": "1/2POL", "status": "DEFINIDO", "evidencia": "1/2\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600342", "id_pdm": "PDM050", "campo": "CLASSE PRESSAO", "y_gold": "3000#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600342", "id_pdm": "PDM050", "campo": "MATERIAL", "y_gold": "ACO CARBONO FORJADO A105", "status": "DEFINIDO", "evidencia": "aco carbono forjado a105", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600342", "id_pdm": "PDM050", "campo": "CONEXAO", "y_gold": "SOLDA ENCAIXE SW", "status": "DEFINIDO", "evidencia": "solda encaixe sw", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600087", "id_pdm": "INDEFINIVEL", "campo": "_CLASSE", "y_gold": "INDEFINIVEL", "status": "INDEFINIVEL", "evidencia": "Pipe fitting", "justificativa": "'pipe fitting' nao diz se e luva, te, joelho ou cap: nao da para cotar nem para fechar a identidade da classe"}
+{"ID_PEDIDO": "SC-202600005", "id_pdm": "PDM060", "campo": "_CLASSE", "y_gold": "PDM060", "status": "DEFINIDO", "evidencia": "cabo elétrico", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600005", "id_pdm": "PDM060", "campo": "TIPO", "y_gold": "FLEXIVEL", "status": "DEFINIDO", "evidencia": "flexivel", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600005", "id_pdm": "PDM060", "campo": "SECAO", "y_gold": "1,5MM2", "status": "DEFINIDO", "evidencia": "1,5mm2", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600005", "id_pdm": "PDM060", "campo": "NUMERO CONDUTORES", "y_gold": "1", "status": "DEFINIDO", "evidencia": "1", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600005", "id_pdm": "PDM060", "campo": "TENSAO ISOLAMENTO", "y_gold": "450/750V", "status": "DEFINIDO", "evidencia": "450/750v", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600005", "id_pdm": "PDM060", "campo": "ISOLACAO", "y_gold": "PVC", "status": "DEFINIDO", "evidencia": "pvc", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600005", "id_pdm": "PDM060", "campo": "COR", "y_gold": "AZUL", "status": "DEFINIDO", "evidencia": "azul", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600400", "id_pdm": "PDM070", "campo": "_CLASSE", "y_gold": "PDM070", "status": "DEFINIDO", "evidencia": "luva segurança", "justificativa": "LUVA aqui é EPI, não a luva de conexão de tubulação"}
+{"ID_PEDIDO": "SC-202600400", "id_pdm": "PDM070", "campo": "MATERIAL", "y_gold": "MALHA REVESTIDA PU", "status": "DEFINIDO", "evidencia": "malha revestida pu", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600400", "id_pdm": "PDM070", "campo": "TAMANHO", "y_gold": "8", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600400", "id_pdm": "PDM070", "campo": "CA", "y_gold": "24382", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600251", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "barra tensora peneira vibratoria", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600251", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "PENEIRA VIBRATORIA", "status": "DEFINIDO", "evidencia": "peneira vibratoria", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600251", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "F-CLASS 2.4X6.1", "status": "DEFINIDO", "evidencia": "f-class 2.4x6.1", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600251", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "HAVER", "status": "DEFINIDO", "evidencia": "haver", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600251", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "HB-467508", "status": "DEFINIDO", "evidencia": "hb-467508", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600286", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "Hex head bolt", "justificativa": "catálogo em inglês: 'hex head bolt' = parafuso sextavado"}
+{"ID_PEDIDO": "SC-202600286", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "UNC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600286", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "1.1/8POL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600286", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "4.1/2POL", "status": "DEFINIDO", "evidencia": "4.1/2POL", "justificativa": "rosca em polegada: comprimento em POL"}
+{"ID_PEDIDO": "SC-202600286", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "SAE GRAU 8", "status": "DEFINIDO", "evidencia": "sae grau 8", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600286", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "carbon steel", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600286", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "GALVANIZADO A FOGO", "status": "DEFINIDO", "evidencia": "HDG", "justificativa": "HDG = hot dip galvanized"}
+{"ID_PEDIDO": "SC-202600286", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "ASME B18.2.1", "status": "DEFINIDO", "evidencia": "asme b18.2.1", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600168", "id_pdm": "FORA_DO_PDM", "campo": "_CLASSE", "y_gold": "FORA_DO_PDM", "status": "DEFINIDO", "evidencia": "Serviço de calibração de manômetros", "justificativa": "serviço, não material: o PDM cadastra item físico"}
+{"ID_PEDIDO": "SC-202600104", "id_pdm": "PDM071", "campo": "_CLASSE", "y_gold": "PDM071", "status": "DEFINIDO", "evidencia": "Safety boot", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600104", "id_pdm": "PDM071", "campo": "TIPO", "y_gold": "BOTINA ELASTICO", "status": "DEFINIDO", "evidencia": "botina elastico", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600104", "id_pdm": "PDM071", "campo": "TAMANHO", "y_gold": "34", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600104", "id_pdm": "PDM071", "campo": "BIQUEIRA", "y_gold": "ACO", "status": "DEFINIDO", "evidencia": "aco", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600104", "id_pdm": "PDM071", "campo": "SOLADO", "y_gold": "PU BIDENSIDADE", "status": "DEFINIDO", "evidencia": "pu bidensidade", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600104", "id_pdm": "PDM071", "campo": "CA", "y_gold": "14659", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600103", "id_pdm": "PDM040", "campo": "_CLASSE", "y_gold": "PDM040", "status": "DEFINIDO", "evidencia": "válvula esfera", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600103", "id_pdm": "PDM040", "campo": "DIAMETRO NOMINAL", "y_gold": "2POL", "status": "DEFINIDO", "evidencia": "2 pol", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600103", "id_pdm": "PDM040", "campo": "CLASSE PRESSAO", "y_gold": "800#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600103", "id_pdm": "PDM040", "campo": "MATERIAL CORPO", "y_gold": "ACO INOX FORJADO A182 F316", "status": "DEFINIDO", "evidencia": "aco inox forjado a182 f316", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600103", "id_pdm": "PDM040", "campo": "CONEXAO", "y_gold": "SOLDA ENCAIXE SW", "status": "DEFINIDO", "evidencia": "solda encaixe sw", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600103", "id_pdm": "PDM040", "campo": "PASSAGEM", "y_gold": "PLENA", "status": "DEFINIDO", "evidencia": "plena", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600103", "id_pdm": "PDM040", "campo": "VEDACAO SEDE", "y_gold": "PTFE", "status": "DEFINIDO", "evidencia": "ptfe", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600103", "id_pdm": "PDM040", "campo": "ACIONAMENTO", "y_gold": "ALAVANCA", "status": "DEFINIDO", "evidencia": "alavanca", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600370", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600370", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA FINA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600370", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M24X2", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600370", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "60MM", "status": "DEFINIDO", "evidencia": "60 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600370", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "8.8", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600370", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600370", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "ZINCADO BRANCO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600370", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 933", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600472", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "adaptador escavadeira hidraulica", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600472", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "ESCAVADEIRA HIDRAULICA", "status": "DEFINIDO", "evidencia": "escavadeira hidraulica", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600472", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "EX1200", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600472", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "HITACHI", "status": "DEFINIDO", "evidencia": "hitachi", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600472", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "", "status": "AUSENTE", "evidencia": "", "justificativa": "o pedido não traz o código do fabricante; sem ele a identidade da regra 10 não fecha"}
+{"ID_PEDIDO": "SC-202600520", "id_pdm": "PDM031", "campo": "_CLASSE", "y_gold": "PDM031", "status": "DEFINIDO", "evidencia": "O-ring", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600520", "id_pdm": "PDM031", "campo": "DIAMETRO INTERNO", "y_gold": "24MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600520", "id_pdm": "PDM031", "campo": "SECAO", "y_gold": "2,5MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600520", "id_pdm": "PDM031", "campo": "MATERIAL", "y_gold": "NBR", "status": "DEFINIDO", "evidencia": "nbr", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600520", "id_pdm": "PDM031", "campo": "DUREZA", "y_gold": "70 SHORE A", "status": "DEFINIDO", "evidencia": "70 shore a", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600269", "id_pdm": "PDM070", "campo": "_CLASSE", "y_gold": "PDM070", "status": "DEFINIDO", "evidencia": "Safety glove", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600269", "id_pdm": "PDM070", "campo": "MATERIAL", "y_gold": "MALHA REVESTIDA PU", "status": "DEFINIDO", "evidencia": "malha revestida pu", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600269", "id_pdm": "PDM070", "campo": "TAMANHO", "y_gold": "9", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600269", "id_pdm": "PDM070", "campo": "CA", "y_gold": "17131", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600366", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "anel vedacao BRITADOR CONICO", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600366", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "BRITADOR CONICO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600366", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "HP400", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600366", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "METSO", "status": "DEFINIDO", "evidencia": "metso", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600366", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "N61196004", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600144", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "tampa succao", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600144", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "COMPRESSOR", "status": "DEFINIDO", "evidencia": "compressor", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600144", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "GA160", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600144", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "ATLAS COPCO", "status": "DEFINIDO", "evidencia": "atlas copco", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600144", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "0956 2763 34", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600037", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600037", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA GROSSA", "status": "DEFINIDO", "evidencia": "metrica grossa", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600037", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M12", "status": "DEFINIDO", "evidencia": "m12", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600037", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "150MM", "status": "DEFINIDO", "evidencia": "150 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600037", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "5.8", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600037", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600037", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "ZINCADO BRANCO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600037", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 933", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600081", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "Produto: Mandibula Movel", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600081", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "BRITADOR MANDIBULA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600081", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "CJ615", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600081", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "SANDVIK", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600081", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "575.2066-45", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600195", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "Produto: Tampa Succao", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600195", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "COMPRESSOR", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600195", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "GA75", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600195", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "ATLAS COPCO", "status": "DEFINIDO", "evidencia": "atlas copco", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600195", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "1855 6303 27", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600464", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "Produto: Carcaca", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600464", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "COMPRESSOR", "status": "DEFINIDO", "evidencia": "compressor", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600464", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "GA90", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600464", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "ATLAS COPCO", "status": "DEFINIDO", "evidencia": "atlas copco", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600464", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "6214 5895 05", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600489", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "Produto: Barra Tensora", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600489", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "PENEIRA VIBRATORIA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600489", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "LUDOWICI 3.6X8.5", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600489", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "FLSMIDTH", "status": "DEFINIDO", "evidencia": "flsmidth", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600489", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "9545985877", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600453", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "Hex head bolt", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600453", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA GROSSA", "status": "DEFINIDO", "evidencia": "metrica grossa", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600453", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M18", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600453", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "100MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600453", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "8.8", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600453", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "carbon steel", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600453", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "ZINCADO BRANCO", "status": "DEFINIDO", "evidencia": "zinc plated", "justificativa": "zincagem eletrolitica sem cor declarada: o que se compra de linha e o branco; o amarelo e especificado quando se quer"}
+{"ID_PEDIDO": "SC-202600453", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 931", "status": "DEFINIDO", "evidencia": "din 931", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600038", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600038", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA GROSSA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600038", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M6", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600038", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "80MM", "status": "DEFINIDO", "evidencia": "80mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600038", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "10.9", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600038", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "aco carbono", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600038", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "", "status": "AUSENTE", "evidencia": "", "justificativa": "o pedido não lista acabamento"}
+{"ID_PEDIDO": "SC-202600038", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 933", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600034", "id_pdm": "PDM030", "campo": "_CLASSE", "y_gold": "PDM030", "status": "DEFINIDO", "evidencia": "correia trapezoidal", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600034", "id_pdm": "PDM030", "campo": "PERFIL", "y_gold": "B", "status": "DEFINIDO", "evidencia": "b", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600034", "id_pdm": "PDM030", "campo": "REFERENCIA", "y_gold": "B146", "status": "DEFINIDO", "evidencia": "b146", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600424", "id_pdm": "PDM100", "campo": "_CLASSE", "y_gold": "PDM100", "status": "DEFINIDO", "evidencia": "filtro separador ar/óleo", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600424", "id_pdm": "PDM100", "campo": "FABRICANTE", "y_gold": "MANN", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600424", "id_pdm": "PDM100", "campo": "REFERENCIA FABRICANTE", "y_gold": "LE 3269", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600267", "id_pdm": "FORA_DO_PDM", "campo": "_CLASSE", "y_gold": "FORA_DO_PDM", "status": "DEFINIDO", "evidencia": "manutenção corretiva do ar-condicionado", "justificativa": "serviço, não material"}
+{"ID_PEDIDO": "SC-202600120", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "eixo saida FLENDER ... do H3SH 9", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600120", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "REDUTOR", "status": "DEFINIDO", "evidencia": "do H3SH 9", "justificativa": "H3SH 9 e redutor Flender: a frota nao tem outro equipamento com esse modelo"}
+{"ID_PEDIDO": "SC-202600120", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "H3SH 9", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600120", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "FLENDER", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600120", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "T6593-468134", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600335", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "placa traseira WEIR ... do WARMAN 8/6 AH", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600335", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "BOMBA POLPA", "status": "DEFINIDO", "evidencia": "do WARMAN 8/6 AH", "justificativa": "WARMAN e a linha de bomba de polpa da Weir"}
+{"ID_PEDIDO": "SC-202600335", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "WARMAN 8/6 AH", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600335", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "WEIR", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600335", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "N3966B38", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600187", "id_pdm": "FORA_DO_PDM", "campo": "_CLASSE", "y_gold": "FORA_DO_PDM", "status": "DEFINIDO", "evidencia": "camisa polo do uniforme", "justificativa": "uniforme não é EPI de nenhuma classe do PDM (070/071/072)"}
+{"ID_PEDIDO": "SC-202600160", "id_pdm": "PDM032", "campo": "_CLASSE", "y_gold": "PDM032", "status": "DEFINIDO", "evidencia": "Produto: Retentor", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600160", "id_pdm": "PDM032", "campo": "DIAMETRO EIXO", "y_gold": "80MM", "status": "DEFINIDO", "evidencia": "80 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600160", "id_pdm": "PDM032", "campo": "DIAMETRO ALOJAMENTO", "y_gold": "95MM", "status": "DEFINIDO", "evidencia": "95 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600160", "id_pdm": "PDM032", "campo": "LARGURA", "y_gold": "10MM", "status": "DEFINIDO", "evidencia": "10mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600160", "id_pdm": "PDM032", "campo": "TIPO", "y_gold": "BA", "status": "DEFINIDO", "evidencia": "ba", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600160", "id_pdm": "PDM032", "campo": "MATERIAL", "y_gold": "NBR", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600383", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "Produto: Raspador Primario", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600383", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "CORREIA TRANSPORTADORA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600383", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "TC-04", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600383", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "CONTINENTAL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600383", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "CT8363160", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600345", "id_pdm": "PDM100", "campo": "_CLASSE", "y_gold": "PDM100", "status": "DEFINIDO", "evidencia": "Produto: Filtro Combustivel", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600345", "id_pdm": "PDM100", "campo": "FABRICANTE", "y_gold": "FRAM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600345", "id_pdm": "PDM100", "campo": "REFERENCIA FABRICANTE", "y_gold": "G1892", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600462", "id_pdm": "PDM011", "campo": "_CLASSE", "y_gold": "PDM011", "status": "DEFINIDO", "evidencia": "mangueira hidráulica montada", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600462", "id_pdm": "PDM011", "campo": "NORMA", "y_gold": "EN 856 4SH", "status": "DEFINIDO", "evidencia": "en 856 4sh", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600462", "id_pdm": "PDM011", "campo": "DIAMETRO INTERNO", "y_gold": "1.1/2POL", "status": "DEFINIDO", "evidencia": "1 1/2\"", "justificativa": "fração mista -> inteiro.fração+POL"}
+{"ID_PEDIDO": "SC-202600462", "id_pdm": "PDM011", "campo": "COMPRIMENTO", "y_gold": "900MM", "status": "DEFINIDO", "evidencia": "900 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600462", "id_pdm": "PDM011", "campo": "TERMINAL A", "y_gold": "MACHO RETO JIC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600462", "id_pdm": "PDM011", "campo": "TERMINAL B", "y_gold": "FEMEA RETA JIC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600462", "id_pdm": "PDM011", "campo": "MATERIAL TERMINAIS", "y_gold": "ACO CARBONO ZINCADO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600239", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "dente cacamba escavadeira hidraulica", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600239", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "ESCAVADEIRA HIDRAULICA", "status": "DEFINIDO", "evidencia": "escavadeira hidraulica", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600239", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "6015B", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600239", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "CATERPILLAR", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600239", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "561-7310", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600241", "id_pdm": "PDM041", "campo": "_CLASSE", "y_gold": "PDM041", "status": "DEFINIDO", "evidencia": "válvula gaveta", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600241", "id_pdm": "PDM041", "campo": "DIAMETRO NOMINAL", "y_gold": "2.1/2POL", "status": "DEFINIDO", "evidencia": "2 1/2\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600241", "id_pdm": "PDM041", "campo": "CLASSE PRESSAO", "y_gold": "600#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600241", "id_pdm": "PDM041", "campo": "MATERIAL CORPO", "y_gold": "ACO INOX FUNDIDO A351 CF8M", "status": "DEFINIDO", "evidencia": "aco inox fundido a351 cf8m", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600241", "id_pdm": "PDM041", "campo": "CONEXAO", "y_gold": "FLANGE RF", "status": "DEFINIDO", "evidencia": "flange rf", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600241", "id_pdm": "PDM041", "campo": "CASTELO", "y_gold": "ROSCADO", "status": "DEFINIDO", "evidencia": "roscado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600241", "id_pdm": "PDM041", "campo": "ACIONAMENTO", "y_gold": "VOLANTE", "status": "DEFINIDO", "evidencia": "volante", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600466", "id_pdm": "PDM100", "campo": "_CLASSE", "y_gold": "PDM100", "status": "DEFINIDO", "evidencia": "Produto: Filtro Ar", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600466", "id_pdm": "PDM100", "campo": "FABRICANTE", "y_gold": "MANN", "status": "DEFINIDO", "evidencia": "mann", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600466", "id_pdm": "PDM100", "campo": "REFERENCIA FABRICANTE", "y_gold": "C 65 343", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600175", "id_pdm": "PDM082", "campo": "_CLASSE", "y_gold": "PDM082", "status": "DEFINIDO", "evidencia": "Twist drill", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600175", "id_pdm": "PDM082", "campo": "TIPO", "y_gold": "HSS COBALTO", "status": "DEFINIDO", "evidencia": "hss cobalto", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600175", "id_pdm": "PDM082", "campo": "DIAMETRO", "y_gold": "1,5MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600175", "id_pdm": "PDM082", "campo": "HASTE", "y_gold": "CILINDRICA", "status": "DEFINIDO", "evidencia": "cilindrica", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600175", "id_pdm": "PDM082", "campo": "NORMA", "y_gold": "DIN 340", "status": "DEFINIDO", "evidencia": "din 340", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600323", "id_pdm": "PDM064", "campo": "_CLASSE", "y_gold": "PDM064", "status": "DEFINIDO", "evidencia": "fusível", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600323", "id_pdm": "PDM064", "campo": "TIPO", "y_gold": "CARTUCHO", "status": "DEFINIDO", "evidencia": "cartucho", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600323", "id_pdm": "PDM064", "campo": "TAMANHO", "y_gold": "22X58MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600323", "id_pdm": "PDM064", "campo": "CORRENTE NOMINAL", "y_gold": "6A", "status": "DEFINIDO", "evidencia": "6A", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600163", "id_pdm": "PDM040", "campo": "_CLASSE", "y_gold": "PDM040", "status": "DEFINIDO", "evidencia": "válvula esfera", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600163", "id_pdm": "PDM040", "campo": "DIAMETRO NOMINAL", "y_gold": "2POL", "status": "DEFINIDO", "evidencia": "2\" (dn 50)", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600163", "id_pdm": "PDM040", "campo": "CLASSE PRESSAO", "y_gold": "PN 16", "status": "DEFINIDO", "evidencia": "pn 16", "justificativa": "PN 16 aqui é pressão nominal, não part number"}
+{"ID_PEDIDO": "SC-202600163", "id_pdm": "PDM040", "campo": "MATERIAL CORPO", "y_gold": "FERRO FUNDIDO NODULAR", "status": "DEFINIDO", "evidencia": "ferro fundido nodular", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600163", "id_pdm": "PDM040", "campo": "CONEXAO", "y_gold": "FLANGE FF", "status": "DEFINIDO", "evidencia": "flange ff", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600163", "id_pdm": "PDM040", "campo": "PASSAGEM", "y_gold": "PLENA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600163", "id_pdm": "PDM040", "campo": "VEDACAO SEDE", "y_gold": "METAL-METAL", "status": "DEFINIDO", "evidencia": "metal-metal", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600163", "id_pdm": "PDM040", "campo": "ACIONAMENTO", "y_gold": "ALAVANCA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600169", "id_pdm": "FORA_DO_PDM", "campo": "_CLASSE", "y_gold": "FORA_DO_PDM", "status": "DEFINIDO", "evidencia": "Serviço de calibração de manômetros", "justificativa": "serviço, não material"}
+{"ID_PEDIDO": "SC-202600330", "id_pdm": "PDM043", "campo": "_CLASSE", "y_gold": "PDM043", "status": "DEFINIDO", "evidencia": "Check valve", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600330", "id_pdm": "PDM043", "campo": "DIAMETRO NOMINAL", "y_gold": "1/4POL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600330", "id_pdm": "PDM043", "campo": "CLASSE PRESSAO", "y_gold": "PN 25", "status": "DEFINIDO", "evidencia": "pn 25", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600330", "id_pdm": "PDM043", "campo": "MATERIAL CORPO", "y_gold": "LATAO", "status": "DEFINIDO", "evidencia": "latao", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600330", "id_pdm": "PDM043", "campo": "CONEXAO", "y_gold": "ROSCA BSP", "status": "DEFINIDO", "evidencia": "rosca bsp", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600330", "id_pdm": "PDM043", "campo": "TIPO", "y_gold": "ESFERA", "status": "DEFINIDO", "evidencia": "esfera", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600078", "id_pdm": "PDM011", "campo": "_CLASSE", "y_gold": "PDM011", "status": "DEFINIDO", "evidencia": "mangueira hidráulica montada", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600078", "id_pdm": "PDM011", "campo": "NORMA", "y_gold": "EN 856 4SP", "status": "DEFINIDO", "evidencia": "en 856 4sp", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600078", "id_pdm": "PDM011", "campo": "DIAMETRO INTERNO", "y_gold": "1/2POL", "status": "DEFINIDO", "evidencia": "1/2 pol", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600078", "id_pdm": "PDM011", "campo": "COMPRIMENTO", "y_gold": "1200MM", "status": "DEFINIDO", "evidencia": "1200 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600078", "id_pdm": "PDM011", "campo": "TERMINAL A", "y_gold": "FEMEA RETA JIC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600078", "id_pdm": "PDM011", "campo": "TERMINAL B", "y_gold": "", "status": "AUSENTE", "evidencia": "", "justificativa": "o pedido lista só o terminal a"}
+{"ID_PEDIDO": "SC-202600078", "id_pdm": "PDM011", "campo": "MATERIAL TERMINAIS", "y_gold": "ACO CARBONO ZINCADO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600503", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "Produto: Tampa Pressao", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600503", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "BOMBA CENTRIFUGA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600503", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "AHLSTAR A22-80", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600503", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "SULZER", "status": "DEFINIDO", "evidencia": "sulzer", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600503", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "188126-242", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600152", "id_pdm": "PDM011", "campo": "_CLASSE", "y_gold": "PDM011", "status": "DEFINIDO", "evidencia": "Produto: Mangueira Hidráulica Montada", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600152", "id_pdm": "PDM011", "campo": "NORMA", "y_gold": "EN 853 2SN", "status": "DEFINIDO", "evidencia": "en 853 2sn", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600152", "id_pdm": "PDM011", "campo": "DIAMETRO INTERNO", "y_gold": "1/2POL", "status": "DEFINIDO", "evidencia": "1/2\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600152", "id_pdm": "PDM011", "campo": "COMPRIMENTO", "y_gold": "2200MM", "status": "DEFINIDO", "evidencia": "2200 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600152", "id_pdm": "PDM011", "campo": "TERMINAL A", "y_gold": "MACHO RETO BSP", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600152", "id_pdm": "PDM011", "campo": "TERMINAL B", "y_gold": "FEMEA RETA JIC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600152", "id_pdm": "PDM011", "campo": "MATERIAL TERMINAIS", "y_gold": "ACO CARBONO ZINCADO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600352", "id_pdm": "PDM062", "campo": "_CLASSE", "y_gold": "PDM062", "status": "DEFINIDO", "evidencia": "Produto: Disjuntor", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600352", "id_pdm": "PDM062", "campo": "TIPO", "y_gold": "MINIDISJUNTOR DIN", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600352", "id_pdm": "PDM062", "campo": "POLOS", "y_gold": "3P", "status": "DEFINIDO", "evidencia": "3p", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600352", "id_pdm": "PDM062", "campo": "CORRENTE NOMINAL", "y_gold": "50A", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600352", "id_pdm": "PDM062", "campo": "CURVA", "y_gold": "B", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600352", "id_pdm": "PDM062", "campo": "CAPACIDADE INTERRUPCAO", "y_gold": "10KA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600033", "id_pdm": "PDM030", "campo": "_CLASSE", "y_gold": "PDM030", "status": "DEFINIDO", "evidencia": "Produto: Correia Trapezoidal", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600033", "id_pdm": "PDM030", "campo": "PERFIL", "y_gold": "A", "status": "DEFINIDO", "evidencia": "a", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600033", "id_pdm": "PDM030", "campo": "REFERENCIA", "y_gold": "A157", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600305", "id_pdm": "PDM041", "campo": "_CLASSE", "y_gold": "PDM041", "status": "DEFINIDO", "evidencia": "Gate valve", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600305", "id_pdm": "PDM041", "campo": "DIAMETRO NOMINAL", "y_gold": "1.1/4POL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600305", "id_pdm": "PDM041", "campo": "CLASSE PRESSAO", "y_gold": "150#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600305", "id_pdm": "PDM041", "campo": "MATERIAL CORPO", "y_gold": "ACO CARBONO FUNDIDO A216 WCB", "status": "DEFINIDO", "evidencia": "A216 WCB", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600305", "id_pdm": "PDM041", "campo": "CONEXAO", "y_gold": "SOLDA TOPO BW", "status": "DEFINIDO", "evidencia": "butt weld", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600305", "id_pdm": "PDM041", "campo": "CASTELO", "y_gold": "ROSCADO", "status": "DEFINIDO", "evidencia": "roscado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600305", "id_pdm": "PDM041", "campo": "ACIONAMENTO", "y_gold": "VOLANTE", "status": "DEFINIDO", "evidencia": "volante", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600092", "id_pdm": "PDM040", "campo": "_CLASSE", "y_gold": "PDM040", "status": "DEFINIDO", "evidencia": "Produto: Válvula Esfera", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600092", "id_pdm": "PDM040", "campo": "DIAMETRO NOMINAL", "y_gold": "3/4POL", "status": "DEFINIDO", "evidencia": "3/4\" (DN 20)", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600092", "id_pdm": "PDM040", "campo": "CLASSE PRESSAO", "y_gold": "800#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600092", "id_pdm": "PDM040", "campo": "MATERIAL CORPO", "y_gold": "ACO INOX FORJADO A182 F316", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600092", "id_pdm": "PDM040", "campo": "CONEXAO", "y_gold": "SOLDA ENCAIXE SW", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600092", "id_pdm": "PDM040", "campo": "PASSAGEM", "y_gold": "REDUZIDA", "status": "DEFINIDO", "evidencia": "reduzida", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600092", "id_pdm": "PDM040", "campo": "VEDACAO SEDE", "y_gold": "PTFE", "status": "DEFINIDO", "evidencia": "ptfe", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600092", "id_pdm": "PDM040", "campo": "ACIONAMENTO", "y_gold": "ALAVANCA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600101", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600101", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "UNC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600101", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "3/4POL", "status": "DEFINIDO", "evidencia": "3/4\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600101", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "2.1/2POL", "status": "DEFINIDO", "evidencia": "2 1/2\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600101", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "SAE GRAU 5", "status": "DEFINIDO", "evidencia": "sae grau 5", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600101", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600101", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "ZINCADO BRANCO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600101", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "ASME B18.2.1", "status": "DEFINIDO", "evidencia": "asme b18.2.1", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600110", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "chapa lateral britador mandibula", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600110", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "BRITADOR MANDIBULA", "status": "DEFINIDO", "evidencia": "britador mandibula", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600110", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "CJ412", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600110", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "SANDVIK", "status": "DEFINIDO", "evidencia": "sandvik", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600110", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "340.4962-00", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600519", "id_pdm": "PDM002", "campo": "_CLASSE", "y_gold": "PDM002", "status": "DEFINIDO", "evidencia": "Produto: Parafuso Sextavado Interno", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600519", "id_pdm": "PDM002", "campo": "TIPO CABECA", "y_gold": "ESCAREADA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600519", "id_pdm": "PDM002", "campo": "BITOLA", "y_gold": "M10", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600519", "id_pdm": "PDM002", "campo": "COMPRIMENTO", "y_gold": "45MM", "status": "DEFINIDO", "evidencia": "45mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600519", "id_pdm": "PDM002", "campo": "CLASSE RESISTENCIA", "y_gold": "12.9", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600519", "id_pdm": "PDM002", "campo": "MATERIAL", "y_gold": "ACO LIGA", "status": "DEFINIDO", "evidencia": "aco liga", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600519", "id_pdm": "PDM002", "campo": "ACABAMENTO", "y_gold": "OXIDADO PRETO", "status": "DEFINIDO", "evidencia": "oxidado preto", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600382", "id_pdm": "PDM032", "campo": "_CLASSE", "y_gold": "PDM032", "status": "DEFINIDO", "evidencia": "retentor", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600382", "id_pdm": "PDM032", "campo": "DIAMETRO EIXO", "y_gold": "65MM", "status": "DEFINIDO", "evidencia": "65 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600382", "id_pdm": "PDM032", "campo": "DIAMETRO ALOJAMENTO", "y_gold": "77MM", "status": "DEFINIDO", "evidencia": "77mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600382", "id_pdm": "PDM032", "campo": "LARGURA", "y_gold": "12MM", "status": "DEFINIDO", "evidencia": "12 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600382", "id_pdm": "PDM032", "campo": "TIPO", "y_gold": "BA", "status": "DEFINIDO", "evidencia": "ba", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600382", "id_pdm": "PDM032", "campo": "MATERIAL", "y_gold": "NBR", "status": "DEFINIDO", "evidencia": "nbr", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600173", "id_pdm": "PDM071", "campo": "_CLASSE", "y_gold": "PDM071", "status": "DEFINIDO", "evidencia": "calçado segurança", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600173", "id_pdm": "PDM071", "campo": "TIPO", "y_gold": "BOTINA ELASTICO", "status": "DEFINIDO", "evidencia": "botina elastico", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600173", "id_pdm": "PDM071", "campo": "TAMANHO", "y_gold": "43", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600173", "id_pdm": "PDM071", "campo": "BIQUEIRA", "y_gold": "COMPOSITE", "status": "DEFINIDO", "evidencia": "composite", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600173", "id_pdm": "PDM071", "campo": "SOLADO", "y_gold": "NBR", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600173", "id_pdm": "PDM071", "campo": "CA", "y_gold": "37918", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600237", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600237", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA GROSSA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600237", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M24", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600237", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "80MM", "status": "DEFINIDO", "evidencia": "80 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600237", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "10.9", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600237", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600237", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "OXIDADO PRETO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600237", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 931", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600394", "id_pdm": "FORA_DO_PDM", "campo": "_CLASSE", "y_gold": "FORA_DO_PDM", "status": "DEFINIDO", "evidencia": "toner para impressora", "justificativa": "suprimento de escritório"}
+{"ID_PEDIDO": "SC-202600050", "id_pdm": "PDM031", "campo": "_CLASSE", "y_gold": "PDM031", "status": "DEFINIDO", "evidencia": "O-ring", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600050", "id_pdm": "PDM031", "campo": "DIAMETRO INTERNO", "y_gold": "65MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600050", "id_pdm": "PDM031", "campo": "SECAO", "y_gold": "7MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600050", "id_pdm": "PDM031", "campo": "MATERIAL", "y_gold": "FKM (VITON)", "status": "DEFINIDO", "evidencia": "fkm (viton)", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600050", "id_pdm": "PDM031", "campo": "DUREZA", "y_gold": "70 SHORE A", "status": "DEFINIDO", "evidencia": "70 shore a", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600196", "id_pdm": "PDM043", "campo": "_CLASSE", "y_gold": "PDM043", "status": "DEFINIDO", "evidencia": "válvula retencao", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600196", "id_pdm": "PDM043", "campo": "DIAMETRO NOMINAL", "y_gold": "4POL", "status": "DEFINIDO", "evidencia": "4\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600196", "id_pdm": "PDM043", "campo": "CLASSE PRESSAO", "y_gold": "150#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600196", "id_pdm": "PDM043", "campo": "MATERIAL CORPO", "y_gold": "ACO CARBONO FUNDIDO A216 WCB", "status": "DEFINIDO", "evidencia": "aco carbono fundido a216 wcb", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600196", "id_pdm": "PDM043", "campo": "CONEXAO", "y_gold": "SOLDA TOPO BW", "status": "DEFINIDO", "evidencia": "solda topo bw", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600196", "id_pdm": "PDM043", "campo": "TIPO", "y_gold": "ESFERA", "status": "DEFINIDO", "evidencia": "esfera", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600385", "id_pdm": "PDM011", "campo": "_CLASSE", "y_gold": "PDM011", "status": "DEFINIDO", "evidencia": "mangueira hidráulica montada", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600385", "id_pdm": "PDM011", "campo": "NORMA", "y_gold": "EN 853 2SN", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600385", "id_pdm": "PDM011", "campo": "DIAMETRO INTERNO", "y_gold": "1/2POL", "status": "DEFINIDO", "evidencia": "1/2 pol", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600385", "id_pdm": "PDM011", "campo": "COMPRIMENTO", "y_gold": "1800MM", "status": "DEFINIDO", "evidencia": "1800mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600385", "id_pdm": "PDM011", "campo": "TERMINAL A", "y_gold": "FEMEA CURVA 90 GRAUS JIC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600385", "id_pdm": "PDM011", "campo": "TERMINAL B", "y_gold": "FEMEA RETA BSP", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600385", "id_pdm": "PDM011", "campo": "MATERIAL TERMINAIS", "y_gold": "ACO CARBONO ZINCADO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600480", "id_pdm": "PDM002", "campo": "_CLASSE", "y_gold": "PDM002", "status": "DEFINIDO", "evidencia": "Socket head cap screw", "justificativa": "'socket head cap screw' = parafuso sextavado interno"}
+{"ID_PEDIDO": "SC-202600480", "id_pdm": "PDM002", "campo": "TIPO CABECA", "y_gold": "CILINDRICA", "status": "DEFINIDO", "evidencia": "cilindrica", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600480", "id_pdm": "PDM002", "campo": "BITOLA", "y_gold": "M12", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600480", "id_pdm": "PDM002", "campo": "COMPRIMENTO", "y_gold": "25MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600480", "id_pdm": "PDM002", "campo": "CLASSE RESISTENCIA", "y_gold": "A2-70", "status": "DEFINIDO", "evidencia": "a2-70", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600480", "id_pdm": "PDM002", "campo": "MATERIAL", "y_gold": "ACO INOX 304", "status": "DEFINIDO", "evidencia": "SS304", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600480", "id_pdm": "PDM002", "campo": "ACABAMENTO", "y_gold": "NATURAL", "status": "DEFINIDO", "evidencia": "natural", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600023", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "bucha CATERPILLAR ... do 6030", "justificativa": "BUCHA aqui é sobressalente de equipamento, não bucha de redução de tubulação: o texto dá fabricante e modelo"}
+{"ID_PEDIDO": "SC-202600023", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "ESCAVADEIRA HIDRAULICA", "status": "DEFINIDO", "evidencia": "do 6030", "justificativa": "6030 e escavadeira hidraulica Caterpillar, como o 6015B da mesma lista"}
+{"ID_PEDIDO": "SC-202600023", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "6030", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600023", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "CATERPILLAR", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600023", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "879-7407", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600270", "id_pdm": "FORA_DO_PDM", "campo": "_CLASSE", "y_gold": "FORA_DO_PDM", "status": "DEFINIDO", "evidencia": "café em pó 500g", "justificativa": "gênero alimentício"}
+{"ID_PEDIDO": "SC-202600426", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "pino", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600426", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "BRITADOR CONICO", "status": "DEFINIDO", "evidencia": "britador conico", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600426", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "CH440", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600426", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "SANDVIK", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600426", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "837.6620-54", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600041", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600041", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA FINA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600041", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M10X1,25", "status": "DEFINIDO", "evidencia": "m10x1,25", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600041", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "140MM", "status": "DEFINIDO", "evidencia": "140mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600041", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "A2-70", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600041", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO INOX 304", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600041", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "NATURAL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600041", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 933", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600495", "id_pdm": "PDM031", "campo": "_CLASSE", "y_gold": "PDM031", "status": "DEFINIDO", "evidencia": "Produto: Anel O-Ring", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600495", "id_pdm": "PDM031", "campo": "DIAMETRO INTERNO", "y_gold": "", "status": "AUSENTE", "evidencia": "", "justificativa": "a ficha traz só seção, material e dureza"}
+{"ID_PEDIDO": "SC-202600495", "id_pdm": "PDM031", "campo": "SECAO", "y_gold": "2,5MM", "status": "DEFINIDO", "evidencia": "2,5 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600495", "id_pdm": "PDM031", "campo": "MATERIAL", "y_gold": "NBR", "status": "DEFINIDO", "evidencia": "nbr", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600495", "id_pdm": "PDM031", "campo": "DUREZA", "y_gold": "70 SHORE A", "status": "DEFINIDO", "evidencia": "70 shore a", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600141", "id_pdm": "PDM011", "campo": "_CLASSE", "y_gold": "PDM011", "status": "DEFINIDO", "evidencia": "Hydraulic hose assembly", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600141", "id_pdm": "PDM011", "campo": "NORMA", "y_gold": "EN 856 4SH", "status": "DEFINIDO", "evidencia": "en 856 4sh", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600141", "id_pdm": "PDM011", "campo": "DIAMETRO INTERNO", "y_gold": "1.1/2POL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600141", "id_pdm": "PDM011", "campo": "COMPRIMENTO", "y_gold": "1200MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600141", "id_pdm": "PDM011", "campo": "TERMINAL A", "y_gold": "", "status": "INDEFINIVEL", "evidencia": "JIC female swivel", "justificativa": "'swivel' (giratoria) nao existe na lista do PDM, que so separa RETA de CURVA: nao da para afirmar qual e"}
+{"ID_PEDIDO": "SC-202600141", "id_pdm": "PDM011", "campo": "TERMINAL B", "y_gold": "FEMEA CURVA 90 GRAUS JIC", "status": "DEFINIDO", "evidencia": "JIC female 90° elbow", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600141", "id_pdm": "PDM011", "campo": "MATERIAL TERMINAIS", "y_gold": "ACO CARBONO ZINCADO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600096", "id_pdm": "PDM032", "campo": "_CLASSE", "y_gold": "PDM032", "status": "DEFINIDO", "evidencia": "Oil seal", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600096", "id_pdm": "PDM032", "campo": "DIAMETRO EIXO", "y_gold": "35MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600096", "id_pdm": "PDM032", "campo": "DIAMETRO ALOJAMENTO", "y_gold": "50MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600096", "id_pdm": "PDM032", "campo": "LARGURA", "y_gold": "7MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600096", "id_pdm": "PDM032", "campo": "TIPO", "y_gold": "BA", "status": "DEFINIDO", "evidencia": "ba", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600096", "id_pdm": "PDM032", "campo": "MATERIAL", "y_gold": "NBR", "status": "DEFINIDO", "evidencia": "nbr", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600380", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "Produto: Barra Tensora", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600380", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "PENEIRA VIBRATORIA", "status": "DEFINIDO", "evidencia": "peneira vibratoria", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600380", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "TS 3.6X7.3", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600380", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "METSO", "status": "DEFINIDO", "evidencia": "metso", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600380", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "MM8024131", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600518", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "Produto: Amortecedor", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600518", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "PENEIRA VIBRATORIA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600518", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "LH 8X20", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600518", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "METSO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600518", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "N36213710", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600516", "id_pdm": "PDM070", "campo": "_CLASSE", "y_gold": "PDM070", "status": "DEFINIDO", "evidencia": "luva segurança", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600516", "id_pdm": "PDM070", "campo": "MATERIAL", "y_gold": "RASPA", "status": "DEFINIDO", "evidencia": "raspa", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600516", "id_pdm": "PDM070", "campo": "TAMANHO", "y_gold": "UNICO", "status": "DEFINIDO", "evidencia": "unico", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600516", "id_pdm": "PDM070", "campo": "CA", "y_gold": "29892", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600473", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "Hex head bolt", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600473", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA FINA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600473", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M16X1,5", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600473", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "90MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600473", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "8.8", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600473", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "carbon steel", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600473", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "OXIDADO PRETO", "status": "DEFINIDO", "evidencia": "black oxide", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600473", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 931", "status": "DEFINIDO", "evidencia": "din 931", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600165", "id_pdm": "PDM062", "campo": "_CLASSE", "y_gold": "PDM062", "status": "DEFINIDO", "evidencia": "disjuntor minidisjuntor din", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600165", "id_pdm": "PDM062", "campo": "TIPO", "y_gold": "MINIDISJUNTOR DIN", "status": "DEFINIDO", "evidencia": "minidisjuntor din", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600165", "id_pdm": "PDM062", "campo": "POLOS", "y_gold": "3P", "status": "DEFINIDO", "evidencia": "3p", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600165", "id_pdm": "PDM062", "campo": "CORRENTE NOMINAL", "y_gold": "16A", "status": "DEFINIDO", "evidencia": "16a", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600165", "id_pdm": "PDM062", "campo": "CURVA", "y_gold": "C", "status": "DEFINIDO", "evidencia": "c", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600165", "id_pdm": "PDM062", "campo": "CAPACIDADE INTERRUPCAO", "y_gold": "4,5KA", "status": "DEFINIDO", "evidencia": "4,5ka", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600418", "id_pdm": "PDM100", "campo": "_CLASSE", "y_gold": "PDM100", "status": "DEFINIDO", "evidencia": "filtro ar", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600418", "id_pdm": "PDM100", "campo": "FABRICANTE", "y_gold": "MANN", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600418", "id_pdm": "PDM100", "campo": "REFERENCIA FABRICANTE", "y_gold": "C 83 416", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600261", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600261", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA FINA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600261", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M16X1,5", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600261", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "90MM", "status": "DEFINIDO", "evidencia": "90mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600261", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "A2-70", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600261", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO INOX 304", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600261", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "NATURAL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600261", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 933", "status": "DEFINIDO", "evidencia": "din 933", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600348", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "rolete retorno CONTINENTAL ... do TC-04", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600348", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "CORREIA TRANSPORTADORA", "status": "DEFINIDO", "evidencia": "do TC-04", "justificativa": "TC-xx e a designacao das correias transportadoras da planta"}
+{"ID_PEDIDO": "SC-202600348", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "TC-04", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600348", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "CONTINENTAL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600348", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "CT3546571", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600074", "id_pdm": "PDM020", "campo": "_CLASSE", "y_gold": "PDM020", "status": "DEFINIDO", "evidencia": "rolamento rígido esferas", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600074", "id_pdm": "PDM020", "campo": "REFERENCIA", "y_gold": "6309", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600074", "id_pdm": "PDM020", "campo": "VEDACAO", "y_gold": "ABERTO", "status": "DEFINIDO", "evidencia": "aberto", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600074", "id_pdm": "PDM020", "campo": "FOLGA", "y_gold": "NORMAL", "status": "DEFINIDO", "evidencia": "normal", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600052", "id_pdm": "FORA_DO_PDM", "campo": "_CLASSE", "y_gold": "FORA_DO_PDM", "status": "DEFINIDO", "evidencia": "Serviço de calibração de manômetros", "justificativa": "serviço, não material"}
+{"ID_PEDIDO": "SC-202600336", "id_pdm": "PDM002", "campo": "_CLASSE", "y_gold": "PDM002", "status": "DEFINIDO", "evidencia": "Produto: Parafuso Sextavado Interno", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600336", "id_pdm": "PDM002", "campo": "TIPO CABECA", "y_gold": "CILINDRICA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600336", "id_pdm": "PDM002", "campo": "BITOLA", "y_gold": "M4", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600336", "id_pdm": "PDM002", "campo": "COMPRIMENTO", "y_gold": "20MM", "status": "DEFINIDO", "evidencia": "20mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600336", "id_pdm": "PDM002", "campo": "CLASSE RESISTENCIA", "y_gold": "A2-70", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600336", "id_pdm": "PDM002", "campo": "MATERIAL", "y_gold": "ACO INOX 304", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600336", "id_pdm": "PDM002", "campo": "ACABAMENTO", "y_gold": "NATURAL", "status": "DEFINIDO", "evidencia": "natural", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600252", "id_pdm": "PDM002", "campo": "_CLASSE", "y_gold": "PDM002", "status": "DEFINIDO", "evidencia": "parafuso sextavado interno", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600252", "id_pdm": "PDM002", "campo": "TIPO CABECA", "y_gold": "CILINDRICA", "status": "DEFINIDO", "evidencia": "parafuso sextavado interno", "justificativa": "sextavado interno de catalogo e cabeca cilindrica (DIN 912); escareada e abaulada sao especificadas"}
+{"ID_PEDIDO": "SC-202600252", "id_pdm": "PDM002", "campo": "BITOLA", "y_gold": "M4", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600252", "id_pdm": "PDM002", "campo": "COMPRIMENTO", "y_gold": "25MM", "status": "DEFINIDO", "evidencia": "25 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600252", "id_pdm": "PDM002", "campo": "CLASSE RESISTENCIA", "y_gold": "A4-70", "status": "DEFINIDO", "evidencia": "a4-70", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600252", "id_pdm": "PDM002", "campo": "MATERIAL", "y_gold": "ACO INOX 316", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600252", "id_pdm": "PDM002", "campo": "ACABAMENTO", "y_gold": "NATURAL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600517", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "Produto: Parafuso Sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600517", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "UNC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600517", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "3/8POL", "status": "DEFINIDO", "evidencia": "3/8\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600517", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "1.3/4POL", "status": "DEFINIDO", "evidencia": "1 3/4\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600517", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "SAE GRAU 2", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600517", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600517", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "ZINCADO AMARELO", "status": "DEFINIDO", "evidencia": "zincado amarelo", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600517", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "ASME B18.2.1", "status": "DEFINIDO", "evidencia": "asme b18.2.1", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600468", "id_pdm": "PDM034", "campo": "_CLASSE", "y_gold": "PDM034", "status": "DEFINIDO", "evidencia": "Flat gasket", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600468", "id_pdm": "PDM034", "campo": "DIAMETRO NOMINAL", "y_gold": "10POL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600468", "id_pdm": "PDM034", "campo": "CLASSE PRESSAO", "y_gold": "300#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600468", "id_pdm": "PDM034", "campo": "MATERIAL", "y_gold": "EPDM", "status": "DEFINIDO", "evidencia": "epdm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600468", "id_pdm": "PDM034", "campo": "ESPESSURA", "y_gold": "1,6MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600468", "id_pdm": "PDM034", "campo": "TIPO FACE", "y_gold": "RF", "status": "DEFINIDO", "evidencia": "rf", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600259", "id_pdm": "PDM032", "campo": "_CLASSE", "y_gold": "PDM032", "status": "DEFINIDO", "evidencia": "retentor", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600259", "id_pdm": "PDM032", "campo": "DIAMETRO EIXO", "y_gold": "35MM", "status": "DEFINIDO", "evidencia": "35 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600259", "id_pdm": "PDM032", "campo": "DIAMETRO ALOJAMENTO", "y_gold": "60MM", "status": "DEFINIDO", "evidencia": "60 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600259", "id_pdm": "PDM032", "campo": "LARGURA", "y_gold": "10MM", "status": "DEFINIDO", "evidencia": "10mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600259", "id_pdm": "PDM032", "campo": "TIPO", "y_gold": "BAB", "status": "DEFINIDO", "evidencia": "bab", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600259", "id_pdm": "PDM032", "campo": "MATERIAL", "y_gold": "FKM (VITON)", "status": "DEFINIDO", "evidencia": "fkm (viton)", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600003", "id_pdm": "PDM032", "campo": "_CLASSE", "y_gold": "PDM032", "status": "DEFINIDO", "evidencia": "retentor", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600003", "id_pdm": "PDM032", "campo": "DIAMETRO EIXO", "y_gold": "75MM", "status": "DEFINIDO", "evidencia": "75 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600003", "id_pdm": "PDM032", "campo": "DIAMETRO ALOJAMENTO", "y_gold": "100MM", "status": "DEFINIDO", "evidencia": "100 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600003", "id_pdm": "PDM032", "campo": "LARGURA", "y_gold": "13MM", "status": "DEFINIDO", "evidencia": "13 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600003", "id_pdm": "PDM032", "campo": "TIPO", "y_gold": "BA", "status": "DEFINIDO", "evidencia": "ba", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600003", "id_pdm": "PDM032", "campo": "MATERIAL", "y_gold": "NBR", "status": "DEFINIDO", "evidencia": "nbr", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600359", "id_pdm": "PDM050", "campo": "_CLASSE", "y_gold": "PDM050", "status": "DEFINIDO", "evidencia": "Produto: Cap", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600359", "id_pdm": "PDM050", "campo": "DIAMETRO NOMINAL", "y_gold": "1POL", "status": "DEFINIDO", "evidencia": "1\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600359", "id_pdm": "PDM050", "campo": "CLASSE PRESSAO", "y_gold": "6000#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600359", "id_pdm": "PDM050", "campo": "MATERIAL", "y_gold": "ACO INOX FORJADO A182 F316", "status": "DEFINIDO", "evidencia": "aco inox forjado a182 f316", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600359", "id_pdm": "PDM050", "campo": "CONEXAO", "y_gold": "ROSCA NPT", "status": "DEFINIDO", "evidencia": "rosca npt", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600235", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "Produto: Parafuso Sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600235", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "UNC", "status": "DEFINIDO", "evidencia": "unc", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600235", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "5/16POL", "status": "DEFINIDO", "evidencia": "5/16\" (7,9 mm)", "justificativa": "o mm entre parênteses é conversão, não bitola"}
+{"ID_PEDIDO": "SC-202600235", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "1.1/4POL", "status": "DEFINIDO", "evidencia": "1 1/4\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600235", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "SAE GRAU 8", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600235", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600235", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "SEM ACABAMENTO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600235", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "ASME B18.2.1", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600243", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "eixo SULZER ... do AHLSTAR A31-100", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600243", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "BOMBA CENTRIFUGA", "status": "DEFINIDO", "evidencia": "do AHLSTAR A31-100", "justificativa": "AHLSTAR e a linha de bomba centrifuga da Sulzer"}
+{"ID_PEDIDO": "SC-202600243", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "AHLSTAR A31-100", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600243", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "SULZER", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600243", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "16812-820", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600014", "id_pdm": "PDM044", "campo": "_CLASSE", "y_gold": "PDM044", "status": "DEFINIDO", "evidencia": "válvula borboleta", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600014", "id_pdm": "PDM044", "campo": "DIAMETRO NOMINAL", "y_gold": "10POL", "status": "DEFINIDO", "evidencia": "10\" (DN 250)", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600014", "id_pdm": "PDM044", "campo": "TIPO CORPO", "y_gold": "WAFER", "status": "DEFINIDO", "evidencia": "wafer", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600014", "id_pdm": "PDM044", "campo": "MATERIAL CORPO", "y_gold": "ACO INOX FUNDIDO A351 CF8M", "status": "DEFINIDO", "evidencia": "aco inox fundido a351 cf8m", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600014", "id_pdm": "PDM044", "campo": "MATERIAL DISCO", "y_gold": "ACO INOX FUNDIDO A351 CF8M", "status": "DEFINIDO", "evidencia": "aco inox fundido a351 cf8m", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600014", "id_pdm": "PDM044", "campo": "VEDACAO SEDE", "y_gold": "EPDM", "status": "DEFINIDO", "evidencia": "epdm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600014", "id_pdm": "PDM044", "campo": "ACIONAMENTO", "y_gold": "ATUADOR ELETRICO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600046", "id_pdm": "PDM044", "campo": "_CLASSE", "y_gold": "PDM044", "status": "DEFINIDO", "evidencia": "Produto: Válvula Borboleta", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600046", "id_pdm": "PDM044", "campo": "DIAMETRO NOMINAL", "y_gold": "2POL", "status": "DEFINIDO", "evidencia": "2\" (DN 50)", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600046", "id_pdm": "PDM044", "campo": "TIPO CORPO", "y_gold": "LUG", "status": "DEFINIDO", "evidencia": "lug", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600046", "id_pdm": "PDM044", "campo": "MATERIAL CORPO", "y_gold": "ACO INOX FUNDIDO A351 CF8M", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600046", "id_pdm": "PDM044", "campo": "MATERIAL DISCO", "y_gold": "ACO INOX FUNDIDO A351 CF8M", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600046", "id_pdm": "PDM044", "campo": "VEDACAO SEDE", "y_gold": "PTFE", "status": "DEFINIDO", "evidencia": "ptfe", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600046", "id_pdm": "PDM044", "campo": "ACIONAMENTO", "y_gold": "ATUADOR PNEUMATICO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600301", "id_pdm": "PDM040", "campo": "_CLASSE", "y_gold": "PDM040", "status": "DEFINIDO", "evidencia": "Produto: Válvula Esfera", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600301", "id_pdm": "PDM040", "campo": "DIAMETRO NOMINAL", "y_gold": "2POL", "status": "DEFINIDO", "evidencia": "2\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600301", "id_pdm": "PDM040", "campo": "CLASSE PRESSAO", "y_gold": "800#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600301", "id_pdm": "PDM040", "campo": "MATERIAL CORPO", "y_gold": "ACO INOX FORJADO A182 F316", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600301", "id_pdm": "PDM040", "campo": "CONEXAO", "y_gold": "ROSCA NPT", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600301", "id_pdm": "PDM040", "campo": "PASSAGEM", "y_gold": "REDUZIDA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600301", "id_pdm": "PDM040", "campo": "VEDACAO SEDE", "y_gold": "RPTFE", "status": "DEFINIDO", "evidencia": "rptfe", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600301", "id_pdm": "PDM040", "campo": "ACIONAMENTO", "y_gold": "ATUADOR PNEUMATICO", "status": "DEFINIDO", "evidencia": "atuador pneumatico", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600010", "id_pdm": "PDM100", "campo": "_CLASSE", "y_gold": "PDM100", "status": "DEFINIDO", "evidencia": "filtro combustivel", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600010", "id_pdm": "PDM100", "campo": "FABRICANTE", "y_gold": "FRAM", "status": "DEFINIDO", "evidencia": "fram", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600010", "id_pdm": "PDM100", "campo": "REFERENCIA FABRICANTE", "y_gold": "G2021", "status": "DEFINIDO", "evidencia": "g2021", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600182", "id_pdm": "PDM043", "campo": "_CLASSE", "y_gold": "PDM043", "status": "DEFINIDO", "evidencia": "Produto: Válvula Retencao", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600182", "id_pdm": "PDM043", "campo": "DIAMETRO NOMINAL", "y_gold": "1.1/2POL", "status": "DEFINIDO", "evidencia": "1 1/2\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600182", "id_pdm": "PDM043", "campo": "CLASSE PRESSAO", "y_gold": "PN 25", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600182", "id_pdm": "PDM043", "campo": "MATERIAL CORPO", "y_gold": "", "status": "AUSENTE", "evidencia": "", "justificativa": "a ficha não traz o material do corpo"}
+{"ID_PEDIDO": "SC-202600182", "id_pdm": "PDM043", "campo": "CONEXAO", "y_gold": "ROSCA BSP", "status": "DEFINIDO", "evidencia": "rosca bsp", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600182", "id_pdm": "PDM043", "campo": "TIPO", "y_gold": "ESFERA", "status": "DEFINIDO", "evidencia": "esfera", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600217", "id_pdm": "PDM011", "campo": "_CLASSE", "y_gold": "PDM011", "status": "DEFINIDO", "evidencia": "Hydraulic hose assembly", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600217", "id_pdm": "PDM011", "campo": "NORMA", "y_gold": "EN 853 1SN", "status": "DEFINIDO", "evidencia": "en 853 1sn", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600217", "id_pdm": "PDM011", "campo": "DIAMETRO INTERNO", "y_gold": "1/4POL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600217", "id_pdm": "PDM011", "campo": "COMPRIMENTO", "y_gold": "3000MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600217", "id_pdm": "PDM011", "campo": "TERMINAL A", "y_gold": "FEMEA CURVA 90 GRAUS ORFS", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600217", "id_pdm": "PDM011", "campo": "TERMINAL B", "y_gold": "FEMEA RETA ORFS", "status": "DEFINIDO", "evidencia": "ORFS female", "justificativa": "sem ângulo = reta"}
+{"ID_PEDIDO": "SC-202600217", "id_pdm": "PDM011", "campo": "MATERIAL TERMINAIS", "y_gold": "ACO CARBONO ZINCADO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600158", "id_pdm": "PDM072", "campo": "_CLASSE", "y_gold": "PDM072", "status": "DEFINIDO", "evidencia": "oculos segurança", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600158", "id_pdm": "PDM072", "campo": "LENTE", "y_gold": "INCOLOR", "status": "DEFINIDO", "evidencia": "oculos segurança antirrisco AMPLA VISAO", "justificativa": "oculos de ampla visao antirrisco e incolor na linha de EPI"}
+{"ID_PEDIDO": "SC-202600158", "id_pdm": "PDM072", "campo": "TRATAMENTO", "y_gold": "ANTIRRISCO", "status": "DEFINIDO", "evidencia": "antirrisco", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600158", "id_pdm": "PDM072", "campo": "CA", "y_gold": "33645", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600290", "id_pdm": "PDM044", "campo": "_CLASSE", "y_gold": "PDM044", "status": "DEFINIDO", "evidencia": "Produto: Válvula Borboleta", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600290", "id_pdm": "PDM044", "campo": "DIAMETRO NOMINAL", "y_gold": "6POL", "status": "DEFINIDO", "evidencia": "6\" (DN 150)", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600290", "id_pdm": "PDM044", "campo": "TIPO CORPO", "y_gold": "WAFER", "status": "DEFINIDO", "evidencia": "wafer", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600290", "id_pdm": "PDM044", "campo": "MATERIAL CORPO", "y_gold": "ACO INOX FUNDIDO A351 CF8M", "status": "DEFINIDO", "evidencia": "aco inox fundido a351 cf8m", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600290", "id_pdm": "PDM044", "campo": "MATERIAL DISCO", "y_gold": "ACO INOX FUNDIDO A351 CF8M", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600290", "id_pdm": "PDM044", "campo": "VEDACAO SEDE", "y_gold": "NBR", "status": "DEFINIDO", "evidencia": "nbr", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600290", "id_pdm": "PDM044", "campo": "ACIONAMENTO", "y_gold": "ALAVANCA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600245", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600245", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA FINA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600245", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M16X1,5", "status": "DEFINIDO", "evidencia": "m16x1,5", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600245", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "50MM", "status": "DEFINIDO", "evidencia": "50mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600245", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "8.8", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600245", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600245", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "OXIDADO PRETO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600245", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 933", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600232", "id_pdm": "PDM011", "campo": "_CLASSE", "y_gold": "PDM011", "status": "DEFINIDO", "evidencia": "mangueira hidráulica montada", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600232", "id_pdm": "PDM011", "campo": "NORMA", "y_gold": "EN 853 2SN", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600232", "id_pdm": "PDM011", "campo": "DIAMETRO INTERNO", "y_gold": "3/4POL", "status": "DEFINIDO", "evidencia": "3/4\" (19 mm)", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600232", "id_pdm": "PDM011", "campo": "COMPRIMENTO", "y_gold": "2000MM", "status": "DEFINIDO", "evidencia": "2000 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600232", "id_pdm": "PDM011", "campo": "TERMINAL A", "y_gold": "FEMEA CURVA 90 GRAUS JIC", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600232", "id_pdm": "PDM011", "campo": "TERMINAL B", "y_gold": "MACHO RETO NPT", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600232", "id_pdm": "PDM011", "campo": "MATERIAL TERMINAIS", "y_gold": "ACO CARBONO ZINCADO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600403", "id_pdm": "PDM003", "campo": "_CLASSE", "y_gold": "PDM003", "status": "DEFINIDO", "evidencia": "porca", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600403", "id_pdm": "PDM003", "campo": "TIPO", "y_gold": "SEXTAVADA", "status": "DEFINIDO", "evidencia": "porca", "justificativa": "porca sem qualificador, em M22 classe 8, e sextavada: autotravante e castelo vem sempre escritos"}
+{"ID_PEDIDO": "SC-202600403", "id_pdm": "PDM003", "campo": "ROSCA", "y_gold": "METRICA GROSSA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600403", "id_pdm": "PDM003", "campo": "BITOLA", "y_gold": "M22", "status": "DEFINIDO", "evidencia": "m22", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600403", "id_pdm": "PDM003", "campo": "CLASSE RESISTENCIA", "y_gold": "8", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600403", "id_pdm": "PDM003", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600403", "id_pdm": "PDM003", "campo": "ACABAMENTO", "y_gold": "ZINCADO BRANCO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600332", "id_pdm": "PDM050", "campo": "_CLASSE", "y_gold": "PDM050", "status": "DEFINIDO", "evidencia": "te", "justificativa": "'te' simples, não 'te reducao': DIAMETRO REDUZIDO não se aplica"}
+{"ID_PEDIDO": "SC-202600332", "id_pdm": "PDM050", "campo": "DIAMETRO NOMINAL", "y_gold": "1.1/2POL", "status": "DEFINIDO", "evidencia": "1.1/2 pol", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600332", "id_pdm": "PDM050", "campo": "CLASSE PRESSAO", "y_gold": "6000#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600332", "id_pdm": "PDM050", "campo": "MATERIAL", "y_gold": "ACO CARBONO FORJADO A105", "status": "DEFINIDO", "evidencia": "aco carbono forjado a105", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600332", "id_pdm": "PDM050", "campo": "CONEXAO", "y_gold": "SOLDA ENCAIXE SW", "status": "DEFINIDO", "evidencia": "solda encaixe sw", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600325", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600325", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "UNC", "status": "DEFINIDO", "evidencia": "unc", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600325", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "3/4POL", "status": "DEFINIDO", "evidencia": "3/4\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600325", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "2.1/4POL", "status": "DEFINIDO", "evidencia": "2.1/4\" (57,1 mm)", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600325", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "SAE GRAU 5", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600325", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO CARBONO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600325", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "", "status": "AUSENTE", "evidencia": "", "justificativa": "o pedido não traz acabamento"}
+{"ID_PEDIDO": "SC-202600325", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "ASME B18.2.1", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600212", "id_pdm": "PDM031", "campo": "_CLASSE", "y_gold": "PDM031", "status": "DEFINIDO", "evidencia": "anel o-ring", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600212", "id_pdm": "PDM031", "campo": "DIAMETRO INTERNO", "y_gold": "42MM", "status": "DEFINIDO", "evidencia": "42 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600212", "id_pdm": "PDM031", "campo": "SECAO", "y_gold": "2MM", "status": "DEFINIDO", "evidencia": "2 mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600212", "id_pdm": "PDM031", "campo": "MATERIAL", "y_gold": "EPDM", "status": "DEFINIDO", "evidencia": "epdm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600212", "id_pdm": "PDM031", "campo": "DUREZA", "y_gold": "70 SHORE A", "status": "DEFINIDO", "evidencia": "70 shore a", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600233", "id_pdm": "PDM040", "campo": "_CLASSE", "y_gold": "PDM040", "status": "DEFINIDO", "evidencia": "válvula esfera", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600233", "id_pdm": "PDM040", "campo": "DIAMETRO NOMINAL", "y_gold": "3POL", "status": "DEFINIDO", "evidencia": "3\"", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600233", "id_pdm": "PDM040", "campo": "CLASSE PRESSAO", "y_gold": "PN 16", "status": "DEFINIDO", "evidencia": "pn 16", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600233", "id_pdm": "PDM040", "campo": "MATERIAL CORPO", "y_gold": "FERRO FUNDIDO NODULAR", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600233", "id_pdm": "PDM040", "campo": "CONEXAO", "y_gold": "FLANGE FF", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600233", "id_pdm": "PDM040", "campo": "PASSAGEM", "y_gold": "REDUZIDA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600233", "id_pdm": "PDM040", "campo": "VEDACAO SEDE", "y_gold": "PTFE", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600233", "id_pdm": "PDM040", "campo": "ACIONAMENTO", "y_gold": "ALAVANCA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600143", "id_pdm": "PDM041", "campo": "_CLASSE", "y_gold": "PDM041", "status": "DEFINIDO", "evidencia": "válvula gaveta", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600143", "id_pdm": "PDM041", "campo": "DIAMETRO NOMINAL", "y_gold": "1POL", "status": "DEFINIDO", "evidencia": "1 pol", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600143", "id_pdm": "PDM041", "campo": "CLASSE PRESSAO", "y_gold": "150#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600143", "id_pdm": "PDM041", "campo": "MATERIAL CORPO", "y_gold": "ACO INOX FUNDIDO A351 CF8M", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600143", "id_pdm": "PDM041", "campo": "CONEXAO", "y_gold": "SOLDA TOPO BW", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600143", "id_pdm": "PDM041", "campo": "CASTELO", "y_gold": "APARAFUSADO", "status": "DEFINIDO", "evidencia": "aparafusado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600143", "id_pdm": "PDM041", "campo": "ACIONAMENTO", "y_gold": "VOLANTE", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600337", "id_pdm": "PDM001", "campo": "_CLASSE", "y_gold": "PDM001", "status": "DEFINIDO", "evidencia": "parafuso sextavado", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600337", "id_pdm": "PDM001", "campo": "ROSCA", "y_gold": "METRICA GROSSA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600337", "id_pdm": "PDM001", "campo": "BITOLA", "y_gold": "M20", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600337", "id_pdm": "PDM001", "campo": "COMPRIMENTO", "y_gold": "55MM", "status": "DEFINIDO", "evidencia": "55mm", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600337", "id_pdm": "PDM001", "campo": "CLASSE RESISTENCIA", "y_gold": "A2-70", "status": "DEFINIDO", "evidencia": "a2-70", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600337", "id_pdm": "PDM001", "campo": "MATERIAL", "y_gold": "ACO INOX 304", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600337", "id_pdm": "PDM001", "campo": "ACABAMENTO", "y_gold": "NATURAL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600337", "id_pdm": "PDM001", "campo": "NORMA", "y_gold": "DIN 933", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600414", "id_pdm": "PDM110", "campo": "_CLASSE", "y_gold": "PDM110", "status": "DEFINIDO", "evidencia": "placa succao", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600414", "id_pdm": "PDM110", "campo": "APLICACAO", "y_gold": "BOMBA POLPA", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600414", "id_pdm": "PDM110", "campo": "MODELO EQUIPAMENTO", "y_gold": "MM300", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600414", "id_pdm": "PDM110", "campo": "FABRICANTE", "y_gold": "METSO", "status": "DEFINIDO", "evidencia": "metso", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600414", "id_pdm": "PDM110", "campo": "REFERENCIA FABRICANTE", "y_gold": "MM0809137", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600410", "id_pdm": "PDM033", "campo": "_CLASSE", "y_gold": "PDM033", "status": "DEFINIDO", "evidencia": "Produto: Junta Espiralada", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600410", "id_pdm": "PDM033", "campo": "DIAMETRO NOMINAL", "y_gold": "1.1/2POL", "status": "DEFINIDO", "evidencia": "1.1/2 pol", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600410", "id_pdm": "PDM033", "campo": "CLASSE PRESSAO", "y_gold": "900#", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600410", "id_pdm": "PDM033", "campo": "MATERIAL FITA", "y_gold": "ACO INOX 316", "status": "DEFINIDO", "evidencia": "aco inox 316", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600410", "id_pdm": "PDM033", "campo": "ENCHIMENTO", "y_gold": "GRAFITE FLEXIVEL", "status": "DEFINIDO", "evidencia": "grafite flexivel", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600410", "id_pdm": "PDM033", "campo": "ANEL INTERNO", "y_gold": "SEM ANEL INTERNO", "status": "DEFINIDO", "evidencia": "sem anel interno", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600065", "id_pdm": "PDM060", "campo": "_CLASSE", "y_gold": "PDM060", "status": "DEFINIDO", "evidencia": "Electric cable", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600065", "id_pdm": "PDM060", "campo": "TIPO", "y_gold": "FLEXIVEL", "status": "DEFINIDO", "evidencia": "flexivel", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600065", "id_pdm": "PDM060", "campo": "SECAO", "y_gold": "95MM2", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600065", "id_pdm": "PDM060", "campo": "NUMERO CONDUTORES", "y_gold": "1", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600065", "id_pdm": "PDM060", "campo": "TENSAO ISOLAMENTO", "y_gold": "450/750V", "status": "DEFINIDO", "evidencia": "450/750v", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600065", "id_pdm": "PDM060", "campo": "ISOLACAO", "y_gold": "PVC", "status": "DEFINIDO", "evidencia": "pvc", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600065", "id_pdm": "PDM060", "campo": "COR", "y_gold": "AZUL", "status": "DEFINIDO", "evidencia": "azul", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600131", "id_pdm": "PDM020", "campo": "_CLASSE", "y_gold": "PDM020", "status": "DEFINIDO", "evidencia": "rolamento rígido esferas", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600131", "id_pdm": "PDM020", "campo": "REFERENCIA", "y_gold": "6211-ZZ", "status": "DEFINIDO", "evidencia": "6211-zz", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600131", "id_pdm": "PDM020", "campo": "VEDACAO", "y_gold": "METALICA AMBOS LADOS", "status": "DEFINIDO", "evidencia": "metalica ambos lados", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600131", "id_pdm": "PDM020", "campo": "FOLGA", "y_gold": "NORMAL", "status": "DEFINIDO", "evidencia": "normal", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600279", "id_pdm": "PDM011", "campo": "_CLASSE", "y_gold": "PDM011", "status": "DEFINIDO", "evidencia": "Hydraulic hose assembly", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600279", "id_pdm": "PDM011", "campo": "NORMA", "y_gold": "EN 856 4SP", "status": "DEFINIDO", "evidencia": "en 856 4sp", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600279", "id_pdm": "PDM011", "campo": "DIAMETRO INTERNO", "y_gold": "3/8POL", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600279", "id_pdm": "PDM011", "campo": "COMPRIMENTO", "y_gold": "3000MM", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600279", "id_pdm": "PDM011", "campo": "TERMINAL A", "y_gold": "FEMEA RETA DKO", "status": "DEFINIDO", "evidencia": "DKOL female", "justificativa": "DKOL = DKO leve, reta"}
+{"ID_PEDIDO": "SC-202600279", "id_pdm": "PDM011", "campo": "TERMINAL B", "y_gold": "FEMEA RETA DKO", "status": "DEFINIDO", "evidencia": "DKOL female", "justificativa": ""}
+{"ID_PEDIDO": "SC-202600279", "id_pdm": "PDM011", "campo": "MATERIAL TERMINAIS", "y_gold": "ACO CARBONO ZINCADO", "status": "DEFINIDO", "evidencia": "", "justificativa": ""}
