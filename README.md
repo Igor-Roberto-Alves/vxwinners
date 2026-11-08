@@ -76,8 +76,22 @@ O frontend do time é a moldura, e a tela de cadastro é o painel, embutido nela
 à esquerda, o formulário no meio e, à direita, a descrição, os itens parecidos e a decisão. A etiqueta no topo diz se a
 tela usa **dados reais** ou é **demonstração**.
 
-- **Reais:** Buscar material, Cadastrar novo item, Pedidos de cadastro, Cadastros e Revisão de exceções.
+- **Reais:** Buscar material, Cadastrar novo item, Pedidos de cadastro, Cadastros, Revisão de exceções
+  e **Fila de intervenção** (esta lê a saída do pipeline, não a API).
 - **Demonstração:** Início, Radar, Requisições, Base e Clusters.
+
+**Fila de intervenção** é onde o saneamento pede ajuda. Cada campo que ficou vazio chega classificado
+pela ação que pede, e não pelo erro que é: `confirmar` quando o valor já está decidido (o texto trazia
+e a leitura perdeu, ou há candidato acima de 90%), `escolher` quando há candidatos com probabilidade e
+suporte, `sem pista` quando o texto traz algo fora do padrão e nada se sustenta, e `fonte externa`
+quando o texto não traz o dado — esse último sai da fila, porque não é trabalho de leitura. Hoje são
+3.482 itens, 1.478 campos de um clique e R$ 10,84 mi de capital em risco na fila. A ordem é pelo que dá
+para resolver e, dentro de cada grupo, pelo capital. As decisões saem em `.jsonl` no formato que o
+pipeline consome de volta.
+
+```bash
+uv run --no-project --with pandas --with openpyxl python scripts/19_fila_intervencao.py
+```
 
 Três decisões de projeto:
 
@@ -221,7 +235,8 @@ preenchimento/
 servico/
   treina.py api.py exemplos_curl.sh
 backend/                    API, banco, estruturação da base, cadastro, testes
-frontend/                   cadastro real, tema e teste de ponta a ponta da interface
+frontend/                   cadastro real, fila de intervenção, tema e teste de ponta a ponta
+  cadastro.js intervencao.js dados/fila_intervencao.json
 src/saneamento/             pipeline de saneamento (caixas, BERT, junção, catálogo)
 plataforma.html      casca da interface
 rodar.sh                    sobe tudo

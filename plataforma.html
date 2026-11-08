@@ -381,6 +381,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
   <div class="sep"></div>
   <button class="rail-btn" data-nav="base" data-tip="Base de materiais" onclick="go('base')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg></button>
   <button class="rail-btn" data-nav="clusters" data-tip="Clusters (saneamento)" onclick="go('clusters')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg></button>
+  <button class="rail-btn" data-nav="intervencao" data-tip="Fila de intervenção" onclick="go('intervencao')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h10M4 12h7M4 18h10"/><path d="M15.5 15.5 19 19M19 19l1.5-1.5-3.5-3.5-1.5 1.5z"/></svg></button>
   <div class="spacer"></div>
   <button class="rail-btn" data-nav="manual" data-tip="Manual" onclick="go('manual')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/></svg></button>
   <button class="rail-btn" data-tip="Configurações"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></button>
@@ -418,6 +419,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
     <h6>Base</h6>
     <div class="side-item" data-nav="base" onclick="go('base')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>base_materiais<span class="count">23.554</span></div>
     <div class="side-item" data-nav="clusters" onclick="go('clusters')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="12" cy="17" r="3"/><path d="M9 9l2 5M15 9l-2 5"/></svg>Clusters (saneamento)<span class="count">1.412</span></div>
+    <div class="side-item" data-nav="intervencao" onclick="go('intervencao')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h10M4 12h7M4 18h10"/><path d="M15.5 15.5 19 19M19 19l1.5-1.5-3.5-3.5-1.5 1.5z"/></svg>Fila de intervenção<span class="count" id="n-intervencao">—</span></div>
   </div>
 </aside>
 
@@ -673,6 +675,58 @@ input[type=range]{accent-color:var(--brand);width:100%}
       </div>
     </div>
   </div>
+</section>
+
+<!-- ================================================================ INTERVENÇÃO -->
+<section class="page" id="page-intervencao">
+  <div class="page-head">
+    <div>
+      <h1>Fila de intervenção</h1>
+      <p>Onde o saneamento parou e precisa de uma pessoa. Cada campo chega com a ação que pede:
+         <b>confirmar</b> quando o valor já está decidido, <b>escolher</b> quando há candidatos com
+         probabilidade, <b>sem pista</b> quando o texto não sustenta nenhum. A fila vem ordenada pelo que
+         dá para resolver, e dentro de cada grupo pelo capital em risco — mude a ordem no seletor
+         se quiser atacar primeiro o código mais caro.</p>
+    </div>
+    <div class="actions">
+      <button class="btn sm" id="fi-exportar" title="Baixa as decisões em .jsonl para o pipeline consumir">Exportar decisões</button>
+      <button class="btn sm ghost" id="fi-limpar">Limpar sessão</button>
+    </div>
+  </div>
+  <div class="grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
+    <div class="card kpi"><div class="l">Itens na fila</div><div class="v" id="fi-k-itens">—</div><div class="s" id="fi-k-itens-s"></div></div>
+    <div class="card kpi"><div class="l">Campos para confirmar</div><div class="v" id="fi-k-clique" style="color:var(--brand)">—</div><div class="s" id="fi-k-clique-s"></div></div>
+    <div class="card kpi"><div class="l">Campos para decidir</div><div class="v" id="fi-k-escolher" style="color:var(--warn)">—</div><div class="s" id="fi-k-escolher-s"></div></div>
+    <div class="card kpi"><div class="l">Capital na fila</div><div class="v" id="fi-k-capital">—</div><div class="s" id="fi-k-capital-s"></div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="toolbar">
+      <input class="inp" id="fi-busca" placeholder="Buscar código ou texto…" style="width:240px">
+      <select class="sel" id="fi-acao" aria-label="Ação">
+        <option value="">Toda ação</option>
+        <option value="um_clique">Só confirmar</option>
+        <option value="escolher">Só escolher</option>
+        <option value="sem_pista">Só sem pista</option>
+      </select>
+      <select class="sel" id="fi-classe" aria-label="Classe"><option value="">Toda classe</option></select>
+      <select class="sel" id="fi-ordem" aria-label="Ordem" title="Como ordenar a fila">
+        <option value="acionavel">Ordem: o que dá para resolver</option>
+        <option value="capital">Ordem: capital em risco</option>
+        <option value="campos">Ordem: mais campos abertos</option>
+      </select>
+      <label style="display:flex;gap:6px;align-items:center;font-size:12px;color:var(--text-2)">
+        <input type="checkbox" id="fi-pendentes"> esconder o que já decidi</label>
+      <span class="faint" style="font-size:12px" id="fi-decididos"></span>
+      <span class="faint" style="margin-left:auto;font-size:12px" id="fi-conta"></span>
+    </div>
+  </div>
+  <div id="fi-lista"></div>
+  <div class="pager" id="fi-pager" style="margin-top:4px"></div>
+  <p class="faint" style="font-size:11.5px;margin-top:10px">
+    Fonte: <span class="mono">artefatos/fila_intervencao.json</span>, de
+    <span class="mono">scripts/19_fila_intervencao.py</span> sobre a saída do pipeline
+    (<span class="mono">deteccao_ausentes.jsonl</span> e <span class="mono">completacoes_sugeridas.jsonl</span>)
+    — <span id="fi-gerado"></span>. As decisões ficam no navegador até você exportar.</p>
 </section>
 
 <!-- ================================================================ APROVAR COMPRAS -->
@@ -973,7 +1027,7 @@ input[type=range]{accent-color:var(--brand);width:100%}
 
 <script>
 /* ---------- navegação ---------- */
-const titles={pedidos:'Pedidos de cadastro',cadastros:'Cadastros',revisao:'Revisão de exceções',base:'base_materiais',clusters:'Clusters',inicio:'Início',manual:'Manual',radar:'Radar',busca:'Buscar material',cadastro:'Cadastrar novo item',requisicoes:'Requisições'};
+const titles={pedidos:'Pedidos de cadastro',cadastros:'Cadastros',revisao:'Revisão de exceções',base:'base_materiais',clusters:'Clusters',inicio:'Início',manual:'Manual',radar:'Radar',busca:'Buscar material',cadastro:'Cadastrar novo item',requisicoes:'Requisições',intervencao:'Fila de intervenção'};
 function go(p){
   document.querySelectorAll('.page').forEach(e=>e.classList.toggle('active',e.id==='page-'+p));
   document.querySelectorAll('[data-nav]').forEach(e=>e.classList.toggle('active',e.dataset.nav===p));
@@ -1207,5 +1261,6 @@ function alternarMenu(){aplicarMenu(!document.body.classList.contains('menu-reco
   aplicarMenu(v==='off')})();
 </script>
 <script src="frontend/cadastro.js"></script>
+<script src="frontend/intervencao.js"></script>
 </body>
 </html>
