@@ -105,7 +105,8 @@ cols = ["CODIGO_MATERIAL", "ESTADO", "ACAO", "USAR_CODIGO", "ID_PDM", "SUJEITO",
         "GRUPO_MERCADORIA", "DESCRICAO_PDM", "DESCRICAO_CURTA_PDM",
         "UNIDADE_PDM", "UNIDADE_ORIGINAL", "NCM_PDM", "NCM_ORIGINAL",
         "FABRICANTE", "REFERENCIA_FABRICANTE", "COMPLETUDE", "N_PENDENCIAS",
-        "PENDENTES", "CHAVE_IDENTIDADE", "DESCRICAO_ORIGINAL"]
+        "PENDENTES", "CHAVE_IDENTIDADE", "DESCRICAO_ORIGINAL",
+        "DECIDIDO_POR_LLM", "PENDENTE_POR_LLM", "JUNCAO_DEPENDE_DE_LLM"]
 ws.append(cols)
 for cod, r in san.items():
     j = juncao.get(cod, {})
@@ -120,9 +121,11 @@ for cod, r in san.items():
         o.get("FABRICANTE", ""), o.get("REFERENCIA_FABRICANTE", ""),
         num(r["COMPLETUDE"]), len([x for x in pend.split(" | ") if x]), pend,
         r["CHAVE_IDENTIDADE"], r["DESCRICAO_ORIGINAL"],
+        r.get("DECIDIDO_POR_LLM", ""), r.get("PENDENTE_POR_LLM", ""),
+        j.get("DEPENDE_DE_LLM", ""),
     ])
 formatar(ws, len(cols), [14, 15, 13, 12, 9, 26, 10, 70, 42, 12, 12, 12, 12,
-                         16, 20, 11, 12, 34, 50, 60])
+                         16, 20, 11, 12, 34, 50, 60, 30, 24, 12])
 
 # ---------------------------------------------------------------- uma aba por classe
 
@@ -182,6 +185,7 @@ QUEM = {
     "bert_desempata": "BERT desempatou",
     "coluna_erp": "coluna do cadastro",
     "llm": "LLM desempatou",
+    "llm_deteccao": "LLM achou no texto (deteccao de perdido)",
     "embedding": "similaridade vetorial",
     "literal": "texto identico ao valor do PDM",
 }
@@ -207,7 +211,10 @@ for cod, ds in decisoes.items():
             d.get("evidencia") or "",
             d["valor"] or "",
             # caixa vazia nao tem quem a resolveu: rotular confundia o leitor
-            QUEM.get(d["fonte"], d["fonte"] or "") if d["valor"] else "",
+            (("dicionario aprendido (termo canonizado pelo LLM)"
+              if d["fonte"] == "aprendido"
+              and f"{at.nome}=dicionario_llm" in r.get("DECIDIDO_POR_LLM", "")
+              else QUEM.get(d["fonte"], d["fonte"] or "")) if d["valor"] else ""),
             d["estado"], d.get("confianca"),
             (d.get("motivo") or "")[:200],
         ])
@@ -269,14 +276,16 @@ if juncao:
     print("Aba JUNCOES...")
     ws = wb.create_sheet("JUNCOES")
     cols = ["CODIGO", "ACAO", "USAR_CODIGO", "ID_PDM", "DESCRICAO_PDM",
-            "ESTOQUE_CONSOLIDADO", "ESTOQUE_PROPRIO", "VALOR_PROPRIO", "CHAVE"]
+            "ESTOQUE_CONSOLIDADO", "ESTOQUE_PROPRIO", "VALOR_PROPRIO", "CHAVE",
+            "DEPENDE_DE_LLM", "LLM_NA_CHAVE"]
     ws.append(cols)
     for cod, j in juncao.items():
         o = orig.get(cod, {})
         est, preco = num(o.get("ESTOQUE_ATUAL")), num(o.get("PRECO_MEDIO_UNITARIO"))
         ws.append([cod, j["ACAO"], j["USAR"], j["ID_PDM"], j["DESCRICAO_PDM"],
-                   j.get("ESTOQUE_CONSOLIDADO", ""), est, round(est * preco, 2), j["CHAVE"]])
-    formatar(ws, len(cols), [13, 14, 13, 9, 70, 20, 16, 16, 60])
+                   j.get("ESTOQUE_CONSOLIDADO", ""), est, round(est * preco, 2), j["CHAVE"],
+                   j.get("DEPENDE_DE_LLM", ""), j.get("LLM_NA_CHAVE", "")])
+    formatar(ws, len(cols), [13, 14, 13, 9, 70, 20, 16, 16, 60, 12, 30])
 
 # ---------------------------------------------------------------- resumo
 

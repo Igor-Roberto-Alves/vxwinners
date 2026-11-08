@@ -27,7 +27,7 @@ Contexto de cada ocorrência das abreviações suspeitas, nos 23.554 registros
 |---|---|---|---|---|
 | `PN` | ~1.900 | `PN 16` (166) e `PN 25` (145) = **pressão nominal**, que são valores do PDM (`CLASSE PRESSAO` de PDM040–043). O resto (`METSO PN 123...`) é part number | `PART NUMBER` | `PN` + pressão da série PN fica `PN`; o resto continua `PART NUMBER` |
 | `REV` | 340 | 331 são `REV A` colado a um part number: **revisão** de desenho | `REVESTIDO` | `REV` + token de até 2 caracteres, ou `REV` no fim depois de um código, fica `REV` |
-| `RET` | 183 | 66 vêm depois de `VALV`/`VALVULA`: válvula de **retenção** | `RETENTOR` | depois de válvula vira `RETENCAO`; nos demais casos continua `RETENTOR` |
+| `RET` | 183 | 33 registros com `VALV`/`VALVULA RET`: válvula de **retenção** (30 trazem o tipo do PDM043: portinhola, pistão, esfera) | `RETENTOR` | depois de válvula vira `RETENCAO`; nos demais casos continua `RETENTOR` |
 | `IND` | 61 | depois de `SENSOR` (17) é **indutivo**; depois de `MANG` (44) é industrial | `INDUSTRIAL` | depois de sensor vira `INDUTIVO` |
 | `S/` `C/` `P/` | ~1.300 | `S/ACAB` (114), `S/ACABAMENTO` (80), `C/TERMINAIS` (267), `P/N` (789), `P/` (88) | não expandia | `S/` = `SEM`, `C/` = `COM`, `P/` = `PARA`, `P/N` = `PART NUMBER`, `S/N` intocado |
 | `CAB` | 759 | 752 são `CAB SEXTAVADA` (cabeça) | não estava na tabela | **mantido sem expansão**: nenhum valor do PDM contém `CABECA`, e o BERT foi treinado vendo `CAB` |

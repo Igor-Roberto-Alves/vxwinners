@@ -44,6 +44,9 @@ p.add_argument("--limiar", type=float, default=0.30, help="indice de discordanci
 p.add_argument("--limiar-bert", type=float, default=0.60)
 p.add_argument("--escalar-pendentes", action="store_true", help="manda tambem os obrigatorios vazios ao LLM")
 p.add_argument("--limite", type=int, default=0, help="processa so os N primeiros registros")
+p.add_argument("--congelar-aprendizado", action="store_true",
+               help="consulta o dicionario aprendido sem aprender nem gravar "
+                    "(execucao reprodutivel)")
 p.add_argument("--sem-aprendizado", action="store_true",
                help="nao le nem alimenta artefatos/aprendizado.json")
 p.add_argument("--saida", default=None)
@@ -75,7 +78,8 @@ if not a.sem_aprendizado:
     # pdm= ativa a trava de substantivo na ESCRITA: sem ele, o termo
     # 'PARAFUSO' (que e o sujeito da classe) volta a ser aprendido
     # como valor de MATERIAL a cada execucao.
-    aprendizado = Aprendizado(ART / "aprendizado.json", pdm=pdm)
+    aprendizado = Aprendizado(ART / "aprendizado.json", pdm=pdm,
+                              congelado=a.congelar_aprendizado)
 
 arbitro = Arbitro(Validador(pdm), limiar_discordancia=a.limiar,
                   limiar_bert=a.limiar_bert, escalar_pendentes=a.escalar_pendentes)

@@ -127,15 +127,18 @@ class Arbitro:
         )
 
         # dicionario casou mais de um valor permitido: o texto e que e ambiguo
+        # O BERT NAO desempata. O texto traz duas leituras validas, e escolher uma
+        # e decisao, nao leitura: no gabarito das caracteristicas, o BERT
+        # escolhendo entre MULTIUSO e AR COMPRIMIDO (os dois escritos) foi
+        # invencao. A caixa fica AMBIGUO e vai ao desempate do LLM, que so aceita
+        # com evidencia no texto; a sugestao do BERT fica registrada como pista.
         if regra is not None and regra.ambiguo and regra.alternativas:
+            pista = ""
             if v_bert and v_bert.valor in regra.alternativas:
-                return Decisao(**base, valor=v_bert.valor, fonte="bert_desempata",
-                               confianca=min(0.88, v_bert.confianca), estado="ACEITO",
-                               motivo=f"gazetteer ambiguo entre {list(regra.alternativas)}, BERT escolheu",
-                               evidencia=v_bert.evidencia)
+                pista = f"; o BERT apontou {v_bert.valor} (pista, nao decisao)"
             return Decisao(**base, valor=None, fonte="gazetteer", confianca=0.0,
                            estado="AMBIGUO",
-                           motivo=f"valores permitidos em conflito: {list(regra.alternativas)}")
+                           motivo=f"valores permitidos em conflito: {list(regra.alternativas)}{pista}")
 
         if v_regra and v_bert:
             # Caixa LIVRE (part number): a mesma referencia aparece com e sem

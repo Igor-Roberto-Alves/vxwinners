@@ -1,0 +1,37 @@
+{
+ "gerado_em": "2026-11-07T23:26:56",
+ "commit": "93514ad",
+ "codigo_alterado_sem_commit": true,
+ "entradas": {
+  "base": "9d736f4427941388",
+  "pdm_xlsx": "33820f96f0e2a674",
+  "pdm_json": "3d24f562f5d9619c",
+  "aprendizado": "19b3b6196c1efc33",
+  "bert_config": "dc912fca5465992e",
+  "bert_pesos": "37e00d0521d18cb2",
+  "desempate_llm": "d72ab3ad5d67c6f2",
+  "deteccao_ausentes": "d611bd4574be7c67"
+ },
+ "saidas": {
+  "saneado_base.csv": "438484eb227c7a00",
+  "decisoes_base.jsonl": "252437d935539e22",
+  "plano_juncao.csv": "dff6c3524cb8eaa6",
+  "completacoes_sugeridas.jsonl": "491a11d2be5a1ac3"
+ },
+ "contagens": {
+  "registros": 23554,
+  "estados": {
+   "SANEADO": 20055,
+   "PENDENTE": 3362,
+   "REVISAO_HUMANA": 100,
+   "FORA_DO_PDM": 37
+  },
+  "saneado_completo": 15485,
+  "chaves_fechadas": 16938,
+  "registros_com_valor_do_llm": 4988,
+  "registros_pendentes_por_llm": 3232,
+  "codigos_bloqueados": 2676,
+  "clusters": 1991,
+  "clusters_que_dependem_do_llm": 352
+ }
+}

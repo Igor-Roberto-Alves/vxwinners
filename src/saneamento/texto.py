@@ -214,7 +214,8 @@ def _resolver_por_contexto(limpo: str, anterior: str, proximo: str | None) -> st
       PN   2.000 ocorrencias: 'PN 16'/'PN 25' e pressao nominal; o resto
            ('METSO PN 123', 'CATERPILLAR PN ...') e part number.
       REV  340: 331 sao 'REV A' colado a um part number (revisao de desenho).
-      RET  183: 66 vem depois de VALV/VALVULA -> valvula de RETENCAO.
+      RET  183 ocorrencias: 33 registros tem VALV/VALVULA RET -> valvula de
+           RETENCAO (30 deles trazem o tipo: PORTINHOLA, PISTAO, ESFERA).
       IND  61: depois de SENSOR e INDUTIVO; depois de MANG e INDUSTRIAL.
     """
     if limpo == "PN":

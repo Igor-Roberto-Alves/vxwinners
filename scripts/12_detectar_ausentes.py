@@ -293,8 +293,20 @@ with ThreadPoolExecutor(max_workers=a.threads) as ex:
     for f in as_completed([ex.submit(tratar, c) for c in por_registro]):
         f.result()
 
-with (ART / "deteccao_ausentes.jsonl").open("w", encoding="utf-8") as fh:
-    for x in sorted(saida, key=lambda x: (x["grupo"], x["codigo"], x["atributo"])):
+# ACRESCENTA ao que ja foi detectado, em vez de sobrescrever. A extracao parte
+# do zero a cada execucao, e uma caixa marcada GENERICO numa rodada anterior ja
+# nao aparece como faltante nesta: sobrescrever apagava as marcacoes antigas, e
+# reaplicar o arquivo as desfazia. Onde (codigo, atributo) repete, vale a nova.
+ARQ_SAIDA = ART / "deteccao_ausentes.jsonl"
+juntas = {}
+if ARQ_SAIDA.exists():
+    for linha in ARQ_SAIDA.open(encoding="utf-8"):
+        x = json.loads(linha)
+        juntas[(x["codigo"], x["atributo"])] = x
+for x in saida:
+    juntas[(x["codigo"], x["atributo"])] = x
+with ARQ_SAIDA.open("w", encoding="utf-8") as fh:
+    for x in sorted(juntas.values(), key=lambda x: (x["codigo"], x["atributo"])):
         fh.write(json.dumps(x, ensure_ascii=False) + "\n")
 
 

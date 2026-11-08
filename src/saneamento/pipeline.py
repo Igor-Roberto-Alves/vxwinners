@@ -17,6 +17,7 @@ from .bert import ExtratorBert
 from .llm import DesempateLlm
 from .pdm import Pdm
 from .regras import Candidato, ClassificadorLexico, ExtratorLexico
+from .rotulos import pares
 from .texto import juntar, normalizar, normalizar_estrutura
 from .validador import Validador
 
@@ -117,6 +118,12 @@ class RegistroSaneado:
     chave_identidade: str | None = None
     completude: float = 0.0
     completo: bool = False
+    # Proveniencia do LLM: caixa cujo valor saiu de uma conclusao do LLM
+    # ("ATRIBUTO=llm" desempate, "=llm_deteccao" valor perdido recuperado,
+    # "=dicionario_llm" termo que o LLM canonizou e o dicionario aplicou), e
+    # caixa que o LLM julgou generica (o que levou o registro a PENDENTE).
+    decidido_por_llm: list[str] = field(default_factory=list)
+    pendente_por_llm: list[str] = field(default_factory=list)
     discordancia: float = 0.0
     escalado: bool = False
     motivos_escalada: list[str] = field(default_factory=list)
@@ -144,6 +151,8 @@ class RegistroSaneado:
             "CHAVE_IDENTIDADE": self.chave_identidade or "",
             "COMPLETUDE": round(self.completude, 3),
             "COMPLETO": int(self.completo),
+            "DECIDIDO_POR_LLM": " | ".join(self.decidido_por_llm),
+            "PENDENTE_POR_LLM": " | ".join(self.pendente_por_llm),
             "DISCORDANCIA": round(self.discordancia, 3),
             "ESCALADO_LLM": int(self.escalado),
             "MOTIVOS_ESCALADA": " | ".join(self.motivos_escalada),
@@ -179,7 +188,7 @@ class Pipeline:
         self.contador = {"total": 0, SANEADO: 0, PENDENTE: 0, REVISAO: 0, FORA_DO_PDM: 0,
                          "escalados": 0, "falhas_llm": 0, "completos": 0,
                          "desempates_aplicados": 0, "genericos_marcados": 0,
-                         "perdidos_recuperados": 0}
+                         "perdidos_recuperados": 0, "perdidos_recusados": 0}
         self.ultimo_erro_llm = ""
 
     # ------------------------------------------------------------- bert
@@ -344,9 +353,28 @@ class Pipeline:
                 if d is None or d.valor or not trecho:
                     continue
                 if veredito == "PERDIDO":
+                    # Caixa de formato livre (part number) aceita qualquer texto,
+                    # entao o validador nao pega a atribuicao errada do LLM: em
+                    # 10410458 ele chamou de part number o MODELO 'AHLSTAR A22 80',
+                    # que ja estava na caixa MODELO EQUIPAMENTO, e a chave fechou
+                    # com um codigo inventado. Trecho que e o valor de OUTRA caixa
+                    # do mesmo registro nao entra.
+                    k = re.sub(r"[^A-Z0-9]", "", trecho.upper())
+                    outros = {re.sub(r"[^A-Z0-9]", "", (o.valor or "").upper())
+                              for n2, o in res.decisoes.items() if n2 != nome and o.valor}
+                    # ... ou que o proprio cadastro escreveu como valor de OUTRO
+                    # rotulo ('MODELO:AHLSTAR A22 80'), mesmo com a caixa vazia
+                    outros |= {re.sub(r"[^A-Z0-9]", "", v.upper())
+                               for rot, v in pares(estruturado) if rot != nome}
+                    if k and any(k in o or o in k for o in outros if len(o) >= 4):
+                        self.contador["perdidos_recusados"] += 1
+                        d.motivo = (f"{d.motivo}; a deteccao apontou {trecho!r}, que e o "
+                                    f"valor de outra caixa do registro: recusado")
+                        continue
                     perdidos[nome] = trecho
                 elif veredito == "PRESENTE_FORA_DO_PADRAO":
                     d.estado = "GENERICO"
+                    d.fonte = "llm_deteccao"          # quem julgou que o dado existe
                     d.evidencia = trecho
                     d.motivo = (f"{d.motivo}; o texto informa {trecho!r}, que nao decide "
                                 f"um valor da lista do PDM")
@@ -354,6 +382,10 @@ class Pipeline:
             if perdidos:
                 res = self.arbitro.incorporar_llm(
                     classe, res, perdidos, evidencias=dict(perdidos), aprendizado=None)
+                for nome in perdidos:
+                    d = res.decisoes.get(nome)
+                    if d is not None and d.fonte == "llm":
+                        d.fonte = "llm_deteccao"      # proveniencia: veio da deteccao
                 self.contador["perdidos_recuperados"] += len(perdidos)
         if not escalado and res.escalar and self.llm is not None:
             foco = [d.atributo for d in res.em_estado("CONFLITO", "AMBIGUO", "INCERTO", "INVALIDO")]
@@ -473,6 +505,17 @@ class Pipeline:
             estado = SANEADO           # mesmo com obrigatorio ausente do texto
         # Segundo eixo: todo obrigatorio cheio e a identidade provada pela chave
         completo = not pendentes and not invalidos and chave is not None
+        decidido_por_llm = []
+        for d in res.decisoes.values():
+            if not d.valor:
+                continue
+            if d.fonte in ("llm", "llm_deteccao"):
+                decidido_por_llm.append(f"{d.atributo}={d.fonte}")
+            elif d.fonte == "aprendido" and self.aprendizado is not None:
+                origem = self.aprendizado.origem(d.atributo, d.valor, texto)
+                if origem and origem.startswith("llm"):
+                    decidido_por_llm.append(f"{d.atributo}=dicionario_llm")
+        pendente_por_llm = [d.atributo for d in res.em_estado("GENERICO")]
         self.contador[estado] += 1
         self.contador["completos"] += int(completo)
 
@@ -488,6 +531,7 @@ class Pipeline:
             ncm_original=str(registro.get("NCM", "") or ""),
             ncm_pdm=ncm.valor, ncm_motivo=ncm.motivo,
             chave_identidade=chave, completude=res.completude, completo=completo,
+            decidido_por_llm=decidido_por_llm, pendente_por_llm=pendente_por_llm,
             discordancia=res.discordancia,
             escalado=escalado, motivos_escalada=res.motivos_escalada,
             pendentes=sorted(set(pendentes) | set(invalidos)),

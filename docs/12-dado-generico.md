@@ -137,3 +137,35 @@ O SANEADO caiu porque ficou mais honesto: 1.508 registros que contavam como
 parte: a detecção cobriu só uma amostra de 400 das 9.485 caixas sem sinal, e
 pela amostra umas 2.000 delas escondem dado genérico. Marcá-las todas (`12 --amostra
 9485`, ~US$ 15) deve levar o SANEADO para perto de 85%.
+
+## 6. Detecção em todas as caixas faltantes
+
+A segunda rodada do script 12 (`--amostra 9485`) cobriu as caixas que a amostra
+deixou de fora: 6.382 chamadas, US$ 9,83, sem erros. Nas 8.750 caixas sem sinal,
+o dado estava no texto em **25,8%** (IC 95%: 24,9–26,8%); a amostra de 400 tinha
+estimado 25,5%. 336 trechos foram descartados por não existirem no texto.
+
+O script passou a **acrescentar** ao `deteccao_ausentes.jsonl` em vez de
+sobrescrevê-lo. Antes, a segunda rodada apagava as marcações da primeira, e
+reaplicar o arquivo as desfazia.
+
+| Indicador | Detecção por amostra | Detecção completa |
+|---|---|---|
+| SANEADO | 21.779 (92,5%) | **20.055 (85,1%)** |
+| ↳ saneado e completo | 15.383 (65,3%) | **15.536 (66,0%)** |
+| ↳ saneado e incompleto | 6.396 (27,2%) | 4.519 (19,2%) |
+| PENDENTE | 1.638 (7,0%) | **3.362 (14,3%)** |
+| REVISAO_HUMANA | 100 | 100 |
+| Caixas GENERICO | 1.582 | 3.464 |
+| Valores perdidos recuperados | 55 | 437 |
+| Chaves fechadas | 16.835 | 16.996 |
+| Códigos redundantes | 2.649 | **2.687** |
+| Capital em código redundante | R$ 30,2 mi | R$ 30,3 mi (15,1%) |
+
+Completações sugeridas sobre os 3.464 genéricos: 799 na faixa provável, 417
+inclinada, 245 aberta e 242 com candidato único. Teste retroativo: 96,0% de
+acerto na faixa provável (6.891 casos) e 81,9% no geral (o valor mais comum
+acerta 68,2%).
+
+Custo total de LLM do projeto até aqui: **US$ 19,60** (termos 1,32, desempate
+5,53, detecção 2,92 + 9,83).

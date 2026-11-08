@@ -1,0 +1,61 @@
+item_id,estrato,subestrato,CODIGO_MATERIAL,unidade_original,id_pdm,unidade_esperada,exige_fator,fator_no_texto,justificativa,anot_A,anot_B,origem_decisao,confianca
+U001,sinonimo,UN,13952549,UN,PDM110,PC,NAO,,"viga (sobressalente da lista), PC; UN = PC",PDM110|PC|fator=NAO,PDM110|PC|fator=NAO,acordo,ALTA
+U002,sinonimo,UN,19574086,UN,PDM110,PC,NAO,,"cabecote de perfuratriz, sobressalente PC; UN = PC",PDM110|PC|fator=NAO,PDM110|PC|fator=NAO,acordo,ALTA
+U003,sinonimo,UN,17651825,UN,PDM110,PC,NAO,,"disco freio, PC; UN = PC",PDM110|PC|fator=NAO,PDM110|PC|fator=NAO,acordo,ALTA
+U004,sinonimo,PCA,17873468,PCA,PDM100,PC,NAO,,"filtro de ar, PC; PCA = PC",PDM100|PC|fator=NAO,PDM100|PC|fator=NAO,acordo,ALTA
+U005,sinonimo,PCA,14150811,PCA,PDM110,PC,NAO,,"rolete esteira, PC; PCA = PC",PDM110|PC|fator=NAO,PDM110|PC|fator=NAO,acordo,ALTA
+U006,sinonimo,PCA,21707510,PCA,PDM110,PC,NAO,,"tambor acionamento, PC; PCA = PC",PDM110|PC|fator=NAO,PDM110|PC|fator=NAO,acordo,ALTA
+U007,sinonimo,PÇ,26490702,PÇ,PDM031,PC,NAO,,"o-ring, PC; PÇ = PC",PDM031|PC|fator=NAO,PDM031|PC|fator=NAO,acordo,ALTA
+U008,sinonimo,PÇ,18270297,PÇ,PDM050,PC,NAO,,"te de ferro maleavel, PC; PÇ e grafia de PC",PDM050|PC|fator=NAO,PDM050|PC|fator=NAO,acordo,ALTA
+U009,sinonimo,PÇ,29465009,PÇ,PDM110,PC,NAO,,"eixo saida de redutor SEW (sobressalente, PC); PÇ e grafia de PC",PDM110|PC|fator=NAO,PDM110|PC|fator=NAO,acordo,ALTA
+U010,sinonimo,PAR,15312393,PAR,PDM070,PR,NAO,,"luva anticorte, PR; PAR = PR",PDM070|PR|fator=NAO,PDM070|PR|fator=NAO,acordo,ALTA
+U011,sinonimo,PAR,29876907,PAR,PDM070,PR,NAO,,"luva EPI, PR; PAR = PR",PDM070|PR|fator=NAO,PDM070|PR|fator=NAO,acordo,ALTA
+U012,sinonimo,MTS,16011495,MTS,PDM012,M,NAO,,"mangueira industrial, M; MTS = M",PDM012|M|fator=NAO,PDM012|M|fator=NAO,acordo,ALTA
+U013,sinonimo,MT,29009665,MT,PDM060,M,NAO,,"condutor eletrico PP = cabo eletrico, M; MT = M",PDM060|M|fator=NAO,PDM060|M|fator=NAO,acordo,ALTA
+U014,sinonimo,LT,26988823,LT,PDM090,L,NAO,,oleo lubrificante e L; LT e grafia de litro,PDM090|L|fator=NAO,PDM090|L|fator=NAO,acordo,ALTA
+U015,sinonimo,LT,28269908,LT,PDM090,L,NAO,,oleo e L; LT e grafia de litro,PDM090|L|fator=NAO,PDM090|L|fator=NAO,acordo,ALTA
+U016,embalagem,CX,16971580,CX,PDM110,FILA_FATOR,SIM,,bucha excentrico britador (PC); CX sem quantidade,PDM110|FILA_FATOR|fator=SIM,PDM110|FILA_FATOR|fator=SIM,acordo,ALTA
+U017,embalagem,CX,20739631,CX,PDM002,FILA_FATOR,SIM,,parafuso sextavado interno (PC); CX sem quantidade,PDM002|FILA_FATOR|fator=SIM,PDM002|FILA_FATOR|fator=SIM,acordo,ALTA
+U018,embalagem,CX,29738370,CX,PDM001,FILA_FATOR,SIM,,parafuso sextavado (PC); CX sem quantidade por caixa,PDM001|FILA_FATOR|fator=SIM,PDM001|FILA_FATOR|fator=SIM,acordo,ALTA
+U019,embalagem,CX,23618867,CX,PDM110,FILA_FATOR,SIM,,concavo de britador (PC); CX sem quantidade,PDM110|FILA_FATOR|fator=SIM,PDM110|FILA_FATOR|fator=SIM,acordo,ALTA
+U020,embalagem,JG,21642589,JG,PDM110,FILA_FATOR,SIM,,"bucha cabecote, PC; JG sem quantidade",PDM110|FILA_FATOR|fator=SIM,PDM110|FILA_FATOR|fator=SIM,acordo,ALTA
+U021,embalagem,JG,29881549,JG,PDM110,FILA_FATOR,SIM,,pastilha freio sobressalente (PC); JG sem numero de pecas por jogo,PDM110|FILA_FATOR|fator=SIM,PDM110|FILA_FATOR|fator=SIM,acordo,ALTA
+U022,embalagem,JG,19056395,JG,PDM110,FILA_FATOR,SIM,,"ROLETE IMPACTO e sobressalente (PC); JG = jogo, quantas pecas por jogo nao consta",PDM110|FILA_FATOR|fator=SIM,PDM110|FILA_FATOR|fator=SIM,acordo,ALTA
+U023,embalagem,JG,25016650,JG,PDM002,FILA_FATOR,SIM,,parafuso allen cilindrico 12.9 = sextavado interno (PC); JG sem quantidade,PDM002|FILA_FATOR|fator=SIM,PDM002|FILA_FATOR|fator=SIM,acordo,ALTA
+U024,embalagem,CT,19205792,CT,PDM050,FILA_FATOR,SIM,,"cotovelo 90 graus (conexao, PC); CT sem quantidade",PDM050|FILA_FATOR|fator=SIM,PDM050|FILA_FATOR|fator=SIM,acordo,ALTA
+U025,embalagem,CT,23128368,CT,PDM050,FILA_FATOR,SIM,,"luva reducao (conexao, PC); CT sem quantidade",PDM050|FILA_FATOR|fator=SIM,PDM050|FILA_FATOR|fator=SIM,acordo,ALTA
+U026,embalagem,CT,16290525,CT,PDM002,FILA_FATOR,SIM,,parafuso sextavado interno (PC); CT sem quantidade,PDM002|FILA_FATOR|fator=SIM,PDM002|FILA_FATOR|fator=SIM,acordo,ALTA
+U027,embalagem,CT,18725128,CT,PDM110,FILA_FATOR,SIM,,bucha guia perfuratriz (PC); CT = cartela sem quantidade,PDM110|FILA_FATOR|fator=SIM,PDM110|FILA_FATOR|fator=SIM,acordo,ALTA
+U028,embalagem,RL,25723452,RL,PDM012,FILA_FATOR,SIM,,mangueira industrial e M; RL (rolo) sem metragem por rolo,PDM012|FILA_FATOR|fator=SIM,PDM012|FILA_FATOR|fator=SIM,acordo,ALTA
+U029,embalagem,RL,28181655,RL,PDM010,FILA_FATOR,SIM,,"mangueira hidraulica avulsa (sem terminais), M; RL sem metragem",PDM010|FILA_FATOR|fator=SIM,PDM010|FILA_FATOR|fator=SIM,acordo,ALTA
+U030,embalagem,RL,23104332,RL,PDM012,FILA_FATOR,SIM,,"mangueira industrial, M; RL sem metragem",PDM012|FILA_FATOR|fator=SIM,PDM012|FILA_FATOR|fator=SIM,acordo,ALTA
+U031,embalagem,BR,11498949,BR,PDM060,FILA_FATOR,SIM,,cabo eletrico e M; BR sem comprimento,PDM060|FILA_FATOR|fator=SIM,PDM060|FILA_FATOR|fator=SIM,acordo,ALTA
+U032,embalagem,BR,26163693,BR,PDM060,FILA_FATOR,SIM,,cabo eletrico e M; BR (barra) nao e unidade basica e o comprimento por barra nao consta,PDM060|FILA_FATOR|fator=SIM,PDM060|FILA_FATOR|fator=SIM,acordo,ALTA
+U033,embalagem,BR,21614479,BR,PDM051,FILA_FATOR,SIM,,tubo de aco e M; BR (barra de 6M ou 12M) sem comprimento no texto,PDM051|FILA_FATOR|fator=SIM,PDM051|FILA_FATOR|fator=SIM,acordo,ALTA
+U034,embalagem,GL,20961787,GL,PDM090,FILA_FATOR,SIM,,"oleo e L; GL (galao) tem volume variavel (3,6L ou 3,785L) e o texto nao diz",PDM090|FILA_FATOR|fator=SIM,PDM090|FILA_FATOR|fator=SIM,acordo,ALTA
+U035,embalagem,BD,25050152,BD,PDM090,FILA_FATOR,SIM,"1L (FRASCO 1L, conflita com BD)","oleo e L; BD = balde, mas o texto diz FRASCO 1L: unidade e embalagem conflitam, fila",PDM090|FILA_FATOR|fator=SIM,PDM090|FILA_FATOR|fator=SIM,acordo,ALTA
+U036,incompativel,KG->PC,23558189,KG,PDM110,PC,SIM,,"decisao do adjudicador: o rotulo de unidade e a unidade-alvo da classe (regra 11). FILA_FATOR fica reservado a embalagem (CX, JG, RL, BD, GL, CT, BR), como define o plano V2.1. B tem razao no saldo: KG de barra tensora nao vira contagem sem o fator; isso fica em exige_fator=SIM e o avaliador conta a conversao sem fator a parte",PDM110|PC|fator=SIM,PDM110|FILA_FATOR|fator=SIM,adjudicado,MEDIA
+U037,incompativel,KG->PC,29761154,KG,PDM030,PC,SIM,,"decisao do adjudicador: o rotulo de unidade e a unidade-alvo da classe (regra 11). FILA_FATOR fica reservado a embalagem (CX, JG, RL, BD, GL, CT, BR), como define o plano V2.1. B tem razao no saldo: KG de correia nao vira contagem sem o fator; isso fica em exige_fator=SIM e o avaliador conta a conversao sem fator a parte",PDM030|PC|fator=SIM,PDM030|FILA_FATOR|fator=SIM,adjudicado,MEDIA
+U038,incompativel,KG->PC,19951358,KG,PDM001,PC,SIM,,"decisao do adjudicador: o rotulo de unidade e a unidade-alvo da classe (regra 11). FILA_FATOR fica reservado a embalagem (CX, JG, RL, BD, GL, CT, BR), como define o plano V2.1. B tem razao no saldo: KG de parafuso nao vira contagem sem o fator; isso fica em exige_fator=SIM e o avaliador conta a conversao sem fator a parte",PDM001|PC|fator=SIM,PDM001|FILA_FATOR|fator=SIM,adjudicado,MEDIA
+U039,incompativel,KG->PC,17359550,KG,PDM001,PC,SIM,,"decisao do adjudicador: o rotulo de unidade e a unidade-alvo da classe (regra 11). FILA_FATOR fica reservado a embalagem (CX, JG, RL, BD, GL, CT, BR), como define o plano V2.1. B tem razao no saldo: KG de parafuso nao vira contagem sem o fator; isso fica em exige_fator=SIM e o avaliador conta a conversao sem fator a parte",PDM001|PC|fator=SIM,PDM001|FILA_FATOR|fator=SIM,adjudicado,MEDIA
+U040,incompativel,PC->L,20014703,PC,PDM110,PC,NAO,,"pistao de perfuratriz, PC; correto",PDM110|PC|fator=NAO,PDM110|PC|fator=NAO,acordo,ALTA
+U041,incompativel,PC->L,17936562,PC,PDM066,PC,NAO,,"sensor indutivo, PC; correto",PDM066|PC|fator=NAO,PDM066|PC|fator=NAO,acordo,ALTA
+U042,incompativel,PC->M,12891491,PC,PDM011,PC,NAO,,"mangueira montada (terminais + comprimento 700MM), PC; correto",PDM011|PC|fator=NAO,PDM011|PC|fator=NAO,acordo,ALTA
+U043,incompativel,PC->M,24647361,PC,PDM011,PC,NAO,,"mangueira com terminais e comprimento 1000MM = montada (PDM011), PC; correto",PDM011|PC|fator=NAO,PDM011|PC|fator=NAO,acordo,ALTA
+U044,incompativel,UN->M,26397754,UN,PDM060,M,SIM,,"decisao do adjudicador: o rotulo de unidade e a unidade-alvo da classe (regra 11). FILA_FATOR fica reservado a embalagem (CX, JG, RL, BD, GL, CT, BR), como define o plano V2.1. B tem razao no saldo: UN de cabo (lance sem comprimento) nao vira contagem sem o fator; isso fica em exige_fator=SIM e o avaliador conta a conversao sem fator a parte",PDM060|M|fator=SIM,PDM060|FILA_FATOR|fator=SIM,adjudicado,MEDIA
+U045,incompativel,M->PC,15596076,M,PDM060,M,NAO,,"cabo eletrico rigido, classe pede M e o cadastro ja esta em M",PDM060|M|fator=NAO,PDM060|M|fator=NAO,acordo,ALTA
+U046,incompativel,UN->PR,16055658,UN,PDM070,PR,SIM,,decisao do adjudicador: PR e a unidade da classe; UN de luva pode ser o par ou a peca avulsa e a troca pode dobrar ou dividir o saldo; conservador: exige conferir o fator (fica com B),PDM070|PR|fator=NAO,PDM070|PR|fator=SIM,adjudicado,MEDIA
+U047,incompativel,PC->PR,17509093,PC,PDM071,PR,SIM,,"decisao do adjudicador: PR e a unidade da classe; PC de calcado e ambiguo (pe ou par); conservador, como U046 (fica com B)",PDM071|PR|fator=NAO,PDM071|PR|fator=SIM,adjudicado,MEDIA
+U048,incompativel,PR->PC,17181928,PR,PDM070,PR,NAO,,luva de seguranca em PR; correto,PDM070|PR|fator=NAO,PDM070|PR|fator=NAO,acordo,ALTA
+U049,incompativel,KG->M,21659603,KG,PDM011,PC,SIM,,"decisao do adjudicador: o rotulo de unidade e a unidade-alvo da classe (regra 11). FILA_FATOR fica reservado a embalagem (CX, JG, RL, BD, GL, CT, BR), como define o plano V2.1. B tem razao no saldo: KG de mangueira montada nao vira contagem sem o fator; isso fica em exige_fator=SIM e o avaliador conta a conversao sem fator a parte; classe PDM011 (terminais e comprimento 1100MM no texto)",PDM011|PC|fator=SIM,PDM011|FILA_FATOR|fator=SIM,adjudicado,MEDIA
+U050,incompativel,UN->L,11472033,UN,PDM090,L,SIM,200 (TAMBOR 200L),"decisao do adjudicador: o rotulo de unidade e a unidade-alvo da classe (regra 11). FILA_FATOR fica reservado a embalagem (CX, JG, RL, BD, GL, CT, BR), como define o plano V2.1. B tem razao no saldo: UN de oleo (tambor) nao vira contagem sem o fator; isso fica em exige_fator=SIM e o avaliador conta a conversao sem fator a parte; aqui o fator esta no texto: 1 UN = 200 L",PDM090|L|fator=SIM,PDM090|FILA_FATOR|fator=SIM,adjudicado,MEDIA
+U051,ja_correta,PC,23168352,PC,PDM110,PC,NAO,,"cunha de britador, sobressalente PC; correto",PDM110|PC|fator=NAO,PDM110|PC|fator=NAO,acordo,ALTA
+U052,ja_correta,PC,24868595,PC,PDM044,PC,NAO,,"valvula borboleta, PC; cadastro correto",PDM044|PC|fator=NAO,PDM044|PC|fator=NAO,acordo,ALTA
+U053,ja_correta,PC,27966492,PC,PDM110,PC,NAO,,"roda guia, PC; correto",PDM110|PC|fator=NAO,PDM110|PC|fator=NAO,acordo,ALTA
+U054,ja_correta,M,19348212,M,PDM014,M,NAO,,mangote e M; correto,PDM014|M|fator=NAO,PDM014|M|fator=NAO,acordo,ALTA
+U055,ja_correta,M,11279631,M,PDM060,M,NAO,,"cabo PP, M; correto",PDM060|M|fator=NAO,PDM060|M|fator=NAO,acordo,ALTA
+U056,ja_correta,PR,26956544,PR,PDM071,PR,NAO,,"calcado de seguranca, PR; correto",PDM071|PR|fator=NAO,PDM071|PR|fator=NAO,acordo,ALTA
+U057,ja_correta,PR,11815027,PR,PDM070,PR,NAO,,luva vaqueta em PR; correto,PDM070|PR|fator=NAO,PDM070|PR|fator=NAO,acordo,ALTA
+U058,ja_correta,KG,24479152,KG,PDM080,KG,NAO,,eletrodo revestido e KG; correto,PDM080|KG|fator=NAO,PDM080|KG|fator=NAO,acordo,ALTA
+U059,ja_correta,KG,13938003,KG,PDM080,KG,NAO,,"eletrodo, KG; correto",PDM080|KG|fator=NAO,PDM080|KG|fator=NAO,acordo,ALTA
+U060,ja_correta,L,28780696,L,PDM090,L,NAO,,oleo em L; correto (tambor 200L e a embalagem do item),PDM090|L|fator=NAO,PDM090|L|fator=NAO,acordo,ALTA

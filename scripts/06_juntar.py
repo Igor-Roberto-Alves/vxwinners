@@ -93,7 +93,27 @@ def sobrevivente(grupo):
     ))[0]
 
 
+def llm_na_chave(r) -> list[str]:
+    """Atributos da CHAVE deste registro cujo valor saiu de uma conclusao do LLM.
+
+    Le a coluna DECIDIDO_POR_LLM do saneado_base.csv. Nas classes de
+    especificacao tecnica a chave nomeia cada atributo (NOME=VALOR); nas de
+    referencia ela e fabricante + part number.
+    """
+    decididos = {x.split("=")[0] for x in (r.get("DECIDIDO_POR_LLM") or "").split(" | ") if x}
+    if not decididos:
+        return []
+    cid = r["ID_PDM"]
+    if cid and pdm.classes[cid].por_referencia:
+        na_chave = {"FABRICANTE", "REFERENCIA FABRICANTE"}
+    else:
+        na_chave = {seg.split("=")[0] for seg in r["CHAVE_IDENTIDADE"].split("|") if "=" in seg}
+    return sorted(decididos & na_chave)
+
+
 capital = 0.0
+capital_llm = 0.0
+clusters_llm = 0
 dispersao = 0.0
 redundantes = 0
 multicentro = 0
@@ -106,6 +126,12 @@ for chave, grupo in multi.items():
     outros = [r for r in grupo if r is not s]
     redundantes += len(outros)
     capital += sum(r["_valor"] for r in outros)
+    # A juncao depende do LLM quando algum valor da chave, em algum membro, foi
+    # decidido por ele: sem essa conclusao, a chave daquele membro seria outra.
+    dep_llm = {r["CODIGO_MATERIAL"]: llm_na_chave(r) for r in grupo}
+    depende = int(any(dep_llm.values()))
+    clusters_llm += depende
+    capital_llm += sum(r["_valor"] for r in outros) if depende else 0.0
 
     precos = [r["_preco"] for r in grupo if r["_preco"] > 0]
     if len(precos) > 1:
@@ -122,12 +148,15 @@ for chave, grupo in multi.items():
     plano.append({"CODIGO": s["CODIGO_MATERIAL"], "ACAO": "MANTER ATIVO",
                   "USAR": "", "CHAVE": chave, "ID_PDM": s["ID_PDM"],
                   "DESCRICAO_PDM": s["DESCRICAO_PDM"],
-                  "ESTOQUE_CONSOLIDADO": sum(r["_estoque"] for r in grupo)})
+                  "ESTOQUE_CONSOLIDADO": sum(r["_estoque"] for r in grupo),
+                  "DEPENDE_DE_LLM": depende,
+                  "LLM_NA_CHAVE": " | ".join(dep_llm[s["CODIGO_MATERIAL"]])})
     for r in outros:
         plano.append({"CODIGO": r["CODIGO_MATERIAL"], "ACAO": "BLOQUEADO",
                       "USAR": s["CODIGO_MATERIAL"], "CHAVE": chave,
                       "ID_PDM": r["ID_PDM"], "DESCRICAO_PDM": r["DESCRICAO_PDM"],
-                      "ESTOQUE_CONSOLIDADO": ""})
+                      "ESTOQUE_CONSOLIDADO": "", "DEPENDE_DE_LLM": depende,
+                      "LLM_NA_CHAVE": " | ".join(dep_llm[r["CODIGO_MATERIAL"]])})
 
 # ------------------------------------------------------------------ relatorio
 
@@ -212,8 +241,11 @@ for chave, grupo in sorted(multi.items(), key=lambda x: -sum(r["_valor"] for r i
 saida = ART / "plano_juncao.csv"
 with saida.open("w", encoding="utf-8", newline="") as fh:
     w = csv.DictWriter(fh, fieldnames=["CODIGO", "ACAO", "USAR", "ID_PDM",
-                                       "DESCRICAO_PDM", "ESTOQUE_CONSOLIDADO", "CHAVE"])
+                                       "DESCRICAO_PDM", "ESTOQUE_CONSOLIDADO", "CHAVE",
+                                       "DEPENDE_DE_LLM", "LLM_NA_CHAVE"])
     w.writeheader()
     for linha in plano:
         w.writerow(linha)
+print(f"\nJuncoes que dependem de conclusao do LLM: {clusters_llm:,} de {len(multi):,} clusters "
+      f"| capital nelas: {brl(capital_llm).strip()}")
 print(f"\nGravado: {saida}  ({len(plano)} linhas de plano de juncao)")
