@@ -2080,6 +2080,131 @@ function applyTheme(t){document.documentElement.dataset.theme=t;document.querySe
 function toggleTheme(){applyTheme(document.documentElement.dataset.theme==='light'?'dark':'light')}
 (function(){let t=null;try{t=localStorage.getItem('axia-theme')}catch(e){}
   if(!t)t='light';applyTheme(t)})();
+
+/* === dados reais de artefatos/ === */
+(function(){
+  const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const vir=s=>String(s==null?'':s).replace(/(\d)\.(\d{1,2})(?!\d)/g,'$1,$2'); /* 97.5->97,5 sem tocar milhar 9.999 */
+  const din=v=>v>=1e6?fmtMi(v/1e6):(v>0?fmtK(v):'R$ 0');
+  const TAGC={medido:'src-med',estimado:'src-est',premissa:'src-pre'};
+  const tag=f=>f?`<span class="src-tag ${TAGC[f]||'src-est'}">${esc(f)}</span>`:'';
+  async function pegar(p){const r=await fetch(p,{cache:'no-store'});if(!r.ok)throw new Error(p);return r.json()}
+
+  /* radar.json: cartões do topo, saúde, eficácia, premissas, KPIs do Início */
+  function aplicarRadar(d){
+    const H=d.hero,B=d.base||{},ordem=[H.consolidavel,H.consolidado,H.oportunidade,H.fila,H.ncm];
+    const cards=document.querySelectorAll('#page-radar .card.hero');
+    if(cards.length!==5||ordem.some(c=>!c))return;
+    const r0=+(document.getElementById('r-opp')||{value:30}).value||30;
+    ordem.forEach((c,i)=>{
+      const el=cards[i],l=el.querySelector('.l'),v=el.querySelector('.v'),s=el.querySelector('.s');
+      l.innerHTML=esc(c.rotulo)+' '+tag(c.fonte);
+      if(i===2){
+        v.innerHTML=`<span id="opp-v">${esc(din(H.consolidavel.valor*r0/100))}</span><span style="font-size:13px;color:var(--text-3)">/ano</span>`;
+        s.innerHTML=`${esc(din(H.consolidavel.valor))} × <b id="opp-rate">${r0}%</b> a.a. — a taxa é parâmetro, não medição`;
+      }else{
+        v.textContent=c.tipo==='inteiro'?nf(c.valor):din(c.valor);
+        v.style.color=i===1&&c.valor>0?'var(--brand)':'';
+        s.innerHTML=esc(vir(c.detalhe));
+      }
+      el.dataset.tt=c.rotulo+'|'+vir(c.detalhe)+'|fonte: '+(c.origem||'');
+    });
+    /* sliders de premissa passam a recalcular sobre o consolidável real */
+    radarCalc=function(){
+      const rEl=document.getElementById('r-opp'),pEl=document.getElementById('r-prem');
+      const r=rEl?+rEl.value:30,pr=pEl?+pEl.value:15;
+      const set=(id,t)=>{const e=document.getElementById(id);if(e)e.textContent=t};
+      set('r-opp-l',r+'% a.a.');set('r-prem-l',pr+'%');set('opp-rate',r+'%');
+      set('opp-v',din(H.consolidavel.valor*r/100));
+    };
+    /* saúde da base */
+    if(Array.isArray(d.saude))document.getElementById('health').innerHTML=d.saude.map(t=>
+      `<div class="spark-tile" data-tt="${esc(t.rotulo)}|${esc(vir(t.detalhe))}"><div class="faint" style="font-size:12px;min-height:34px">${esc(t.rotulo)} ${tag(t.fonte)}</div>`+
+      `<div class="mono" style="font-size:20px;margin:4px 0 2px">${esc(vir(t.valor))}</div><div class="faint" style="font-size:11px">${esc(vir(t.detalhe))}</div></div>`).join('');
+    /* evidências de eficácia */
+    if(Array.isArray(d.eficacia)){
+      const ev=document.getElementById('ev-fator');
+      if(ev)ev.innerHTML='<div class="fx">'+d.eficacia.map(e=>
+        `<div class="fx-row" style="display:flex;justify-content:space-between;gap:12px;align-items:baseline"><div style="min-width:0">${esc(e.rotulo)} ${tag(e.fonte)}`+
+        `<div class="faint" style="font-size:11px">${esc(vir(e.detalhe))}${e.origem?' · '+esc(e.origem):''}</div></div>`+
+        `<div class="mono" style="font-size:13px;white-space:nowrap">${esc(vir(e.valor))}</div></div>`).join('')+'</div>';
+      const sub=document.querySelector('#evid .card-h .sub');
+      if(sub)sub.textContent='medições do pipeline sobre gabaritos auditados';
+    }
+    /* premissas e fontes + aviso */
+    const ph=[...document.querySelectorAll('#page-radar .card-h h3')].find(h=>h.textContent.includes('Premissas'));
+    if(ph){
+      const card=ph.closest('.card'),tb=card.querySelector('table.tbl'),co=card.querySelector('.callout');
+      if(tb&&Array.isArray(d.premissas))tb.innerHTML='<tr><th>premissa</th><th>valor</th><th>nota</th></tr>'
+        +d.premissas.map(p=>`<tr><td>${esc(p.rotulo)}</td><td class="mono">${esc(vir(p.valor))}</td><td class="wrap muted">${esc(p.nota)}</td></tr>`).join('')
+        +(Array.isArray(d.nao_medido)?'<tr><th colspan="3">não medido nesta base</th></tr>'
+          +d.nao_medido.map(p=>`<tr><td>${esc(p.rotulo)}</td><td><span class="src-tag" style="color:var(--text-3);border-color:var(--border-strong)">não medido</span></td><td class="wrap muted">${esc(p.motivo)}</td></tr>`).join(''):'');
+      if(co){co.classList.remove('warn');co.classList.add('ok');
+        co.innerHTML=`<div style="font-size:12px"><b style="font-weight:500">Dados do pipeline.</b> Números calculados na base do desafio (${nf(B.itens||0)} itens · estoque ${esc(B.estoque_texto||'')}) e gravados em artefatos/radar.json.</div>`;}
+    }
+    /* rodapé discreto */
+    const rod=document.createElement('div');
+    rod.className='faint mono';rod.style.cssText='font-size:11px;margin-top:18px';
+    rod.textContent='dados: artefatos/radar.json · gerado em '+(d.gerado_em||'');
+    document.getElementById('page-radar').appendChild(rod);
+    /* KPIs do Início */
+    const kp=document.querySelectorAll('.ax-result .ax-kpi');
+    if(kp.length>=2){
+      kp[0].innerHTML=`<strong>${esc(din(H.consolidavel.valor))}</strong><span>capital consolidável · ${esc(vir(String(H.consolidavel.detalhe||'').split(' · ')[0]))}</span>`;
+      kp[1].innerHTML=`<strong>${esc(din(H.fila.valor))}</strong><span>na fila de intervenção · ${esc(vir(String(H.fila.detalhe||'').split(' · ')[0]))}</span>`;
+      const tg=document.querySelector('.ax-result .ax-tag');
+      if(tg)tg.textContent='RADAR · DADOS DO PIPELINE';
+    }
+  }
+
+  /* fila_intervencao.json: lista de revisão da página Clusters + contadores */
+  function aplicarFila(f){
+    const R=f.resumo||{},its=(f.itens||[]).slice(0,8);
+    if(!its.length)return;
+    const acoes={um_clique:'um clique',escolher:'escolher',enriquecer:'enriquecer',sem_pista:'sem pista'};
+    const estB=e=>e==='SANEADO'?'b-green':e==='PENDENTE'?'b-warn':'b-gray';
+    CL.length=0;
+    its.forEach(it=>CL.push({ref:it.codigo,conf:Math.round((it.completude||0)*100),_f:it,why:'',
+      itens:[[it.codigo,it.descricao_pdm||it.texto||'','','',it.id_pdm||'','','',it.estado||'',0,0]]}));
+    clTable=function(){
+      document.getElementById('cl-table').innerHTML='<thead><tr><th>CÓDIGO</th><th>CLASSE</th><th>DESCRIÇÃO</th><th class="num">CAMPOS</th><th class="num">CAPITAL</th><th>COMPLETUDE</th><th>STATUS</th></tr></thead><tbody>'+
+        CL.map((c,i)=>{const it=c._f;return `<tr class="${i===clCur?'sel':''}" style="cursor:pointer" onclick="clOpen(${i})"><td class="mono">${esc(it.codigo)}</td>`+
+          `<td>${esc((it.id_pdm||'')+' · '+((it.substantivo||'')+' '+(it.qualificador||'')).trim())}</td>`+
+          `<td class="mono muted" style="max-width:280px;overflow:hidden;text-overflow:ellipsis">${esc(it.texto||'')}</td>`+
+          `<td class="num">${(it.campos||[]).length}</td><td class="num">${fmtR(it.capital||0)}</td><td>${confPill(c.conf)}</td>`+
+          `<td><span class="badge ${c.done?'b-green':estB(it.estado)}">${esc(c.done||it.estado||'')}</span></td></tr>`}).join('')+'</tbody>';
+    };
+    clOpen=function(i){
+      clCur=i;clTable();const c=CL[i],it=c._f;
+      const n1=it.n_um_clique||0,ne=it.n_escolher||0,nr=it.n_enriquecer||0,np=it.n_sem_pista||0,cls=confCls(c.conf);
+      document.getElementById('cl-title').textContent='Item '+it.codigo;
+      document.getElementById('cl-conf').innerHTML=confPill(c.conf);
+      document.getElementById('cl-sub').textContent=(it.id_pdm||'')+' · '+((it.substantivo||'')+' '+(it.qualificador||'')).trim()+' · capital '+fmtR(it.capital||0);
+      document.getElementById('cl-why').innerHTML=`<div class="callout ${cls==='hi'?'ok':'warn'}"><div style="font-size:12.5px"><b style="font-weight:500">${(it.campos||[]).length} campo(s) pendente(s).</b> ${n1} a um clique · ${ne} a escolher · ${nr} a enriquecer · ${np} sem pista${it.escalado_llm?' · escalado para LLM':''}</div></div>`;
+      document.getElementById('cl-cmp').innerHTML='<thead><tr><th>atributo</th><th>veredito</th><th>melhor candidato</th><th>banda</th><th>ação</th></tr></thead><tbody>'+
+        `<tr><td>TEXTO ORIGINAL</td><td colspan="4" class="mono muted wrap" style="font-size:11.5px">${esc(it.texto||'')}</td></tr>`+
+        `<tr><td>DESCRIÇÃO PDM</td><td colspan="4" class="mono wrap" style="font-size:11.5px">${esc(it.descricao_pdm||'')}</td></tr>`+
+        (it.campos||[]).map(cp=>{const cd=cp.candidatos&&cp.candidatos[0];
+          const cv=cd?esc(String(cd[0]))+(cd[1]!=null?` <span class="faint">(${Math.round(cd[1]*100)}%)</span>`:''):'<span class="faint">—</span>';
+          return `<tr><td class="mono">${esc(cp.atributo)}</td><td>${esc(cp.veredito||'')}</td><td class="mono wrap">${cv}</td><td>${esc(cp.banda||'—')}</td><td><span class="badge b-gray">${esc(acoes[cp.acao]||cp.acao||'')}</span></td></tr>`}).join('')+'</tbody>';
+      document.getElementById('cl-imp').innerHTML=[['Capital do item',fmtR(it.capital||0)],['Campos pendentes',(it.campos||[]).length],['A um clique',n1],['Estado',esc(it.estado||'')]]
+        .map(([a,b])=>`<div class="fx" style="padding:10px 12px"><div class="faint" style="font-size:11px">${a}</div><div class="mono" style="font-size:14px;margin-top:2px">${b}</div></div>`).join('');
+    };
+    const sub=document.querySelector('#page-clusters .card-h .sub');
+    if(sub&&R.itens_na_fila)sub.textContent=nf(R.itens_na_fila)+' itens na fila · '+nf(R.itens_exportados||0)+' exportados · mostrando os '+CL.length+' de maior capital';
+    const sc=document.querySelector('[data-nav="clusters"] .count');
+    if(sc&&R.itens_na_fila)sc.textContent=nf(R.itens_na_fila);
+    const bh=document.querySelector('.ax-band h2');
+    if(bh&&R.itens_na_fila)bh.textContent=nf(R.itens_na_fila)+' itens esperam decisão humana';
+    const bp=document.querySelector('.ax-band p');
+    if(bp&&R.capital_na_fila)bp.textContent='Capital de '+din(R.capital_na_fila)+' na fila de intervenção, ordenada por valor · '+nf((R.campos_por_acao||{}).um_clique||0)+' campos resolvíveis a um clique.';
+    clTable();clOpen(0);
+  }
+
+  /* fetch relativo, silencioso: sem artefatos/ (file:// ou arquivo ausente) a página segue com os valores embutidos */
+  (async function(){try{aplicarRadar(await pegar('artefatos/radar.json'))}catch(e){}})();
+  (async function(){try{aplicarFila(await pegar('artefatos/fila_intervencao.json'))}catch(e){}})();
+})();
 </script>
 
 <div class="overlay" id="ov-mat"></div>
