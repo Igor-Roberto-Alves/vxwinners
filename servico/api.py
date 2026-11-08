@@ -169,6 +169,13 @@ def similares(req: ReqSimilares):
     return {"similares": buscar_similares(norm_texto(req.descricao))}
 
 
+# serve a interface na MESMA origem da API (um unico endereco:porta para tudo)
+# montado por ultimo: as rotas da API acima tem precedencia
+from fastapi.staticfiles import StaticFiles  # noqa: E402
+
+app.mount("/", StaticFiles(directory=str(REPO), html=True), name="site")
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8700)
