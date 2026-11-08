@@ -54,6 +54,22 @@
         .map(cartao).join("");
     }
 
+    // Os dois KPIs da home (casca plataforma.html). Vêm do mesmo JSON do Radar
+    // para a primeira tela não poder discordar da tela do dinheiro: era ali que
+    // estava "R$ 4,7 mi · capital já consolidado (medido)" sem medição alguma.
+    // O texto de apoio é recortado do próprio `detalhe`, nunca remontado aqui.
+    const kpi = (idv, idd, d, trecho) => {
+      const v = $("#" + idv), s = $("#" + idd);
+      if (!v) return;
+      v.textContent = brlMi(d.valor);
+      if (d.fonte === "medido" && d.valor === 0) v.style.color = "var(--text-2)";
+      if (s && d.detalhe) s.textContent = trecho(d.detalhe);
+    };
+    kpi("home-consolidavel", "home-consolidavel-d", radar.hero.consolidavel,
+        (t) => t.split(" · ").slice(0, 2).join(" · "));
+    kpi("home-consolidado", "home-consolidado-d", radar.hero.consolidado,
+        (t) => t.split(":")[0]);
+
     // o que não tem medição aparece dito, não escondido
     const nm = $("#rad-naomedido");
     if (nm && (radar.nao_medido || []).length) {
